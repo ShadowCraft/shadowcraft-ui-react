@@ -1,5 +1,9 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, url_for, redirect
+from flask_socketio import SocketIO
+
 app = Flask("app")
+app.config['SECRET_KEY'] = 'shhhhhhhh!'
+socketio = SocketIO(app)
 
 @app.route('/')
 def hello_world():
@@ -27,4 +31,4 @@ def history_getjson(): pass
 def items_index(classtype): pass
 
 if __name__ == '__main__':
-  app.run(debug=True, host='0.0.0.0')
+  socketio.run(app, debug=True, host='0.0.0.0')
