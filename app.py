@@ -1,18 +1,26 @@
 from flask import Flask, render_template, send_from_directory, url_for, redirect
 from flask_socketio import SocketIO
+from werkzeug.routing import BaseConverter
+import os
 
 app = Flask("app")
 app.config['SECRET_KEY'] = 'shhhhhhhh!'
 socketio = SocketIO(app)
 
+class RegexConverter(BaseConverter):
+    def __init__(self, url_map, *items):
+        super(RegexConverter, self).__init__(url_map)
+        self.regex = items[0]
+app.url_map.converters['regex'] = RegexConverter
+        
 @app.route('/')
-def hello_world():
+def main():
   return render_template('index.html')
 
-@app.route('/<region>/<realm>/<name>')
+@app.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>')
 def character_show(region, realm, name): pass
 
-@app.route('/<region>/<realm>/<name>/refresh')
+@app.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>/refresh')
 def character_refresh(region, realm, name): pass
 
 @app.route('/error')
