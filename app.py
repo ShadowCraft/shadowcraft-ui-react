@@ -12,10 +12,10 @@ def character_show(region, realm, name): pass
 def character_refresh(region, realm, name): pass
 
 @app.route('/error')
-def error(): return app.send_static_file('500.html')
+def error(): return render_template('500.html')
 
 @app.route('/missing')
-def missing(): return app.send_static_file('404.html')
+def missing(): return render_template('404.html')
 
 @app.route('/history/getsha')
 def history_getsha(): pass

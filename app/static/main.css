@@ -700,7 +700,7 @@ html.websockets .browser-support, html.history .browser-support, html.canvas .br
   display: none; }
 
 #notfound, #errorpage {
-  background: #111111 url(/images/404.jpg) center center no-repeat;
+  background: #111111 url(/static/404.jpg) center center no-repeat;
   position: absolute;
   left: 0;
   right: 0;
@@ -710,7 +710,7 @@ html.websockets .browser-support, html.history .browser-support, html.canvas .br
     display: none; }
 
 #errorpage {
-  background-image: url(/images/500.jpg); }
+  background-image: url(/static/500.jpg); }
 
 #container {
   background: #0a0a0a;
@@ -720,7 +720,7 @@ html.websockets .browser-support, html.history .browser-support, html.canvas .br
   bottom: 0;
   top: 0; }
   #container.characters-new, #container.characters-create, #container.characters-refresh {
-    background: #050505 url(/images/splash-l.jpg) bottom left no-repeat; }
+    background: #050505 url(/static/splash-l.jpg) bottom left no-repeat; }
 
 #tabs > div.ui-tabs-panel {
   overflow-y: auto;
@@ -818,7 +818,7 @@ html.websockets .browser-support, html.history .browser-support, html.canvas .br
   bottom: 0;
   right: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.7) url(/images/wait.gif) center center no-repeat;
+  background: rgba(0, 0, 0, 0.7) url(/static/wait.gif) center center no-repeat;
   z-index: 1000; }
   #wait #waitMsg {
     position: absolute;
@@ -831,7 +831,7 @@ html.websockets .browser-support, html.history .browser-support, html.canvas .br
     text-align: center; }
 
 .with-tools {
-  background-image: url(/images/panel-left.png) !important;
+  background-image: url(/static/panel-left.png) !important;
   background-repeat: repeat-y !important;
   background-position: top left; }
 
@@ -886,7 +886,7 @@ html.websockets .browser-support, html.history .browser-support, html.canvas .br
       position: absolute;
       width: 319px;
       height: 30px;
-      background: url(/images/logo3s.jpg) bottom right no-repeat; }
+      background: url(/static/logo3s.jpg) bottom right no-repeat; }
   #tabs .ui-tabs-nav {
     border: 0;
     position: absolute;
@@ -942,7 +942,7 @@ html.websockets .browser-support, html.history .browser-support, html.canvas .br
       text-align: center;
       margin: 5px;
       border: 1px solid #1a1a1a;
-      background: #111111 url(/images/hatch.png);
+      background: #111111 url(/static/hatch.png);
       padding: 5px;
       font-weight: bold;
       position: relative; }
@@ -974,7 +974,7 @@ h1#head {
     display: block; }
 
 #card {
-  background: #111111 url(/images/hatch.png);
+  background: #111111 url(/static/hatch.png);
   -webkit-transition: background 0.2s;
   -moz-transition: background 0.2s;
   -ms-transition: background 0.2s;
@@ -1128,7 +1128,7 @@ a {
 
 a.wowhead {
   opacity: 0.2;
-  background: url(/images/wowhead.png) center center no-repeat;
+  background: url(/static/wowhead.png) center center no-repeat;
   text-indent: -9999px;
   display: block;
   width: 16px;
@@ -1159,7 +1159,7 @@ img.upgrade {
   line-height: 2em;
   padding-left: 30px;
   margin-right: 20px;
-  background: url(/images/controls.png) top left no-repeat;
+  background: url(/static/controls.png) top left no-repeat;
   -webkit-user-select: none;
   -moz-user-select: none; }
 
@@ -1397,7 +1397,7 @@ img.upgrade {
     margin-bottom: 0.5em 0;
     border-top: 1px solid #1c1c1c;
     border-bottom: 1px solid #090909;
-    background: url(/images/log.png) 5px 10px no-repeat; }
+    background: url(/static/log.png) 5px 10px no-repeat; }
     #console .log .sub {
       margin: 2px;
       font-size: 0.9em;
@@ -1407,9 +1407,9 @@ img.upgrade {
     #console .log:last-child {
       border-bottom: 0; }
     #console .log.warning {
-      background-image: url(/images/alert.png); }
+      background-image: url(/static/alert.png); }
     #console .log.error {
-      background-image: url(/images/delete.png); }
+      background-image: url(/static/delete.png); }
 
 #tooltip {
   max-width: 300px;
@@ -1670,12 +1670,12 @@ img.upgrade {
   #artifact #artifactframe .line {
     z-index: 0;
     position: absolute;
-    background-image: url(/images/artifacts/artifact-line-active.png);
+    background-image: url(/static/artifacts/artifact-line-active.png);
     background-repeat: repeat-x;
     height: 16px;
     transform-origin: 50% 50%; }
     #artifact #artifactframe .line.inactive {
-      background-image: url(/images/artifacts/artifact-line-inactive.png); }
+      background-image: url(/static/artifacts/artifact-line-inactive.png); }
   #artifact #artifactframe .level {
     background-color: black;
     border: 1px solid #666666;
@@ -1751,7 +1751,7 @@ img.upgrade {
       top: 9px;
       left: 13px; }
   .slots .gems .gem, .slots .enchant, .slots .bonuses, .slots .name {
-    background: #0e0e0e url(/images/texture.png);
+    background: #0e0e0e url(/static/texture.png);
     margin-bottom: 2px;
     border-radius: 2px;
     padding: 5px;
@@ -1765,7 +1765,7 @@ img.upgrade {
     .slots .gems .gem:hover, .slots .gems .gem.active, .slots .enchant:hover, .slots .enchant.active, .slots .bonuses:hover, .slots .bonuses.active, .slots .name:hover, .slots .name.active {
       background-color: rgba(0, 128, 255, 0.15); }
     .slots .gems .gem .img, .slots .enchant .img, .slots .bonuses .img, .slots .name .img {
-      background: url(/images/empty.png);
+      background: url(/static/empty.png);
       width: 13px;
       height: 13px;
       margin-right: 12px;
@@ -1835,7 +1835,7 @@ img.upgrade {
       .Green
         background: rgba( 0, $full, 0, $opac ) */ }
   .slot .image {
-    background: url(/images/empty.png);
+    background: url(/static/empty.png);
     position: absolute;
     top: 2px;
     left: -60px;
@@ -1967,7 +1967,7 @@ img.upgrade {
 
 @media screen and (max-width: 1281px) {
   #container.characters-new, #container.characters-create, #container.characters-refresh {
-    background: #050505 url(/images/splash-s.jpg) bottom left no-repeat; }
+    background: #050505 url(/static/splash-s.jpg) bottom left no-repeat; }
   #create_character {
     bottom: 200px;
     left: 250px; }
@@ -2027,11 +2027,11 @@ img.upgrade {
   height: 15px; }
 
 ::-webkit-scrollbar-corner {
-  background-image: url(/images/scrollbar/corner.png);
+  background-image: url(/static/scrollbar/corner.png);
   background-repeat: no-repeat; }
 
 ::-webkit-resizer {
-  background-image: url(/images/scrollbar/resizer.png);
+  background-image: url(/static/scrollbar/resizer.png);
   background-repeat: no-repeat;
   background-position: bottom right; }
 
@@ -2042,17 +2042,17 @@ img.upgrade {
   display: block; }
 
 ::-webkit-scrollbar:vertical {
-  -webkit-border-image: url(/images/scrollbar/vertical-button.png) 2 0 2 0;
+  -webkit-border-image: url(/static/scrollbar/vertical-button.png) 2 0 2 0;
   border-style: solid;
   border-color: transparent;
   border-width: 2px 0;
-  background-image: url(/images/scrollbar/vertical-button-background.png);
+  background-image: url(/static/scrollbar/vertical-button-background.png);
   background-repeat: repeat-y; }
   ::-webkit-scrollbar:vertical:corner-present {
     border-bottom-width: 0; }
 
 ::-webkit-scrollbar-thumb:vertical {
-  -webkit-border-image: url(/images/scrollbar/vertical-thumb.png) 15 0 15 0;
+  -webkit-border-image: url(/static/scrollbar/vertical-thumb.png) 15 0 15 0;
   border-style: solid;
   border-color: transparent;
   border-width: 15px 0;
@@ -2065,13 +2065,13 @@ img.upgrade {
   margin-bottom: 0px; }
 
 ::-webkit-scrollbar-track-piece:vertical:decrement {
-  -webkit-border-image: url(/images/scrollbar/vertical-track.png) 15 0 15 0;
+  -webkit-border-image: url(/static/scrollbar/vertical-track.png) 15 0 15 0;
   border-style: solid;
   border-color: transparent;
   border-width: 15px 0 0 0; }
 
 ::-webkit-scrollbar-track-piece:vertical:increment {
-  -webkit-border-image: url(/images/scrollbar/vertical-track.png) 15 0 15 0;
+  -webkit-border-image: url(/static/scrollbar/vertical-track.png) 15 0 15 0;
   border-style: solid;
   border-color: transparent;
   border-width: 0 0 15px 0; }
