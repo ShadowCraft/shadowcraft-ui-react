@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 app = Flask("app")
 
 @app.route('/')
@@ -12,10 +12,10 @@ def character_show(region, realm, name): pass
 def character_refresh(region, realm, name): pass
 
 @app.route('/error')
-def error(): pass
+def error(): return app.send_static_file('500.html')
 
 @app.route('/missing')
-def missing(): pass
+def missing(): return app.send_static_file('404.html')
 
 @app.route('/history/getsha')
 def history_getsha(): pass
