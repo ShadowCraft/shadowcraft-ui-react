@@ -1,4 +1,5 @@
 import React from 'react';
+import style from '../css/app.sass';
 
 var Hello = React.createClass({
   render() {
