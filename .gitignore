@@ -1,4 +1,5 @@
 **/*~
+app/static/main.css
 app/static/bundle.js
 venv
 node_modules

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "python app.py"
+    "start": "python app.py",
+    "watch": "webpack -w"
   },
   "author": "",
   "license": "ISC",
