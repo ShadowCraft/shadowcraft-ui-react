@@ -127,16 +127,11 @@ class ArmoryCharacter(object):
         # We're mapping between id_power and id_spell
         if ArmoryCharacter.artifact_ids == None:
             ArmoryCharacter.artifact_ids = {}
-            skip = True
-            # TODO: this should really look up the location of this path in some other manner
             with open('../external_data/ArtifactPowerRank.dbc.csv', mode='r') as infile:
                 reader = csv.reader(infile)
+                next(reader) # Skip the first row with the header
                 for row in reader:
-                    if skip:
-                        # skip the first row with the header
-                        skip = False
-                    else:
-                        ArmoryCharacter.artifact_ids[int(row[3])] = int(row[1])
+                    ArmoryCharacter.artifact_ids[int(row[3])] = int(row[1])
         return ArmoryCharacter.artifact_ids[trait_id] if trait_id in ArmoryCharacter.artifact_ids else 0
                   
 if __name__ == '__main__':
