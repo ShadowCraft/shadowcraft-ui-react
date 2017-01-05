@@ -12,7 +12,7 @@ class ArmoryError(ArmoryException): pass
 class ArmoryMissingDocument(ArmoryException): pass
 
 class ArmoryDocument(object):
-    def get(region, path, params):
+    def get(region, path, params = {}):
         if region == 'us': host = 'us.api.battle.net'
         elif region == 'eu': host = 'eu.api.battle.net'
         elif region == 'kr': host = 'kr.api.battle.net'

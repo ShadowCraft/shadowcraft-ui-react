@@ -1,4 +1,4 @@
-import requests, csv, re
+import requests, csv, re, copy
 import ArmoryConstants
 from ArmoryDocument import ArmoryDocument
 
@@ -10,7 +10,7 @@ class ArmoryItem(object):
     upgrade_rulesets = None
     item_bonuses = None
     item_name_descriptions = None
-    
+
     def __init__(self, json):        
         self.name = json['name']
         self.ilevel = int(json['itemLevel'])
@@ -40,7 +40,7 @@ class ArmoryItem(object):
 
         # If this item is a gem or an armor item, save some additional information about it.
         if json['itemClass'] == 3:
-            if gemInfo in json:
+            if 'gemInfo' in json:
                 self.stats = {}
             else:
                 self.gem_slot = json['gemInfo']['type']['type'].title()
@@ -76,6 +76,24 @@ class ArmoryItem(object):
             self.speed = float(json['weaponInfo']['weaponSpeed'])
             self.dps = float(json['weaponInfo']['dps'])
             self.subclass = json['itemSubClass']
+
+    IGNORE_FIELDS = ['item_id', 'ilevel', 'context', 'bonus_tree', 'tag']
+    IGNORE_FOR_GEMS = ['speed', 'dps', 'subclass', 'armor_class', 'upgradable', 'chance_bonus_lists', 'equip_location']
+    
+    def as_json(self):
+        ret = copy.deepcopy(self.__dict__)
+        for i in ArmoryItem.IGNORE_FIELDS:
+            if (i in ret): ret.pop(i, None)
+            
+        if ('gem_slot' in ret):
+            for i in ArmoryItem.IGNORE_FOR_GEMS:
+                if (i in ret): ret.pop(i, None)
+        return ret
+
+    def __iter__(self):
+        data = self.as_json()
+        for k,v in data.items():
+            yield(k, v)
 
     # This method takes a string like "+4 Critical Strike" and turns it into a
     # hash of two values. The values are the attribute being modified and the
@@ -230,6 +248,7 @@ if __name__ == '__main__':
     print(ArmoryItem.check_upgradable(124367))
     print(ArmoryItem.scan_str("+4 Critical Strike"))
     print(ArmoryItem.scan_str("Equip: Mastery by 4"))
-    json = ArmoryDocument.get('us','/wow/item/%d' % 142512)
+    json = ArmoryDocument.get('us','/wow/item/%d' % 124367)
     item = ArmoryItem(json)
     print(item.name)
+    print(item.as_json())

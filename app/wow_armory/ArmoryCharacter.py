@@ -13,7 +13,11 @@ class ArmoryCharacter(object):
         params = {'fields': 'talents,items'}
         json = ArmoryDocument.get(region,'/wow/character/%s/%s' % (realm, character), params)
         self.populate(region, json)
-    
+
+        for index,tree in enumerate(json['talents']):
+            if 'selected' in tree and tree['selected']:
+                self.active = index
+
     def populate(self, region, json):
         self.name = json['name']
         self.level = int(json['level'])
@@ -119,6 +123,26 @@ class ArmoryCharacter(object):
             except ArmoryMissingDocument:
                 print("Failed to retrieve extra relic data")
 
+    def as_json(self):
+        talents = []
+        for tree in self.talents:
+            talents.append({"spec": tree['calcSpec'], 'talents': tree['calcTalent']})
+        
+        return {
+            "gear": self.gear,
+            "artifact": self.artifact,
+            "race": self.race,
+            "level": self.level,
+            "active": self.active,
+            "player_class": self.player_class,
+            "talents": talents
+        }
+
+    def __iter__(self):
+        data = self.as_json()
+        for k,v in data.items():
+            yield(k, v)
+    
     # Maps the a trait ID from the artifact data to a spell ID using the DBC data
     # from the Blizzard CDN
     def artifact_id(trait_id):
@@ -138,3 +162,5 @@ if __name__ == '__main__':
 
     character = ArmoryCharacter('tamen','aerie-peak','us')
     print(character.artifact)
+    print(character.as_json())
+    print(dict(character))
