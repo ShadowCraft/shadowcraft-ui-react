@@ -3,10 +3,10 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {  
   entry: [
-    "./app/js/app.js"
+    "./shadowcraft_ui/js/app.js"
   ],
   output: {
-    path: __dirname + '/app/static',
+    path: __dirname + '/shadowcraft_ui/static',
     filename: "bundle.js"
   },
   module: {

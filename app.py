@@ -3,7 +3,7 @@ from flask_socketio import SocketIO
 from werkzeug.routing import BaseConverter
 import os
 
-app = Flask("app")
+app = Flask('shadowcraft_ui')
 app.config['SECRET_KEY'] = 'shhhhhhhh!'
 socketio = SocketIO(app)
 
