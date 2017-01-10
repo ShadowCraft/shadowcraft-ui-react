@@ -75,7 +75,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	_reactDom2.default.render(_react2.default.createElement(_CharacterInput2.default, null), document.getElementById('container'));
+	_reactDom2.default.render(_react2.default.createElement(_CharacterInput2.default, null), document.getElementById('appjs'));
 
 /***/ },
 /* 2 */
@@ -100,92 +100,179 @@
 	        var divStyle = { margin: 0, padding: 0, display: 'inline' };
 	        return _react2.default.createElement(
 	            'div',
-	            { className: 'characters-new' },
+	            { id: 'container', className: 'characters-new' },
 	            _react2.default.createElement(
 	                'div',
 	                { id: 'create_character' },
 	                _react2.default.createElement(
-	                    'form',
-	                    { acceptCharset: 'UTF-8', action: '', className: 'new_character', id: 'new_character', method: 'post' },
+	                    'div',
+	                    { className: 'form' },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { style: divStyle },
-	                        _react2.default.createElement('input', { name: 'utf8', type: 'hidden', value: '\u2713' }),
-	                        _react2.default.createElement('input', { name: 'authenticity_token', type: 'hidden', value: '3MTYlJElBy5jj+uKDD/BpXi5BU8u4PPZwDaOzPMzS3s=' })
-	                    ),
-	                    _react2.default.createElement(
-	                        'span',
-	                        null,
+	                        { className: 'browser-support' },
 	                        _react2.default.createElement(
-	                            'label',
-	                            { htmlFor: 'character_name' },
-	                            'Character Name'
+	                            'p',
+	                            { className: 'requires-js' },
+	                            'Shadowcraft requires Javascript to run. Please turn it on and disable NoScript.'
 	                        ),
-	                        _react2.default.createElement('input', { id: 'character_name', name: 'character[name]', size: '30', type: 'text' })
-	                    ),
-	                    _react2.default.createElement(
-	                        'span',
-	                        null,
 	                        _react2.default.createElement(
-	                            'label',
-	                            { htmlFor: 'character_realm' },
-	                            'Realm'
+	                            'p',
+	                            null,
+	                            'Shadowcraft runs best with a modern browser with full HTML5 support.'
 	                        ),
-	                        _react2.default.createElement('input', { id: 'character_realm', name: 'character[realm]', size: '30', type: 'text' })
-	                    ),
-	                    _react2.default.createElement(
-	                        'span',
-	                        null,
 	                        _react2.default.createElement(
-	                            'label',
-	                            { htmlFor: 'character_region' },
-	                            'Region'
+	                            'p',
+	                            { className: 'browser-list' },
+	                            'For best results, use:'
 	                        ),
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'regions' },
+	                            { className: 'browsers' },
 	                            _react2.default.createElement(
-	                                'label',
-	                                null,
-	                                _react2.default.createElement('input', { id: 'character_region_us', name: 'character[region]', type: 'radio', value: 'US' }),
-	                                '  US'
+	                                'a',
+	                                { href: 'http://www.google.com/chrome/intl/en/landing_chrome.html' },
+	                                _react2.default.createElement('img', { alt: 'Chrome', src: '../static/images/browser/chrome.png' }),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    null,
+	                                    'Google Chrome'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'em',
+	                                    null,
+	                                    'Best'
+	                                )
 	                            ),
 	                            _react2.default.createElement(
-	                                'label',
-	                                null,
-	                                _react2.default.createElement('input', { id: 'character_region_eu', name: 'character[region]', type: 'radio', value: 'EU' }),
-	                                ' EU'
+	                                'a',
+	                                { href: 'http://www.apple.com/safari/' },
+	                                _react2.default.createElement('img', { alt: 'Safari', src: '../static/images/browser/safari.png' }),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    null,
+	                                    'Apple Safari'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'em',
+	                                    null,
+	                                    'Best'
+	                                )
 	                            ),
 	                            _react2.default.createElement(
-	                                'label',
-	                                null,
-	                                _react2.default.createElement('input', { id: 'character_region_kr', name: 'character[region]', type: 'radio', value: 'KR' }),
-	                                ' KR'
+	                                'a',
+	                                { href: 'http://www.mozilla.com/en-US/firefox/RC/' },
+	                                _react2.default.createElement('img', { alt: 'Firefox', src: '../static/images/browser/firefox.png' }),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    null,
+	                                    'Mozilla Firefox'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'em',
+	                                    null,
+	                                    'Good'
+	                                )
 	                            ),
 	                            _react2.default.createElement(
-	                                'label',
-	                                null,
-	                                _react2.default.createElement('input', { id: 'character_region_tw', name: 'character[region]', type: 'radio', value: 'TW' }),
-	                                ' TW'
-	                            ),
-	                            _react2.default.createElement(
-	                                'label',
-	                                null,
-	                                _react2.default.createElement('input', { id: 'character_region_cn', name: 'character[region]', type: 'radio', value: 'CN' }),
-	                                ' CN'
-	                            ),
-	                            _react2.default.createElement(
-	                                'level',
-	                                null,
-	                                _react2.default.createElement('input', { id: 'character_region_sea', name: 'character[region]', type: 'radio', value: 'SEA' }),
-	                                ' SEA'
+	                                'a',
+	                                { href: 'http://www.beautyoftheweb.com' },
+	                                _react2.default.createElement('img', { alt: 'Ie', src: '../static/images/browser/ie.png' }),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    null,
+	                                    'Internet Explorer'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'em',
+	                                    null,
+	                                    'Good'
+	                                )
 	                            )
 	                        )
 	                    ),
 	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'submit' },
-	                        _react2.default.createElement('input', { name: 'commit', type: 'submit', value: 'Begin' })
+	                        'form',
+	                        { acceptCharset: 'UTF-8', action: '', className: 'new_character', id: 'new_character', method: 'post' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: divStyle },
+	                            _react2.default.createElement('input', { name: 'utf8', type: 'hidden', value: '\u2713' }),
+	                            _react2.default.createElement('input', { name: 'authenticity_token', type: 'hidden', value: '3MTYlJElBy5jj+uKDD/BpXi5BU8u4PPZwDaOzPMzS3s=' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            _react2.default.createElement(
+	                                'label',
+	                                { htmlFor: 'character_name' },
+	                                'Character Name'
+	                            ),
+	                            _react2.default.createElement('input', { id: 'character_name', name: 'character[name]', size: '30', type: 'text' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            _react2.default.createElement(
+	                                'label',
+	                                { htmlFor: 'character_realm' },
+	                                'Realm'
+	                            ),
+	                            _react2.default.createElement('input', { id: 'character_realm', name: 'character[realm]', size: '30', type: 'text' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            _react2.default.createElement(
+	                                'label',
+	                                { htmlFor: 'character_region' },
+	                                'Region'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'regions' },
+	                                _react2.default.createElement(
+	                                    'label',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_us', name: 'character[region]', type: 'radio', value: 'US' }),
+	                                    '  US'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'label',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_eu', name: 'character[region]', type: 'radio', value: 'EU' }),
+	                                    ' EU'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'label',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_kr', name: 'character[region]', type: 'radio', value: 'KR' }),
+	                                    ' KR'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'label',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_tw', name: 'character[region]', type: 'radio', value: 'TW' }),
+	                                    ' TW'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'label',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_cn', name: 'character[region]', type: 'radio', value: 'CN' }),
+	                                    ' CN'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'level',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_sea', name: 'character[region]', type: 'radio', value: 'SEA' }),
+	                                    ' SEA'
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'submit' },
+	                            _react2.default.createElement('input', { name: 'commit', type: 'submit', value: 'Begin' })
+	                        )
 	                    )
 	                )
 	            )

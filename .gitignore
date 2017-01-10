@@ -1,6 +1,7 @@
 **/*~
-app/static/main.css
-app/static/bundle.js
+shadowcraft_ui/static/css/main.css
+shadowcraft_ui/static/bundle.js
 venv
 node_modules
 __pycache__
+*.pyc
