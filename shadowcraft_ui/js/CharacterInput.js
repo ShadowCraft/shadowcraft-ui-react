@@ -7,33 +7,6 @@ export default React.createClass({
                 <div id='container' className='characters-new'>
                     <div id='create_character'>
                         <div className='form'>
-                            <div className='browser-support'>
-                                <p className='requires-js'>Shadowcraft requires Javascript to run. Please turn it on and disable NoScript.</p>
-                                <p>Shadowcraft runs best with a modern browser with full HTML5 support.</p>
-                                <p className='browser-list'>For best results, use:</p>
-                                <div className='browsers'>
-                                    <a href='http://www.google.com/chrome/intl/en/landing_chrome.html'>
-                                        <img alt="Chrome" src="../static/images/browser/chrome.png" />
-                                        <span>Google Chrome</span>
-                                        <em>Best</em>
-                                    </a>
-                                    <a href='http://www.apple.com/safari/'>
-                                        <img alt="Safari" src="../static/images/browser/safari.png" />
-                                        <span>Apple Safari</span>
-                                        <em>Best</em>
-                                    </a>
-                                    <a href='http://www.mozilla.com/en-US/firefox/RC/'>
-                                        <img alt="Firefox" src="../static/images/browser/firefox.png" />
-                                        <span>Mozilla Firefox</span>
-                                        <em>Good</em>
-                                    </a>
-                                    <a href='http://www.beautyoftheweb.com'>
-                                        <img alt="Ie" src="../static/images/browser/ie.png" />
-                                        <span>Internet Explorer</span>
-                                        <em>Good</em>
-                                    </a>
-                                </div>
-                            </div>
                             <form acceptCharset="UTF-8" action="" className="new_character" id="new_character" method="post">
                                 <div style={divStyle}>
                                     <input name="utf8" type="hidden" value="&#x2713;" />
