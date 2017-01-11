@@ -9,3 +9,4 @@ Flask-PyMongo==0.4.1
 python-wowapi
 requests
 gevent
+jsonschema

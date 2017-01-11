@@ -14,14 +14,17 @@ class ArmoryCharacter(object):
         json = ArmoryDocument.get(region,'/wow/character/%s/%s' % (realm, character), params)
         self.populate(region, json)
 
+        # Make sure these get stored in the same fashion as they come in.
+        self.region = region
+        self.realm = realm
+        self.name = character
+        
         for index,tree in enumerate(json['talents']):
             if 'selected' in tree and tree['selected']:
                 self.active = index
 
     def populate(self, region, json):
-        self.name = json['name']
         self.level = int(json['level'])
-        self.realm = json['realm']
         self.player_class = ArmoryConstants.CLASS_MAP[int(json['class'])]
         self.race = ArmoryConstants.RACE_MAP[int(json['race'])]
         self.portrait = 'http://%s.battle.net/static-render/%s/%s' % (region, region, json['thumbnail'])
@@ -61,7 +64,7 @@ class ArmoryCharacter(object):
             if info['context'].startswith('world-quest'):
                 info['context'] = 'world-quest'
 
-            self.gear[info['slot']] = info
+            self.gear[str(info['slot'])] = info
 
         # Artifact data from the API looks like this:
         #            "artifactTraits": [{
@@ -129,6 +132,9 @@ class ArmoryCharacter(object):
             talents.append({"spec": tree['calcSpec'], 'talents': tree['calcTalent']})
         
         return {
+            "region": self.region,
+            "realm": self.realm,
+            "name": self.name,
             "gear": self.gear,
             "artifact": self.artifact,
             "race": self.race,
