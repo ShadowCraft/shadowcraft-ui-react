@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import csv
-import ArmoryDocument
-import ArmoryConstants
 
 class ArmoryCharacter(object):
 

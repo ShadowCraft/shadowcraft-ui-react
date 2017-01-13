@@ -1,5 +1,5 @@
 from .models import character
-from .models.item import Item
+from .models import item
 
 def get_character_data(mongo, region, realm, name, sha=None):
     print("get data: %s %s %s %s" % (region, realm, name, sha))
