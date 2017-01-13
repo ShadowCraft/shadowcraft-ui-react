@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import json, csv
-from ArmoryDocument import ArmoryDocument, ArmoryError, ArmoryMissingDocument
+import csv
+import ArmoryDocument
 import ArmoryConstants
 
 class ArmoryCharacter(object):
@@ -11,37 +11,39 @@ class ArmoryCharacter(object):
     def __init__(self, character, realm, region='us'):
         region = region.lower()
         params = {'fields': 'talents,items'}
-        json = ArmoryDocument.get(region,'/wow/character/%s/%s' % (realm, character), params)
-        self.populate(region, json)
+        json_data = ArmoryDocument.get(region, '/wow/character/%s/%s' % (realm, character), params)
+        self.populate(region, json_data)
 
         # Make sure these get stored in the same fashion as they come in.
         self.region = region
         self.realm = realm
         self.name = character
-        
-        for index,tree in enumerate(json['talents']):
+
+        for index, tree in enumerate(json_data['talents']):
             if 'selected' in tree and tree['selected']:
                 self.active = index
 
-    def populate(self, region, json):
-        self.level = int(json['level'])
-        self.player_class = ArmoryConstants.CLASS_MAP[int(json['class'])]
-        self.race = ArmoryConstants.RACE_MAP[int(json['race'])]
-        self.portrait = 'http://%s.battle.net/static-render/%s/%s' % (region, region, json['thumbnail'])
+    def populate(self, region, json_data):
+        self.level = int(json_data['level'])
+        self.player_class = ArmoryConstants.CLASS_MAP[int(json_data['class'])]
+        self.race = ArmoryConstants.RACE_MAP[int(json_data['race'])]
+        self.portrait = 'http://%s.battle.net/static-render/%s/%s' % (region, region, json_data['thumbnail'])
 
         # For talents, make sure to ignore any blank specs. Druids will actually have 4 specs
         # filled in, but rogues will return three good specs and one with a blank calcSpec
         # field.
-        self.talents = [x for x in json['talents'] if len(x['calcSpec']) > 0]
+        self.talents = [x for x in json_data['talents'] if len(x['calcSpec']) > 0]
 
         self.gear = {}
-        if 'items' not in json or len(json['items']) == 0:
-            raise ArmoryError('No items found on character')
+        if 'items' not in json_data or len(json_data['items']) == 0:
+            raise ArmoryDocument.ArmoryError('No items found on character')
 
-        for k,v in json['items'].items():
-            if type(v) is not dict: continue
-            if k not in ArmoryConstants.SLOT_MAP: continue
-            
+        for k, v in json_data['items'].items():
+            if not isinstance(v, dict):
+                continue
+            if k not in ArmoryConstants.SLOT_MAP:
+                continue
+
             tooltip = v['tooltipParams'] if 'tooltipParams' in v else {}
             info = {
                 'id': v['id'],
@@ -99,7 +101,7 @@ class ArmoryCharacter(object):
         #            }],
         self.artifact = {}
         self.artifact['traits'] = []
-        for trait in json['items']['mainHand']['artifactTraits']:
+        for trait in json_data['items']['mainHand']['artifactTraits']:
             # Special case around an error in the artifact power DBC data from the CDN where
             # trait ID 859 maps to multiple spell IDs.
             if trait['id'] == 859:
@@ -109,7 +111,7 @@ class ArmoryCharacter(object):
             self.artifact['traits'].append(trait)
 
         self.artifact['relics'] = []
-        for relic in json['items']['mainHand']['relics']:
+        for relic in json_data['items']['mainHand']['relics']:
             r = {
                 'socket': relic['socket'],
                 'id': relic['itemId'],
@@ -119,18 +121,18 @@ class ArmoryCharacter(object):
             # Make another request to blizzard to get the item level for this relic,
             # since the character data doesn't include enough information.
             try:
-                params = {'bl': ','.join(map(str,relic['bonusLists']))}
-                relic_json = ArmoryDocument.get(region,'/wow/item/%d' % relic['itemId'], params)
+                params = {'bl': ','.join(map(str, relic['bonusLists']))}
+                relic_json = ArmoryDocument.get(region, '/wow/item/%d' % relic['itemId'], params)
                 r['ilvl'] = relic_json['itemLevel']
                 self.artifact['relics'].append(r)
-            except ArmoryMissingDocument:
+            except ArmoryDocument.MissingDocument:
                 print("Failed to retrieve extra relic data")
 
     def as_json(self):
         talents = []
         for tree in self.talents:
             talents.append({"spec": tree['calcSpec'], 'talents': tree['calcTalent']})
-        
+
         return {
             "region": self.region,
             "realm": self.realm,
@@ -146,27 +148,33 @@ class ArmoryCharacter(object):
 
     def __iter__(self):
         data = self.as_json()
-        for k,v in data.items():
+        for k, v in data.items():
             yield(k, v)
-    
+
     # Maps the a trait ID from the artifact data to a spell ID using the DBC data
     # from the Blizzard CDN
+    @staticmethod
     def artifact_id(trait_id):
         # The header on the ArtifactPowerRank data looks like (as of 7.0.3):
         # id,id_spell,value,id_power,f5,index
         # We're mapping between id_power and id_spell
-        if ArmoryCharacter.artifact_ids == None:
+        if ArmoryCharacter.artifact_ids is None:
             ArmoryCharacter.artifact_ids = {}
             with open('../external_data/ArtifactPowerRank.dbc.csv', mode='r') as infile:
                 reader = csv.reader(infile)
                 next(reader) # Skip the first row with the header
                 for row in reader:
                     ArmoryCharacter.artifact_ids[int(row[3])] = int(row[1])
+                    
         return ArmoryCharacter.artifact_ids[trait_id] if trait_id in ArmoryCharacter.artifact_ids else 0
-                  
-if __name__ == '__main__':
 
-    character = ArmoryCharacter('tamen','aerie-peak','us')
+def test_character():
+
+    character = ArmoryCharacter('tamen', 'aerie-peak', 'us')
     print(character.artifact)
     print(character.as_json())
     print(dict(character))
+
+if __name__ == '__main__':
+
+    test_character()

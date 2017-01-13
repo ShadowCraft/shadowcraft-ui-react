@@ -1,6 +1,8 @@
-import requests, csv, re, copy
+import csv
+import re
+import copy
 import ArmoryConstants
-from ArmoryDocument import ArmoryDocument
+import ArmoryDocument
 
 class ArmoryItem(object):
 
@@ -11,47 +13,48 @@ class ArmoryItem(object):
     item_bonuses = None
     item_name_descriptions = None
 
-    def __init__(self, json):        
-        self.name = json['name']
-        self.ilevel = int(json['itemLevel'])
-        self.item_id = int(json['id'])
+    def __init__(self, json_data):
+        self.name = json_data['name']
+        self.ilevel = int(json_data['itemLevel'])
+        self.item_id = int(json_data['id'])
         self.upgradable = ArmoryItem.check_upgradable(self.item_id)
-        self.populate_data(json)
+        self.populate_data(json_data)
 
-    def populate_data(self, json):
-        self.quality = json['quality']
-        self.equip_location = json['inventoryType']
-        self.icon = json['icon']
+    def populate_data(self, json_data):
+        self.quality = json_data['quality']
+        self.equip_location = json_data['inventoryType']
+        self.icon = json_data['icon']
 
         # Tag is the header text on an item that has a description, such as
         # 'warforged' or 'heroic'. This field is used in the display of items.
         # If the value doesn't come along in the json data, make one up based
         # on the context field.
-        if 'nameDescription' in json:
-            self.tag = json['nameDescription']
-        elif json['context'].endswith('-mythic'):
+        if 'nameDescription' in json_data:
+            self.tag = json_data['nameDescription']
+        elif json_data['context'].endswith('-mythic'):
             self.tag = 'Mythic'
-        elif json['context'].endswith('-heroic'):
+        elif json_data['context'].endswith('-heroic'):
             self.tag = 'Heroic'
-        elif json['context'].endswith('-normal'):
+        elif json_data['context'].endswith('-normal'):
             self.tag = ''
-        elif json['context'] == 'raid-finder':
+        elif json_data['context'] == 'raid-finder':
             self.tag = 'Raid Finder'
 
         # If this item is a gem or an armor item, save some additional information about it.
-        if json['itemClass'] == 3:
-            if 'gemInfo' in json:
+        if json_data['itemClass'] == 3:
+            if 'gemInfo' in json_data:
                 self.stats = {}
             else:
-                self.gem_slot = json['gemInfo']['type']['type'].title()
-                self.stats = ArmoryItem.scan_str(json['gemInfo']['bonus']['name'])
-        elif json['itemClass'] == 4:
-            if json['itemSubClass'] in ArmoryConstants.ARMOR_CLASS:
-                self.armor_class = ArmoryConstants.ARMOR_CLASS[json['itemSubClass']]
+                self.gem_slot = json_data['gemInfo']['type']['type'].title()
+                self.stats = ArmoryItem.scan_str(json_data['gemInfo']['bonus']['name'])
 
-        if json['itemClass'] != 3 and 'bonusStats' in json:
+        elif json_data['itemClass'] == 4:
+            if json_data['itemSubClass'] in ArmoryConstants.ARMOR_CLASS:
+                self.armor_class = ArmoryConstants.ARMOR_CLASS[json_data['itemSubClass']]
+
+        if json_data['itemClass'] != 3 and 'bonusStats' in json_data:
             self.stats = {}
-            for entry in json['bonusStats']:
+            for entry in json_data['bonusStats']:
                 if entry['stat'] not in ArmoryConstants.STAT_LOOKUP:
                     print("STAT ID missing: %s", entry['stat'])
                 else:
@@ -61,43 +64,47 @@ class ArmoryItem(object):
         # various bonuses attached to it like item sockets, random enchantments,
         # etc. Store these with the item if they exist so they can be displayed
         # on the popup for the item.
-        self.bonus_tree = json['bonusLists'] if 'bonusLists' in json else []
-        
+        self.bonus_tree = json_data['bonusLists'] if 'bonusLists' in json_data else []
+
         # TODO: what is this for? These 5 bonus IDs are for the 100% secondary
         # stat bonuses.
         self.chance_bonus_lists = []
-        for bonusId in json['bonusSummary']['defaultBonusLists']:
-            if bonusId in [486, 487, 488, 489, 490]:
-                self.chance_bonus_lists.append(bonusId)
+        for bonus_id in json_data['bonusSummary']['defaultBonusLists']:
+            if bonus_id in [486, 487, 488, 489, 490]:
+                self.chance_bonus_lists.append(bonus_id)
 
         # If this item is a weapon, we need to store a little bit of information
         # about it.
-        if 'weaponInfo' in json:
-            self.speed = float(json['weaponInfo']['weaponSpeed'])
-            self.dps = float(json['weaponInfo']['dps'])
-            self.subclass = json['itemSubClass']
+        if 'weaponInfo' in json_data:
+            self.speed = float(json_data['weaponInfo']['weaponSpeed'])
+            self.dps = float(json_data['weaponInfo']['dps'])
+            self.subclass = json_data['itemSubClass']
 
     IGNORE_FIELDS = ['item_id', 'ilevel', 'context', 'bonus_tree', 'tag']
-    IGNORE_FOR_GEMS = ['speed', 'dps', 'subclass', 'armor_class', 'upgradable', 'chance_bonus_lists', 'equip_location']
-    
+    IGNORE_FOR_GEMS = ['speed', 'dps', 'subclass', 'armor_class', 'upgradable',
+                       'chance_bonus_lists', 'equip_location']
+
     def as_json(self):
         ret = copy.deepcopy(self.__dict__)
         for i in ArmoryItem.IGNORE_FIELDS:
-            if (i in ret): ret.pop(i, None)
-            
-        if ('gem_slot' in ret):
+            if i in ret:
+                ret.pop(i, None)
+
+        if 'gem_slot' in ret:
             for i in ArmoryItem.IGNORE_FOR_GEMS:
-                if (i in ret): ret.pop(i, None)
+                if i in ret:
+                    ret.pop(i, None)
         return ret
 
     def __iter__(self):
         data = self.as_json()
-        for k,v in data.items():
+        for k, v in data.items():
             yield(k, v)
 
     # This method takes a string like "+4 Critical Strike" and turns it into a
     # hash of two values. The values are the attribute being modified and the
     # value of the modifier.
+    @staticmethod
     def scan_str(string):
         ret = {}
         for attr in ArmoryConstants.SCAN_ATTRIBUTES:
@@ -109,7 +116,8 @@ class ArmoryItem(object):
                 re.sub(r' ', '_', attr)
                 ret[attr] = int(match.group(1))
             else:
-                match = re.search(r"Equip:.*(%s) by (\d+)" % attr, string, re.IGNORECASE)
+                match = re.search(r"Equip:.*(%s) by (\d+)" % attr, string,
+                                  re.IGNORECASE)
                 if match:
                     attr = match.group(1).lower()
                     if attr in ArmoryConstants.SCAN_OVERRIDE:
@@ -127,6 +135,7 @@ class ArmoryItem(object):
     #
     # For ShC, we only care about valor upgrades so we can skip any other
     # kind of upgrade.
+    @staticmethod
     def check_upgradable(item_id):
         rule = ArmoryItem.upgrade_ruleset(item_id)
         if rule != None:
@@ -135,9 +144,10 @@ class ArmoryItem(object):
             if item_upgrade == 1191:
                 return True
         return False
-    
+
+    @staticmethod
     def item_enchant(enchant_id):
-        if ArmoryItem.item_enchants == None:
+        if ArmoryItem.item_enchants is None:
             ArmoryItem.item_enchants = {}
             with open('../external_data/SpellItemEnchantment.dbc.csv', mode='r') as infile:
                 reader = csv.reader(infile)
@@ -148,11 +158,12 @@ class ArmoryItem(object):
 
     # item_upgrades and upgrade_rulesets are used to determine if a piece of gear is
     # eligible for a valor upgrade. They are used in the check_upgradable method.
+    @staticmethod
     def item_upgrade(rule_id):
         # The header on the ItemUpgrade data looks like (as of 7.0.3):
         # id,cost,prev_id,id_currency_type,upgrade_group,upgrade_ilevel
         # We only care about the prev_id and id_currency_type ones
-        if ArmoryItem.item_upgrades == None:
+        if ArmoryItem.item_upgrades is None:
             ArmoryItem.item_upgrades = {}
             with open('../external_data/ItemUpgrade.dbc.csv', mode='r') as infile:
                 reader = csv.reader(infile)
@@ -163,22 +174,28 @@ class ArmoryItem(object):
                     if p_id != 0 and currency != 0:
                         ArmoryItem.item_upgrades[p_id] = currency
         return ArmoryItem.item_upgrades[rule_id] if rule_id in ArmoryItem.item_upgrades else None
-    
+
+    @staticmethod
     def upgrade_ruleset(item_id):
         # The header on the RulesetItemUpgrade data looks like (as of 7.0.3):
         # id,id_item,id_upgrade_base
         # We only care about the last two of these.
-        if ArmoryItem.upgrade_rulesets == None:
+        if ArmoryItem.upgrade_rulesets is None:
             ArmoryItem.upgrade_rulesets = {}
             with open('../external_data/RulesetItemUpgrade.dbc.csv', mode='r') as infile:
                 reader = csv.reader(infile)
                 next(reader) # Skip the first row with the header
                 for row in reader:
                     ArmoryItem.upgrade_rulesets[int(row[1])] = int(row[2])
-        return ArmoryItem.upgrade_rulesets[item_id] if item_id in ArmoryItem.upgrade_rulesets else None
-    
+
+        if item_id in ArmoryItem.upgrade_rulesets:
+            return item_id
+        else:
+            return None
+
+    @staticmethod
     def item_bonus(bonus_id):
-        if ArmoryItem.item_bonuses == None:
+        if ArmoryItem.item_bonuses is None:
             ArmoryItem.item_bonuses = {}
             with open('../external_data/ItemBonus.dbc.csv', mode='r') as infile:
                 reader = csv.reader(infile)
@@ -193,7 +210,7 @@ class ArmoryItem(object):
                         "val1": int(row[1]),
                         "val2": int(row[2]),
                     }
-                    
+
                     # Bonus Types (value of column 4):
                     # 1 = Item level increase.
                     # 2 = Stat.  This is for items with random stats.  Take the value of column 4 and
@@ -218,19 +235,21 @@ class ArmoryItem(object):
                         entry.pop('val2', None)
 
                     ArmoryItem.item_bonuses[id_node].append(entry)
-                    
+
         return ArmoryItem.item_bonuses[bonus_id]
-    
+
+    @staticmethod
     def item_name_description(desc_id):
-        if ArmoryItem.item_name_descriptions == None:
+        if ArmoryItem.item_name_descriptions is None:
             ArmoryItem.item_name_descriptions = {}
             with open('../external_data/ItemNameDescription.dbc.csv', mode='r') as infile:
                 reader = csv.reader(infile)
                 next(reader) # Skip the first row with the header
                 for row in reader:
                     text = row[1]
-                    if len(text) == 0: continue
-                    
+                    if len(text) == 0:
+                        continue
+
                     # For some reason all of the values in this table have single-quotes around
                     # every string. Remove those and just store the strings themselves.
                     text = row[1]
@@ -240,15 +259,18 @@ class ArmoryItem(object):
                         text = text[:-1]
                     ArmoryItem.item_name_descriptions[int(row[0])] = text
         return ArmoryItem.item_name_descriptions[desc_id]
-    
-if __name__ == '__main__':
+
+def test_item():
     print(ArmoryItem.item_enchant(44))
     print(ArmoryItem.item_bonus(1572))
     print(ArmoryItem.check_upgradable(142512))
     print(ArmoryItem.check_upgradable(124367))
     print(ArmoryItem.scan_str("+4 Critical Strike"))
     print(ArmoryItem.scan_str("Equip: Mastery by 4"))
-    json = ArmoryDocument.get('us','/wow/item/%d' % 124367)
-    item = ArmoryItem(json)
+    json_data = ArmoryDocument.get('us', '/wow/item/%d' % 124367)
+    item = ArmoryItem(json_data)
     print(item.name)
     print(item.as_json())
+
+if __name__ == '__main__':
+    test_item()
