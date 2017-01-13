@@ -2,13 +2,12 @@ import React from 'react'
 
 export default React.createClass({
     render: function () {
-        const divStyle = { margin: 0, padding: 0, display: 'inline' }
         return (
                 <div id='container' className='characters-new'>
                     <div id='create_character'>
                         <div className='form'>
-                            <form acceptCharset="UTF-8" action="" className="new_character" id="new_character" method="post">
-                                <div style={divStyle}>
+                            <form acceptCharset="UTF-8" action="/" className="new_character" id="new_character" method="post">
+                                <div style={{ margin: 0, padding: 0, display: 'inline' }}>
                                     <input name="utf8" type="hidden" value="&#x2713;" />
                                     <input name="authenticity_token" type="hidden" value="3MTYlJElBy5jj+uKDD/BpXi5BU8u4PPZwDaOzPMzS3s=" />
                                 </div>

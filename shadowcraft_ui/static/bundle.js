@@ -53,7 +53,11 @@
 
 	'use strict';
 
-	var _CharacterInput = __webpack_require__(2);
+	var _CharacterPane = __webpack_require__(2);
+
+	var _CharacterPane2 = _interopRequireDefault(_CharacterPane);
+
+	var _CharacterInput = __webpack_require__(163);
 
 	var _CharacterInput2 = _interopRequireDefault(_CharacterInput);
 
@@ -87,115 +91,774 @@
 	    value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = _react2.default.createClass({
-	    displayName: 'CharacterInput',
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	    render: function render() {
-	        var divStyle = { margin: 0, padding: 0, display: 'inline' };
-	        return _react2.default.createElement(
-	            'div',
-	            { id: 'container', className: 'characters-new' },
-	            _react2.default.createElement(
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CharacterPane = function (_React$Component) {
+	    _inherits(CharacterPane, _React$Component);
+
+	    function CharacterPane() {
+	        _classCallCheck(this, CharacterPane);
+
+	        return _possibleConstructorReturn(this, (CharacterPane.__proto__ || Object.getPrototypeOf(CharacterPane)).apply(this, arguments));
+	    }
+
+	    _createClass(CharacterPane, [{
+	        key: 'render',
+
+	        // hold on to your butts
+	        value: function render() {
+	            return _react2.default.createElement(
 	                'div',
-	                { id: 'create_character' },
+	                { className: 'characters-show', id: 'container' },
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'form' },
+	                    { id: 'curtain', style: { display: 'none' } },
 	                    _react2.default.createElement(
-	                        'form',
-	                        { acceptCharset: 'UTF-8', action: '', className: 'new_character', id: 'new_character', method: 'post' },
+	                        'ul',
+	                        { className: 'dropdownMenu', id: 'settingsDropdownMenu' },
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                { href: '/us/hyjal/aeriwen/refresh', className: 'showWait', 'data-method': 'put', rel: 'nofollow' },
+	                                'Refresh from armory'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                { href: '/us/hyjal/aeriwen#reload', className: 'showWait', 'data-method': 'get' },
+	                                'Reset to last Armory import'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                { href: '#', 'data-method': 'get', id: 'reloadAllData' },
+	                                'Clear all saved data'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                { href: '#', 'data-method': 'get', id: 'menuSaveSnapshot' },
+	                                'Save snapshot'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                { href: '#', 'data-method': 'get', id: 'menuLoadSnapshot' },
+	                                'Load snapshot'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                { href: '#', 'data-method': 'get', id: 'menuGetDebugURL' },
+	                                'Get Debug URL'
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { id: 'tabs' },
 	                        _react2.default.createElement(
 	                            'div',
-	                            { style: divStyle },
-	                            _react2.default.createElement('input', { name: 'utf8', type: 'hidden', value: '\u2713' }),
-	                            _react2.default.createElement('input', { name: 'authenticity_token', type: 'hidden', value: '3MTYlJElBy5jj+uKDD/BpXi5BU8u4PPZwDaOzPMzS3s=' })
-	                        ),
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
+	                            { id: 'top-pane' },
+	                            _react2.default.createElement('a', { href: '/', id: 'logo' }),
 	                            _react2.default.createElement(
-	                                'label',
-	                                { htmlFor: 'character_name' },
-	                                'Character Name'
+	                                'ul',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'a',
+	                                        { href: '#gear' },
+	                                        'Gear'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'a',
+	                                        { href: '#talents' },
+	                                        'Talents'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'a',
+	                                        { href: '#artifact' },
+	                                        'Artifact'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'a',
+	                                        { href: '#settings' },
+	                                        'Settings'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'a',
+	                                        { href: '#advanced' },
+	                                        'Advanced'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'a',
+	                                        { href: '#docs' },
+	                                        'Documentation'
+	                                    )
+	                                )
 	                            ),
-	                            _react2.default.createElement('input', { id: 'character_name', name: 'character[name]', size: '30', type: 'text' })
+	                            _react2.default.createElement(
+	                                'a',
+	                                { className: 'dropdown', 'data-menu': 'settingsDropdownMenu', href: '#', id: 'settingsDropdown' },
+	                                _react2.default.createElement('img', { alt: 'Cog', src: './static/images/cog.png' })
+	                            )
 	                        ),
 	                        _react2.default.createElement(
-	                            'span',
-	                            null,
+	                            'div',
+	                            { className: 'with-tools', id: 'gear' },
 	                            _react2.default.createElement(
-	                                'label',
-	                                { htmlFor: 'character_realm' },
-	                                'Realm'
-	                            ),
-	                            _react2.default.createElement('input', { id: 'character_realm', name: 'character[realm]', size: '30', type: 'text' })
-	                        ),
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            _react2.default.createElement(
-	                                'label',
-	                                { htmlFor: 'character_region' },
-	                                'Region'
+	                                'div',
+	                                { className: 'panel-tools' },
+	                                _react2.default.createElement(
+	                                    'section',
+	                                    { id: 'summary' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Summary'
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'inner' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'section',
+	                                    { className: 'clearfix', id: 'stats' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Gear Stats'
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'inner' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'section',
+	                                    { id: 'weights' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Stat Weights'
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'inner' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'section',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Toolbox'
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'inner' },
+	                                        _react2.default.createElement(
+	                                            'button',
+	                                            { id: 'optimizeGems' },
+	                                            'Optimize Gems'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'button',
+	                                            { id: 'optimizeEnchants' },
+	                                            'Optimize Enchants'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'button',
+	                                            { id: 'lockAll' },
+	                                            'Lock All'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'button',
+	                                            { id: 'unlockAll' },
+	                                            'Unlock All'
+	                                        )
+	                                    )
+	                                )
 	                            ),
 	                            _react2.default.createElement(
 	                                'div',
-	                                { className: 'regions' },
+	                                { className: 'panel-content' },
+	                                _react2.default.createElement('div', { className: 'slots half', id: 'slots-left' }),
+	                                _react2.default.createElement('div', { className: 'slots half', id: 'slots-right' }),
 	                                _react2.default.createElement(
-	                                    'label',
-	                                    null,
-	                                    _react2.default.createElement('input', { id: 'character_region_us', name: 'character[region]', type: 'radio', value: 'US' }),
-	                                    '  US'
+	                                    'div',
+	                                    { className: 'popup ui-dialog', id: 'bonuses' },
+	                                    'Add item bonus'
 	                                ),
 	                                _react2.default.createElement(
-	                                    'label',
-	                                    null,
-	                                    _react2.default.createElement('input', { id: 'character_region_eu', name: 'character[region]', type: 'radio', value: 'EU' }),
-	                                    ' EU'
-	                                ),
-	                                _react2.default.createElement(
-	                                    'label',
-	                                    null,
-	                                    _react2.default.createElement('input', { id: 'character_region_kr', name: 'character[region]', type: 'radio', value: 'KR' }),
-	                                    ' KR'
-	                                ),
-	                                _react2.default.createElement(
-	                                    'label',
-	                                    null,
-	                                    _react2.default.createElement('input', { id: 'character_region_tw', name: 'character[region]', type: 'radio', value: 'TW' }),
-	                                    ' TW'
-	                                ),
-	                                _react2.default.createElement(
-	                                    'label',
-	                                    null,
-	                                    _react2.default.createElement('input', { id: 'character_region_cn', name: 'character[region]', type: 'radio', value: 'CN' }),
-	                                    ' CN'
-	                                ),
-	                                _react2.default.createElement(
-	                                    'level',
-	                                    null,
-	                                    _react2.default.createElement('input', { id: 'character_region_sea', name: 'character[region]', type: 'radio', value: 'SEA' }),
-	                                    ' SEA'
+	                                    'div',
+	                                    { className: 'alternatives popup ui-dialog', id: 'gearpopup' },
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { id: 'filter' },
+	                                        _react2.default.createElement('input', { className: 'search', placeholder: 'Filter...', type: 'search' })
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'body' })
 	                                )
 	                            )
 	                        ),
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'submit' },
-	                            _react2.default.createElement('input', { name: 'commit', type: 'submit', value: 'Begin' })
+	                            { className: 'with-tools', id: 'talents' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'panel-tools' },
+	                                _react2.default.createElement(
+	                                    'section',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Talent Sets'
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'inner', id: 'talentsets' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'section',
+	                                    { id: 'talentrankings' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Talent Rankings'
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'inner' },
+	                                        _react2.default.createElement(
+	                                            'h3',
+	                                            null,
+	                                            'Tier 15'
+	                                        ),
+	                                        _react2.default.createElement('div', { className: 'Tier15' }),
+	                                        _react2.default.createElement(
+	                                            'h3',
+	                                            null,
+	                                            'Tier 30'
+	                                        ),
+	                                        _react2.default.createElement('div', { className: 'Tier30' }),
+	                                        _react2.default.createElement(
+	                                            'h3',
+	                                            null,
+	                                            'Tier 45'
+	                                        ),
+	                                        _react2.default.createElement('div', { className: 'Tier45' }),
+	                                        _react2.default.createElement(
+	                                            'h3',
+	                                            null,
+	                                            'Tier 60'
+	                                        ),
+	                                        _react2.default.createElement('div', { className: 'Tier60' }),
+	                                        _react2.default.createElement(
+	                                            'h3',
+	                                            null,
+	                                            'Tier 75'
+	                                        ),
+	                                        _react2.default.createElement('div', { className: 'Tier75' }),
+	                                        _react2.default.createElement(
+	                                            'h3',
+	                                            null,
+	                                            'Tier 90'
+	                                        ),
+	                                        _react2.default.createElement('div', { className: 'Tier90' }),
+	                                        _react2.default.createElement(
+	                                            'h3',
+	                                            null,
+	                                            'Tier 100'
+	                                        ),
+	                                        _react2.default.createElement('div', { className: 'Tier100' }),
+	                                        _react2.default.createElement(
+	                                            'h3',
+	                                            null,
+	                                            'Tier 110'
+	                                        ),
+	                                        _react2.default.createElement('div', { className: 'Tier110' })
+	                                    )
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'panel-content' },
+	                                _react2.default.createElement('div', { id: 'specactive' }),
+	                                _react2.default.createElement('div', { id: 'talentframe' }),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'button',
+	                                        { id: 'reset_talents' },
+	                                        'Reset Talents'
+	                                    )
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'with-tools', id: 'artifact' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'panel-tools' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { id: 'artifact_button_div' },
+	                                    _react2.default.createElement(
+	                                        'button',
+	                                        { id: 'reset_artifact' },
+	                                        'Reset Traits'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'section',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Trait Rankings'
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'inner', id: 'traitrankings' })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'panel-content' },
+	                                _react2.default.createElement('div', { id: 'artifactactive' }),
+	                                _react2.default.createElement('div', { className: 'inner' }),
+	                                _react2.default.createElement('div', { id: 'artifactframe' }),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'alternatives popup ui-dialog', id: 'artifactpopup' },
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { id: 'filter' },
+	                                        _react2.default.createElement('input', { className: 'search', placeholder: 'Filter...', type: 'search' })
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'body' })
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { id: 'settings' },
+	                            _react2.default.createElement(
+	                                'section',
+	                                { className: 'cluster combat' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'option-list' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Combat Rotation Settings'
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'settings' })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'section',
+	                                { className: 'cluster mutilate' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'option-list' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Assassination Rotation Settings'
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'settings' })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'section',
+	                                { className: 'cluster subtlety' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'option-list' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Subtlety Rotation Settings'
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'settings' })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'section',
+	                                { className: 'cluster' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'option-list' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Raid Buffs'
+	                                    ),
+	                                    _react2.default.createElement('div', { id: 'playerBuffs' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'option-list' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Other'
+	                                    ),
+	                                    _react2.default.createElement('div', { id: 'raidOther' })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'section',
+	                                { className: 'cluster' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'option-list' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'General Settings'
+	                                    ),
+	                                    _react2.default.createElement('div', { id: 'general' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'option-list' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Item Filter'
+	                                    ),
+	                                    _react2.default.createElement('div', { id: 'generalFilter' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'option-list' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Advanced Settings'
+	                                    ),
+	                                    _react2.default.createElement('div', { id: 'advancedSettings' })
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'with-tools', id: 'advanced' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'panel-tools' },
+	                                _react2.default.createElement(
+	                                    'section',
+	                                    { id: 'dpsbreakdown' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'DPS Breakdown'
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'inner' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'section',
+	                                    { id: 'engineinfo' },
+	                                    _react2.default.createElement(
+	                                        'h3',
+	                                        null,
+	                                        'Engine Info'
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'inner' })
+	                                )
+	                            ),
+	                            _react2.default.createElement('div', { className: 'panel-content' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { id: 'docs' },
+	                            _react2.default.createElement(
+	                                'h3',
+	                                null,
+	                                '7.0 Release 2'
+	                            ),
+	                            'Engine Status:',
+	                            _react2.default.createElement(
+	                                'ul',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'General:'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Trinkets are lightly tested, may have implementation errors.'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'No legendaries implemented, if you get one use it, its good, if you get two, go buy lotto tickets'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Set bonuses unimplemented'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'The outlaw model can be very slow at times, be patient if it takes a few seconds to recalculate after you make a change.'
+	                                ),
+	                                _react2.default.createElement('br', null)
+	                            ),
+	                            _react2.default.createElement(
+	                                'ul',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Assassination:'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Assassination model seems to use too much energy, shouldn\'t have a large impact on stat weights.'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'T30 Talents are not implemented'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Fan of Knives rotations are not implemented'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Poison Knives (non-agonizing effect) is not implemented'
+	                                ),
+	                                _react2.default.createElement('br', null)
+	                            ),
+	                            _react2.default.createElement(
+	                                'ul',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Outlaw:'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Model just doesn\'t work, don\'t use it.'
+	                                ),
+	                                _react2.default.createElement('br', null)
+	                            ),
+	                            _react2.default.createElement(
+	                                'ul',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Subtlety:'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'No combo point loss is computed, this leads to somewhat higher results than are achievable in game and decreases the value of haste.'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Use finishers during dance setting doesn\'t behave correctly with subterfuge, leave this option enabled with subterfuge rotations.'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Weaponmaster does not give bonus cps, may be somewhat undervalued'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Flickering Shadows (sprint trait) not implemented'
+	                                ),
+	                                _react2.default.createElement('br', null)
+	                            ),
+	                            'UI Status:',
+	                            _react2.default.createElement(
+	                                'ul',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Artifact data from the API is now implemented. It only supports the currently-equipped artifact, because that\'s all the data that Blizzard gives us. If you switch specs, your other artifact will be blank.'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Most items should now be properly supported (except Mythic+ items, see below)'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Selection of WF/TF item levels is now implemented for gear. Relic support is on deck.'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Fixed lots and lots of bugs with relics and artifact loading in general. It should be much more robust now.'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Timewalking items are not supported until Blizzard fixes the API data for them.'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    'Trial of Valor items are not supported until they\'re available from the API.'
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { id: 'console-footer' },
+	                            _react2.default.createElement(
+	                                'a',
+	                                { className: 'human', href: 'http://us.battle.net/wow/en/character/hyjal/aeriwen/advanced', id: 'card', target: '_blank' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'img' },
+	                                    _react2.default.createElement('img', { src: 'http://us.battle.net/static-render/us/hyjal/156/113885852-avatar.jpg' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { className: 'info' },
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        { className: 'name' },
+	                                        'Aeriwen'
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        { className: 'realm' },
+	                                        'Hyjal-US'
+	                                    )
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { id: 'dps' },
+	                                _react2.default.createElement('div', { className: 'inner' })
+	                            ),
+	                            _react2.default.createElement('div', { id: 'dpsgraph' }),
+	                            _react2.default.createElement('div', { className: 'ad' }),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { id: 'logs' },
+	                                _react2.default.createElement(
+	                                    'section',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'window', id: 'console' },
+	                                        _react2.default.createElement(
+	                                            'h3',
+	                                            null,
+	                                            'Notices'
+	                                        ),
+	                                        _react2.default.createElement('div', { className: 'inner' })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'section',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'window', id: 'log' },
+	                                        _react2.default.createElement(
+	                                            'h3',
+	                                            null,
+	                                            'Log'
+	                                        ),
+	                                        _react2.default.createElement('div', { className: 'inner' })
+	                                    )
+	                                )
+	                            )
 	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { id: 'dialogs' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { id: 'saveSnapshot', title: 'Save Snapshot' },
+	                            _react2.default.createElement(
+	                                'label',
+	                                null,
+	                                '                                Enter a name for this snapshot:'
+	                            ),
+	                            _react2.default.createElement('input', { id: 'snapshotName', type: 'text' })
+	                        ),
+	                        _react2.default.createElement('div', { id: 'loadSnapshot', title: 'Load Snapshot' }),
+	                        _react2.default.createElement('div', { id: 'generalDialog' })
 	                    )
 	                )
-	            )
-	        );
-	    }
-	});
+	            );
+	        }
+	    }]);
+
+	    return CharacterPane;
+	}(_react2.default.Component);
+
+	exports.default = CharacterPane;
 
 /***/ },
 /* 3 */
@@ -19902,6 +20565,125 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _react2.default.createClass({
+	    displayName: 'CharacterInput',
+
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { id: 'container', className: 'characters-new' },
+	            _react2.default.createElement(
+	                'div',
+	                { id: 'create_character' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form' },
+	                    _react2.default.createElement(
+	                        'form',
+	                        { acceptCharset: 'UTF-8', action: '/', className: 'new_character', id: 'new_character', method: 'post' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: { margin: 0, padding: 0, display: 'inline' } },
+	                            _react2.default.createElement('input', { name: 'utf8', type: 'hidden', value: '\u2713' }),
+	                            _react2.default.createElement('input', { name: 'authenticity_token', type: 'hidden', value: '3MTYlJElBy5jj+uKDD/BpXi5BU8u4PPZwDaOzPMzS3s=' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            _react2.default.createElement(
+	                                'label',
+	                                { htmlFor: 'character_name' },
+	                                'Character Name'
+	                            ),
+	                            _react2.default.createElement('input', { id: 'character_name', name: 'character[name]', size: '30', type: 'text' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            _react2.default.createElement(
+	                                'label',
+	                                { htmlFor: 'character_realm' },
+	                                'Realm'
+	                            ),
+	                            _react2.default.createElement('input', { id: 'character_realm', name: 'character[realm]', size: '30', type: 'text' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            _react2.default.createElement(
+	                                'label',
+	                                { htmlFor: 'character_region' },
+	                                'Region'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'regions' },
+	                                _react2.default.createElement(
+	                                    'label',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_us', name: 'character[region]', type: 'radio', value: 'US' }),
+	                                    '  US'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'label',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_eu', name: 'character[region]', type: 'radio', value: 'EU' }),
+	                                    ' EU'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'label',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_kr', name: 'character[region]', type: 'radio', value: 'KR' }),
+	                                    ' KR'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'label',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_tw', name: 'character[region]', type: 'radio', value: 'TW' }),
+	                                    ' TW'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'label',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_cn', name: 'character[region]', type: 'radio', value: 'CN' }),
+	                                    ' CN'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'level',
+	                                    null,
+	                                    _react2.default.createElement('input', { id: 'character_region_sea', name: 'character[region]', type: 'radio', value: 'SEA' }),
+	                                    ' SEA'
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'submit' },
+	                            _react2.default.createElement('input', { name: 'commit', type: 'submit', value: 'Begin' })
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
 
 /***/ }
 /******/ ]);

@@ -1,4 +1,6 @@
+import CharacterPane from './CharacterPane';
 import CharacterInput from './CharacterInput';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
