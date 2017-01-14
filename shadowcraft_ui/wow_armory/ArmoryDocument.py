@@ -4,6 +4,8 @@ import re
 import os
 import requests
 
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'
+
 class ArmoryException(Exception):
     error_msg = ''
     def __init(self, msg):
@@ -30,14 +32,14 @@ def get(region, path, params=None):
     # TODO
     params['apikey'] = os.environ['BLIZZARD_API_KEY']
     url = 'https://%s%s' % (host, path)
-    headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
+    headers = {'user-agent': USER_AGENT}
 
     tries = 0
     while tries < 3:
         try:
             resp = requests.get(url, params=params, timeout=7, headers=headers)
             if resp.status_code >= 400 and resp.status_code < 500:
-                raise ArmoryMissingDocument('Armory returned %d' % resp.status_code)
+                raise MissingDocument('Armory returned %d' % resp.status_code)
             elif resp.status_code >= 500:
                 raise ArmoryError('Armory returned %d' % resp.status_code)
 

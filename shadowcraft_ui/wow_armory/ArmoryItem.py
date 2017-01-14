@@ -1,8 +1,8 @@
 import csv
 import re
 import copy
-import ArmoryConstants
-import ArmoryDocument
+from . import ArmoryConstants
+from . import ArmoryDocument
 
 class ArmoryItem(object):
 
@@ -98,8 +98,8 @@ class ArmoryItem(object):
 
     def __iter__(self):
         data = self.as_json()
-        for k, v in data.items():
-            yield(k, v)
+        for slot, item in data.items():
+            yield(slot, item)
 
     # This method takes a string like "+4 Critical Strike" and turns it into a
     # hash of two values. The values are the attribute being modified and the

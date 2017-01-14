@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import csv
+from . import ArmoryDocument
+from . import ArmoryConstants
 
 class ArmoryCharacter(object):
 
@@ -36,21 +38,21 @@ class ArmoryCharacter(object):
         if 'items' not in json_data or len(json_data['items']) == 0:
             raise ArmoryDocument.ArmoryError('No items found on character')
 
-        for k, v in json_data['items'].items():
-            if not isinstance(v, dict):
+        for slot, slot_item in json_data['items'].items():
+            if not isinstance(slot_item, dict):
                 continue
-            if k not in ArmoryConstants.SLOT_MAP:
+            if slot not in ArmoryConstants.SLOT_MAP:
                 continue
 
-            tooltip = v['tooltipParams'] if 'tooltipParams' in v else {}
+            tooltip = slot_item['tooltipParams'] if 'tooltipParams' in slot_item else {}
             info = {
-                'id': v['id'],
-                'item_level': v['itemLevel'],
+                'id': slot_item['id'],
+                'item_level': slot_item['itemLevel'],
                 'gems': [],
-                'slot': ArmoryConstants.SLOT_MAP[k],
-                'bonuses': v['bonusLists'],
-                'context': v['context'],
-                'quality': v['quality'],
+                'slot': ArmoryConstants.SLOT_MAP[slot],
+                'bonuses': slot_item['bonusLists'],
+                'context': slot_item['context'],
+                'quality': slot_item['quality'],
             }
 
             info['enchant'] = tooltip['enchant'] if 'enchant' in tooltip else 0
@@ -110,7 +112,7 @@ class ArmoryCharacter(object):
 
         self.artifact['relics'] = []
         for relic in json_data['items']['mainHand']['relics']:
-            r = {
+            entry = {
                 'socket': relic['socket'],
                 'id': relic['itemId'],
                 'bonuses': relic['bonusLists'],
@@ -121,8 +123,8 @@ class ArmoryCharacter(object):
             try:
                 params = {'bl': ','.join(map(str, relic['bonusLists']))}
                 relic_json = ArmoryDocument.get(region, '/wow/item/%d' % relic['itemId'], params)
-                r['ilvl'] = relic_json['itemLevel']
-                self.artifact['relics'].append(r)
+                entry['ilvl'] = relic_json['itemLevel']
+                self.artifact['relics'].append(entry)
             except ArmoryDocument.MissingDocument:
                 print("Failed to retrieve extra relic data")
 
@@ -146,8 +148,8 @@ class ArmoryCharacter(object):
 
     def __iter__(self):
         data = self.as_json()
-        for k, v in data.items():
-            yield(k, v)
+        for slot, item in data.items():
+            yield(slot, item)
 
     # Maps the a trait ID from the artifact data to a spell ID using the DBC data
     # from the Blizzard CDN
@@ -163,7 +165,7 @@ class ArmoryCharacter(object):
                 next(reader) # Skip the first row with the header
                 for row in reader:
                     ArmoryCharacter.artifact_ids[int(row[3])] = int(row[1])
-                    
+
         return ArmoryCharacter.artifact_ids[trait_id] if trait_id in ArmoryCharacter.artifact_ids else 0
 
 def test_character():
