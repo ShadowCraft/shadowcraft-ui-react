@@ -76,7 +76,7 @@ def get_sha(db, char_data):
 
     return {}
 
-def init(db):
+def init_db(db):
     db.characters.create_index([("region", pymongo.ASCENDING),
                                 ("realm", pymongo.ASCENDING),
                                 ("name", pymongo.ASCENDING)], unique=True)
