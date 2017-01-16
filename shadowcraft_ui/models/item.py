@@ -3,7 +3,7 @@ import requests
 import pymongo
 from pymongo import MongoClient
 from bson.json_util import dumps
-from wow_armory import ArmoryDocument
+from ..wow_armory import ArmoryDocument
 
 def get_items_by_slot(db, slot, min_ilvl=-1, max_ilvl=-1):
     query = {'properties.equip_location': slot}
