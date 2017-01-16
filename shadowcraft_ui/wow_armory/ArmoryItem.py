@@ -23,7 +23,9 @@ class ArmoryItem(object):
     def populate_data(self, json_data):
         self.quality = json_data['quality']
         self.equip_location = json_data['inventoryType']
-        self.icon = json_data['icon']
+        self.icon = json_data.get('icon','')
+        if self.icon == '':
+            print('##### Item %d/%s has a blank icon' % (self.item_id, json_data['context']))
 
         # Tag is the header text on an item that has a description, such as
         # 'warforged' or 'heroic'. This field is used in the display of items.
@@ -39,6 +41,8 @@ class ArmoryItem(object):
             self.tag = ''
         elif json_data['context'] == 'raid-finder':
             self.tag = 'Raid Finder'
+        else:
+            self.tag = ''
 
         # If this item is a gem or an armor item, save some additional information about it.
         if json_data['itemClass'] == 3:
