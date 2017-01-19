@@ -61,15 +61,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(161);
+	var _reactDom = __webpack_require__(166);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _base = __webpack_require__(162);
+	var _base = __webpack_require__(167);
 
 	var _base2 = _interopRequireDefault(_base);
 
-	var _screenCss = __webpack_require__(163);
+	var _screenCss = __webpack_require__(168);
 
 	var _screenCss2 = _interopRequireDefault(_screenCss);
 
@@ -85,7 +85,7 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -100,6 +100,26 @@
 	var _GearPane = __webpack_require__(160);
 
 	var _GearPane2 = _interopRequireDefault(_GearPane);
+
+	var _TalentPane = __webpack_require__(161);
+
+	var _TalentPane2 = _interopRequireDefault(_TalentPane);
+
+	var _ArtifactPane = __webpack_require__(162);
+
+	var _ArtifactPane2 = _interopRequireDefault(_ArtifactPane);
+
+	var _SettingsPane = __webpack_require__(163);
+
+	var _SettingsPane2 = _interopRequireDefault(_SettingsPane);
+
+	var _AdvancedPane = __webpack_require__(164);
+
+	var _AdvancedPane2 = _interopRequireDefault(_AdvancedPane);
+
+	var _DocsPane = __webpack_require__(165);
+
+	var _DocsPane2 = _interopRequireDefault(_DocsPane);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -119,334 +139,334 @@
 	    }
 
 	    _createClass(CharacterPane, [{
-	        key: "render",
+	        key: 'render',
 
 	        // hold on to your butts
 	        value: function render() {
 	            return _react2.default.createElement(
-	                "div",
+	                'div',
 	                null,
 	                _react2.default.createElement(
-	                    "div",
-	                    { className: "characters-show", id: "container" },
+	                    'div',
+	                    { className: 'characters-show', id: 'container' },
 	                    _react2.default.createElement(
-	                        "div",
-	                        { id: "curtain" },
+	                        'div',
+	                        { id: 'curtain' },
 	                        _react2.default.createElement(
-	                            "ul",
-	                            { className: "dropdownMenu", id: "settingsDropdownMenu", style: { display: 'none' } },
+	                            'ul',
+	                            { className: 'dropdownMenu', id: 'settingsDropdownMenu', style: { display: 'none' } },
 	                            _react2.default.createElement(
-	                                "li",
+	                                'li',
 	                                null,
 	                                _react2.default.createElement(
-	                                    "a",
-	                                    { href: "/us/hyjal/aeriwen/refresh", className: "showWait", "data-method": "put", rel: "nofollow" },
-	                                    "Refresh from armory"
+	                                    'a',
+	                                    { href: '/us/hyjal/aeriwen/refresh', className: 'showWait', 'data-method': 'put', rel: 'nofollow' },
+	                                    'Refresh from armory'
 	                                )
 	                            ),
 	                            _react2.default.createElement(
-	                                "li",
+	                                'li',
 	                                null,
 	                                _react2.default.createElement(
-	                                    "a",
-	                                    { href: "/us/hyjal/aeriwen#reload", className: "showWait", "data-method": "get" },
-	                                    "Reset to last Armory import"
+	                                    'a',
+	                                    { href: '/us/hyjal/aeriwen#reload', className: 'showWait', 'data-method': 'get' },
+	                                    'Reset to last Armory import'
 	                                )
 	                            ),
 	                            _react2.default.createElement(
-	                                "li",
+	                                'li',
 	                                null,
 	                                _react2.default.createElement(
-	                                    "a",
-	                                    { href: "#", "data-method": "get", id: "reloadAllData" },
-	                                    "Clear all saved data"
+	                                    'a',
+	                                    { href: '#', 'data-method': 'get', id: 'reloadAllData' },
+	                                    'Clear all saved data'
 	                                )
 	                            ),
 	                            _react2.default.createElement(
-	                                "li",
+	                                'li',
 	                                null,
 	                                _react2.default.createElement(
-	                                    "a",
-	                                    { href: "#", "data-method": "get", id: "menuSaveSnapshot" },
-	                                    "Save snapshot"
+	                                    'a',
+	                                    { href: '#', 'data-method': 'get', id: 'menuSaveSnapshot' },
+	                                    'Save snapshot'
 	                                )
 	                            ),
 	                            _react2.default.createElement(
-	                                "li",
+	                                'li',
 	                                null,
 	                                _react2.default.createElement(
-	                                    "a",
-	                                    { href: "#", "data-method": "get", id: "menuLoadSnapshot" },
-	                                    "Load snapshot"
+	                                    'a',
+	                                    { href: '#', 'data-method': 'get', id: 'menuLoadSnapshot' },
+	                                    'Load snapshot'
 	                                )
 	                            ),
 	                            _react2.default.createElement(
-	                                "li",
+	                                'li',
 	                                null,
 	                                _react2.default.createElement(
-	                                    "a",
-	                                    { href: "#", "data-method": "get", id: "menuGetDebugURL" },
-	                                    "Get Debug URL"
+	                                    'a',
+	                                    { href: '#', 'data-method': 'get', id: 'menuGetDebugURL' },
+	                                    'Get Debug URL'
 	                                )
 	                            )
 	                        ),
 	                        _react2.default.createElement(
-	                            "div",
-	                            { id: "tabs", className: "ui-tabs ui-widget ui-widget-content ui-corner-all" },
+	                            'div',
+	                            { id: 'tabs', className: 'ui-tabs ui-widget ui-widget-content ui-corner-all' },
 	                            _react2.default.createElement(
-	                                "div",
-	                                { id: "top-pane" },
-	                                _react2.default.createElement("a", { href: "/", id: "logo" }),
+	                                'div',
+	                                { id: 'top-pane' },
+	                                _react2.default.createElement('a', { href: '/', id: 'logo' }),
 	                                _react2.default.createElement(
-	                                    "ul",
-	                                    { className: "ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" },
+	                                    'ul',
+	                                    { className: 'ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all' },
 	                                    _react2.default.createElement(
-	                                        "li",
-	                                        { className: "ui-state-default ui-corner-top ui-tabs-selected ui-state-active" },
+	                                        'li',
+	                                        { className: 'ui-state-default ui-corner-top ui-tabs-selected ui-state-active' },
 	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { href: "#gear" },
-	                                            "Gear"
+	                                            'a',
+	                                            { href: '#gear' },
+	                                            'Gear'
 	                                        )
 	                                    ),
 	                                    _react2.default.createElement(
-	                                        "li",
-	                                        { className: "ui-state-default ui-corner-top" },
+	                                        'li',
+	                                        { className: 'ui-state-default ui-corner-top' },
 	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { href: "#talents" },
-	                                            "Talents"
+	                                            'a',
+	                                            { href: '#talents' },
+	                                            'Talents'
 	                                        )
 	                                    ),
 	                                    _react2.default.createElement(
-	                                        "li",
-	                                        { className: "ui-state-default ui-corner-top" },
+	                                        'li',
+	                                        { className: 'ui-state-default ui-corner-top' },
 	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { href: "#artifact" },
-	                                            "Artifact"
+	                                            'a',
+	                                            { href: '#artifact' },
+	                                            'Artifact'
 	                                        )
 	                                    ),
 	                                    _react2.default.createElement(
-	                                        "li",
-	                                        { className: "ui-state-default ui-corner-top" },
+	                                        'li',
+	                                        { className: 'ui-state-default ui-corner-top' },
 	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { href: "#settings" },
-	                                            "Settings"
+	                                            'a',
+	                                            { href: '#settings' },
+	                                            'Settings'
 	                                        )
 	                                    ),
 	                                    _react2.default.createElement(
-	                                        "li",
-	                                        { className: "ui-state-default ui-corner-top" },
+	                                        'li',
+	                                        { className: 'ui-state-default ui-corner-top' },
 	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { href: "#advanced" },
-	                                            "Advanced"
+	                                            'a',
+	                                            { href: '#advanced' },
+	                                            'Advanced'
 	                                        )
 	                                    ),
 	                                    _react2.default.createElement(
-	                                        "li",
-	                                        { className: "ui-state-default ui-corner-top" },
+	                                        'li',
+	                                        { className: 'ui-state-default ui-corner-top' },
 	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { href: "#docs" },
-	                                            "Documentation"
+	                                            'a',
+	                                            { href: '#docs' },
+	                                            'Documentation'
 	                                        )
 	                                    )
 	                                ),
 	                                _react2.default.createElement(
-	                                    "a",
-	                                    { className: "dropdown", "data-menu": "settingsDropdownMenu", href: "#", id: "settingsDropdown" },
-	                                    _react2.default.createElement("img", { alt: "Cog", src: "/static/images/cog.png" })
+	                                    'a',
+	                                    { className: 'dropdown', 'data-menu': 'settingsDropdownMenu', href: '#', id: 'settingsDropdown' },
+	                                    _react2.default.createElement('img', { alt: 'Cog', src: '/static/images/cog.png' })
 	                                )
 	                            ),
 	                            _react2.default.createElement(_GearPane2.default, null),
-	                            _react2.default.createElement(TalentPane, null),
-	                            _react2.default.createElement(ArtifactPane, null),
-	                            _react2.default.createElement(SettingsPane, null),
-	                            _react2.default.createElement(AdvancedPane, null),
-	                            _react2.default.createElement(DocsPane, null),
+	                            _react2.default.createElement(_TalentPane2.default, null),
+	                            _react2.default.createElement(_ArtifactPane2.default, null),
+	                            _react2.default.createElement(_SettingsPane2.default, null),
+	                            _react2.default.createElement(_AdvancedPane2.default, null),
+	                            _react2.default.createElement(_DocsPane2.default, null),
 	                            _react2.default.createElement(
-	                                "div",
-	                                { id: "console-footer", className: "awin-medium" },
+	                                'div',
+	                                { id: 'console-footer', className: 'awin-medium' },
 	                                _react2.default.createElement(
-	                                    "a",
-	                                    { className: "human", href: "http://us.battle.net/wow/en/character/hyjal/aeriwen/advanced", id: "card", target: "_blank" },
+	                                    'a',
+	                                    { className: 'human', href: 'http://us.battle.net/wow/en/character/hyjal/aeriwen/advanced', id: 'card', target: '_blank' },
 	                                    _react2.default.createElement(
-	                                        "div",
-	                                        { className: "img" },
-	                                        _react2.default.createElement("img", { src: "http://us.battle.net/static-render/us/hyjal/156/113885852-avatar.jpg" })
+	                                        'div',
+	                                        { className: 'img' },
+	                                        _react2.default.createElement('img', { src: 'http://us.battle.net/static-render/us/hyjal/156/113885852-avatar.jpg' })
 	                                    ),
 	                                    _react2.default.createElement(
-	                                        "span",
-	                                        { className: "info" },
+	                                        'span',
+	                                        { className: 'info' },
 	                                        _react2.default.createElement(
-	                                            "span",
-	                                            { className: "name" },
-	                                            "                                            Aeriwen"
+	                                            'span',
+	                                            { className: 'name' },
+	                                            '                                            Aeriwen'
 	                                        ),
 	                                        _react2.default.createElement(
-	                                            "span",
-	                                            { className: "realm" },
-	                                            "                                            Hyjal-US"
+	                                            'span',
+	                                            { className: 'realm' },
+	                                            '                                            Hyjal-US'
 	                                        )
 	                                    )
 	                                ),
 	                                _react2.default.createElement(
-	                                    "div",
-	                                    { id: "dps" },
+	                                    'div',
+	                                    { id: 'dps' },
 	                                    _react2.default.createElement(
-	                                        "div",
-	                                        { className: "inner" },
-	                                        "251226.8 DPS"
+	                                        'div',
+	                                        { className: 'inner' },
+	                                        '251226.8 DPS'
 	                                    )
 	                                ),
 	                                _react2.default.createElement(
-	                                    "div",
-	                                    { id: "dpsgraph", style: { position: 'relative' } },
-	                                    _react2.default.createElement("canvas", { width: "352", height: "120" }),
-	                                    _react2.default.createElement("canvas", { width: "352", height: "120", style: { position: 'absolute', left: 0, top: 0 } }),
+	                                    'div',
+	                                    { id: 'dpsgraph', style: { position: 'relative' } },
+	                                    _react2.default.createElement('canvas', { width: '352', height: '120' }),
+	                                    _react2.default.createElement('canvas', { width: '352', height: '120', style: { position: 'absolute', left: 0, top: 0 } }),
 	                                    _react2.default.createElement(
-	                                        "div",
-	                                        { className: "tickLabels", style: { fontSize: 'smaller' } },
+	                                        'div',
+	                                        { className: 'tickLabels', style: { fontSize: 'smaller' } },
 	                                        _react2.default.createElement(
-	                                            "div",
-	                                            { className: "xAxis x1Axis", style: { color: '#545454' } },
+	                                            'div',
+	                                            { className: 'xAxis x1Axis', style: { color: '#545454' } },
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "tickLabel", style: { position: 'absolute', textAlign: 'center', left: 30, top: 108, width: 70 } },
-	                                                "-1.0"
+	                                                'div',
+	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'center', left: 30, top: 108, width: 70 } },
+	                                                '-1.0'
 	                                            ),
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "tickLabel", style: { position: 'absolute', textAlign: 'center', left: 100, top: 108, width: 70 } },
-	                                                "-0.5"
+	                                                'div',
+	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'center', left: 100, top: 108, width: 70 } },
+	                                                '-0.5'
 	                                            ),
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "tickLabel", style: { position: 'absolute', textAlign: 'center', left: 170, top: 108, width: 70 } },
-	                                                "0.0"
+	                                                'div',
+	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'center', left: 170, top: 108, width: 70 } },
+	                                                '0.0'
 	                                            ),
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "tickLabel", style: { position: 'absolute', textAlign: 'center', left: 239, top: 108, width: 70 } },
-	                                                "0.5"
+	                                                'div',
+	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'center', left: 239, top: 108, width: 70 } },
+	                                                '0.5'
 	                                            ),
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "tickLabel", style: { position: 'absolute', textAlign: 'center', left: 309, top: 108, width: 70 } },
-	                                                "1.0"
+	                                                'div',
+	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'center', left: 309, top: 108, width: 70 } },
+	                                                '1.0'
 	                                            )
 	                                        ),
 	                                        _react2.default.createElement(
-	                                            "div",
-	                                            { className: "yAxis y1Axis", style: { color: '#545454' } },
+	                                            'div',
+	                                            { className: 'yAxis y1Axis', style: { color: '#545454' } },
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "tickLabel", style: { position: 'absolute', textAlign: 'right', top: 76, right: 294, width: 58 } },
-	                                                "251226.790"
+	                                                'div',
+	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 76, right: 294, width: 58 } },
+	                                                '251226.790'
 	                                            ),
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "tickLabel", style: { position: 'absolute', textAlign: 'right', top: 58, right: 294, width: 58 } },
-	                                                "251226.795"
+	                                                'div',
+	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 58, right: 294, width: 58 } },
+	                                                '251226.795'
 	                                            ),
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "tickLabel", style: { position: 'absolute', textAlign: 'right', top: 39, right: 294, width: 58 } },
-	                                                "251226.800"
+	                                                'div',
+	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 39, right: 294, width: 58 } },
+	                                                '251226.800'
 	                                            ),
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "tickLabel", style: { position: 'absolute', textAlign: 'right', top: 21, right: 294, width: 58 } },
-	                                                "251226.805"
+	                                                'div',
+	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 21, right: 294, width: 58 } },
+	                                                '251226.805'
 	                                            ),
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "tickLabel", style: { position: 'absolute', textAlign: 'right', top: 2, right: 294, width: 58 } },
-	                                                "251226.810"
+	                                                'div',
+	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 2, right: 294, width: 58 } },
+	                                                '251226.810'
 	                                            ),
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "tickLabel", style: { position: 'absolute', textAlign: 'right', top: 95, right: 294, width: 58 } },
-	                                                "251226.785"
+	                                                'div',
+	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 95, right: 294, width: 58 } },
+	                                                '251226.785'
 	                                            )
 	                                        )
 	                                    )
 	                                ),
 	                                _react2.default.createElement(
-	                                    "div",
-	                                    { id: "logs" },
+	                                    'div',
+	                                    { id: 'logs' },
 	                                    _react2.default.createElement(
-	                                        "section",
+	                                        'section',
 	                                        null,
 	                                        _react2.default.createElement(
-	                                            "div",
-	                                            { className: "window", id: "console", style: { display: 'block' } },
+	                                            'div',
+	                                            { className: 'window', id: 'console', style: { display: 'block' } },
 	                                            _react2.default.createElement(
-	                                                "h3",
+	                                                'h3',
 	                                                null,
-	                                                "Notices"
+	                                                'Notices'
 	                                            ),
 	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "inner" },
+	                                                'div',
+	                                                { className: 'inner' },
 	                                                _react2.default.createElement(
-	                                                    "div",
-	                                                    { className: "log items warning", id: "warn" },
-	                                                    " ",
+	                                                    'div',
+	                                                    { className: 'log items warning', id: 'warn' },
+	                                                    ' ',
 	                                                    _react2.default.createElement(
-	                                                        "span",
-	                                                        { className: "quality-4" },
-	                                                        " Stormcharged Choker "
+	                                                        'span',
+	                                                        { className: 'quality-4' },
+	                                                        ' Stormcharged Choker '
 	                                                    ),
-	                                                    " needs an enchantment "
+	                                                    ' needs an enchantment '
 	                                                )
 	                                            )
 	                                        )
 	                                    ),
 	                                    _react2.default.createElement(
-	                                        "section",
+	                                        'section',
 	                                        null,
 	                                        _react2.default.createElement(
-	                                            "div",
-	                                            { className: "window", id: "log" },
+	                                            'div',
+	                                            { className: 'window', id: 'log' },
 	                                            _react2.default.createElement(
-	                                                "h3",
+	                                                'h3',
 	                                                null,
-	                                                "Log"
+	                                                'Log'
 	                                            ),
-	                                            _react2.default.createElement("div", { className: "inner" })
+	                                            _react2.default.createElement('div', { className: 'inner' })
 	                                        )
 	                                    )
 	                                )
 	                            )
 	                        ),
 	                        _react2.default.createElement(
-	                            "div",
-	                            { id: "dialogs" },
+	                            'div',
+	                            { id: 'dialogs' },
 	                            _react2.default.createElement(
-	                                "div",
-	                                { id: "saveSnapshot", title: "Save Snapshot" },
+	                                'div',
+	                                { id: 'saveSnapshot', title: 'Save Snapshot' },
 	                                _react2.default.createElement(
-	                                    "label",
+	                                    'label',
 	                                    null,
-	                                    "                                    Enter a name for this snapshot:"
+	                                    '                                    Enter a name for this snapshot:'
 	                                ),
-	                                _react2.default.createElement("input", { id: "snapshotName", type: "text" })
+	                                _react2.default.createElement('input', { id: 'snapshotName', type: 'text' })
 	                            ),
-	                            _react2.default.createElement("div", { id: "loadSnapshot", title: "Load Snapshot" }),
-	                            _react2.default.createElement("div", { id: "generalDialog" })
+	                            _react2.default.createElement('div', { id: 'loadSnapshot', title: 'Load Snapshot' }),
+	                            _react2.default.createElement('div', { id: 'generalDialog' })
 	                        )
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    "div",
-	                    { id: "wait", style: { display: 'none' } },
-	                    _react2.default.createElement("div", { id: "waitMsg" })
+	                    'div',
+	                    { id: 'wait', style: { display: 'none' } },
+	                    _react2.default.createElement('div', { id: 'waitMsg' })
 	                ),
-	                _react2.default.createElement("div", { id: "modal", style: { display: 'none' } })
+	                _react2.default.createElement('div', { id: 'modal', style: { display: 'none' } })
 	            );
 	        }
 	    }]);
@@ -21466,19 +21486,3224 @@
 /* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TalentPane = function (_React$Component) {
+	    _inherits(TalentPane, _React$Component);
+
+	    function TalentPane() {
+	        _classCallCheck(this, TalentPane);
+
+	        return _possibleConstructorReturn(this, (TalentPane.__proto__ || Object.getPrototypeOf(TalentPane)).apply(this, arguments));
+	    }
+
+	    _createClass(TalentPane, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "with-tools ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide", id: "talents" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "panel-tools" },
+	                    _react2.default.createElement(
+	                        "section",
+	                        null,
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "Talent Sets"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "inner", id: "talentsets" },
+	                            _react2.default.createElement(
+	                                "button",
+	                                { className: "talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only", "data-spec": "a", "data-talents": "1002000", role: "button", "aria-disabled": "false" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "ui-button-text" },
+	                                    "Imported Assassination"
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "button",
+	                                { className: "talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only", "data-spec": "Z", "data-talents": "1002111", role: "button", "aria-disabled": "false" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "ui-button-text" },
+	                                    "Imported Outlaw"
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "button",
+	                                { className: "talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only", "data-spec": "b", "data-talents": "0120221", role: "button", "aria-disabled": "false" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "ui-button-text" },
+	                                    "Imported Subtlety"
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "button",
+	                                { className: "talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only", "data-spec": "a", "data-talents": "2211021", role: "button", "aria-disabled": "false" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "ui-button-text" },
+	                                    "Stock Assassination"
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "button",
+	                                { className: "talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only", "data-spec": "Z", "data-talents": "2211011", role: "button", "aria-disabled": "false" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "ui-button-text" },
+	                                    "Stock Outlaw"
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "button",
+	                                { className: "talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only", "data-spec": "b", "data-talents": "1210011", role: "button", "aria-disabled": "false" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "ui-button-text" },
+	                                    "Stock Subtlety"
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "section",
+	                        { id: "talentrankings" },
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "Talent Rankings"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "inner" },
+	                            _react2.default.createElement(
+	                                "h3",
+	                                null,
+	                                "Tier 15"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "Tier15" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "100.01000065734401", id: "talent-weight-hemorrhage" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Hemorrhage"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "22367.17"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '100.01%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "87.32520406193045", id: "talent-weight-elaborate_planning" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Elaborate Planning"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "19529.94"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '87.3252%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "64.43522721794456", id: "talent-weight-master_poisoner" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Master Poisoner"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "14410.1"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '64.4352%' } })
+	                                    )
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "h3",
+	                                null,
+	                                "Tier 30"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "Tier30" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "", id: "talent-weight-nightstalker" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Nightstalker"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "", id: "talent-weight-subterfuge" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Subterfuge"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "", id: "talent-weight-shadow_focus" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Shadow Focus"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '%' } })
+	                                    )
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "h3",
+	                                null,
+	                                "Tier 45"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "Tier45" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "100.00998538243374", id: "talent-weight-deeper_strategem" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Deeper Strategem"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "12215.65"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '100.01%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "59.907499768343705", id: "talent-weight-vigor" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Vigor"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "7316.87"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '59.9075%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "45.50335637200254", id: "talent-weight-anticipation" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Anticipation"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "5557.31"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '45.5034%' } })
+	                                    )
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "h3",
+	                                null,
+	                                "Tier 60"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "Tier60" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "", id: "talent-weight-leeching_poison" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Leeching Poison"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "", id: "talent-weight-cheat_death" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Cheat Death"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "", id: "talent-weight-elusiveness" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Elusiveness"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '%' } })
+	                                    )
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "h3",
+	                                null,
+	                                "Tier 75"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "Tier75" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "", id: "talent-weight-prey_on_the_weak" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Prey on the Weak"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "", id: "talent-weight-thuggee" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Thuggee"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "", id: "talent-weight-internal_bleeding" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Internal Bleeding"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '%' } })
+	                                    )
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "h3",
+	                                null,
+	                                "Tier 90"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "Tier90" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "100.00999394581173", id: "talent-weight-exsanguinate" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Exsanguinate"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "42383.59"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '100.01%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "94.86991527832161", id: "talent-weight-alacrity" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Alacrity"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "40205.04"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '94.8699%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "70.38572370384684", id: "talent-weight-agonizing_poison" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Agonizing Poison"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "29827.76"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '70.3857%' } })
+	                                    )
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "h3",
+	                                null,
+	                                "Tier 100"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "Tier100" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "100.01003138892773", id: "talent-weight-venom_rush" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Venom Rush"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "12107.6"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '100.01%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "80.57479452426904", id: "talent-weight-death_from_above" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Death from Above"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "9754.46"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '80.5748%' } })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "talent_contribution", "data-val": "27.37777759504139", id: "talent-weight-marked_for_death" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "name" },
+	                                        "Marked for Death"
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "pct" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "label" },
+	                                            "3313.58"
+	                                        ),
+	                                        _react2.default.createElement("div", { className: "pct-inner", style: { width: '27.3778%' } })
+	                                    )
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "h3",
+	                                null,
+	                                "Tier 110"
+	                            ),
+	                            _react2.default.createElement("div", { className: "Tier110" })
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "panel-content" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { id: "specactive" },
+	                        _react2.default.createElement("span", { className: "spec-icon", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/medium/ability_rogue_eviscerate.jpg)' } }),
+	                        " ",
+	                        _react2.default.createElement(
+	                            "span",
+	                            { className: "spec-name" },
+	                            "Assassination"
+	                        ),
+	                        " "
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { id: "talentframe" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "tiers" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level row-level-0" },
+	                                "15"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level row-level-1" },
+	                                "30"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level row-level-2" },
+	                                "45"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level row-level-3" },
+	                                "60"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level row-level-4" },
+	                                "75"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level row-level-5" },
+	                                "90"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level row-level-6" },
+	                                "100"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "tree" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-0 row-0 talent tt", "data-tooltip-id": "196864", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_creature_poison_06.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-1 row-0 talent tt active", "data-tooltip-id": "193640", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/inv_misc_map08.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-2 row-0 talent tt", "data-tooltip-id": "16511", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/spell_shadow_lifedrain.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-0 row-1 talent tt active", "data-tooltip-id": "14062", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-1 row-1 talent tt", "data-tooltip-id": "108208", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/rogue_subterfuge.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-2 row-1 talent tt", "data-tooltip-id": "108209", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/rogue_shadowfocus.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-0 row-2 talent tt active", "data-tooltip-id": "193531", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/archaeology_5_0_changkiboard.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-1 row-2 talent tt", "data-tooltip-id": "114015", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_slaughterfromtheshadows.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-2 row-2 talent tt", "data-tooltip-id": "14983", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_vigor.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-0 row-3 talent tt", "data-tooltip-id": "108211", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/rogue_leeching_poison.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-1 row-3 talent tt", "data-tooltip-id": "79008", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_turnthetables.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-2 row-3 talent tt active", "data-tooltip-id": "31230", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_cheatdeath.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-0 row-4 talent tt active", "data-tooltip-id": "196861", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/inv_misc_bandana_03.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-1 row-4 talent tt", "data-tooltip-id": "131511", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_preyontheweak.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-2 row-4 talent tt", "data-tooltip-id": "154904", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_bloodsplatter.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-0 row-5 talent tt active", "data-tooltip-id": "200802", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/inv_poison_mindnumbing.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-1 row-5 talent tt", "data-tooltip-id": "193539", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_paladin_speedoflight.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-2 row-5 talent tt", "data-tooltip-id": "200806", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_deathwing_bloodcorruption_earth.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-0 row-6 talent tt active", "data-tooltip-id": "152152", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/rogue_venomzest.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-1 row-6 talent tt", "data-tooltip-id": "137619", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/achievement_bg_killingblow_berserker.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-2 row-6 talent tt", "data-tooltip-id": "152150", "data-tooltip-type": "spell", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/spell_rogue_deathfromabove.jpg)' } },
+	                                _react2.default.createElement("div", { className: "grey" })
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        null,
+	                        _react2.default.createElement(
+	                            "button",
+	                            { id: "reset_talents", className: "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only", role: "button", "aria-disabled": "false" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "ui-button-text" },
+	                                "Reset Talents"
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return TalentPane;
+	}(_react2.default.Component);
+
+	exports.default = TalentPane;
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ArtifactPane = function (_React$Component) {
+	    _inherits(ArtifactPane, _React$Component);
+
+	    function ArtifactPane() {
+	        _classCallCheck(this, ArtifactPane);
+
+	        return _possibleConstructorReturn(this, (ArtifactPane.__proto__ || Object.getPrototypeOf(ArtifactPane)).apply(this, arguments));
+	    }
+
+	    _createClass(ArtifactPane, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "with-tools ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide", id: "artifact" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "panel-tools" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { id: "artifact_button_div" },
+	                        _react2.default.createElement(
+	                            "button",
+	                            { id: "reset_artifact", className: "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only", role: "button", "aria-disabled": "false" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "ui-button-text" },
+	                                "Reset Traits"
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "section",
+	                        null,
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "Trait Rankings"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "inner", id: "traitrankings" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "100.00999224379201", id: "talent-weight-192657" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Bag of Tricks"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "21135.69"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '100.01%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "92.31230234670517", id: "talent-weight-192923" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Blood of the Assassinated"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "19508.73"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '92.3123%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "50.565714865357634", id: "talent-weight-192428" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "From the Shadows"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "10685.3"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '50.5657%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "31.143450053537755", id: "talent-weight-214368" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Assassin's Blades"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "6580.27"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '31.1435%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "22.451801673402745", id: "talent-weight-192759" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Kingsbane"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "4743.23"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '22.4518%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "15.366440921765665", id: "talent-weight-192384" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Urge to Kill"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "3245.69"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '15.3664%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "13.015157564303719", id: "talent-weight-192329" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Gushing Wound"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "2748.73"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '13.0152%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "9.775802961277527", id: "talent-weight-192315" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Serrated Edge"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "2064.07"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '9.7758%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "8.25590947739336", id: "talent-weight-192349" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Master Assassin"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "1742.83"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '8.25591%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "6.439503340554951", id: "talent-weight-214928" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Slayer's Precision"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "1358.92"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '6.4395%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "6.298935430561803", id: "talent-weight-192326" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Balanced Blades"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "1329.21"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '6.29894%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "3.6264891740646887", id: "talent-weight-192424" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Surge of Toxins"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "764.37"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '3.62649%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "3.554525595774693", id: "talent-weight-192376" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Poison Knives"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "749.16"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '3.55453%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "3.4405004651508344", id: "talent-weight-192310" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Toxic Blades"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "725.06"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '3.4405%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "1.7822627978873467", id: "talent-weight-192318" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Master Alchemist"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "374.58"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '1.78226%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "0.01", id: "talent-weight-192323" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Fade into Shadows"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "0"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '0.01%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "0.01", id: "talent-weight-192345" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Shadow Walker"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "0"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '0.01%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "0.01", id: "talent-weight-192422" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Shadow Swiftness"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "0"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '0.01%' } })
+	                                )
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "panel-content" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { id: "artifactactive" },
+	                        _react2.default.createElement("span", { className: "spec-icon", style: { backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/medium/inv_knife_1h_artifactgarona_d_01.jpg)' } }),
+	                        _react2.default.createElement(
+	                            "span",
+	                            { className: "spec-name" },
+	                            "The Kingslayers"
+	                        ),
+	                        _react2.default.createElement(
+	                            "span",
+	                            { className: "power-spent", style: { float: 'right' } },
+	                            "Trait Points Spent: 27"
+	                        )
+	                    ),
+	                    _react2.default.createElement("div", { className: "inner" }),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { id: "artifactframe", style: { backgroundImage: 'url(/static/images/artifacts/kingslayers-bg.jpg)' } },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "relicframe tt", id: "relic1", style: { left: 'calc(50% - 130px)', backgroundImage: 'url(/static/images/artifacts/relic-shadow.png)' }, "relic-type": "Shadow" },
+	                            _react2.default.createElement("img", { className: "relicicon inactive" }),
+	                            " "
+	                        ),
+	                        " ",
+	                        _react2.default.createElement("select", { className: "relicilvl", id: "relic1_ilvls", style: { left: 'calc(50% - 120px)' } }),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "relicframe tt", id: "relic2", style: { left: 'calc(50% - 40px)', backgroundImage: 'url(/static/images/artifacts/relic-iron.png)' }, "relic-type": "Iron" },
+	                            _react2.default.createElement("img", { className: "relicicon inactive" }),
+	                            " "
+	                        ),
+	                        " ",
+	                        _react2.default.createElement("select", { className: "relicilvl", id: "relic2_ilvls", style: { left: 'calc(50% - 30px)' } }),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "relicframe tt", id: "relic3", style: { left: 'calc(50% + 50px)', backgroundImage: 'url(/static/images/artifacts/relic-blood.png)' }, "relic-type": "Blood" },
+	                            _react2.default.createElement("img", { className: "relicicon inactive" }),
+	                            " "
+	                        ),
+	                        " ",
+	                        _react2.default.createElement("select", { className: "relicilvl", id: "relic3_ilvls", style: { left: 'calc(50% + 60px)' } }),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "214368", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_assassinsblades", max_level: "1", style: { left: '47.917%', top: '34.634%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "ability_rogue_shadowstrikes", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/ability_rogue_shadowstrikes.jpg" }),
+	                            " ",
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "1/1"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192657", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_bagoftricks", max_level: "1", style: { left: '8.472%', top: '34.146%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "rogue_paralytic_poison", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/rogue_paralytic_poison.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-dragon", className: "ring", src: "/static/images/artifacts/ring-dragon.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "1/1"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192326", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_balancedblades", max_level: "3", style: { left: '40.556%', top: '54.472%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "ability_rogue_restlessblades", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/ability_rogue_restlessblades.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "2/3"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192323", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_embrace", max_level: "3", style: { left: '16.944%', top: '69.106%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "spell_shadow_nethercloak", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/spell_shadow_nethercloak.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "0/3"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192923", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_fadeintoshadows", max_level: "1", style: { left: '8.472%', top: '82.439%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "inv_artifact_bloodoftheassassinated", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/inv_artifact_bloodoftheassassinated.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-dragon", className: "ring", src: "/static/images/artifacts/ring-dragon.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "1/1"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192428", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_fromtheshadows", max_level: "1", style: { left: '69.861%', top: '24.553%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "ability_rogue_deadlybrew", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/ability_rogue_deadlybrew.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-dragon", className: "ring", src: "/static/images/artifacts/ring-dragon.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "1/1"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192329", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_gushingwound", max_level: "3", style: { left: '0.694%', top: '69.593%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "ability_rogue_bloodsplatter", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/ability_rogue_bloodsplatter.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "4/4"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192759", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_kingsbane", max_level: "1", style: { left: '55.139%', top: '27.642%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "inv_knife_1h_artifactgarona_d_01", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/inv_knife_1h_artifactgarona_d_01.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thick", className: "ring", src: "/static/images/artifacts/ring-thick.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "1/1"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192318", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_masteralchemist", max_level: "3", style: { left: '2.917%', top: '51.057%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "trade_brewpoison", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/trade_brewpoison.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "3/3"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192349", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_masterassassin", max_level: "3", style: { left: '18.889%', top: '51.707%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "ability_rogue_deadliness", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/ability_rogue_deadliness.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "3/3"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192376", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_poisonknives", max_level: "3", style: { left: '53.75%', top: '56.26%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "ability_rogue_dualweild", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "3/3"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192315", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_serratededge", max_level: "3", style: { left: '70.417%', top: '41.951%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "ability_warrior_bloodbath", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/ability_warrior_bloodbath.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "5/5"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192422", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_shadowswift", max_level: "1", style: { left: '27.639%', top: '57.561%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "rogue_burstofspeed", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/rogue_burstofspeed.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "0/1"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192345", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_shadowwalker", max_level: "3", style: { left: '20.833%', top: '40%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "ability_rogue_sprint", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "0/3"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "214928", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_slayersprecision", max_level: "20", style: { left: '83.056%', top: '19.35%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "inv_knife_1h_artifactgarona_d_02dual", className: "icon inactive", src: "http://wow.zamimg.com/images/wow/icons/large/inv_knife_1h_artifactgarona_d_02dual.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-dragon", className: "ring", src: "/static/images/artifacts/ring-dragon.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level inactive" },
+	                                "0/20"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192424", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_surgeoftoxins", max_level: "1", style: { left: '60.556%', top: '47.805%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "ability_rogue_deviouspoisons", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/ability_rogue_deviouspoisons.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "1/1"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192310", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_toxicblades", max_level: "3", style: { left: '39.444%', top: '38.374%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "ability_rogue_disembowel", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/ability_rogue_disembowel.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "3/3"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "trait tt", "data-tooltip-id": "192384", "data-tooltip-rank": "0", "data-tooltip-type": "spell", id: "ks_urgetokill", max_level: "1", style: { left: '30.278%', top: '40.976%' } },
+	                            _react2.default.createElement("img", { alt: "Relic-blood", className: "relic inactive", src: "/static/images/artifacts/relic-blood.png" }),
+	                            _react2.default.createElement("img", { alt: "ability_rogue_improvedrecuperate", className: "icon", src: "http://wow.zamimg.com/images/wow/icons/large/ability_rogue_improvedrecuperate.jpg" }),
+	                            _react2.default.createElement("img", { alt: "Ring-thin", className: "ring ring-thin", src: "/static/images/artifacts/ring-thin.png" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "level" },
+	                                "1/1"
+	                            )
+	                        ),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192310", spell2: "192384", style: { width: 68, left: '36.389%', top: '46.504%', transform: 'rotate(166.373deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192310", spell2: "192326", style: { width: 99, left: '39.444%', top: '53.171%', transform: 'rotate(85.38deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192310", spell2: "214368", style: { width: 65, left: '45.417%', top: '43.252%', transform: 'rotate(-20.659deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192315", spell2: "192428", style: { width: 107, left: '69.028%', top: '40%    ', transform: 'rotate(-92.141deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192315", spell2: "192424", style: { width: 80, left: '66.111%', top: '51.707%', transform: 'rotate(153.113deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192318", spell2: "192657", style: { width: 111, left: '4.306%', top: '49.431%', transform: 'rotate(-68.962deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192318", spell2: "192349", style: { width: 115, left: '9.167%', top: '58.211%', transform: 'rotate(1.992deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192318", spell2: "192329", style: { width: 115, left: '0.139%', top: '67.154%', transform: 'rotate(97.989deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192323", spell2: "192923", style: { width: 102, left: '11.806%', top: '82.602%', transform: 'rotate(126.646deg)' } }),
+	                        _react2.default.createElement("div", { className: "line inactive", spell1: "192323", spell2: "192422", style: { width: 105, left: '21.25%', top: '70.081%', transform: 'rotate(-42.678deg)' } }),
+	                        _react2.default.createElement("div", { className: "line inactive", spell1: "192326", spell2: "192422", style: { width: 95, left: '33.75%', top: '62.764%', transform: 'rotate(168.453deg) ' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192326", spell2: "192376", style: { width: 96, left: '46.667%', top: '62.114%', transform: 'rotate(6.605deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192329", spell2: "192349", style: { width: 171, left: '4.167%', top: '67.48%', transform: 'rotate(-40.02deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192329", spell2: "192923", style: { width: 97, left: '4.167%', top: '82.764%', transform: 'rotate(54.669deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192345", spell2: "192657", style: { width: 96, left: '14.167%', top: '43.902%', transform: 'rotate(-157.977deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192345", spell2: "192384", style: { width: 68, left: '27.083%', top: '47.317%', transform: 'rotate(5.042deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192349", spell2: "192422", style: { width: 73, left: '24.444%', top: '61.463%', transform: 'rotate(29.745deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192349", spell2: "192384", style: { width: 105, left: '23.611%', top: '53.171%', transform: 'rotate(-38.83deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192376", spell2: "192424", style: { width: 71, left: '58.472%', top: '58.862%', transform: 'rotate(-46.701deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192376", spell2: "214368", style: { width: 139, left: '47.5%', top: '52.195%', transform: 'rotate(-107.526deg)' } }),
+	                        _react2.default.createElement("div", { className: "line", spell1: "192759", spell2: "214368", style: { width: 67, left: '53.194%', top: '37.886%', transform: 'rotate(140.412deg)' } })
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "alternatives popup ui-dialog", id: "artifactpopup" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { id: "filter" },
+	                            _react2.default.createElement("input", { className: "search", placeholder: "Filter...", type: "search" })
+	                        ),
+	                        _react2.default.createElement("div", { className: "body" })
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return ArtifactPane;
+	}(_react2.default.Component);
+
+	exports.default = ArtifactPane;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TalentPane = function (_React$Component) {
+	    _inherits(TalentPane, _React$Component);
+
+	    function TalentPane() {
+	        _classCallCheck(this, TalentPane);
+
+	        return _possibleConstructorReturn(this, (TalentPane.__proto__ || Object.getPrototypeOf(TalentPane)).apply(this, arguments));
+	    }
+
+	    _createClass(TalentPane, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                { id: "settings", className: "ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" },
+	                _react2.default.createElement(
+	                    "section",
+	                    { className: "cluster combat", style: { display: 'none' } },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "option-list" },
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "Combat Rotation Settings"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "settings" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select", htmlFor: "opt-rotation-blade_flurry" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Blade Flurry"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionCheck", "data-ns": "rotation", id: "opt-rotation-blade_flurry", name: "blade_flurry", type: "checkbox", value: "false" }),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "Use Blade Flurry"
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "BtE Policy"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "between_the_eyes_policy", id: "opt-rotation-between_the_eyes_policy", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "shark" },
+	                                            "Only use with Shark"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "always" },
+	                                            "Use BtE on cooldown"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "never" },
+	                                            "Never use BtE"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "RtB Reroll Policy"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "reroll_policy", id: "opt-rotation-reroll_policy", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "1" },
+	                                            "Reroll single buffs"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "2" },
+	                                            "Reroll two or fewer buffs"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "3" },
+	                                            "Reroll three or fewer buffs"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "custom" },
+	                                            "Custom setup per buff (see below)"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Jolly Roger"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "jolly_roger_reroll", id: "opt-rotation-jolly_roger_reroll", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "0" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "1" },
+	                                            "1"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "2" },
+	                                            "2"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "3" },
+	                                            "3"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "0 means never reroll combos with this buff. 1 means reroll singles of this buff. 2 means reroll double-buff rolls containing this buff. 3 means reroll triple-buff rolls containing this buff."
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Grand Melee"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "grand_melee_reroll", id: "opt-rotation-grand_melee_reroll", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "0" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "1" },
+	                                            "1"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "2" },
+	                                            "2"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "3" },
+	                                            "3"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Shark-Infested Waters"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "shark_reroll", id: "opt-rotation-shark_reroll", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "0" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "1" },
+	                                            "1"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "2" },
+	                                            "2"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "3" },
+	                                            "3"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "True Bearing"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "true_bearing_reroll", id: "opt-rotation-true_bearing_reroll", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "0" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "1" },
+	                                            "1"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "2" },
+	                                            "2"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "3" },
+	                                            "3"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Buried Treasure"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "buried_treasure_reroll", id: "opt-rotation-buried_treasure_reroll", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "0" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "1" },
+	                                            "1"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "2" },
+	                                            "2"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "3" },
+	                                            "3"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Broadsides"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "broadsides_reroll", id: "opt-rotation-broadsides_reroll", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "0" },
+	                                            "0"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "1" },
+	                                            "1"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "2" },
+	                                            "2"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "3" },
+	                                            "3"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "section",
+	                    { className: "cluster mutilate", style: { display: 'block' } },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "option-list" },
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "Assassination Rotation Settings"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "settings" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Kingsbane w/ Vendetta"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "kingsbane", id: "opt-rotation-kingsbane", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "just" },
+	                                            "Use cooldown if it aligns, but don't delay usage"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "only" },
+	                                            "Only use cooldown with Vendetta"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Exsang w/ Vendetta"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "exsang", id: "opt-rotation-exsang", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "just" },
+	                                            "Use cooldown if it aligns, but don't delay usage"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "only" },
+	                                            "Only use cooldown with Vendetta"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            " ",
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "CP Builder"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "assn_cp_builder", id: "opt-rotation-assn_cp_builder", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "mutilate" },
+	                                            "Mutilate"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "fan_of_knives" },
+	                                            "Fan of Knives"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Lethal Poison"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "lethal_poison", id: "opt-rotation-lethal_poison", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "dp" },
+	                                            "Deadly Poison"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "wp" },
+	                                            "Wound Poison"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "ap" },
+	                                            "Agonizing Poison"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "section",
+	                    { className: "cluster subtlety", style: { display: 'none' } },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "option-list" },
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "Subtlety Rotation Settings"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "settings" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "CP Builder"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "sub_cp_builder", id: "opt-rotation-sub_cp_builder", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "backstab" },
+	                                            "Backstab"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "shuriken_storm" },
+	                                            "Shuriken Storm"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            " ",
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "SoD Policy"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "symbols_policy", id: "opt-rotation-symbols_policy", "data-ns": "rotation" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "always" },
+	                                            "Use on cooldown"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "just" },
+	                                            "Only use SoD when needed to refresh"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select", htmlFor: "opt-rotation-dance_finishers_allowed" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Use Finishers during Dance"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionCheck", "data-ns": "rotation", id: "opt-rotation-dance_finishers_allowed", name: "dance_finishers_allowed", type: "checkbox", checked: "checked", value: "true" }),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "input" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Backstab uptime"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionInput", "data-ns": "rotation", id: "opt-rotation-positional_uptime", name: "positional_uptime", type: "text" }),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "Percentage of the fight you are behind the target (0-100). This has no effect if Gloomblade is selected as a talent."
+	                                )
+	                            ),
+	                            " ",
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select", htmlFor: "opt-rotation-compute_cp_waste" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Compute CP Waste"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionCheck", "data-ns": "rotation", id: "opt-rotation-compute_cp_waste", name: "compute_cp_waste", type: "checkbox", checked: "checked", value: "true" }),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "EXPERIMENTAL FEATURE: Compute combo point waste"
+	                                )
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "section",
+	                    { className: "cluster" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "option-list" },
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "Raid Buffs"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { id: "playerBuffs" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Food Buff"
+	                                ),
+	                                " ",
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "food_buff", id: "opt-buffs-food_buff", "data-ns": "buffs" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "food_legion_375_crit" },
+	                                            "The Hungry Magister (375 Crit)"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "food_legion_375_haste" },
+	                                            "Azshari Salad (375 Haste)"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "food_legion_375_mastery" },
+	                                            "Nightborne Delicacy Platter (375 Mastery)"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "food_legion_375_versatility" },
+	                                            "Seed-Battered Fish Plate (375 Versatility)"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "food_legion_feast_200" },
+	                                            "Lavish Suramar Feast (200 Agility)"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "food_legion_damage_3" },
+	                                            "Fishbrul Special (High Fire Proc)"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select", htmlFor: "opt-buffs-flask_legion_agi" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Legion Agility Flask"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionCheck", "data-ns": "buffs", id: "opt-buffs-flask_legion_agi", name: "flask_legion_agi", type: "checkbox", value: "false" }),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "Flask of the Seventh Demon (1300 Agility)"
+	                                )
+	                            ),
+	                            " ",
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select", htmlFor: "opt-buffs-short_term_haste_buff" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "+30% Haste/40 sec"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionCheck", "data-ns": "buffs", id: "opt-buffs-short_term_haste_buff", name: "short_term_haste_buff", type: "checkbox", checked: "checked", value: "true" }),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "Heroism/Bloodlust/Time Warp"
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "option-list" },
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "Other"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { id: "raidOther" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Pre-pot"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "prepot", id: "opt-general-prepot", "data-ns": "general" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "potion_old_war" },
+	                                            "Potion of the Old War"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "potion_deadly_grace" },
+	                                            "Potion of Deadly Grace"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "potion_none" },
+	                                            "None"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Combat Potion"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "potion", id: "opt-general-potion", "data-ns": "general" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "potion_old_war" },
+	                                            "Potion of the Old War"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "potion_deadly_grace" },
+	                                            "Potion of Deadly Grace"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "potion_none" },
+	                                            "None"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "section",
+	                    { className: "cluster" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "option-list" },
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "General Settings"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { id: "general" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Patch/Engine"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "patch", id: "opt-general-patch", "data-ns": "general" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "70" },
+	                                            "7.0"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "input" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Level"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionInput", "data-ns": "general", id: "opt-general-level", name: "level", type: "text" }),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Race"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "race", id: "opt-general-race", "data-ns": "general" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "Human" },
+	                                            "Human"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "Dwarf" },
+	                                            "Dwarf"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "Orc" },
+	                                            "Orc"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "Blood Elf" },
+	                                            "Blood Elf"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "Gnome" },
+	                                            "Gnome"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "Worgen" },
+	                                            "Worgen"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "Troll" },
+	                                            "Troll"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "Night Elf" },
+	                                            "Night Elf"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "Undead" },
+	                                            "Undead"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "Goblin" },
+	                                            "Goblin"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "Pandaren" },
+	                                            "Pandaren"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Racial (Night Elf)"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "night_elf_racial", id: "opt-general-night_elf_racial", "data-ns": "general" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "0" },
+	                                            "Night (1% Haste)"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "1" },
+	                                            "Day (1% Crit)"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "input" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Fight Duration"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionInput", "data-ns": "general", id: "opt-general-duration", name: "duration", type: "text" }),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "input" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Response Time"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionInput", "data-ns": "general", id: "opt-general-response_time", name: "response_time", type: "text" }),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "input" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Number of Boss Adds"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionInput", "data-ns": "general", id: "opt-general-num_boss_adds", name: "num_boss_adds", type: "text" }),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select", htmlFor: "opt-general-demon_enemy" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Enemy is Demon"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionCheck", "data-ns": "general", id: "opt-general-demon_enemy", name: "demon_enemy", type: "checkbox", checked: "checked", value: "0" }),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "Enables damage buff from heirloom trinket against demons"
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "input" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "MfD Resets Per Minute"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionInput", "data-ns": "general", id: "opt-general-mfd_resets", name: "mfd_resets", type: "text" }),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Finisher Threshold"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "finisher_threshold", id: "opt-general-finisher_threshold", "data-ns": "general" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "6" },
+	                                            "6"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "5" },
+	                                            "5"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "4" },
+	                                            "4"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "Minimum CPs to use finisher"
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "option-list" },
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "Item Filter"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { id: "generalFilter" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select", htmlFor: "opt-general-dynamic_ilvl" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Dynamic ILevel filtering"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionCheck", "data-ns": "general", id: "opt-general-dynamic_ilvl", name: "dynamic_ilvl", type: "checkbox", checked: "checked", value: "true" }),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "Dynamically filters items in gear lists to +/- 50 Ilevels of the item equipped in that slot. Disable this option to use the manual filtering options below."
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "input" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Max ILevel"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionInput", "data-ns": "general", id: "opt-general-max_ilvl", name: "max_ilvl", type: "text" }),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "Don't show items over this item level in gear lists"
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "input" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Min ILevel"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionInput", "data-ns": "general", id: "opt-general-min_ilvl", name: "min_ilvl", type: "text" }),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "Don't show items under this item level in gear lists"
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Show Upgrades"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "show_upgrades", id: "opt-general-show_upgrades", "data-ns": "general" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "0" },
+	                                            "No"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "1" },
+	                                            "Yes"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "desc" },
+	                                    "Show all upgraded items in gear lists"
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "select" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Recommend Epic Gems"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "select-container" },
+	                                    _react2.default.createElement(
+	                                        "select",
+	                                        { className: "optionSelect", name: "epic_gems", id: "opt-general-epic_gems", "data-ns": "general" },
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "0" },
+	                                            "No"
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "option",
+	                                            { value: "1" },
+	                                            "Yes"
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "option-list" },
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "Advanced Settings"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { id: "advancedSettings" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "input" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Latency"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionInput", "data-ns": "advanced", id: "opt-advanced-latency", name: "latency", type: "text" }),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { className: "input" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "label" },
+	                                    "Advanced Parameters"
+	                                ),
+	                                _react2.default.createElement("input", { className: "optionInput", "data-ns": "advanced", id: "opt-advanced-adv_params", name: "adv_params", type: "text" }),
+	                                _react2.default.createElement("span", { className: "desc" })
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return TalentPane;
+	}(_react2.default.Component);
+
+	exports.default = TalentPane;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var AdvancedPane = function (_React$Component) {
+	    _inherits(AdvancedPane, _React$Component);
+
+	    function AdvancedPane() {
+	        _classCallCheck(this, AdvancedPane);
+
+	        return _possibleConstructorReturn(this, (AdvancedPane.__proto__ || Object.getPrototypeOf(AdvancedPane)).apply(this, arguments));
+	    }
+
+	    _createClass(AdvancedPane, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "with-tools ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide", id: "advanced" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "panel-tools" },
+	                    _react2.default.createElement(
+	                        "section",
+	                        { id: "dpsbreakdown" },
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "DPS Breakdown"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "inner" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "100.01", id: "talent-weight-rupture_ticks" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Rupture Ticks (93539.4 DPS)"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "37.23%"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '100.01%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "53.943153004008984", id: "talent-weight-mutilate" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Mutilate (50448.8 DPS)"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "20.08%"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '53.9432%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "25.61297164054714", id: "talent-weight-envenom" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Envenom (23948.9 DPS)"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "9.53%"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '25.613%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "23.175935480603673", id: "talent-weight-autoattack" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Autoattack (21669.3 DPS)"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "8.63%"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '23.1759%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "22.60549010386171", id: "talent-weight-poison_bomb" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Poison Bomb (21135.7 DPS)"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "8.41%"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '22.6055%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "22.040670417936077", id: "talent-weight-garrote_ticks" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Garrote Ticks (20607.4 DPS)"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "8.20%"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '22.0407%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "11.433310587077962", id: "talent-weight-from_the_shadows" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "From The Shadows (10685.3 DPS)"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "4.25%"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '11.4333%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "5.208262656040939", id: "talent-weight-kingsbane_ticks" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Kingsbane Ticks (4862.4 DPS)"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "1.94%"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '5.20826%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "3.907400181058212", id: "talent-weight-kingsbane" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Kingsbane (3645.6 DPS)"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "1.45%"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '3.9074%' } })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "talent_contribution", "data-val": "0.7412844561853807", id: "talent-weight-Infested_Ground" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "name" },
+	                                    "Infested Ground (684.0 DPS)"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "pct" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "label" },
+	                                        "0.27%"
+	                                    ),
+	                                    _react2.default.createElement("div", { className: "pct-inner", style: { width: '0.741284%' } })
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "section",
+	                        { id: "engineinfo" },
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            "Engine Info"
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "inner" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "stat" },
+	                                " ",
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "key" },
+	                                    "Shadowcraft Build"
+	                                ),
+	                                " ",
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "val" },
+	                                    "0.02"
+	                                ),
+	                                " "
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "stat" },
+	                                " ",
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "key" },
+	                                    "Wow Build Target"
+	                                ),
+	                                " ",
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "val" },
+	                                    "7.0.0"
+	                                ),
+	                                " "
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement("div", { className: "panel-content" })
+	            );
+	        }
+	    }]);
+
+	    return AdvancedPane;
+	}(_react2.default.Component);
+
+	exports.default = AdvancedPane;
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var DocsPane = function (_React$Component) {
+	    _inherits(DocsPane, _React$Component);
+
+	    function DocsPane() {
+	        _classCallCheck(this, DocsPane);
+
+	        return _possibleConstructorReturn(this, (DocsPane.__proto__ || Object.getPrototypeOf(DocsPane)).apply(this, arguments));
+	    }
+
+	    _createClass(DocsPane, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                { id: "docs", className: "ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" },
+	                _react2.default.createElement(
+	                    "h3",
+	                    null,
+	                    "7.0 Release 2"
+	                ),
+	                _react2.default.createElement(
+	                    "ul",
+	                    null,
+	                    "Engine Status:",
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "General:"
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Trinkets are lightly tested, may have implementation errors."
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "No legendaries implemented, if you get one use it, its good, if you get two, go buy lotto tickets"
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Set bonuses unimplemented"
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "The outlaw model can be very slow at times, be patient if it takes a few seconds to recalculate after you make a change."
+	                    ),
+	                    _react2.default.createElement("br", null)
+	                ),
+	                _react2.default.createElement(
+	                    "ul",
+	                    null,
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Assassination:"
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Assassination model seems to use too much energy, shouldn't have a large impact on stat weights."
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "T30 Talents are not implemented"
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Fan of Knives rotations are not implemented"
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Poison Knives (non-agonizing effect) is not implemented"
+	                    ),
+	                    _react2.default.createElement("br", null)
+	                ),
+	                _react2.default.createElement(
+	                    "ul",
+	                    null,
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Outlaw:"
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Model just doesn't work, don't use it."
+	                    ),
+	                    _react2.default.createElement("br", null)
+	                ),
+	                _react2.default.createElement(
+	                    "ul",
+	                    null,
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Subtlety:"
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "No combo point loss is computed, this leads to somewhat higher results than are achievable in game and decreases the value of haste."
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Use finishers during dance setting doesn't behave correctly with subterfuge, leave this option enabled with subterfuge rotations."
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Weaponmaster does not give bonus cps, may be somewhat undervalued"
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Flickering Shadows (sprint trait) not implemented"
+	                    ),
+	                    _react2.default.createElement("br", null)
+	                ),
+	                _react2.default.createElement(
+	                    "ul",
+	                    null,
+	                    "UI Status:",
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Artifact data from the API is now implemented. It only supports the currently-equipped artifact, because that's all the data that Blizzard gives us. If you switch specs, your other artifact will be blank."
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Most items should now be properly supported (except Mythic+ items, see below)"
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Selection of WF/TF item levels is now implemented for gear. Relic support is on deck."
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Fixed lots and lots of bugs with relics and artifact loading in general. It should be much more robust now."
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Timewalking items are not supported until Blizzard fixes the API data for them."
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        null,
+	                        "Trial of Valor items are not supported until they're available from the API."
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return DocsPane;
+	}(_react2.default.Component);
+
+	exports.default = DocsPane;
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	module.exports = __webpack_require__(5);
 
 
 /***/ },
-/* 162 */
+/* 167 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 163 */
+/* 168 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

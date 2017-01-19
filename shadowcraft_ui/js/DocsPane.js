@@ -35,6 +35,7 @@ export default class DocsPane extends React.Component {
                     <li>Flickering Shadows (sprint trait) not implemented</li>
                     <br />
                 </ul>
+                <ul>
                 UI Status:
             
                     <li>Artifact data from the API is now implemented. It only supports the currently-equipped artifact, because that's all the data that Blizzard gives us. If you switch specs, your other artifact will be blank.</li>

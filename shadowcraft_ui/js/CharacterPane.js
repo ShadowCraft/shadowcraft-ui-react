@@ -1,5 +1,10 @@
 import React from "react"
 import GearPane from './GearPane';
+import TalentPane from './TalentPane';
+import ArtifactPane from './ArtifactPane';
+import SettingsPane from './SettingsPane';
+import AdvancedPane from './AdvancedPane';
+import DocsPane from './DocsPane';
 
 export default class CharacterPane extends React.Component {
     // hold on to your butts
