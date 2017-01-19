@@ -1,7 +1,7 @@
 import re
 import json
 import requests
-from ArmoryDocument import ArmoryError
+from .ArmoryDocument import ArmoryError
 
 def get(relic_id):
     # Default values. These will be mostly garbage if the parsing fails.

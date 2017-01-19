@@ -84,7 +84,7 @@ def init_db(db):
 
 def test_character():
     from pymongo import MongoClient
-    db = MongoClient()['roguesim_development']
+    db = MongoClient()['roguesim_python']
 
     init(db)
 

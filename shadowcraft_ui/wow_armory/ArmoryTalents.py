@@ -28,7 +28,7 @@ def get(region='us'):
                 elif talent['spec'] == 'Subtlety':
                     talents['b'].append(new_t)
 
-    return json_data
+    return talents
 
 def test_talents():
     talents = get('us')
