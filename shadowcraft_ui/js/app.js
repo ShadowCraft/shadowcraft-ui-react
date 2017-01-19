@@ -10,4 +10,3 @@ import base_style from '../css/base.sass';
 import screen_style from '../css/screen.css.sass';
 
 ReactDOM.render(<CharacterPane />, document.getElementById('appjs'));
-

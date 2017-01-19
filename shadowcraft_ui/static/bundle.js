@@ -61,15 +61,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(166);
+	var _reactDom = __webpack_require__(167);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _base = __webpack_require__(167);
+	var _base = __webpack_require__(168);
 
 	var _base2 = _interopRequireDefault(_base);
 
-	var _screenCss = __webpack_require__(168);
+	var _screenCss = __webpack_require__(169);
 
 	var _screenCss2 = _interopRequireDefault(_screenCss);
 
@@ -129,6 +129,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var Tabs = __webpack_require__(166);
+
 	var CharacterPane = function (_React$Component) {
 	    _inherits(CharacterPane, _React$Component);
 
@@ -153,311 +155,38 @@
 	                        'div',
 	                        { id: 'curtain' },
 	                        _react2.default.createElement(
-	                            'ul',
-	                            { className: 'dropdownMenu', id: 'settingsDropdownMenu', style: { display: 'none' } },
+	                            Tabs,
+	                            null,
 	                            _react2.default.createElement(
-	                                'li',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'a',
-	                                    { href: '/us/hyjal/aeriwen/refresh', className: 'showWait', 'data-method': 'put', rel: 'nofollow' },
-	                                    'Refresh from armory'
-	                                )
+	                                Tabs.Panel,
+	                                { title: 'Gear' },
+	                                _react2.default.createElement(_GearPane2.default, null)
 	                            ),
 	                            _react2.default.createElement(
-	                                'li',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'a',
-	                                    { href: '/us/hyjal/aeriwen#reload', className: 'showWait', 'data-method': 'get' },
-	                                    'Reset to last Armory import'
-	                                )
+	                                Tabs.Panel,
+	                                { title: 'Talents' },
+	                                _react2.default.createElement(_TalentPane2.default, null)
 	                            ),
 	                            _react2.default.createElement(
-	                                'li',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'a',
-	                                    { href: '#', 'data-method': 'get', id: 'reloadAllData' },
-	                                    'Clear all saved data'
-	                                )
+	                                Tabs.Panel,
+	                                { title: 'Artifact' },
+	                                _react2.default.createElement(_ArtifactPane2.default, null)
 	                            ),
 	                            _react2.default.createElement(
-	                                'li',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'a',
-	                                    { href: '#', 'data-method': 'get', id: 'menuSaveSnapshot' },
-	                                    'Save snapshot'
-	                                )
+	                                Tabs.Panel,
+	                                { title: 'Settings' },
+	                                _react2.default.createElement(_SettingsPane2.default, null)
 	                            ),
 	                            _react2.default.createElement(
-	                                'li',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'a',
-	                                    { href: '#', 'data-method': 'get', id: 'menuLoadSnapshot' },
-	                                    'Load snapshot'
-	                                )
+	                                Tabs.Panel,
+	                                { title: 'Advanced' },
+	                                _react2.default.createElement(_AdvancedPane2.default, null)
 	                            ),
 	                            _react2.default.createElement(
-	                                'li',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'a',
-	                                    { href: '#', 'data-method': 'get', id: 'menuGetDebugURL' },
-	                                    'Get Debug URL'
-	                                )
+	                                Tabs.Panel,
+	                                { title: 'Documentation' },
+	                                _react2.default.createElement(_DocsPane2.default, null)
 	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { id: 'tabs', className: 'ui-tabs ui-widget ui-widget-content ui-corner-all' },
-	                            _react2.default.createElement(
-	                                'div',
-	                                { id: 'top-pane' },
-	                                _react2.default.createElement('a', { href: '/', id: 'logo' }),
-	                                _react2.default.createElement(
-	                                    'ul',
-	                                    { className: 'ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all' },
-	                                    _react2.default.createElement(
-	                                        'li',
-	                                        { className: 'ui-state-default ui-corner-top ui-tabs-selected ui-state-active' },
-	                                        _react2.default.createElement(
-	                                            'a',
-	                                            { href: '#gear' },
-	                                            'Gear'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'li',
-	                                        { className: 'ui-state-default ui-corner-top' },
-	                                        _react2.default.createElement(
-	                                            'a',
-	                                            { href: '#talents' },
-	                                            'Talents'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'li',
-	                                        { className: 'ui-state-default ui-corner-top' },
-	                                        _react2.default.createElement(
-	                                            'a',
-	                                            { href: '#artifact' },
-	                                            'Artifact'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'li',
-	                                        { className: 'ui-state-default ui-corner-top' },
-	                                        _react2.default.createElement(
-	                                            'a',
-	                                            { href: '#settings' },
-	                                            'Settings'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'li',
-	                                        { className: 'ui-state-default ui-corner-top' },
-	                                        _react2.default.createElement(
-	                                            'a',
-	                                            { href: '#advanced' },
-	                                            'Advanced'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'li',
-	                                        { className: 'ui-state-default ui-corner-top' },
-	                                        _react2.default.createElement(
-	                                            'a',
-	                                            { href: '#docs' },
-	                                            'Documentation'
-	                                        )
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    'a',
-	                                    { className: 'dropdown', 'data-menu': 'settingsDropdownMenu', href: '#', id: 'settingsDropdown' },
-	                                    _react2.default.createElement('img', { alt: 'Cog', src: '/static/images/cog.png' })
-	                                )
-	                            ),
-	                            _react2.default.createElement(_GearPane2.default, null),
-	                            _react2.default.createElement(_TalentPane2.default, null),
-	                            _react2.default.createElement(_ArtifactPane2.default, null),
-	                            _react2.default.createElement(_SettingsPane2.default, null),
-	                            _react2.default.createElement(_AdvancedPane2.default, null),
-	                            _react2.default.createElement(_DocsPane2.default, null),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { id: 'console-footer', className: 'awin-medium' },
-	                                _react2.default.createElement(
-	                                    'a',
-	                                    { className: 'human', href: 'http://us.battle.net/wow/en/character/hyjal/aeriwen/advanced', id: 'card', target: '_blank' },
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'img' },
-	                                        _react2.default.createElement('img', { src: 'http://us.battle.net/static-render/us/hyjal/156/113885852-avatar.jpg' })
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'span',
-	                                        { className: 'info' },
-	                                        _react2.default.createElement(
-	                                            'span',
-	                                            { className: 'name' },
-	                                            '                                            Aeriwen'
-	                                        ),
-	                                        _react2.default.createElement(
-	                                            'span',
-	                                            { className: 'realm' },
-	                                            '                                            Hyjal-US'
-	                                        )
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { id: 'dps' },
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'inner' },
-	                                        '251226.8 DPS'
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { id: 'dpsgraph', style: { position: 'relative' } },
-	                                    _react2.default.createElement('canvas', { width: '352', height: '120' }),
-	                                    _react2.default.createElement('canvas', { width: '352', height: '120', style: { position: 'absolute', left: 0, top: 0 } }),
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'tickLabels', style: { fontSize: 'smaller' } },
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'xAxis x1Axis', style: { color: '#545454' } },
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'center', left: 30, top: 108, width: 70 } },
-	                                                '-1.0'
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'center', left: 100, top: 108, width: 70 } },
-	                                                '-0.5'
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'center', left: 170, top: 108, width: 70 } },
-	                                                '0.0'
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'center', left: 239, top: 108, width: 70 } },
-	                                                '0.5'
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'center', left: 309, top: 108, width: 70 } },
-	                                                '1.0'
-	                                            )
-	                                        ),
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'yAxis y1Axis', style: { color: '#545454' } },
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 76, right: 294, width: 58 } },
-	                                                '251226.790'
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 58, right: 294, width: 58 } },
-	                                                '251226.795'
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 39, right: 294, width: 58 } },
-	                                                '251226.800'
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 21, right: 294, width: 58 } },
-	                                                '251226.805'
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 2, right: 294, width: 58 } },
-	                                                '251226.810'
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'tickLabel', style: { position: 'absolute', textAlign: 'right', top: 95, right: 294, width: 58 } },
-	                                                '251226.785'
-	                                            )
-	                                        )
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { id: 'logs' },
-	                                    _react2.default.createElement(
-	                                        'section',
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'window', id: 'console', style: { display: 'block' } },
-	                                            _react2.default.createElement(
-	                                                'h3',
-	                                                null,
-	                                                'Notices'
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                'div',
-	                                                { className: 'inner' },
-	                                                _react2.default.createElement(
-	                                                    'div',
-	                                                    { className: 'log items warning', id: 'warn' },
-	                                                    ' ',
-	                                                    _react2.default.createElement(
-	                                                        'span',
-	                                                        { className: 'quality-4' },
-	                                                        ' Stormcharged Choker '
-	                                                    ),
-	                                                    ' needs an enchantment '
-	                                                )
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'section',
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'window', id: 'log' },
-	                                            _react2.default.createElement(
-	                                                'h3',
-	                                                null,
-	                                                'Log'
-	                                            ),
-	                                            _react2.default.createElement('div', { className: 'inner' })
-	                                        )
-	                                    )
-	                                )
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { id: 'dialogs' },
-	                            _react2.default.createElement(
-	                                'div',
-	                                { id: 'saveSnapshot', title: 'Save Snapshot' },
-	                                _react2.default.createElement(
-	                                    'label',
-	                                    null,
-	                                    '                                    Enter a name for this snapshot:'
-	                                ),
-	                                _react2.default.createElement('input', { id: 'snapshotName', type: 'text' })
-	                            ),
-	                            _react2.default.createElement('div', { id: 'loadSnapshot', title: 'Load Snapshot' }),
-	                            _react2.default.createElement('div', { id: 'generalDialog' })
 	                        )
 	                    )
 	                ),
@@ -24691,19 +24420,281 @@
 /* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/*!
+	 * 
+	 *  React Simpletabs - Just a simple tabs component built with React
+	 *  @version v0.7.0
+	 *  @link https://github.com/pedronauck/react-simpletabs
+	 *  @license MIT
+	 *  @author Pedro Nauck (https://github.com/pedronauck)
+	 * 
+	 */
+	(function webpackUniversalModuleDefinition(root, factory) {
+		if(true)
+			module.exports = factory(__webpack_require__(3));
+		else if(typeof define === 'function' && define.amd)
+			define(["react"], factory);
+		else if(typeof exports === 'object')
+			exports["ReactSimpleTabs"] = factory(require("react"));
+		else
+			root["ReactSimpleTabs"] = factory(root["React"]);
+	})(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
+	return /******/ (function(modules) { // webpackBootstrap
+	/******/ 	// The module cache
+	/******/ 	var installedModules = {};
+	/******/
+	/******/ 	// The require function
+	/******/ 	function __webpack_require__(moduleId) {
+	/******/
+	/******/ 		// Check if module is in cache
+	/******/ 		if(installedModules[moduleId])
+	/******/ 			return installedModules[moduleId].exports;
+	/******/
+	/******/ 		// Create a new module (and put it into the cache)
+	/******/ 		var module = installedModules[moduleId] = {
+	/******/ 			exports: {},
+	/******/ 			id: moduleId,
+	/******/ 			loaded: false
+	/******/ 		};
+	/******/
+	/******/ 		// Execute the module function
+	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+	/******/
+	/******/ 		// Flag the module as loaded
+	/******/ 		module.loaded = true;
+	/******/
+	/******/ 		// Return the exports of the module
+	/******/ 		return module.exports;
+	/******/ 	}
+	/******/
+	/******/
+	/******/ 	// expose the modules object (__webpack_modules__)
+	/******/ 	__webpack_require__.m = modules;
+	/******/
+	/******/ 	// expose the module cache
+	/******/ 	__webpack_require__.c = installedModules;
+	/******/
+	/******/ 	// __webpack_public_path__
+	/******/ 	__webpack_require__.p = "";
+	/******/
+	/******/ 	// Load entry module and return exports
+	/******/ 	return __webpack_require__(0);
+	/******/ })
+	/************************************************************************/
+	/******/ ([
+	/* 0 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/** @jsx React.DOM */'use strict';
+
+		var React = __webpack_require__(1);
+		var classNames = __webpack_require__(2);
+
+		if (true) {
+		  __webpack_require__(3);
+		}
+
+		var Tabs = React.createClass({
+		  displayName: 'Tabs',
+		  propTypes: {
+		    className: React.PropTypes.oneOfType([
+		      React.PropTypes.array,
+		      React.PropTypes.string,
+		      React.PropTypes.object
+		    ]),
+		    tabActive: React.PropTypes.number,
+		    onMount: React.PropTypes.func,
+		    onBeforeChange: React.PropTypes.func,
+		    onAfterChange: React.PropTypes.func,
+		    children: React.PropTypes.oneOfType([
+		      React.PropTypes.array,
+		      React.PropTypes.element
+		    ]).isRequired
+		  },
+		  getDefaultProps:function () {
+		    return { tabActive: 1 };
+		  },
+		  getInitialState:function () {
+		    return {
+		      tabActive: this.props.tabActive
+		    };
+		  },
+		  componentDidMount:function() {
+		    var index = this.state.tabActive;
+		    var $selectedPanel = this.refs['tab-panel'];
+		    var $selectedMenu = this.refs[("tab-menu-" + index)];
+
+		    if (this.props.onMount) {
+		      this.props.onMount(index, $selectedPanel, $selectedMenu);
+		    }
+		  },
+		  componentWillReceiveProps: function(newProps){
+		    if(newProps.tabActive && newProps.tabActive !== this.props.tabActive){
+		      this.setState({tabActive: newProps.tabActive});
+		    }
+		  },
+		  render:function () {
+		    var className = classNames('tabs', this.props.className);
+		    return (
+		      React.createElement("div", {className: className}, 
+		        this._getMenuItems(), 
+		        this._getSelectedPanel()
+		      )
+		    );
+		  },
+		  setActive:function(index, e) {
+		    e.preventDefault();
+
+		    var onAfterChange = this.props.onAfterChange;
+		    var onBeforeChange = this.props.onBeforeChange;
+		    var $selectedPanel = this.refs['tab-panel'];
+		    var $selectedTabMenu = this.refs[("tab-menu-" + index)];
+
+		    if (onBeforeChange) {
+		      var cancel = onBeforeChange(index, $selectedPanel, $selectedTabMenu);
+		      if(cancel === false){ return }
+		    }
+
+		    this.setState({ tabActive: index }, function()  {
+		      if (onAfterChange) {
+		        onAfterChange(index, $selectedPanel, $selectedTabMenu);
+		      }
+		    });
+		  },
+		  _getMenuItems:function () {
+		    if (!this.props.children) {
+		      throw new Error('Tabs must contain at least one Tabs.Panel');
+		    }
+
+		    if (!Array.isArray(this.props.children)) {
+		      this.props.children = [this.props.children];
+		    }
+
+		    var $menuItems = this.props.children
+		      .map(function($panel)  {return typeof $panel === 'function' ? $panel() : $panel;})
+		      .filter(function($panel)  {return $panel;})
+		      .map(function($panel, index)  {
+		        var ref = ("tab-menu-" + (index + 1));
+		        var title = $panel.props.title;
+		        var classes = classNames(
+		          'tabs-menu-item',
+		          this.state.tabActive === (index + 1) && 'is-active'
+		        );
+
+		        return (
+		          React.createElement("li", {ref: ref, key: index, className: classes}, 
+		            React.createElement("a", {onClick: this.setActive.bind(this, index + 1)}, 
+		              title
+		            )
+		          )
+		        );
+		      }.bind(this));
+
+		    return (
+		      React.createElement("nav", {className: "tabs-navigation"}, 
+		        React.createElement("ul", {className: "tabs-menu"}, $menuItems)
+		      )
+		    );
+		  },
+		  _getSelectedPanel:function () {
+		    var index = this.state.tabActive - 1;
+		    var $panel = this.props.children[index];
+
+		    return (
+		      React.createElement("article", {ref: "tab-panel", className: "tab-panel"}, 
+		        $panel
+		      )
+		    );
+		  }
+		});
+
+		Tabs.Panel = React.createClass({
+		  displayName: 'Panel',
+		  propTypes: {
+		    title: React.PropTypes.string.isRequired,
+		    children: React.PropTypes.oneOfType([
+		      React.PropTypes.array,
+		      React.PropTypes.element
+		    ]).isRequired
+		  },
+		  render:function () {
+		    return React.createElement("div", null, this.props.children);
+		  }
+		});
+
+		module.exports = Tabs;
+
+
+	/***/ },
+	/* 1 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
+
+	/***/ },
+	/* 2 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/** @jsx React.DOM */function classNames() {
+			var classes = '';
+			var arg;
+
+			for (var i = 0; i < arguments.length; i++) {
+				arg = arguments[i];
+				if (!arg) {
+					continue;
+				}
+
+				if ('string' === typeof arg || 'number' === typeof arg) {
+					classes += ' ' + arg;
+				} else if (Object.prototype.toString.call(arg) === '[object Array]') {
+					classes += ' ' + classNames.apply(null, arg);
+				} else if ('object' === typeof arg) {
+					for (var key in arg) {
+						if (!arg.hasOwnProperty(key) || !arg[key]) {
+							continue;
+						}
+						classes += ' ' + key;
+					}
+				}
+			}
+			return classes.substr(1);
+		}
+
+		// safely export classNames in case the script is included directly on a page
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		}
+
+
+	/***/ },
+	/* 3 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		// removed by extract-text-webpack-plugin
+
+	/***/ }
+	/******/ ])
+	});
+
+
+/***/ },
+/* 167 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	module.exports = __webpack_require__(5);
 
 
 /***/ },
-/* 167 */
+/* 168 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 168 */
+/* 169 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
