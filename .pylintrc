@@ -1,0 +1,4 @@
+[pre-commit-hook]
+command=pylint
+params=--disable=missing-docstring
+limit=5.0
