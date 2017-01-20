@@ -6,7 +6,6 @@ import CharacterPane from './CharacterPane';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import base_style from '../css/base.sass';
 import screen_style from '../css/screen.css.sass';
 
 ReactDOM.render(<CharacterPane />, document.getElementById('appjs'));
