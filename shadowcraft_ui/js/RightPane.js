@@ -9,7 +9,7 @@ export default class RightPane extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{ flex: 1}}>
                 <div id="console-footer" className="awin-medium">
                   <a className="pandaren" href="http://us.battle.net/wow/en/character/aerie-peak/tamen/advanced" id="card" target="_blank">
                     <div className="img">
