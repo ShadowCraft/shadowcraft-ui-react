@@ -13,7 +13,7 @@ export default class CharacterPane extends React.Component {
     // hold on to your butts
     render() {
         return (
-            <div style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+            <div style={{display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
                 <div className="characters-show" id="container">
                     <div id="curtain">
                         <Tabs>
