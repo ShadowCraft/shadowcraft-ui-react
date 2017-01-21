@@ -5,6 +5,7 @@ import ArtifactPane from './ArtifactPane';
 import SettingsPane from './SettingsPane';
 import AdvancedPane from './AdvancedPane';
 import DocsPane from './DocsPane';
+import RightPane from './RightPane';
 
 var Tabs = require('react-simpletabs');
 
@@ -12,7 +13,7 @@ export default class CharacterPane extends React.Component {
     // hold on to your butts
     render() {
         return (
-            <div>
+            <div style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
                 <div className="characters-show" id="container">
                     <div id="curtain">
                         <Tabs>
@@ -36,8 +37,9 @@ export default class CharacterPane extends React.Component {
                             </Tabs.Panel>
                         </Tabs>
                     </div>
-
                 </div >
+                <RightPane/>
+            
                 <div id="wait" style={{ display: 'none' }}>
                     <div id="waitMsg"></div>
                 </div>
