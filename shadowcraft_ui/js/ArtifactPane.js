@@ -1,4 +1,142 @@
 import React from "react"
+import RankingSection from './SidebarRanking'
+
+const rankings = {
+    id: 'traitrankings',
+    name: 'Trait Rankings',
+    sections: [
+        {
+            items: [
+                {
+                    dataval: "100.00999224379201",
+                    slug: "192657",
+                    name: "Bag of Tricks",
+                    label: "21135.69",
+                    pct: "100.01%"
+                },
+                {
+                    dataval: "92.31230234670517",
+                    slug: "192923",
+                    name: "Blood of the Assassinated",
+                    label: "19508.73",
+                    pct: "92.3123%"
+                },
+                {
+                    dataval: "50.565714865357634",
+                    slug: "192428",
+                    name: "From the Shadows",
+                    label: "10685.3",
+                    pct: "50.5657%"
+                },
+                {
+                    dataval: "31.143450053537755",
+                    slug: "214368",
+                    name: "Assassin's Blades",
+                    label: "6580.27",
+                    pct: "31.1435%"
+                },
+                {
+                    dataval: "22.451801673402745",
+                    slug: "192759",
+                    name: "Kingsbane",
+                    label: "4743.23",
+                    pct: "22.4518%"
+                },
+                {
+                    dataval: "15.366440921765665",
+                    slug: "192384",
+                    name: "Urge to Kill",
+                    label: "3245.69",
+                    pct: "15.3664%"
+                },
+                {
+                    dataval: "13.015157564303719",
+                    slug: "192329",
+                    name: "Gushing Wound",
+                    label: "2748.73",
+                    pct: '13.0152%'
+                },
+                {
+                    dataval: "9.775802961277527",
+                    slug: "192315",
+                    name: "Serrated Edge",
+                    label: "2064.07",
+                    pct: '9.7758%'
+                },
+                {
+                    dataval: "8.25590947739336",
+                    slug: "192349",
+                    name: "Master Assassin",
+                    label: "1742.83",
+                    pct: '8.25591%'
+                },
+                {
+                    dataval: "6.439503340554951",
+                    slug: "214928",
+                    name: "Slayer's Precision",
+                    label: "1358.92",
+                    pct: '6.4395%'
+                },
+                {
+                    dataval: "6.298935430561803",
+                    slug: "192326",
+                    name: "Balanced Blades",
+                    label: "1329.21",
+                    pct: '6.29894%'
+                },
+                {
+                    dataval: "3.6264891740646887",
+                    slug: "192424",
+                    name: "Surge of Toxins",
+                    label: "764.37",
+                    pct: '3.62649%'
+                },
+                {
+                    dataval: "3.554525595774693",
+                    slug: "192376",
+                    name: "Poison Knives",
+                    label: "749.16",
+                    pct: '3.55453%'
+                },
+                {
+                    dataval: "3.4405004651508344",
+                    slug: "192310",
+                    name: "Toxic Blades",
+                    label: "725.06",
+                    pct: '3.4405%'
+                },
+                {
+                    dataval: "1.7822627978873467",
+                    slug: "192318",
+                    name: "Master Alchemist",
+                    label: "374.58",
+                    pct: '1.78226%'
+                },
+                {
+                    dataval: "0.01",
+                    slug: "192323",
+                    name: "Fade into Shadows",
+                    label: "0",
+                    pct: '0.01%'
+                },
+                {
+                    dataval: "0.01",
+                    slug: "192345",
+                    name: "Shadow Walker",
+                    label: "0",
+                    pct: '0.01%'
+                },
+                {
+                    dataval: "0.01",
+                    slug: "192422",
+                    name: "Shadow Swiftness",
+                    label: "0",
+                    pct: '0.01%'
+                }
+            ]
+        }
+    ]
+}
 
 export default class ArtifactPane extends React.Component {
     render() {
@@ -8,137 +146,7 @@ export default class ArtifactPane extends React.Component {
                     <div id="artifact_button_div">
                         <button id="reset_artifact" className="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span className="ui-button-text">Reset Traits</span></button>
                     </div>
-                    <section>
-                        <h3>Trait Rankings</h3>
-                        <div className="inner" id="traitrankings">
-                            <div className="talent_contribution" data-val="100.00999224379201" id="talent-weight-192657">
-                                <div className="name">Bag of Tricks</div>
-                                <div className="pct">
-                                    <div className="label">21135.69</div>
-                                    <div className="pct-inner" style={{ width: '100.01%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="92.31230234670517" id="talent-weight-192923">
-                                <div className="name">Blood of the Assassinated</div>
-                                <div className="pct">
-                                    <div className="label">19508.73</div>
-                                    <div className="pct-inner" style={{ width: '92.3123%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="50.565714865357634" id="talent-weight-192428">
-                                <div className="name">From the Shadows</div>
-                                <div className="pct">
-                                    <div className="label">10685.3</div>
-                                    <div className="pct-inner" style={{ width: '50.5657%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="31.143450053537755" id="talent-weight-214368">
-                                <div className="name">Assassin's Blades</div>
-                                <div className="pct">
-                                    <div className="label">6580.27</div>
-                                    <div className="pct-inner" style={{ width: '31.1435%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="22.451801673402745" id="talent-weight-192759">
-                                <div className="name">Kingsbane</div>
-                                <div className="pct">
-                                    <div className="label">4743.23</div>
-                                    <div className="pct-inner" style={{ width: '22.4518%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="15.366440921765665" id="talent-weight-192384">
-                                <div className="name">Urge to Kill</div>
-                                <div className="pct">
-                                    <div className="label">3245.69</div>
-                                    <div className="pct-inner" style={{ width: '15.3664%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="13.015157564303719" id="talent-weight-192329">
-                                <div className="name">Gushing Wound</div>
-                                <div className="pct">
-                                    <div className="label">2748.73</div>
-                                    <div className="pct-inner" style={{ width: '13.0152%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="9.775802961277527" id="talent-weight-192315">
-                                <div className="name">Serrated Edge</div>
-                                <div className="pct">
-                                    <div className="label">2064.07</div>
-                                    <div className="pct-inner" style={{ width: '9.7758%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="8.25590947739336" id="talent-weight-192349">
-                                <div className="name">Master Assassin</div>
-                                <div className="pct">
-                                    <div className="label">1742.83</div>
-                                    <div className="pct-inner" style={{ width: '8.25591%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="6.439503340554951" id="talent-weight-214928">
-                                <div className="name">Slayer's Precision</div>
-                                <div className="pct">
-                                    <div className="label">1358.92</div>
-                                    <div className="pct-inner" style={{ width: '6.4395%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="6.298935430561803" id="talent-weight-192326">
-                                <div className="name">Balanced Blades</div>
-                                <div className="pct">
-                                    <div className="label">1329.21</div>
-                                    <div className="pct-inner" style={{ width: '6.29894%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="3.6264891740646887" id="talent-weight-192424">
-                                <div className="name">Surge of Toxins</div>
-                                <div className="pct">
-                                    <div className="label">764.37</div>
-                                    <div className="pct-inner" style={{ width: '3.62649%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="3.554525595774693" id="talent-weight-192376">
-                                <div className="name">Poison Knives</div>
-                                <div className="pct">
-                                    <div className="label">749.16</div>
-                                    <div className="pct-inner" style={{ width: '3.55453%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="3.4405004651508344" id="talent-weight-192310">
-                                <div className="name">Toxic Blades</div>
-                                <div className="pct">
-                                    <div className="label">725.06</div>
-                                    <div className="pct-inner" style={{ width: '3.4405%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="1.7822627978873467" id="talent-weight-192318">
-                                <div className="name">Master Alchemist</div>
-                                <div className="pct">
-                                    <div className="label">374.58</div>
-                                    <div className="pct-inner" style={{ width: '1.78226%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="0.01" id="talent-weight-192323">
-                                <div className="name">Fade into Shadows</div>
-                                <div className="pct">
-                                    <div className="label">0</div>
-                                    <div className="pct-inner" style={{ width: '0.01%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="0.01" id="talent-weight-192345">
-                                <div className="name">Shadow Walker</div>
-                                <div className="pct">
-                                    <div className="label">0</div>
-                                    <div className="pct-inner" style={{ width: '0.01%' }}></div>
-                                </div>
-                            </div>
-                            <div className="talent_contribution" data-val="0.01" id="talent-weight-192422">
-                                <div className="name">Shadow Swiftness</div>
-                                <div className="pct">
-                                    <div className="label">0</div>
-                                    <div className="pct-inner" style={{ width: '0.01%' }}></div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    <RankingSection data={rankings} />
                 </div>
                 <div className="panel-content">
                     <div id="artifactactive">

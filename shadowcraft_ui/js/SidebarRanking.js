@@ -19,9 +19,11 @@ export default class RankingSection extends React.Component {
                 <h3>{this.props.data.name}</h3>
                 <div className="inner">
                 {this.props.data.sections.map(function(section) {
+                    var sectionName = section.name
                     return (
-                        <div className={section.className}>
-                            <h3>{section.name}</h3>
+                            <div className={section.className}>
+                            // Don't insert a header if no name was passed
+                            {section.name && <h3>{section.name}</h3> }
                             {section.items.map(function(item) {
                                 return (
                                     <Ranking dataval={item.dataval} slug={item.slug} name={item.name} label={item.label} pct={item.pct} />
