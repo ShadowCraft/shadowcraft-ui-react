@@ -1,20 +1,9 @@
 import React from "react"
-
-function TalentRanking(props) {
-    return (
-        <div className="talent_contribute" data-val={props.dataval} id={"talent-weight-"+props.slug}>
-            <div className="name">{props.name}</div>
-            <div className="pct">
-                <div className="label">{props.label}</div>
-                <div className="pct-inner" style={{ width: props.pct }}></div>
-            </div>
-        </div>
-    )
-}
+import RankingSection from './SidebarRanking'
 
 function Talent(props) {
     return (
-        <div className={"col-"+props.col+" row-"+props.row+" talent tt"+(props.active && "active")} data-tooltip-id={props.id} data-tooltip-type="spell" style={{ backgroundImage: "url(http://wow.zamimg.com/images/wow/icons/large/"+props.icon+".jpg)" }}>
+        <div className={"col-"+props.col+" row-"+props.row+" talent tt"+(props.active && " active")} data-tooltip-id={props.id} data-tooltip-type="spell" style={{ backgroundImage: "url(http://wow.zamimg.com/images/wow/icons/large/"+props.icon+".jpg)" }}>
             <div className="grey"></div>
         </div>
     )
@@ -26,6 +15,204 @@ function TalentSetButton(props) {
             <span className="ui-button-text">{props.name}</span>
         </button>
     )
+}
+
+// TODO: react-devtools is warning me that each element in these arrays needs to have a unique key that
+// identifies it, so that it can more easily keep track of what changes.
+const rankings = {
+    id: 'talentrankings',
+    name: 'Talent Rankings',
+    sections: [
+        {
+            name: "Tier 15",
+            className: "Tier15",
+            items: [
+                {
+                    dataval: "100.01000065734401",
+                    slug: "hemorrhage",
+                    name: "Hemorrhage",
+                    label: "22367.17",
+                    pct: "100.01%"
+                },
+                {
+                    dataval: "87.32520406193045",
+                    slug: "elaborate_planning",
+                    name: "Elaborate Planning",
+                    label: "19529.94",
+                    pct: "87.3252%"
+                },
+                {
+                    dataval: "64.43522721794456",
+                    slug: "master_poisoner",
+                    name: "Master Poisoner",
+                    label: "14410.1",
+                    pct: "64.4352%"
+                }
+            ]
+        },
+        {
+            name: "Tier 30",
+            className: "Tier30",
+            items: [
+                {
+                    dataval: "",
+                    slug: "nightstalker",
+                    name: "Nightstalker",
+                    label:"0",
+                    pct: "%"
+                },
+                {
+                    dataval:"",
+                    slug: "subterfuge",
+                    name: "Subterfuge",
+                    label: "0",
+                    pct: "%"
+                },
+                {
+                    dataval:"",
+                    slug: "shadow_focus",
+                    name: "Shadow Focus",
+                    label: "0",
+                    pct: "%"
+                }
+            ]
+        },
+        {
+            name: "Tier 45",
+            className: "Tier45",
+            items: [
+                {
+                    dataval:"100.00998538243374",
+                    slug: "deeper_strategem",
+                    name: "Deeper Strategem",
+                    label: "12215.65",
+                    pct: "100.01%"
+                },
+                {
+                    dataval:"59.907499768343705",
+                    slug: "vigor",
+                    name: "Vigor",
+                    label: "7316.87",
+                    pct: "59.9075%"
+                },
+                {
+                    dataval:"45.50335637200254",
+                    slug: "anticipation",
+                    name: "Anticipation",
+                    label: "5557.31",
+                    pct: "45.5034%"
+                }
+            ]
+        },
+        {
+            name: "Tier 60",
+            className: "Tier60",
+            items: [
+                {
+                    dataval:"",
+                    slug: "leeching_poison",
+                    name: "Leeching Poison",
+                    label: "0",
+                    pct: "%"
+                },
+                {
+                    dataval:"",
+                    slug: "cheat_death",
+                    name: "Cheat Death",
+                    label: "0",
+                    pct: "%"
+                },
+                {
+                    dataval:"",
+                    slug: "elusiveness",
+                    name: "Elusiveness",
+                    label: "0",
+                    pct: "%"
+                }
+            ]
+        },
+        {
+            name: "Tier 75",
+            className: "Tier75",
+            items: [
+                {
+                    dataval:"",
+                    slug: "prey_on_the_weak",
+                    name: "Prey on the Weak",
+                    label: "0",
+                    pct: "%"
+                },
+                {
+                    dataval:"",
+                    slug: "thuggee",
+                    name: "Thuggee",
+                    label: "0",
+                    pct: "%"
+                },
+                {
+                    dataval:"",
+                    slug: "internal_bleeding",
+                    name: "Internal Bleeding",
+                    label: "0",
+                    pct: "%"
+                }
+            ]
+        },
+        {
+            name: "Tier 90",
+            className: "Tier90",
+            items: [
+                {
+                    dataval:"100.00999394581173",
+                    slug: "exsanguinate",
+                    name: "Exsanguinate",
+                    label: "42383.59",
+                    pct: "100.01%"
+                },
+                {
+                    dataval:"94.86991527832161",
+                    slug: "alacrity",
+                    name: "Alacrity",
+                    label: "40205.04",
+                    pct: "94.8699%"
+                },
+                {
+                    dataval:"70.38572370384684",
+                    slug: "agonizing_poison",
+                    name: "Agonizing Poison",
+                    label: "29827.76",
+                    pct: "70.3857%"
+                }
+            ]
+        },
+        {
+            name: "Tier 100",
+            className: "Tier100",
+            items: [
+                {
+                    dataval:"100.01003138892773",
+                    slug: "venom_rush",
+                    name: "Venom Rush",
+                    label: "12107.6",
+                    pct: "100.01%"
+                },
+                {
+                    dataval:"80.57479452426904",
+                    slug: "death_from_above",
+                    name: "Death from Above",
+                    label: "9754.46",
+                    pct: "80.5748%"
+                },
+                {
+                    dataval:"27.37777759504139",
+                    slug: "marked_for_death",
+                    name: "Marked for Death",
+                    label: "3313.58",
+                    pct: "27.3778%"
+                }
+            ]
+        }
+    ]
 }
 
 export default class TalentPane extends React.Component {
@@ -44,55 +231,7 @@ export default class TalentPane extends React.Component {
                             <TalentSetButton talents="1210011" name="Stock Subtlety" />
                         </div>
                     </section>
-                    <section id="talentrankings">
-                        <h3>Talent Rankings</h3>
-                        <div className="inner">
-                            <h3>Tier 15</h3>
-                            <div className="Tier15">
-                                <TalentRanking dataval="100.01000065734401" slug="hemorrhage" name="Hemorrhage" label="22367.17" pct="100.01%"/>
-                                <TalentRanking dataval="87.32520406193045" slug="elaborate_planning" name="Elaborate Planning" label="19529.94" pct="87.3252%"/>
-                                <TalentRanking dataval="64.43522721794456" slug="master_poisoner" name="Master Poisoner" label="14410.1" pct="64.4352%"/>
-                            </div>
-                            <h3>Tier 30</h3>
-                            <div className="Tier30">
-                                <TalentRanking dataval="" slug="nightstalker" name="Nightstalker" label="0" pct="%"/>
-                                <TalentRanking dataval="" slug="subterfuge" name="Subterfuge" label="0" pct="%"/>
-                                <TalentRanking dataval="" slug="shadow_focus" name="Shadow Focus" label="0" pct="%"/>
-                            </div>
-                            <h3>Tier 45</h3>
-                            <div className="Tier45">
-                                <TalentRanking dataval="100.00998538243374" slug="deeper_strategem" name="Deeper Strategem" label="12215.65" pct="100.01%"/>
-                                <TalentRanking dataval="59.907499768343705" slug="vigor" name="Vigor" label="7316.87" pct="59.9075%"/>
-                                <TalentRanking dataval="45.50335637200254" slug="anticipation" name="Anticipation" label="5557.31" pct="45.5034%"/>
-                            </div>
-                            <h3>Tier 60</h3>
-                            <div className="Tier60">
-                                <TalentRanking dataval="" slug="leeching_poison" name="Leeching Poison" label="0" pct="%"/>
-                                <TalentRanking dataval="" slug="cheat_death" name="Cheat Death" label="0" pct="%"/>
-                                <TalentRanking dataval="" slug="elusiveness" name="Elusiveness" label="0" pct="%"/>
-                            </div>
-                            <h3>Tier 75</h3>
-                            <div className="Tier75">
-                                <TalentRanking dataval="" slug="prey_on_the_weak" name="Prey on the Weak" label="0" pct="%"/>
-                                <TalentRanking dataval="" slug="thuggee" name="Thuggee" label="0" pct="%"/>
-                                <TalentRanking dataval="" slug="internal_bleeding" name="Internal Bleeding" label="0" pct="%"/>
-                            </div>
-                            <h3>Tier 90</h3>
-                            <div className="Tier90">
-                                <TalentRanking dataval="100.00999394581173" slug="exsanguinate" name="Exsanguinate" label="42383.59" pct="100.01%"/>
-                                <TalentRanking dataval="94.86991527832161" slug="alacrity" name="Alacrity" label="40205.04" pct="94.8699%"/>
-                                <TalentRanking dataval="70.38572370384684" slug="agonizing_poison" name="Agonizing Poison" label="29827.76" pct="70.3857%"/>
-                            </div>
-                            <h3>Tier 100</h3>
-                            <div className="Tier100">
-                                <TalentRanking dataval="100.01003138892773" slug="venom_rush" name="Venom Rush" label="12107.6" pct="100.01%"/>
-                                <TalentRanking dataval="80.57479452426904" slug="death_from_above" name="Death from Above" label="9754.46" pct="80.5748%"/>
-                                <TalentRanking dataval="27.37777759504139" slug="marked_for_death" name="Marked for Death" label="3313.58" pct="27.3778%"/>
-                            </div>
-                            <h3>Tier 110</h3>
-                            <div className="Tier110"></div>
-                        </div>
-                    </section>
+                    <RankingSection data={rankings} />
                 </div>
                 <div className="panel-content">
                     <div id="specactive"><span className="spec-icon" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/medium/ability_rogue_eviscerate.jpg)' }}></span> <span className="spec-name">Assassination</span> </div>
