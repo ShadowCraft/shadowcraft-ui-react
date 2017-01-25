@@ -1,5 +1,33 @@
 import React from "react"
 
+function TalentRanking(props) {
+    return (
+        <div className="talent_contribute" data-val={props.dataval} id={"talent-weight-"+props.slug}>
+            <div className="name">{props.name}</div>
+            <div className="pct">
+                <div className="label">{props.label}</div>
+                <div className="pct-inner" style={{ width: props.pct }}></div>
+            </div>
+        </div>
+    )
+}
+
+function Talent(props) {
+    return (
+        <div className={"col-"+props.col+" row-"+props.row+" talent tt"+(props.active && "active")} data-tooltip-id={props.id} data-tooltip-type="spell" style={{ backgroundImage: "url(http://wow.zamimg.com/images/wow/icons/large/"+props.icon+".jpg)" }}>
+            <div className="grey"></div>
+        </div>
+    )
+}
+
+function TalentSetButton(props) {
+    return (
+        <button className="talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-spec="a" data-talents={props.talents} role="button" aria-disabled="false">
+            <span className="ui-button-text">{props.name}</span>
+        </button>
+    )
+}
+
 export default class TalentPane extends React.Component {
     render() {
         return (
@@ -8,24 +36,12 @@ export default class TalentPane extends React.Component {
                     <section>
                         <h3>Talent Sets</h3>
                         <div className="inner" id="talentsets">
-                            <button className="talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-spec="a" data-talents="1002000" role="button" aria-disabled="false">
-                                <span className="ui-button-text">Imported Assassination</span>
-                            </button>
-                            <button className="talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-spec="Z" data-talents="1002111" role="button" aria-disabled="false">
-                                <span className="ui-button-text">Imported Outlaw</span>
-                            </button>
-                            <button className="talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-spec="b" data-talents="0120221" role="button" aria-disabled="false">
-                                <span className="ui-button-text">Imported Subtlety</span>
-                            </button>
-                            <button className="talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-spec="a" data-talents="2211021" role="button" aria-disabled="false">
-                                <span className="ui-button-text">Stock Assassination</span>
-                            </button>
-                            <button className="talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-spec="Z" data-talents="2211011" role="button" aria-disabled="false">
-                                <span className="ui-button-text">Stock Outlaw</span>
-                            </button>
-                            <button className="talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-spec="b" data-talents="1210011" role="button" aria-disabled="false">
-                                <span className="ui-button-text">Stock Subtlety</span>
-                            </button>
+                            <TalentSetButton talents="1002000" name="Imported Assassination" />
+                            <TalentSetButton talents="1002111" name="Imported Outlaw" />
+                            <TalentSetButton talents="0120221" name="Imported Subtlety" />
+                            <TalentSetButton talents="2211021" name="Stock Assassination" />
+                            <TalentSetButton talents="2211011" name="Stock Outlaw" />
+                            <TalentSetButton talents="1210011" name="Stock Subtlety" />
                         </div>
                     </section>
                     <section id="talentrankings">
@@ -33,171 +49,45 @@ export default class TalentPane extends React.Component {
                         <div className="inner">
                             <h3>Tier 15</h3>
                             <div className="Tier15">
-                                <div className="talent_contribution" data-val="100.01000065734401" id="talent-weight-hemorrhage">
-                                    <div className="name">Hemorrhage</div>
-                                    <div className="pct">
-                                        <div className="label">22367.17</div>
-                                        <div className="pct-inner" style={{ width: '100.01%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="87.32520406193045" id="talent-weight-elaborate_planning">
-                                    <div className="name">Elaborate Planning</div>
-                                    <div className="pct">
-                                        <div className="label">19529.94</div>
-                                        <div className="pct-inner" style={{ width: '87.3252%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="64.43522721794456" id="talent-weight-master_poisoner">
-                                    <div className="name">Master Poisoner</div>
-                                    <div className="pct">
-                                        <div className="label">14410.1</div>
-                                        <div className="pct-inner" style={{ width: '64.4352%' }}></div>
-                                    </div>
-                                </div>
+                                <TalentRanking dataval="100.01000065734401" slug="hemorrhage" name="Hemorrhage" label="22367.17" pct="100.01%"/>
+                                <TalentRanking dataval="87.32520406193045" slug="elaborate_planning" name="Elaborate Planning" label="19529.94" pct="87.3252%"/>
+                                <TalentRanking dataval="64.43522721794456" slug="master_poisoner" name="Master Poisoner" label="14410.1" pct="64.4352%"/>
                             </div>
                             <h3>Tier 30</h3>
                             <div className="Tier30">
-                                <div className="talent_contribution" data-val="" id="talent-weight-nightstalker">
-                                    <div className="name">Nightstalker</div>
-                                    <div className="pct">
-                                        <div className="label">0</div>
-                                        <div className="pct-inner" style={{ width: '%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="" id="talent-weight-subterfuge">
-                                    <div className="name">Subterfuge</div>
-                                    <div className="pct">
-                                        <div className="label">0</div>
-                                        <div className="pct-inner" style={{ width: '%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="" id="talent-weight-shadow_focus">
-                                    <div className="name">Shadow Focus</div>
-                                    <div className="pct">
-                                        <div className="label">0</div>
-                                        <div className="pct-inner" style={{ width: '%' }}></div>
-                                    </div>
-                                </div>
+                                <TalentRanking dataval="" slug="nightstalker" name="Nightstalker" label="0" pct="%"/>
+                                <TalentRanking dataval="" slug="subterfuge" name="Subterfuge" label="0" pct="%"/>
+                                <TalentRanking dataval="" slug="shadow_focus" name="Shadow Focus" label="0" pct="%"/>
                             </div>
                             <h3>Tier 45</h3>
                             <div className="Tier45">
-                                <div className="talent_contribution" data-val="100.00998538243374" id="talent-weight-deeper_strategem">
-                                    <div className="name">Deeper Strategem</div>
-                                    <div className="pct">
-                                        <div className="label">12215.65</div>
-                                        <div className="pct-inner" style={{ width: '100.01%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="59.907499768343705" id="talent-weight-vigor">
-                                    <div className="name">Vigor</div>
-                                    <div className="pct">
-                                        <div className="label">7316.87</div>
-                                        <div className="pct-inner" style={{ width: '59.9075%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="45.50335637200254" id="talent-weight-anticipation">
-                                    <div className="name">Anticipation</div>
-                                    <div className="pct">
-                                        <div className="label">5557.31</div>
-                                        <div className="pct-inner" style={{ width: '45.5034%' }}></div>
-                                    </div>
-                                </div>
+                                <TalentRanking dataval="100.00998538243374" slug="deeper_strategem" name="Deeper Strategem" label="12215.65" pct="100.01%"/>
+                                <TalentRanking dataval="59.907499768343705" slug="vigor" name="Vigor" label="7316.87" pct="59.9075%"/>
+                                <TalentRanking dataval="45.50335637200254" slug="anticipation" name="Anticipation" label="5557.31" pct="45.5034%"/>
                             </div>
                             <h3>Tier 60</h3>
                             <div className="Tier60">
-                                <div className="talent_contribution" data-val="" id="talent-weight-leeching_poison">
-                                    <div className="name">Leeching Poison</div>
-                                    <div className="pct">
-                                        <div className="label">0</div>
-                                        <div className="pct-inner" style={{ width: '%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="" id="talent-weight-cheat_death">
-                                    <div className="name">Cheat Death</div>
-                                    <div className="pct">
-                                        <div className="label">0</div>
-                                        <div className="pct-inner" style={{ width: '%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="" id="talent-weight-elusiveness">
-                                    <div className="name">Elusiveness</div>
-                                    <div className="pct">
-                                        <div className="label">0</div>
-                                        <div className="pct-inner" style={{ width: '%' }}></div>
-                                    </div>
-                                </div>
+                                <TalentRanking dataval="" slug="leeching_poison" name="Leeching Poison" label="0" pct="%"/>
+                                <TalentRanking dataval="" slug="cheat_death" name="Cheat Death" label="0" pct="%"/>
+                                <TalentRanking dataval="" slug="elusiveness" name="Elusiveness" label="0" pct="%"/>
                             </div>
                             <h3>Tier 75</h3>
                             <div className="Tier75">
-                                <div className="talent_contribution" data-val="" id="talent-weight-prey_on_the_weak">
-                                    <div className="name">Prey on the Weak</div>
-                                    <div className="pct">
-                                        <div className="label">0</div>
-                                        <div className="pct-inner" style={{ width: '%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="" id="talent-weight-thuggee">
-                                    <div className="name">Thuggee</div>
-                                    <div className="pct">
-                                        <div className="label">0</div>
-                                        <div className="pct-inner" style={{ width: '%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="" id="talent-weight-internal_bleeding">
-                                    <div className="name">Internal Bleeding</div>
-                                    <div className="pct">
-                                        <div className="label">0</div>
-                                        <div className="pct-inner" style={{ width: '%' }}></div>
-                                    </div>
-                                </div>
+                                <TalentRanking dataval="" slug="prey_on_the_weak" name="Prey on the Weak" label="0" pct="%"/>
+                                <TalentRanking dataval="" slug="thuggee" name="Thuggee" label="0" pct="%"/>
+                                <TalentRanking dataval="" slug="internal_bleeding" name="Internal Bleeding" label="0" pct="%"/>
                             </div>
                             <h3>Tier 90</h3>
                             <div className="Tier90">
-                                <div className="talent_contribution" data-val="100.00999394581173" id="talent-weight-exsanguinate">
-                                    <div className="name">Exsanguinate</div>
-                                    <div className="pct">
-                                        <div className="label">42383.59</div>
-                                        <div className="pct-inner" style={{ width: '100.01%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="94.86991527832161" id="talent-weight-alacrity">
-                                    <div className="name">Alacrity</div>
-                                    <div className="pct">
-                                        <div className="label">40205.04</div>
-                                        <div className="pct-inner" style={{ width: '94.8699%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="70.38572370384684" id="talent-weight-agonizing_poison">
-                                    <div className="name">Agonizing Poison</div>
-                                    <div className="pct">
-                                        <div className="label">29827.76</div>
-                                        <div className="pct-inner" style={{ width: '70.3857%' }}></div>
-                                    </div>
-                                </div>
+                                <TalentRanking dataval="100.00999394581173" slug="exsanguinate" name="Exsanguinate" label="42383.59" pct="100.01%"/>
+                                <TalentRanking dataval="94.86991527832161" slug="alacrity" name="Alacrity" label="40205.04" pct="94.8699%"/>
+                                <TalentRanking dataval="70.38572370384684" slug="agonizing_poison" name="Agonizing Poison" label="29827.76" pct="70.3857%"/>
                             </div>
                             <h3>Tier 100</h3>
                             <div className="Tier100">
-                                <div className="talent_contribution" data-val="100.01003138892773" id="talent-weight-venom_rush">
-                                    <div className="name">Venom Rush</div>
-                                    <div className="pct">
-                                        <div className="label">12107.6</div>
-                                        <div className="pct-inner" style={{ width: '100.01%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="80.57479452426904" id="talent-weight-death_from_above">
-                                    <div className="name">Death from Above</div>
-                                    <div className="pct">
-                                        <div className="label">9754.46</div>
-                                        <div className="pct-inner" style={{ width: '80.5748%' }}></div>
-                                    </div>
-                                </div>
-                                <div className="talent_contribution" data-val="27.37777759504139" id="talent-weight-marked_for_death">
-                                    <div className="name">Marked for Death</div>
-                                    <div className="pct">
-                                        <div className="label">3313.58</div>
-                                        <div className="pct-inner" style={{ width: '27.3778%' }}></div>
-                                    </div>
-                                </div>
+                                <TalentRanking dataval="100.01003138892773" slug="venom_rush" name="Venom Rush" label="12107.6" pct="100.01%"/>
+                                <TalentRanking dataval="80.57479452426904" slug="death_from_above" name="Death from Above" label="9754.46" pct="80.5748%"/>
+                                <TalentRanking dataval="27.37777759504139" slug="marked_for_death" name="Marked for Death" label="3313.58" pct="27.3778%"/>
                             </div>
                             <h3>Tier 110</h3>
                             <div className="Tier110"></div>
@@ -217,69 +107,27 @@ export default class TalentPane extends React.Component {
                             <div className="level row-level-6">100</div>
                         </div>
                         <div className="tree">
-                            <div className="col-0 row-0 talent tt" data-tooltip-id="196864" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_creature_poison_06.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-1 row-0 talent tt active" data-tooltip-id="193640" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/inv_misc_map08.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-2 row-0 talent tt" data-tooltip-id="16511" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/spell_shadow_lifedrain.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-0 row-1 talent tt active" data-tooltip-id="14062" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-1 row-1 talent tt" data-tooltip-id="108208" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/rogue_subterfuge.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-2 row-1 talent tt" data-tooltip-id="108209" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/rogue_shadowfocus.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-0 row-2 talent tt active" data-tooltip-id="193531" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/archaeology_5_0_changkiboard.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-1 row-2 talent tt" data-tooltip-id="114015" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_slaughterfromtheshadows.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-2 row-2 talent tt" data-tooltip-id="14983" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_vigor.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-0 row-3 talent tt" data-tooltip-id="108211" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/rogue_leeching_poison.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-1 row-3 talent tt" data-tooltip-id="79008" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_turnthetables.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-2 row-3 talent tt active" data-tooltip-id="31230" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_cheatdeath.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-0 row-4 talent tt active" data-tooltip-id="196861" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/inv_misc_bandana_03.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-1 row-4 talent tt" data-tooltip-id="131511" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_preyontheweak.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-2 row-4 talent tt" data-tooltip-id="154904" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_rogue_bloodsplatter.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-0 row-5 talent tt active" data-tooltip-id="200802" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/inv_poison_mindnumbing.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-1 row-5 talent tt" data-tooltip-id="193539" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_paladin_speedoflight.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-2 row-5 talent tt" data-tooltip-id="200806" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/ability_deathwing_bloodcorruption_earth.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-0 row-6 talent tt active" data-tooltip-id="152152" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/rogue_venomzest.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-1 row-6 talent tt" data-tooltip-id="137619" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/achievement_bg_killingblow_berserker.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
-                            <div className="col-2 row-6 talent tt" data-tooltip-id="152150" data-tooltip-type="spell" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/spell_rogue_deathfromabove.jpg)' }}>
-                                <div className="grey"></div>
-                            </div>
+                            <Talent col="0" row="0" id="196864" icon="ability_creature_poison_06" active/>
+                            <Talent col="1" row="0" id="193640" icon="inv_misc_map08"/>
+                            <Talent col="2" row="0" id="16511" icon="spell_shadow_lifedrain" active/>
+                            <Talent col="0" row="1" id="14062" icon="ability_stealth"/>
+                            <Talent col="1" row="1" id="108208" icon="rogue_subterfuge"/>
+                            <Talent col="2" row="1" id="108209" icon="rogue_shadowfocus"/>
+                            <Talent col="0" row="2" id="193531" icon="archaeology_5_0_changkiboard" active/>
+                            <Talent col="1" row="2" id="114015" icon="ability_rogue_slaughterfromtheshadows"/>
+                            <Talent col="2" row="2" id="14983" icon="ability_rogue_vigor"/>
+                            <Talent col="0" row="3" id="108211" icon="rogue_leeching_poison"/>
+                            <Talent col="1" row="3" id="79008" icon="ability_rogue_turnthetables"/>
+                            <Talent col="2" row="3" id="31230" icon="ability_rogue_cheatdeath" active/>
+                            <Talent col="0" row="4" id="196861" icon="inv_misc_bandana_03" active/>
+                            <Talent col="1" row="4" id="131511" icon="ability_rogue_preyontheweak"/>
+                            <Talent col="2" row="4" id="154904" icon="ability_rogue_bloodsplatter"/>
+                            <Talent col="0" row="5" id="200802" icon="inv_poison_mindnumbing"active />
+                            <Talent col="1" row="5" id="193539" icon="ability_paladin_speedoflight"/>
+                            <Talent col="2" row="5" id="200806" icon="ability_deathwing_bloodcorruption_earth"/>
+                            <Talent col="0" row="6" id="152152" icon="rogue_venomzest" active/>
+                            <Talent col="1" row="6" id="137619" icon="achievement_bg_killingblow_berserker"/>
+                            <Talent col="2" row="6" id="152150" icon="spell_rogue_deathfromabove"/>
                         </div>
                     </div>
                     <div>
