@@ -28,21 +28,18 @@ const rankings = {
             className: "Tier15",
             items: [
                 {
-                    dataval: "100.01000065734401",
                     slug: "hemorrhage",
                     name: "Hemorrhage",
                     label: "22367.17",
                     pct: "100.01%"
                 },
                 {
-                    dataval: "87.32520406193045",
                     slug: "elaborate_planning",
                     name: "Elaborate Planning",
                     label: "19529.94",
                     pct: "87.3252%"
                 },
                 {
-                    dataval: "64.43522721794456",
                     slug: "master_poisoner",
                     name: "Master Poisoner",
                     label: "14410.1",
@@ -55,21 +52,18 @@ const rankings = {
             className: "Tier30",
             items: [
                 {
-                    dataval: "",
                     slug: "nightstalker",
                     name: "Nightstalker",
                     label:"0",
                     pct: "%"
                 },
                 {
-                    dataval:"",
                     slug: "subterfuge",
                     name: "Subterfuge",
                     label: "0",
                     pct: "%"
                 },
                 {
-                    dataval:"",
                     slug: "shadow_focus",
                     name: "Shadow Focus",
                     label: "0",
@@ -82,21 +76,18 @@ const rankings = {
             className: "Tier45",
             items: [
                 {
-                    dataval:"100.00998538243374",
                     slug: "deeper_strategem",
                     name: "Deeper Strategem",
                     label: "12215.65",
                     pct: "100.01%"
                 },
                 {
-                    dataval:"59.907499768343705",
                     slug: "vigor",
                     name: "Vigor",
                     label: "7316.87",
                     pct: "59.9075%"
                 },
                 {
-                    dataval:"45.50335637200254",
                     slug: "anticipation",
                     name: "Anticipation",
                     label: "5557.31",
@@ -109,21 +100,18 @@ const rankings = {
             className: "Tier60",
             items: [
                 {
-                    dataval:"",
                     slug: "leeching_poison",
                     name: "Leeching Poison",
                     label: "0",
                     pct: "%"
                 },
                 {
-                    dataval:"",
                     slug: "cheat_death",
                     name: "Cheat Death",
                     label: "0",
                     pct: "%"
                 },
                 {
-                    dataval:"",
                     slug: "elusiveness",
                     name: "Elusiveness",
                     label: "0",
@@ -136,21 +124,18 @@ const rankings = {
             className: "Tier75",
             items: [
                 {
-                    dataval:"",
                     slug: "prey_on_the_weak",
                     name: "Prey on the Weak",
                     label: "0",
                     pct: "%"
                 },
                 {
-                    dataval:"",
                     slug: "thuggee",
                     name: "Thuggee",
                     label: "0",
                     pct: "%"
                 },
                 {
-                    dataval:"",
                     slug: "internal_bleeding",
                     name: "Internal Bleeding",
                     label: "0",
@@ -163,21 +148,18 @@ const rankings = {
             className: "Tier90",
             items: [
                 {
-                    dataval:"100.00999394581173",
                     slug: "exsanguinate",
                     name: "Exsanguinate",
                     label: "42383.59",
                     pct: "100.01%"
                 },
                 {
-                    dataval:"94.86991527832161",
                     slug: "alacrity",
                     name: "Alacrity",
                     label: "40205.04",
                     pct: "94.8699%"
                 },
                 {
-                    dataval:"70.38572370384684",
                     slug: "agonizing_poison",
                     name: "Agonizing Poison",
                     label: "29827.76",
@@ -190,21 +172,18 @@ const rankings = {
             className: "Tier100",
             items: [
                 {
-                    dataval:"100.01003138892773",
                     slug: "venom_rush",
                     name: "Venom Rush",
                     label: "12107.6",
                     pct: "100.01%"
                 },
                 {
-                    dataval:"80.57479452426904",
                     slug: "death_from_above",
                     name: "Death from Above",
                     label: "9754.46",
                     pct: "80.5748%"
                 },
                 {
-                    dataval:"27.37777759504139",
                     slug: "marked_for_death",
                     name: "Marked for Death",
                     label: "3313.58",

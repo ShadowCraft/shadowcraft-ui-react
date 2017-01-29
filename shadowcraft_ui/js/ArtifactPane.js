@@ -8,126 +8,108 @@ const rankings = {
         {
             items: [
                 {
-                    dataval: "100.00999224379201",
                     slug: "192657",
                     name: "Bag of Tricks",
                     label: "21135.69",
                     pct: "100.01%"
                 },
                 {
-                    dataval: "92.31230234670517",
                     slug: "192923",
                     name: "Blood of the Assassinated",
                     label: "19508.73",
                     pct: "92.3123%"
                 },
                 {
-                    dataval: "50.565714865357634",
                     slug: "192428",
                     name: "From the Shadows",
                     label: "10685.3",
                     pct: "50.5657%"
                 },
                 {
-                    dataval: "31.143450053537755",
                     slug: "214368",
                     name: "Assassin's Blades",
                     label: "6580.27",
                     pct: "31.1435%"
                 },
                 {
-                    dataval: "22.451801673402745",
                     slug: "192759",
                     name: "Kingsbane",
                     label: "4743.23",
                     pct: "22.4518%"
                 },
                 {
-                    dataval: "15.366440921765665",
                     slug: "192384",
                     name: "Urge to Kill",
                     label: "3245.69",
                     pct: "15.3664%"
                 },
                 {
-                    dataval: "13.015157564303719",
                     slug: "192329",
                     name: "Gushing Wound",
                     label: "2748.73",
                     pct: '13.0152%'
                 },
                 {
-                    dataval: "9.775802961277527",
                     slug: "192315",
                     name: "Serrated Edge",
                     label: "2064.07",
                     pct: '9.7758%'
                 },
                 {
-                    dataval: "8.25590947739336",
                     slug: "192349",
                     name: "Master Assassin",
                     label: "1742.83",
                     pct: '8.25591%'
                 },
                 {
-                    dataval: "6.439503340554951",
                     slug: "214928",
                     name: "Slayer's Precision",
                     label: "1358.92",
                     pct: '6.4395%'
                 },
                 {
-                    dataval: "6.298935430561803",
                     slug: "192326",
                     name: "Balanced Blades",
                     label: "1329.21",
                     pct: '6.29894%'
                 },
                 {
-                    dataval: "3.6264891740646887",
                     slug: "192424",
                     name: "Surge of Toxins",
                     label: "764.37",
                     pct: '3.62649%'
                 },
                 {
-                    dataval: "3.554525595774693",
                     slug: "192376",
                     name: "Poison Knives",
                     label: "749.16",
                     pct: '3.55453%'
                 },
                 {
-                    dataval: "3.4405004651508344",
                     slug: "192310",
                     name: "Toxic Blades",
                     label: "725.06",
                     pct: '3.4405%'
                 },
                 {
-                    dataval: "1.7822627978873467",
                     slug: "192318",
                     name: "Master Alchemist",
                     label: "374.58",
                     pct: '1.78226%'
                 },
                 {
-                    dataval: "0.01",
                     slug: "192323",
                     name: "Fade into Shadows",
                     label: "0",
                     pct: '0.01%'
                 },
                 {
-                    dataval: "0.01",
                     slug: "192345",
                     name: "Shadow Walker",
                     label: "0",
                     pct: '0.01%'
                 },
                 {
-                    dataval: "0.01",
                     slug: "192422",
                     name: "Shadow Swiftness",
                     label: "0",
