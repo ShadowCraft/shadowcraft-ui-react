@@ -1,5 +1,6 @@
 import React from "react"
 import RankingSection from './SidebarRanking'
+import ArtifactTrait from './ArtifactTrait'
 
 const rankings = {
     id: 'traitrankings',
@@ -118,20 +119,6 @@ const rankings = {
             ]
         }
     ]
-}
-
-function ArtifactTrait(props) {
-    return (
-        <svg id={props.id} data-tooltip-id={props.tooltip_id} data-tooltip-type="spell" className="trait tt" style={{left: props.left, top: props.top}} data-max-rank={props.max_rank} width="90" height="90">
-            <clipPath id="iconclip">
-                <circle r="22" cx="45" cy="45"/>
-            </clipPath>
-            <image className="relic" href={"/static/images/artifacts/relic-blood.png"} width="90" height="90"/>
-            <image className="icon" href={"http://wow.zamimg.com/images/wow/icons/large/"+props.icon+".jpg"} clipPath="url(#iconclip)" x="22" y="22" height="46" width="46"/>
-            <image href={"/static/images/artifacts/ring-"+props.ring+".png"} x="5" y="5"/>
-            <text className="level">{props.cur_rank}/{props.max_rank}</text>
-        </svg>
-    )
 }
 
 export default class ArtifactPane extends React.Component {
