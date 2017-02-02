@@ -979,20 +979,40 @@ img.upgrade
     .trait
       position: absolute
       cursor: pointer
+      height: 90px
+      width: 90px
+      z-index: 1
 
     .relic
+      position: absolute
       cursor: pointer
+      height: 90px
+      width: 90px
+      z-index: 2
       &.inactive
         visibility: hidden
 
     .icon
+      position: absolute
       background: black
+      left: 22px
+      top: 22px
+      height: 46px
+      width: 46px
+      border-radius: 50%
+      z-index: 3
       &.inactive
         opacity: 0.6
 
-    .line
-      z-index: 0
+    .ring
       position: absolute
+      left: 5px
+      top: 5px
+      z-index: 4
+
+    .line
+      position: absolute
+      z-index: 0
       background-image: url(/static/images/artifacts/artifact-line-active.png)
       background-repeat: repeat-x
       height: 16px

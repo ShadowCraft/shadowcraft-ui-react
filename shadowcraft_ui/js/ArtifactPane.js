@@ -1,6 +1,6 @@
 import React from "react"
 import RankingSection from './SidebarRanking'
-import ArtifactTrait from './ArtifactTrait'
+import ArtifactTrait from './ArtifactTraitDiv'
 
 const rankings = {
     id: 'traitrankings',
