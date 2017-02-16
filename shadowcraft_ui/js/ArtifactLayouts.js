@@ -3,6 +3,7 @@ import ArtifactFrame from './ArtifactFrame'
 
 const kingslayer_layout = {
     artifact: 'kingslayers',
+    primary_trait: 192759,
     traits: {
         "ks_assassinsblades": {
             id: 214368,
@@ -234,11 +235,14 @@ const kingslayer_layout = {
             trait1: "ks_kingsbane",
             trait2: "ks_assassinsblades"
         },
-    ]
+    ],
+    relics: {
+    }
 }
 
 const dreadblades_layout = {
     artifact: "dreadblades",
+    primary_trait: 202665,
     traits: {
         "db_blackpowder": {
             id: 216230,
@@ -463,6 +467,7 @@ const dreadblades_layout = {
 
 const fangs_layout = {
     artifact: "fangs",
+    primary_trait: 209782,
     traits: {
         "fangs_akaarissoul": {
             id: 209835,
