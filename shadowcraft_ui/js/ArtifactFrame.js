@@ -48,76 +48,11 @@ export default class ArtifactFrame extends React.Component {
             current_enablers.push(this.props.layout.primary_trait)
             this.state.traits[id].enabled_by = current_enablers
         }
-    }
 
-    attach_relic(trait_id, rank_increase)
-    {
-        var new_max = this.state.traits[trait_id].max_rank + rank_increase
-        var new_current = this.state.traits[trait_id].cur_rank + rank_increase
-        this.setState({traits: {trait_id: {max_rank: new_max,
-                                           cur_rank: new_current}}})
-    }
-
-    detach_relic(trait_id, rank_increase)
-    {
-        var new_max = this.state.traits[trait_id].max_rank - rank_increase
-        var new_current = this.state.traits[trait_id].cur_rank - rank_increase
-        this.setState({traits: {trait_id: {max_rank: new_max,
-                                           cur_rank: new_current}}})
-    }
-
-    increase_rank(trait_id)
-    {
-        if (this.state.traits[trait_id].cur_rank < this.state.traits[trait_id].max_rank) {
-            var rank = this.state.traits[trait_id].cur_rank + 1
-            this.setState({traits: {trait_id: {cur_rank: rank}}})
-
-            if (rank == this.state.traits[trait_id].max_rank) {
-                for (id in this.connected_traits[trait_id]) {
-                    enable_connection(id, trait_id)
-                }
-            }
-        }
-    }
-    
-    decrease_rank(trait_id)
-    {
-        if (this.state.traits[traid_id].cur_rank == this.state.traits[trait_id].max_rank) {
-            for (id in this.connected_traits[trait_id]) {
-                disable_connection(id, trait_id)
-            }
-        }
-        
-        if (this.state.traits[trait_id].cur_rank > 0) {
-            var rank = this.state.traits[trait_id].cur_rank - 1
-            this.setState({traits: {trait_id: {cur_rank: rank}}})
-        }
-    }
-
-    enable_connection(trait_id, by)
-    {
-        var current_enablers = this.state.traits[trait_id].enabled_by
-        current_enablers.push(by)
-        this.setState({traits: {trait_id: {enabled_by: current_enablers}}})
-    }
-
-    disable_connection(trait_id, by)
-    {
-        var current_enablers = this.state.traits[trait_id].enabled_by
-        var index = current_enablers.indexOf(by)
-        if (index > -1) {
-            current_enablers.splice(index, 1)
-        }
-
-        this.setState({traits: {trait_id: {enabled_by: current_enablers}}})
-    }
-
-    render() {
-        var traits = [];
-        var lines = [];
+        this.trait_elements = [];
+        this.line_elements = [];
         for (var idx in this.props.layout.traits) {
             var trait = this.props.layout.traits[idx]
-            var trait_state = this.state.traits[trait.id]
 
             // The position that we grab from wowhead is translated to match the center
             // of where the div is. This makes calculating the lines below easier.
@@ -125,7 +60,7 @@ export default class ArtifactFrame extends React.Component {
             var left = (trait.x-45) / FRAME_WIDTH * 100.0
             var top = (trait.y-45) / FRAME_HEIGHT * 100.0
 
-            traits.push(<ArtifactTrait id={idx} tooltip_id={trait.id} left={left+"%"} top={top+"%"} max_rank={trait_state.max_rank} icon={trait.icon} ring={trait.ring} cur_rank={trait_state.cur_rank} enabled={trait_state.enabled_by.length > 0}  parent={this} />)
+            this.trait_elements.push(<ArtifactTrait id={idx} tooltip_id={trait.id} left={left+"%"} top={top+"%"} max_rank={this.state.traits[trait.id].max_rank} icon={trait.icon} ring={trait.ring} state={this.state.traits[trait.id]} parent={this} />)
         }
 
         for (var line of this.props.layout.lines) {
@@ -137,15 +72,85 @@ export default class ArtifactFrame extends React.Component {
             var y2 = trait2.y / FRAME_HEIGHT * 100.0
             var color = "yellow"
 
-            lines.push(<line x1={x1+"%"} y1={y1+"%"} x2={x2+"%"} y2={y2+"%"} strokeWidth="6"
-                        stroke={((this.state.traits[trait1.id].cur_rank == this.state.traits[trait1.id].max_rank) || (this.state.traits[trait1.id].cur_rank == this.state.traits[trait1.id].max_rank)) ? "yellow" : "grey"}/>)
+            this.line_elements.push(<line x1={x1+"%"} y1={y1+"%"} x2={x2+"%"} y2={y2+"%"} strokeWidth="6"
+                                    stroke={((this.state.traits[trait1.id].cur_rank == this.state.traits[trait1.id].max_rank) || (this.state.traits[trait1.id].cur_rank == this.state.traits[trait1.id].max_rank)) ? "yellow" : "grey"}/>)
         }
+
+    }
+
+    attach_relic(trait_id, rank_increase)
+    {
+        var new_max = this.state.traits[trait_id].max_rank + rank_increase
+        var new_current = this.state.traits[trait_id].cur_rank + rank_increase
+        
+        var traits = this.state.traits
+        traits[trait_id].max_rank = this.state.traits[trait_id].max_rank + rank_increase
+        traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank + rank_increase
+        this.setState({traits: traits})
+    }
+
+    detach_relic(trait_id, rank_increase)
+    {
+        var traits = this.state.traits
+        traits[trait_id].max_rank = this.state.traits[trait_id].max_rank - rank_increase
+        traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank - rank_increase
+        this.setState({traits: traits})
+    }
+
+    increase_rank(trait_id)
+    {
+        if (this.state.traits[trait_id].cur_rank < this.state.traits[trait_id].max_rank) {
+            var traits = this.state.traits
+            traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank + 1
+            this.setState({traits: traits})
+
+            if (traits[trait_id].cur_rank == traits[trait_id].max_rank) {
+                for (var id of this.connected_traits[trait_id]) {
+                    this.enable_connection(id, trait_id)
+                }
+            }
+        }
+    }
+    
+    decrease_rank(trait_id)
+    {
+        if (this.state.traits[trait_id].cur_rank == this.state.traits[trait_id].max_rank) {
+            for (var id of this.connected_traits[trait_id]) {
+                this.disable_connection(id, trait_id)
+            }
+        }
+        
+        if (this.state.traits[trait_id].cur_rank > 0) {
+            var traits = this.state.traits
+            traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank - 1
+            this.setState({traits: traits})
+        }
+    }
+
+    enable_connection(trait_id, by)
+    {
+        var traits = this.state.traits
+        traits[trait_id].enabled_by.push(by)
+        this.setState({traits: traits})
+    }
+
+    disable_connection(trait_id, by)
+    {
+        var traits = this.state.traits
+        var index = traits[trait_id].enabled_by.indexOf(by)
+        if (index > -1) {
+            traits[trait_id].enabled_by.splice(index, 1)
+            this.setState({traits: traits})
+        }
+    }
+
+    render() {
 
         return (
             <div id="artifactframe" style={{ backgroundImage: 'url(/static/images/artifacts/'+this.props.layout.artifact+'-bg.jpg)' }}>
-                {traits}
+                {this.trait_elements}
                 <svg width={FRAME_WIDTH} height={FRAME_HEIGHT} viewBox={"0 0 "+FRAME_WIDTH+" "+FRAME_HEIGHT}>
-                    {lines}
+                    {this.line_elements}
                 </svg>
             </div>
         )
