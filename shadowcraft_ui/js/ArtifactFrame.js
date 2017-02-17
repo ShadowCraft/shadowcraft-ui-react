@@ -36,18 +36,13 @@ export default class ArtifactFrame extends React.Component {
             this.state.traits[trait_id] = {
                 cur_rank: 0,
                 max_rank: trait.max_rank,
-                enabled_by: []
+                enabled: false
             }
         }
 
         this.state.traits[this.props.layout.primary_trait].cur_rank = 1
-        this.state.traits[this.props.layout.primary_trait].enabled_by.push('primary')
-        for (var id of this.connected_traits[this.props.layout.primary_trait])
-        {
-            var current_enablers = this.state.traits[id].enabled_by
-            current_enablers.push(this.props.layout.primary_trait)
-            this.state.traits[id].enabled_by = current_enablers
-        }
+        this.state.traits[this.props.layout.primary_trait].enabled = true
+        this.update_state(this.state.traits, true)
     }
 
     attach_relic(trait_id, rank_increase)
@@ -58,7 +53,7 @@ export default class ArtifactFrame extends React.Component {
         var traits = this.state.traits
         traits[trait_id].max_rank = this.state.traits[trait_id].max_rank + rank_increase
         traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank + rank_increase
-        this.setState({traits: traits})
+        this.update_state(traits, false)
     }
 
     detach_relic(trait_id, rank_increase)
@@ -66,71 +61,65 @@ export default class ArtifactFrame extends React.Component {
         var traits = this.state.traits
         traits[trait_id].max_rank = this.state.traits[trait_id].max_rank - rank_increase
         traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank - rank_increase
-        this.setState({traits: traits})
+        this.update_state(traits, false)
     }
 
     increase_rank(trait_id)
     {
-        if (this.state.traits[trait_id].enabled_by.length > 0 &&
-            this.state.traits[trait_id].cur_rank < this.state.traits[trait_id].max_rank) {
+        if (this.state.traits[trait_id].enabled &&
+            this.state.traits[trait_id].cur_rank < this.state.traits[trait_id].max_rank)
+        {
             var traits = this.state.traits
             traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank + 1
-            this.setState({traits: traits})
-
-            if (traits[trait_id].cur_rank == traits[trait_id].max_rank) {
-                for (var id of this.connected_traits[trait_id]) {
-                    this.enable_connection(id, trait_id)
-                }
-            }
+            this.update_state(traits, false)
         }
     }
     
     decrease_rank(trait_id)
     {
-        if (this.state.traits[trait_id].enabled_by.length == 0) {
-            return
-        }
-        
-        if (this.state.traits[trait_id].cur_rank == this.state.traits[trait_id].max_rank) {
-            for (var id of this.connected_traits[trait_id]) {
-                this.disable_connection(id, trait_id)
-            }
-        }
-        
-        if (this.state.traits[trait_id].cur_rank > 0) {
+        // TODO: this needs to check for relics too
+        if (this.state.traits[trait_id].enabled) {
             var traits = this.state.traits
             traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank - 1
-            this.setState({traits: traits})
+            this.update_state(traits, false)
         }
     }
 
-    enable_connection(trait_id, by)
+    update_state(current_state, from_constructor)
     {
-        var traits = this.state.traits
-        traits[trait_id].enabled_by.push(by)
-        this.setState({traits: traits})
-    }
+        // starting at the top of the tree, walk down it to find all of the traits that should
+        // actually be enabled.
+        var traits_to_check = [this.props.layout.primary_trait]
+        var traits_checked = []
 
-    disable_connection(trait_id, by)
-    {
-        console.log("disabling " + trait_id + " " + by)
-        var traits = this.state.traits
-        var index = traits[trait_id].enabled_by.indexOf(by)
-        if (index > -1) {
-            traits[trait_id].enabled_by.splice(index, 1)
-
-            var empty = (traits[trait_id].enabled_by.length == 0)
-            if (empty) {
-                traits[trait_id].cur_rank = 0
+        while (traits_to_check.length > 0)
+        {
+            var trait = traits_to_check.shift()
+            if (traits_checked.indexOf(trait) != -1) {
+                continue
             }
 
-            this.setState({traits: traits})
-
-            if (empty) {
-                for (var id of this.connected_traits[trait_id]) {
-                    this.disable_connection(id, trait_id)
-                }
+            traits_checked.push(trait)
+            current_state[trait].enabled = true;
+            if (current_state[trait].cur_rank == current_state[trait].max_rank) {
+                traits_to_check = traits_to_check.concat(this.connected_traits[trait])
             }
+        }
+
+        // Disable everything else, unless there's a relic attached to it
+        // TODO: the relic bits
+        for (var trait in current_state)
+        {
+            var t = parseInt(trait)
+            if (traits_checked.indexOf(parseInt(t)) == -1)
+            {
+                current_state[t].cur_rank = 0
+                current_state[t].enabled = false
+            }
+        }
+
+        if (!from_constructor) {
+            this.setState({traits: current_state})
         }
     }
 
@@ -140,6 +129,7 @@ export default class ArtifactFrame extends React.Component {
         var line_elements = [];
         for (var idx in this.props.layout.traits) {
             var trait = this.props.layout.traits[idx]
+            var trait_state = this.state.traits[trait.id]
 
             // The position that we grab from wowhead is translated to match the center
             // of where the div is. This makes calculating the lines below easier.
@@ -147,10 +137,7 @@ export default class ArtifactFrame extends React.Component {
             var left = (trait.x-45) / FRAME_WIDTH * 100.0
             var top = (trait.y-45) / FRAME_HEIGHT * 100.0
 
-            var trait_state = this.state.traits[trait.id]
-            var enabled = trait_state.enabled_by.length > 0 || trait_state.cur_rank > 0
-
-            trait_elements.push(<ArtifactTrait key={idx} id={idx} tooltip_id={trait.id} left={left+"%"} top={top+"%"} cur_rank={trait_state.cur_rank} max_rank={trait_state.max_rank} icon={trait.icon} ring={trait.ring} enabled={enabled} parent={this} />)
+            trait_elements.push(<ArtifactTrait key={idx} id={idx} tooltip_id={trait.id} left={left+"%"} top={top+"%"} cur_rank={trait_state.cur_rank} max_rank={trait_state.max_rank} icon={trait.icon} ring={trait.ring} enabled={trait_state.enabled} parent={this} />)
         }
 
         for (var line of this.props.layout.lines) {
@@ -160,9 +147,10 @@ export default class ArtifactFrame extends React.Component {
             var y1 = trait1.y / FRAME_HEIGHT * 100.0
             var x2 = trait2.x / FRAME_WIDTH * 100.0
             var y2 = trait2.y / FRAME_HEIGHT * 100.0
+
+            var color = this.state.traits[trait1.id].enabled && this.state.traits[trait2.id].enabled ? "yellow" : "grey"
             
-            line_elements.push(<line key={trait1.id.toString()+"-"+trait2.id.toString()} x1={x1+"%"} y1={y1+"%"} x2={x2+"%"} y2={y2+"%"} strokeWidth="6"
-                                    stroke={((this.state.traits[trait1.id].cur_rank == this.state.traits[trait1.id].max_rank) || (this.state.traits[trait2.id].cur_rank == this.state.traits[trait2.id].max_rank)) ? "yellow" : "grey"}/>)
+            line_elements.push(<line key={trait1.id.toString()+"-"+trait2.id.toString()} x1={x1+"%"} y1={y1+"%"} x2={x2+"%"} y2={y2+"%"} strokeWidth="6" stroke={color} />)
         }
         return (
             <div id="artifactframe" style={{ backgroundImage: 'url(/static/images/artifacts/'+this.props.layout.artifact+'-bg.jpg)' }}>
