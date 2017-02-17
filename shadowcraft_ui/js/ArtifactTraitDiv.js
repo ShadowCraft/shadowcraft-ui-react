@@ -11,24 +11,22 @@ export default class ArtifactTrait extends React.Component {
     handleClick(e)
     {
         e.preventDefault()
-        console.log('click!')
         this.props.parent.increase_rank(this.props.tooltip_id)
     }
 
     handleRightClick(e)
     {
         e.preventDefault()
-        console.log('right click!')
         this.props.parent.decrease_rank(this.props.tooltip_id)
     }
-    
+
     render() {
         return (
             <div className="trait tt" id={this.props.id} data-tooltip-id={this.props.tooltip_id} data-tooltip-type="spell" data-max-rank={this.props.max_rank} style={{left: this.props.left, top: this.props.top}} onClick={this.handleClick} onContextMenu={this.handleRightClick}>
                 <img className="relic inactive" src="static/images/artifacts/relic-blood.png" />
-                <img className={"icon" + (this.props.state.enabled_by.length > 0 ? "" : " inactive") } src={"http://wow.zamimg.com/images/wow/icons/large/"+this.props.icon+".jpg"} />
+                <img className={"icon" + (this.props.enabled ? "" : " inactive") } src={"http://wow.zamimg.com/images/wow/icons/large/"+this.props.icon+".jpg"} />
                 <img className="ring" src={"static/images/artifacts/ring-"+this.props.ring+".png"} />
-                <span className={"level" + (this.props.state.enabled_by.length > 0 ? "" : " inactive") }>{this.props.state.cur_rank}/{this.props.state.max_rank}</span>
+                <span className={"level" + (this.props.enabled ? "" : " inactive") }>{this.props.cur_rank}/{this.props.max_rank}</span>
             </div>
         )
     }

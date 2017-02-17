@@ -7,6 +7,7 @@ const rankings = {
     name: 'Trait Rankings',
     sections: [
         {
+            index: 0,
             items: [
                 {
                     slug: "192657",

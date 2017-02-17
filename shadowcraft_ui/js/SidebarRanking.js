@@ -19,13 +19,12 @@ export default class RankingSection extends React.Component {
                 <h3>{this.props.data.name}</h3>
                 <div className="inner">
                     {this.props.data.sections.map(function(section) {
-                        var sectionName = section.name
                         return (
-                            <div className={section.className}>
+                            <div key={section.index} className={section.className}>
                             {section.name && <h3>{section.name}</h3> }
                                 {section.items.map(function(item) {
                                     return (
-                                        <Ranking slug={item.slug} name={item.name} label={item.label} pct={item.pct} />
+                                        <Ranking key={item.slug} slug={item.slug} name={item.name} label={item.label} pct={item.pct} />
                                     )
                                 })}
                             </div>
