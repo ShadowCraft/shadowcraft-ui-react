@@ -1,6 +1,7 @@
 import React from "react"
 import RankingSection from './SidebarRanking'
 import * as layouts from './ArtifactLayouts'
+import ArtifactFrame from './ArtifactFrame'
 
 const rankings = {
     id: 'traitrankings',
@@ -123,7 +124,30 @@ const rankings = {
 }
 
 export default class ArtifactPane extends React.Component {
+    
+    constructor(props)
+    {
+        super(props)
+        this.state = {}
+        this.state.spec = 'a'
+        this.frame = null
+    }
+
+    set_spec(spec){
+        this.setState({spec: spec})
+    }
+    
     render() {
+        if (this.state.spec == 'a') {
+            this.frame = <ArtifactFrame layout={layouts.kingslayer_layout} />;
+        }
+        else if (this.state.spec == 'Z') {
+            this.frame = <ArtifactFrame layout={layouts.outlaw_layout} />
+        }
+        else if (this.state.spec == 'b') {
+            this.frame = <ArtifactFrame layout={layouts.outlaw_layout} />
+        }
+        
         return (
             <div className="with-tools ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="artifact">
                 <div className="panel-tools">
@@ -132,21 +156,8 @@ export default class ArtifactPane extends React.Component {
                     </div>
                     <RankingSection data={rankings} />
                 </div>
-                <div className="panel-content">
-                    <div id="artifactactive">
-                        <span className="spec-icon" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/medium/inv_knife_1h_artifactgarona_d_01.jpg)' }}></span>
-                        <span className="spec-name">The Kingslayers</span>
-                        <span className="power-spent" style={{ float: 'right' }}>Trait Points Spent: 27</span>
-                    </div>
-                    <div className="inner"></div>
-                    {layouts.kingslayer_frame}
-                    <div className="alternatives popup ui-dialog" id="artifactpopup">
-                        <div id="filter">
-                            <input className="search" placeholder="Filter..." type="search" />
-                        </div>
-                        <div className="body"></div>
-                    </div>
-                </div>
+
+                {this.frame}
             </div>
         )
     }

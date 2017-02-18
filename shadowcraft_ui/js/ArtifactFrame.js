@@ -1,5 +1,6 @@
 import React from "react"
 import ArtifactTrait from './ArtifactTraitDiv'
+import ArtifactRelicSelect from './ArtifactRelicSelect'
 
 var FRAME_WIDTH=720.0
 var FRAME_HEIGHT=615.0
@@ -27,9 +28,11 @@ export default class ArtifactFrame extends React.Component {
         }
 
         this.state = {
-            traits: {}
+            traits: {},
+            relics: []
         }
 
+        this.relics = []
         for (var idx in this.props.layout.traits) {
             var trait = this.props.layout.traits[idx]
             var trait_id = trait.id
@@ -38,11 +41,20 @@ export default class ArtifactFrame extends React.Component {
                 max_rank: trait.max_rank,
                 enabled: false
             }
+
+            if (trait.relic) {
+                this.relics.push([trait.id, trait.name])
+            }
         }
 
         this.state.traits[this.props.layout.primary_trait].cur_rank = 1
         this.state.traits[this.props.layout.primary_trait].enabled = true
-        this.update_state(this.state.traits, true)
+
+        this.state.relics.push({trait: this.relics[0][0], ilvl: 830})
+        this.state.relics.push({trait: this.relics[0][0], ilvl: 830})
+        this.state.relics.push({trait: this.relics[0][0], ilvl: 830})
+
+        this.update_state(this.state.traits, this.state.relics, true)
     }
 
     attach_relic(trait_id, rank_increase)
@@ -53,7 +65,7 @@ export default class ArtifactFrame extends React.Component {
         var traits = this.state.traits
         traits[trait_id].max_rank = this.state.traits[trait_id].max_rank + rank_increase
         traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank + rank_increase
-        this.update_state(traits, false)
+        this.update_state(traits, this.state.relics, false)
     }
 
     detach_relic(trait_id, rank_increase)
@@ -61,7 +73,7 @@ export default class ArtifactFrame extends React.Component {
         var traits = this.state.traits
         traits[trait_id].max_rank = this.state.traits[trait_id].max_rank - rank_increase
         traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank - rank_increase
-        this.update_state(traits, false)
+        this.update_state(traits, this.state.relics, false)
     }
 
     increase_rank(trait_id)
@@ -71,7 +83,7 @@ export default class ArtifactFrame extends React.Component {
         {
             var traits = this.state.traits
             traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank + 1
-            this.update_state(traits, false)
+            this.update_state(traits, this.state.relics, false)
         }
     }
     
@@ -81,11 +93,19 @@ export default class ArtifactFrame extends React.Component {
         if (this.state.traits[trait_id].enabled) {
             var traits = this.state.traits
             traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank - 1
-            this.update_state(traits, false)
+            this.update_state(traits, this.state.relics, false)
         }
     }
 
-    update_state(current_state, from_constructor)
+    change_relic(slot, trait, ilvl)
+    {
+        var cur_state = this.state.relics
+        this.state.relics[parseInt(slot)].trait = trait
+        this.state.relics[parseInt(slot)].ilvl = ilvl
+        this.update_state(this.state.traits, cur_state, false)
+    }
+
+    update_state(new_traits, new_relics, from_constructor)
     {
         // starting at the top of the tree, walk down it to find all of the traits that should
         // actually be enabled.
@@ -100,26 +120,26 @@ export default class ArtifactFrame extends React.Component {
             }
 
             traits_checked.push(trait)
-            current_state[trait].enabled = true;
-            if (current_state[trait].cur_rank == current_state[trait].max_rank) {
+            new_traits[trait].enabled = true;
+            if (new_traits[trait].cur_rank == new_traits[trait].max_rank) {
                 traits_to_check = traits_to_check.concat(this.connected_traits[trait])
             }
         }
 
         // Disable everything else, unless there's a relic attached to it
         // TODO: the relic bits
-        for (var trait in current_state)
+        for (var trait in new_traits)
         {
             var t = parseInt(trait)
             if (traits_checked.indexOf(parseInt(t)) == -1)
             {
-                current_state[t].cur_rank = 0
-                current_state[t].enabled = false
+                new_traits[t].cur_rank = 0
+                new_traits[t].enabled = false
             }
         }
 
         if (!from_constructor) {
-            this.setState({traits: current_state})
+            this.setState({traits: new_traits, relics: new_relics})
         }
     }
 
@@ -153,11 +173,26 @@ export default class ArtifactFrame extends React.Component {
             line_elements.push(<line key={trait1.id.toString()+"-"+trait2.id.toString()} x1={x1+"%"} y1={y1+"%"} x2={x2+"%"} y2={y2+"%"} strokeWidth="6" stroke={color} />)
         }
         return (
-            <div id="artifactframe" style={{ backgroundImage: 'url(/static/images/artifacts/'+this.props.layout.artifact+'-bg.jpg)' }}>
-                {trait_elements}
-                <svg width={FRAME_WIDTH} height={FRAME_HEIGHT} viewBox={"0 0 "+FRAME_WIDTH+" "+FRAME_HEIGHT}>
-                    {line_elements}
-                </svg>
+            <div className="panel-content">
+                <div id="artifactactive">
+                    <span className="spec-icon" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/medium/'+this.props.layout.artifact_icon+'.jpg)' }}></span>
+                <span className="spec-name">{this.props.layout.artifact_name}</span>
+                    <span className="power-spent" style={{ float: 'right' }}>Trait Points Spent: {this.state.total_traits}</span>
+                </div>
+                
+                <div id="artifactframe" style={{ backgroundImage: 'url(/static/images/artifacts/'+this.props.layout.artifact+'-bg.jpg)' }}>
+                    {trait_elements}
+                    <svg width={FRAME_WIDTH} height={FRAME_HEIGHT} viewBox={"0 0 "+FRAME_WIDTH+" "+FRAME_HEIGHT}>
+                        {line_elements}
+                    </svg>
+                </div>
+
+                <br/>
+                <ArtifactRelicSelect index="0" relics={this.relics} selected={this.state.relics[0]} type={this.props.layout.relic1} parent={this}/>
+                <br/>
+                <ArtifactRelicSelect index="1" relics={this.relics} selected={this.state.relics[1]} type={this.props.layout.relic2} parent={this} />
+                <br/>
+                <ArtifactRelicSelect index="2" relics={this.relics} selected={this.state.relics[2]} type={this.props.layout.relic3} parent={this} />
             </div>
         )
     }
