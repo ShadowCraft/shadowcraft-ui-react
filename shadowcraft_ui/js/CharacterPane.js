@@ -19,7 +19,7 @@ export default class CharacterPane extends React.Component {
                         <div id="curtain">
                             <Tabs>
                                 <Tabs.Panel title="Gear">
-                                    <GearPane />
+                                    <GearPane data={this.props.data}/>
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Talents">
                                     <TalentPane />

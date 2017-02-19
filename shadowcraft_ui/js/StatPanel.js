@@ -5,6 +5,9 @@ import StatPanelButton from './StatPanelButton'
 
 export default class StatPane extends React.Component {
     render() {
+        // there are no stats in character data yet
+        let stats = this.props.stats
+        // console.log(stats)
         return (
             <div className="panel-tools">
                 <section id="summary">
