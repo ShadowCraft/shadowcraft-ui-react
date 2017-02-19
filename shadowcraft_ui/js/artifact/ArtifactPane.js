@@ -1,5 +1,5 @@
 import React from "react"
-import RankingSection from './SidebarRanking'
+import RankingSection from '../SidebarRanking'
 import * as layouts from './ArtifactLayouts'
 import ArtifactFrame from './ArtifactFrame'
 
