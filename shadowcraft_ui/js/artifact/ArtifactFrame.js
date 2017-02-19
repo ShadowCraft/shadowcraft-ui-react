@@ -15,7 +15,7 @@ export default class ArtifactFrame extends React.Component {
         for (var line of this.props.layout.lines) {
             var trait1 = this.props.layout.traits[line.trait1].id
             var trait2 = this.props.layout.traits[line.trait2].id
-            
+
             if (!(trait1 in this.connected_traits)) {
                 this.connected_traits[trait1] = []
             }
@@ -28,6 +28,7 @@ export default class ArtifactFrame extends React.Component {
         }
 
         this.state = {
+            total_traits: 1,
             traits: {},
             relics: []
         }
@@ -47,12 +48,22 @@ export default class ArtifactFrame extends React.Component {
             }
         }
 
+        this.relics.sort(function(a,b) {
+            if (a[1] == b[1]) {
+                return 0
+            } else if (a[1] < b[1]) {
+                return -1
+            } else {
+                return 1
+            }
+        })
+
         this.state.traits[this.props.layout.primary_trait].cur_rank = 1
         this.state.traits[this.props.layout.primary_trait].enabled = true
 
-        this.state.relics.push({trait: this.relics[0][0], ilvl: 830})
-        this.state.relics.push({trait: this.relics[0][0], ilvl: 830})
-        this.state.relics.push({trait: this.relics[0][0], ilvl: 830})
+        this.state.relics.push({trait: (this.relics[0] && this.relics[0][0]) || 0, ilvl: 830})
+        this.state.relics.push({trait: (this.relics[0] && this.relics[0][0]) || 0, ilvl: 830})
+        this.state.relics.push({trait: (this.relics[0] && this.relics[0][0]) || 0, ilvl: 830})
 
         this.update_state(this.state.traits, this.state.relics, true)
     }
@@ -61,7 +72,7 @@ export default class ArtifactFrame extends React.Component {
     {
         var new_max = this.state.traits[trait_id].max_rank + rank_increase
         var new_current = this.state.traits[trait_id].cur_rank + rank_increase
-        
+
         var traits = this.state.traits
         traits[trait_id].max_rank = this.state.traits[trait_id].max_rank + rank_increase
         traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank + rank_increase
@@ -86,7 +97,7 @@ export default class ArtifactFrame extends React.Component {
             this.update_state(traits, this.state.relics, false)
         }
     }
-    
+
     decrease_rank(trait_id)
     {
         // TODO: this needs to check for relics too
@@ -111,6 +122,7 @@ export default class ArtifactFrame extends React.Component {
         // actually be enabled.
         var traits_to_check = [this.props.layout.primary_trait]
         var traits_checked = []
+        var total_traits = 0
 
         while (traits_to_check.length > 0)
         {
@@ -136,10 +148,14 @@ export default class ArtifactFrame extends React.Component {
                 new_traits[t].cur_rank = 0
                 new_traits[t].enabled = false
             }
+            else
+            {
+                total_traits += new_traits[t].cur_rank
+            }
         }
 
         if (!from_constructor) {
-            this.setState({traits: new_traits, relics: new_relics})
+            this.setState({total_traits: total_traits, traits: new_traits, relics: new_relics})
         }
     }
 
@@ -147,6 +163,7 @@ export default class ArtifactFrame extends React.Component {
     {
         var trait_elements = [];
         var line_elements = [];
+
         for (var idx in this.props.layout.traits) {
             var trait = this.props.layout.traits[idx]
             var trait_state = this.state.traits[trait.id]
@@ -169,9 +186,10 @@ export default class ArtifactFrame extends React.Component {
             var y2 = trait2.y / FRAME_HEIGHT * 100.0
 
             var color = this.state.traits[trait1.id].enabled && this.state.traits[trait2.id].enabled ? "yellow" : "grey"
-            
+
             line_elements.push(<line key={trait1.id.toString()+"-"+trait2.id.toString()} x1={x1+"%"} y1={y1+"%"} x2={x2+"%"} y2={y2+"%"} strokeWidth="6" stroke={color} />)
         }
+
         return (
             <div className="panel-content">
                 <div id="artifactactive">
@@ -179,7 +197,7 @@ export default class ArtifactFrame extends React.Component {
                 <span className="spec-name">{this.props.layout.artifact_name}</span>
                     <span className="power-spent" style={{ float: 'right' }}>Trait Points Spent: {this.state.total_traits}</span>
                 </div>
-                
+
                 <div id="artifactframe" style={{ backgroundImage: 'url(/static/images/artifacts/'+this.props.layout.artifact+'-bg.jpg)' }}>
                     {trait_elements}
                     <svg width={FRAME_WIDTH} height={FRAME_HEIGHT} viewBox={"0 0 "+FRAME_WIDTH+" "+FRAME_HEIGHT}>
@@ -188,11 +206,11 @@ export default class ArtifactFrame extends React.Component {
                 </div>
 
                 <br/>
-                <ArtifactRelicSelect index="0" relics={this.relics} selected={this.state.relics[0]} type={this.props.layout.relic1} parent={this}/>
+                <ArtifactRelicSelect index="0" relics={this.relics} selected={this.state.relics[0]} type={this.props.layout.relics[0]} parent={this}/>
                 <br/>
-                <ArtifactRelicSelect index="1" relics={this.relics} selected={this.state.relics[1]} type={this.props.layout.relic2} parent={this} />
+                <ArtifactRelicSelect index="1" relics={this.relics} selected={this.state.relics[1]} type={this.props.layout.relics[1]} parent={this} />
                 <br/>
-                <ArtifactRelicSelect index="2" relics={this.relics} selected={this.state.relics[2]} type={this.props.layout.relic3} parent={this} />
+                <ArtifactRelicSelect index="2" relics={this.relics} selected={this.state.relics[2]} type={this.props.layout.relics[2]} parent={this} />
             </div>
         )
     }
