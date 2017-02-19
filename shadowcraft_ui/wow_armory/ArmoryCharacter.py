@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import csv
+import os
 from . import ArmoryDocument
 from . import ArmoryConstants
 
@@ -160,7 +161,7 @@ class ArmoryCharacter(object):
         # We're mapping between id_power and id_spell
         if ArmoryCharacter.artifact_ids is None:
             ArmoryCharacter.artifact_ids = {}
-            with open('../external_data/ArtifactPowerRank.dbc.csv', mode='r') as infile:
+            with open(os.getcwd()+'/shadowcraft_ui/external_data/ArtifactPowerRank.dbc.csv', mode='r') as infile:
                 reader = csv.reader(infile)
                 next(reader) # Skip the first row with the header
                 for row in reader:
