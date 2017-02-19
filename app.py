@@ -1,8 +1,9 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, json
 from flask_socketio import SocketIO
 from flask_pymongo import PyMongo
 from werkzeug.routing import BaseConverter
 import shadowcraft_ui
+from bson import json_util
 
 app = Flask('shadowcraft_ui')
 app.config['SECRET_KEY'] = 'shhhhhhhh!'
@@ -24,7 +25,8 @@ def main():
 @app.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>')
 def character_show(region, realm, name):
     data = shadowcraft_ui.get_character_data(mongo, region, realm, name)
-    return data
+    character_json = json.dumps(data, indent=4, default=json_util.default)
+    return render_template('index.html', character_json=character_json)
 
 # Refreshes a character from the armory and redirects to the main route.
 # TODO: Flask adds a "redirecting" page before redirecting. Is there a way
