@@ -1,7 +1,7 @@
 import React from "react"
 import GearPane from './GearPane';
 import TalentPane from './TalentPane';
-import ArtifactPane from './ArtifactPane';
+import ArtifactPane from './artifact/ArtifactPane';
 import SettingsPane from './SettingsPane';
 import AdvancedPane from './AdvancedPane';
 import DocsPane from './DocsPane';
@@ -22,10 +22,10 @@ export default class CharacterPane extends React.Component {
                                     <GearPane data={this.props.data}/>
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Talents">
-                                    <TalentPane />
+                                    <TalentPane data={this.props.data} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Artifact">
-                                    <ArtifactPane />
+                                    <ArtifactPane data={this.props.data} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Settings">
                                     <SettingsPane />

@@ -1,3 +1,8 @@
+# I needed this to make things work with python 3.6. No idea why, but it shouldn't
+# hurt anything else.
+from gevent import monkey
+monkey.patch_all()
+
 from flask import Flask, render_template, url_for, redirect, json
 from flask_socketio import SocketIO
 from flask_pymongo import PyMongo

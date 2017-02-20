@@ -2,6 +2,7 @@ import hashlib
 import json
 import jsonschema
 import pymongo
+import traceback
 from ..wow_armory.ArmoryCharacter import ArmoryCharacter
 
 # TODO: is there any reason for this to actually be an object? Do we ever edit a character
@@ -15,9 +16,7 @@ def load(db, region, realm, name, sha=None, refresh=False):
         # If we're loading from a sha, check to see if that sha is in the db.
         # If it's there, load that data. If it's not, force a refresh.
         results = db.history.find({'sha':sha})
-        print(results.count())
         if results.count() != 0:
-            print(results[0])
             char_data = results[0]['json']
         else:
             print("Failed to find SHA value in the database, will attempt to load character from Armory")
@@ -40,6 +39,7 @@ def load(db, region, realm, name, sha=None, refresh=False):
         except Exception as error:
             char_data = None
             print("Failed to load character data for %s/%s/%s: %s" % (region, realm, name, error))
+            traceback.print_exc()
 
         if char_data != None:
             # Store it in the database
