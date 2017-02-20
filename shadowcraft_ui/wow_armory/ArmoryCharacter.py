@@ -38,18 +38,19 @@ class ArmoryCharacter(object):
         if 'items' not in json_data or len(json_data['items']) == 0:
             raise ArmoryDocument.ArmoryError('No items found on character')
 
-        for slot, slot_item in json_data['items'].items():
+        for key, slot_item in json_data['items'].items():
             if not isinstance(slot_item, dict):
                 continue
-            if slot not in ArmoryConstants.SLOT_MAP:
+            if key == 'shirt' or key == 'tabard':
                 continue
-
+            
             tooltip = slot_item['tooltipParams'] if 'tooltipParams' in slot_item else {}
             info = {
                 'id': slot_item['id'],
+                'name': slot_item['name'],
+                'icon': slot_item['icon'],
                 'item_level': slot_item['itemLevel'],
                 'gems': [],
-                'slot': ArmoryConstants.SLOT_MAP[slot],
                 'bonuses': slot_item['bonusLists'],
                 'context': slot_item['context'],
                 'quality': slot_item['quality'],
@@ -65,8 +66,8 @@ class ArmoryCharacter(object):
             # same between all of those contexts?
             if info['context'].startswith('world-quest'):
                 info['context'] = 'world-quest'
-
-            self.gear[str(info['slot'])] = info
+            
+            self.gear[key] = info
 
         # Artifact data from the API looks like this:
         #            "artifactTraits": [{

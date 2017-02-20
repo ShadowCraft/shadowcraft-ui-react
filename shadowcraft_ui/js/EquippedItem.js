@@ -14,9 +14,8 @@ export default class EquippedItem extends React.Component {
                 data-slot={item.slot}
                 data-id={item.id}
             >
-                {/*need icon data in mongo*/}
                 <div className="image">
-                    <img src={item.image} />
+                    <img src={`http://us.media.blizzard.com/wow/icons/56/${item.icon}.jpg`} />
                     <span className="ilvl">{item.item_level}</span>
                 </div>
                 <div className="lock lock_off">
@@ -28,8 +27,8 @@ export default class EquippedItem extends React.Component {
                     data-tooltip-gems={item.gems}
                     data-tooltip-id={item.id}
                 >
-                    {item.name} Need item name from mongo
-                    <em className="heroic">need bonus from mongo</em>
+                    {item.name}
+                    <em className="heroic">do we need to keep this, because it is mostly meaningless for optimization?</em>
                     <a className="wowhead" href={`http://legion.wowhead.com/item=${item.id}`} target="_blank">Wowhead</a>
                 </div>
                 <div className="bonuses">
@@ -41,13 +40,22 @@ export default class EquippedItem extends React.Component {
                             {/*not handling colored sockets*/}
                             <img src="/static/images/icons/Socket_Prismatic.png" /> </span>
                         <span className="img">
+                            {/*need to map gemid to icon*/}
                             <img src={item.gems[0].image} />
                         </span>
-                        {/*need gem name in mongo*/}
-                        <span className="gem_name">{item.gems[0].name}</span>
+                        {/*need gem name*/}
+                        <span className="gem_name">{item.gems[0].name}need to map gem id to name and icon</span>
                     </div>
                 </div>
-            </div>
+                {/*need to handle enchant slot validation*/}
+                <div className="enchant">
+                    <span className="img">
+                        {/*need to map enchant id to icon*/}
+                        <img src={item.gems[0].image} />
+                    </span>
+                    need enchant bonus text and icon
+                </div>
+            </div >
         )
     }
 }
