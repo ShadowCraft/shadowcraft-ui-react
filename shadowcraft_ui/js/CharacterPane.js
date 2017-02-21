@@ -1,5 +1,5 @@
 import React from "react"
-import GearPane from './GearPane';
+import GearPane from './gear/GearPane';
 import TalentPane from './TalentPane';
 import ArtifactPane from './artifact/ArtifactPane';
 import SettingsPane from './SettingsPane';
