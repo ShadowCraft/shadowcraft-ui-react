@@ -1,5 +1,5 @@
 import React from "react"
-import ArtifactTrait from './ArtifactTraitDiv'
+import ArtifactTrait from './ArtifactTrait'
 import ArtifactRelicSelect from './ArtifactRelicSelect'
 
 var FRAME_WIDTH=720.0

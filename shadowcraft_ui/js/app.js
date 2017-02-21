@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 
 import screen_style from '../css/screen.css.sass';
 
+// characterJson is being rendered on the page by flask
 
 // disabled for now since CharacterInput doesn't seem to display right now.
 

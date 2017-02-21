@@ -1,5 +1,7 @@
 import React from "react"
 
+// unused / experimental component
+
 export default class ArtifactTrait extends React.Component {
     render() {
         return (
