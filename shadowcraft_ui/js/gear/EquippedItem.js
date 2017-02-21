@@ -1,4 +1,5 @@
 import React from 'react'
+import EquippedGems from './EquippedGems'
 
 export default class EquippedItem extends React.Component {
     render() {
@@ -33,20 +34,7 @@ export default class EquippedItem extends React.Component {
                 </div>
                 <div className="bonuses">
                     <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>
-                <div className="gems">
-                    {/*not handling multi gem items*/}
-                    <div className="gem tt " data-tooltip-id={item.gems[0].id}>
-                        <span className="socket">
-                            {/*not handling colored sockets*/}
-                            <img src="/static/images/icons/Socket_Prismatic.png" /> </span>
-                        <span className="img">
-                            {/*need to map gemid to icon*/}
-                            <img src={item.gems[0].image} />
-                        </span>
-                        {/*need gem name*/}
-                        <span className="gem_name">{item.gems[0].name}need to map gem id to name and icon</span>
-                    </div>
-                </div>
+                <EquippedGems gems={item.gems} />
                 {/*need to handle enchant slot validation*/}
                 <div className="enchant">
                     <span className="img">
