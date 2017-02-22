@@ -8,7 +8,6 @@ export default class ArtifactPane extends React.Component {
     constructor(props)
     {
         super(props)
-
         console.log(this.props.data)
 
         this.state = {
@@ -38,6 +37,14 @@ export default class ArtifactPane extends React.Component {
         }
     }
 
+    handleChange(artifact){
+        // handleChange means nothing special, this is just calling the onChange we were handed
+        // not strictly neccesary, you could just modify the artifact data,
+        // and then just call onChange with the data directly when you want to update
+        console.log('ArtifactPane.handleChange called')
+        this.props.onChange(artifact);
+    }
+
     render() {
         var ranking_layout = null
         var frame = null;
@@ -54,6 +61,9 @@ export default class ArtifactPane extends React.Component {
             frame = <ArtifactFrame layout={layouts.fangs_layout} data={this.props.data.artifact} />
             ranking_layout = layouts.fangs_ranking
         }
+
+        // actually call handleChange to set state in CharacterPane
+        this.handleChange();
 
         return (
             <div className="with-tools ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="artifact">

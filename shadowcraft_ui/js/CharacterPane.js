@@ -11,6 +11,25 @@ var Tabs = require('react-simpletabs');
 
 export default class CharacterPane extends React.Component {
     // hold on to your butts
+
+    constructor(props) {
+        super(props);
+        // have bind this because otherwise you get handleArtifactChange's this
+        // #javascriptproblems
+        this.handleArtifactChange = this.handleArtifactChange.bind(this)
+        this.state = this.props.data;
+    }
+
+    handleArtifactChange(artifact){
+        // we will hand this to the Artifact component so that it can change the state here in CharacterPane
+        console.log('CharacterPane.handleArtifactChange called');
+        // call setState with changed artifact here
+        // something like
+        // this.state.artifact.setState(artifact)
+        // or something...
+        console.log(this.state.artifact)
+    }
+
     render() {
         return (
             <div>
@@ -19,13 +38,15 @@ export default class CharacterPane extends React.Component {
                         <div id="curtain">
                             <Tabs>
                                 <Tabs.Panel title="Gear">
-                                    <GearPane data={this.props.data}/>
+                                    <GearPane data={this.props.data} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Talents">
                                     <TalentPane data={this.props.data} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Artifact">
-                                    <ArtifactPane data={this.props.data} />
+                                    {/*pass the this.state dependant data to the compent, and give it a function to call when it changes*/}
+                                    {/*onChange is a convention, you can use any name, it is just a prop that gives us a function to update state*/}
+                                    <ArtifactPane data={this.state.artifact} onChange={this.handleArtifactChange} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Settings">
                                     <SettingsPane />
