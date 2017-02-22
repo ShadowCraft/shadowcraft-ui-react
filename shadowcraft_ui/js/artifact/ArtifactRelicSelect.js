@@ -13,13 +13,13 @@ export default class ArtifactRelicSelect extends React.Component {
 1
     handleRelicChange(e) {
         e.preventDefault()
-        this.selected_trait = e.value
+        this.selected_trait = parseInt(e.target.value)
         this.props.parent.change_relic(this.props.index, this.selected_trait, this.selected_ilvl)
     }
 
     handleIlvlChange(e) {
         e.preventDefault()
-        this.selected_ilvl = e.value
+        this.selected_ilvl = parseInt(e.target.value)
         this.props.parent.change_relic(this.props.index, this.selected_trait, this.selected_ilvl)
     }
 

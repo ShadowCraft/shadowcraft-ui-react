@@ -5,6 +5,8 @@ import pymongo
 import traceback
 from ..wow_armory.ArmoryCharacter import ArmoryCharacter
 
+CHARACTER_DATA_VERSION = 2
+
 # TODO: is there any reason for this to actually be an object? Do we ever edit a character
 # and save it again? Can this just be one class (not object) method that returns json? That
 # seems more realistic. The code to save a character as a sha could go in here too.
@@ -30,12 +32,19 @@ def load(db, region, realm, name, sha=None, refresh=False):
         if results.count() != 0:
             char_data = results[0]
 
+    # Check if the character data version from the database is still current. If it's not,
+    # ignore the data from the database and load something new from the armory. This lets
+    # us make changes to the character data layout and not break the UI every time.
+    if 'data_version' not in char_data or char_data['data_version'] != CHARACTER_DATA_VERSION:
+        char_data = None
+
     if char_data is None:
         # If we haven't gotten data yet, we need to try to reload it from the
         # armory.
         try:
             char = ArmoryCharacter(name, realm, region)
             char_data = char.as_json()
+            char_data['data_version'] = CHARACTER_DATA_VERSION
         except Exception as error:
             char_data = None
             print("Failed to load character data for %s/%s/%s: %s" % (region, realm, name, error))

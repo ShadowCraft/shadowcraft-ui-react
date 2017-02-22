@@ -40,6 +40,7 @@ export default class ArtifactFrame extends React.Component {
             this.state.traits[trait_id] = {
                 cur_rank: 0,
                 max_rank: trait.max_rank,
+                default_max_rank: trait.max_rank,
                 enabled: false
             }
 
@@ -68,27 +69,10 @@ export default class ArtifactFrame extends React.Component {
         this.update_state(this.state.traits, this.state.relics, true)
     }
 
-    attach_relic(trait_id, rank_increase)
-    {
-        var new_max = this.state.traits[trait_id].max_rank + rank_increase
-        var new_current = this.state.traits[trait_id].cur_rank + rank_increase
-
-        var traits = this.state.traits
-        traits[trait_id].max_rank = this.state.traits[trait_id].max_rank + rank_increase
-        traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank + rank_increase
-        this.update_state(traits, this.state.relics, false)
-    }
-
-    detach_relic(trait_id, rank_increase)
-    {
-        var traits = this.state.traits
-        traits[trait_id].max_rank = this.state.traits[trait_id].max_rank - rank_increase
-        traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank - rank_increase
-        this.update_state(traits, this.state.relics, false)
-    }
-
     increase_rank(trait_id)
     {
+        // TODO: should these check whether any of the traits connected to this one are
+        // enabled before doing the state update?
         if (this.state.traits[trait_id].enabled &&
             this.state.traits[trait_id].cur_rank < this.state.traits[trait_id].max_rank)
         {
@@ -100,7 +84,8 @@ export default class ArtifactFrame extends React.Component {
 
     decrease_rank(trait_id)
     {
-        // TODO: this needs to check for relics too
+        // TODO: should these check whether any of the traits connected to this one are
+        // enabled before doing the state update?
         if (this.state.traits[trait_id].enabled) {
             var traits = this.state.traits
             traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank - 1
@@ -139,10 +124,21 @@ export default class ArtifactFrame extends React.Component {
         }
 
         // Disable everything else, unless there's a relic attached to it
-        // TODO: the relic bits
         for (var trait in new_traits)
         {
             var t = parseInt(trait)
+
+            // If the current max rank is higher than the default max rank, subtract
+            // that many ranks so that the relic stuff below can add them back in
+            // without breaking stuff.
+            if (new_traits[t].max_rank != new_traits[t].default_max_rank) {
+                new_traits[t].cur_rank -= (new_traits[t].max_rank - new_traits[t].default_max_rank)
+            }
+
+            // Force the max rank back to the default. If it needs to be higher for
+            // relics, that'll happen later.
+            new_traits[t].max_rank = new_traits[t].default_max_rank
+
             if (traits_checked.indexOf(parseInt(t)) == -1)
             {
                 new_traits[t].cur_rank = 0
@@ -152,6 +148,13 @@ export default class ArtifactFrame extends React.Component {
             {
                 total_traits += new_traits[t].cur_rank
             }
+        }
+
+        for (var relic in this.state.relics) {
+            var trait = this.state.relics[relic].trait
+            new_traits[trait].cur_rank += 1
+            new_traits[trait].max_rank += 1
+            new_traits[trait].enabled = true
         }
 
         if (!from_constructor) {
