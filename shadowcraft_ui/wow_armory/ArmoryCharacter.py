@@ -13,7 +13,6 @@ class ArmoryCharacter(object):
         region = region.lower()
         params = {'fields': 'talents,items'}
         json_data = ArmoryDocument.get(region, '/wow/character/%s/%s' % (realm, character), params)
-        self.populate(region, json_data)
 
         # Make sure these get stored in the same fashion as they come in.
         self.region = region
@@ -22,7 +21,9 @@ class ArmoryCharacter(object):
 
         for index, tree in enumerate(json_data['talents']):
             if 'selected' in tree and tree['selected']:
-                self.active = index
+                self.active = tree['calcSpec']
+
+        self.populate(region, json_data)
 
     def populate(self, region, json_data):
         self.level = int(json_data['level'])
@@ -44,7 +45,7 @@ class ArmoryCharacter(object):
                 continue
             if key == 'shirt' or key == 'tabard':
                 continue
-            
+
             tooltip = slot_item['tooltipParams'] if 'tooltipParams' in slot_item else {}
             info = {
                 'id': slot_item['id'],
@@ -67,7 +68,7 @@ class ArmoryCharacter(object):
             # same between all of those contexts?
             if info['context'].startswith('world-quest'):
                 info['context'] = 'world-quest'
-            
+
             self.gear[key] = info
 
         # Artifact data from the API looks like this:
@@ -102,6 +103,7 @@ class ArmoryCharacter(object):
         #                "bonusLists": [1793, 1595, 1809]
         #            }],
         self.artifact = {}
+        self.artifact['spec'] = self.active
         self.artifact['traits'] = []
         for trait in json_data['items']['mainHand']['artifactTraits']:
             # Special case around an error in the artifact power DBC data from the CDN where
@@ -131,9 +133,9 @@ class ArmoryCharacter(object):
                 print("Failed to retrieve extra relic data")
 
     def as_json(self):
-        talents = []
+        talents = {}
         for tree in self.talents:
-            talents.append({"spec": tree['calcSpec'], 'talents': tree['calcTalent']})
+            talents[tree['calcSpec']] = tree['calcTalent']
 
         return {
             "region": self.region,

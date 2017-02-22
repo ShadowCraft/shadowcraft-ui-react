@@ -8,8 +8,11 @@ export default class ArtifactPane extends React.Component {
     constructor(props)
     {
         super(props)
+
+        console.log(this.props.data)
+
         this.state = {
-            spec: 'a',
+            spec: this.props.data.active,
             rankings: {}
         }
 
@@ -35,24 +38,20 @@ export default class ArtifactPane extends React.Component {
         }
     }
 
-    set_spec(spec){
-        this.setState({spec: spec})
-    }
-
     render() {
         var ranking_layout = null
         var frame = null;
 
         if (this.state.spec == 'a') {
-            frame = <ArtifactFrame layout={layouts.kingslayers_layout} />;
+            frame = <ArtifactFrame layout={layouts.kingslayers_layout} data={this.props.data.artifact}/>;
             ranking_layout = layouts.kingslayers_ranking
         }
         else if (this.state.spec == 'Z') {
-            frame = <ArtifactFrame layout={layouts.dreadblades_layout} />
+            frame = <ArtifactFrame layout={layouts.dreadblades_layout} data={this.props.data.artifact} />
             ranking_layout = layouts.dreadblades_ranking
         }
         else if (this.state.spec == 'b') {
-            frame = <ArtifactFrame layout={layouts.fangs_layout} />
+            frame = <ArtifactFrame layout={layouts.fangs_layout} data={this.props.data.artifact} />
             ranking_layout = layouts.fangs_ranking
         }
 

@@ -35,8 +35,9 @@ def load(db, region, realm, name, sha=None, refresh=False):
     # Check if the character data version from the database is still current. If it's not,
     # ignore the data from the database and load something new from the armory. This lets
     # us make changes to the character data layout and not break the UI every time.
-    if 'data_version' not in char_data or char_data['data_version'] != CHARACTER_DATA_VERSION:
-        char_data = None
+    if char_data is not None:
+        if 'data_version' not in char_data or char_data['data_version'] != CHARACTER_DATA_VERSION:
+            char_data = None
 
     if char_data is None:
         # If we haven't gotten data yet, we need to try to reload it from the
