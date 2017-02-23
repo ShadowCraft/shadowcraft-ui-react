@@ -59,9 +59,11 @@ class ArmoryCharacter(object):
             }
 
             info['enchant'] = tooltip['enchant'] if 'enchant' in tooltip else 0
-            info['gems'].append(tooltip['gem0'] if 'gem0' in tooltip else 0)
-            info['gems'].append(tooltip['gem1'] if 'gem1' in tooltip else 0)
-            info['gems'].append(tooltip['gem2'] if 'gem2' in tooltip else 0)
+            
+            # there can be multiple gems, so we need to check for them all i.e. gem0, gem1, gem2
+            for gem in tooltip:
+                if gem.startswith('gem'):
+                    info['gems'].append(tooltip[gem])
 
             # We squash all of the world quest contexts down into one.
             # TODO: why are we doing this again? something about the data being the

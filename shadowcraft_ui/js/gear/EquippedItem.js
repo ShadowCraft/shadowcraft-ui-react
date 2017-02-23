@@ -6,6 +6,7 @@ export default class EquippedItem extends React.Component {
         let item = this.props.item
         // console.log(item)
         return (
+            // do we need all these data targets?
             <div
                 className="slot"
                 data-bonus={item.bonusids}
@@ -16,7 +17,7 @@ export default class EquippedItem extends React.Component {
                 data-id={item.id}
             >
                 <div className="image">
-                    <img src={`http://us.media.blizzard.com/wow/icons/56/${item.icon}.jpg`} />
+                    <img src={`http://media.blizzard.com/wow/icons/56/${item.icon}.jpg`} />
                     <span className="ilvl">{item.item_level}</span>
                 </div>
                 <div className="lock lock_off">
@@ -33,13 +34,15 @@ export default class EquippedItem extends React.Component {
                     <a className="wowhead" href={`http://legion.wowhead.com/item=${item.id}`} target="_blank">Wowhead</a>
                 </div>
                 <div className="bonuses">
+                    {/*this probably doesn't need a huge full length div, maybe gear under the item icon?'*/}
                     <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>
-                <EquippedGems gems={item.gems} />
+                    {/*need to pass whole item because we need to check item quality to filter out relics*/}
+                <EquippedGems item={item} />
                 {/*need to handle enchant slot validation*/}
                 <div className="enchant">
                     <span className="img">
                         {/*need to map enchant id to icon*/}
-                        <img src={item.gems[0].image} />
+                        {/*<img src={item.gems[0].icon} />*/}
                     </span>
                     need enchant bonus text and icon
                 </div>
