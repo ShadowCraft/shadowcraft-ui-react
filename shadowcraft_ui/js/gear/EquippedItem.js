@@ -1,5 +1,6 @@
 import React from 'react'
 import EquippedGems from './EquippedGems'
+import EquippedEnchant from './EquippedEnchant'
 
 export default class EquippedItem extends React.Component {
     render() {
@@ -39,13 +40,7 @@ export default class EquippedItem extends React.Component {
                     {/*need to pass whole item because we need to check item quality to filter out relics*/}
                 <EquippedGems item={item} />
                 {/*need to handle enchant slot validation*/}
-                <div className="enchant">
-                    <span className="img">
-                        {/*need to map enchant id to icon*/}
-                        {/*<img src={item.gems[0].icon} />*/}
-                    </span>
-                    need enchant bonus text and icon
-                </div>
+                <EquippedEnchant enchant={item.enchant}/>
             </div >
         )
     }

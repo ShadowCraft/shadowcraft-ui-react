@@ -11,7 +11,9 @@ export default class EquippedGems extends React.Component {
 
     //each gem id requires a mapping for both icon and name to display properly
 
-    gemIDToName(id) {
+    // TODO: Make this mapping a big more robust, and reduce to one switch.
+
+    getGemName(id) {
         switch (id) {
             case 0: return 'Missing Gem';
             case 130217: return 'Versatile Skystone';
@@ -19,13 +21,21 @@ export default class EquippedGems extends React.Component {
         }
     }
 
-    gemIDToIconLink(id) {
+    getGemImg(id) {
         let icon = '';
+        // WARNING! FALLTHROUGH TO DEFAULT IS INTENTIONAL! WARNING!
         switch (id) {
-            case 130217: icon = 'inv_jewelcrafting_70_cutgem02_blue'; break;
-            default: return;
+            case 130217: icon = 'inv_jewelcrafting_70_cutgem02_blue';
+            default: {
+                if (icon !== '') {
+                    return (<img src={`http://media.blizzard.com/wow/icons/56/${icon}.jpg`} />);
+                }
+                else {
+                    console.log(`Missing an gem definition for id#: ${id} in EquippedGems`)
+                    return (<img />)
+                }
+            }
         }
-        return <img src={`http://media.blizzard.com/wow/icons/56/${icon}.jpg`} />
     }
 
     render() {
@@ -42,9 +52,9 @@ export default class EquippedGems extends React.Component {
                                 {/*TODO: properly handle colored sockets*/}
                                 <img src="/static/images/icons/Socket_Prismatic.png" /> </span>
                             <span className="img">
-                                {this.gemIDToIconLink(gem)}
+                                {this.getGemImg(gem)}
                             </span>
-                            < span className="gem_name" > {this.gemIDToName(gem)}</span >
+                            < span className="gem_name" > {this.getGemName(gem)}</span >
                         </div >
                     )
                 }
