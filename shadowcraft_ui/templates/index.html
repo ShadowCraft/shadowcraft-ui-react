@@ -55,12 +55,11 @@
   <!--javascript bundle-->
   <script>
   // using this method for now until we figure out the best way to get data into the app
-  // var characterJson;
-  //   {% if character_json %}
-      characterJson = {{ character_json | safe }}
-    // {% else %}
-      // characterJson = undefined;
-    // {% endif %}
+    {% if character_json %}
+      var characterJson = {{ character_json | safe }}
+    {% else %}
+      var characterJson = undefined;
+    {% endif %}
   </script>
   <script type="text/javascript" src="{{ url_for('static',
                                         filename='bundle.js') }}"></script>

@@ -1,48 +1,71 @@
 import React from 'react'
 
-export default React.createClass({
-    render: function () {
+export default class CharacterInput extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            region: 'US',
+            realm: '',
+            characterName: ''
+        }
+        this.handleRegionOnChange = this.handleRegionOnChange.bind(this);
+        this.handleRealmOnChange = this.handleRealmOnChange.bind(this);
+        this.handleCharacterNameOnChange = this.handleCharacterNameOnChange.bind(this);
+    }
+
+    handleRegionOnChange(event) {
+        this.setState({ region: event.target.value })
+    }
+
+    handleRealmOnChange(event) {
+        this.setState({ realm: event.target.value })
+    }
+
+    handleCharacterNameOnChange(event) {
+        this.setState({ characterName: event.target.value })
+    }
+
+    button() {
+        if (this.state.realm && this.state.characterName) return (<button type='submit'>Begin</button>)
+        else return (<button type='submit' disabled>Begin</button>)
+    }
+
+    render() {
+        // console.log(this.state)
         return (
-                <div id='container' className='characters-new'>
-                    <div id='create_character'>
-                        <div className='form'>
-                            <form acceptCharset="UTF-8" action="/" className="new_character" id="new_character" method="post">
-                                <div style={{ margin: 0, padding: 0, display: 'inline' }}>
-                                    <input name="utf8" type="hidden" value="&#x2713;" />
-                                    <input name="authenticity_token" type="hidden" value="3MTYlJElBy5jj+uKDD/BpXi5BU8u4PPZwDaOzPMzS3s=" />
+            // i don't know why this isn't working
+            // <div id='container' className='characters-new'>
+            <div>
+                <div id='create_character'>
+                    <div className='form'>
+                        <form action={`/${this.state.region.toLowerCase()}/${this.state.realm.toLowerCase()}/${this.state.characterName.toLocaleLowerCase()}`} className="new_character" id="new_character" method="GET">
+                            <span>
+                                <label htmlFor='character_name'>Character Name</label>
+                                <input id="character_name" value={this.state.characterName} onChange={this.handleCharacterNameOnChange} size="30" type="text" />
+                            </span>
+                            <span>
+                                <label htmlFor='character_realm'>Realm</label>
+                                <input id="character_realm" value={this.state.realm} onChange={this.handleRealmOnChange} size="30" type="text" />
+                            </span>
+                            <span>
+                                <label htmlFor='character_region'>Region</label>
+                                <div className='regions'>
+                                    <label><input type="radio" value="US" checked={this.state.region === 'US'} onChange={this.handleRegionOnChange} />  US</label>
+                                    <label><input type="radio" value="EU" checked={this.state.region === 'EU'} onChange={this.handleRegionOnChange} /> EU</label>
+                                    <label><input type="radio" value="KR" checked={this.state.region === 'KR'} onChange={this.handleRegionOnChange} /> KR</label>
+                                    <label><input type="radio" value="TW" checked={this.state.region === 'TW'} onChange={this.handleRegionOnChange} /> TW</label>
+                                    <label><input type="radio" value="CN" checked={this.state.region === 'CN'} onChange={this.handleRegionOnChange} /> CN</label>
+                                    <level><input type="radio" value="SEA" checked={this.state.region === 'SEA'} onChange={this.handleRegionOnChange} /> SEA</level>
                                 </div>
-                                <span>
-                                    <label htmlFor='character_name'>Character Name</label>
-                                    <input id="character_name" name="character[name]" size="30" type="text" />
-                                </span>
-                                <span>
-                                    <label htmlFor='character_realm'>Realm</label>
-                                    <input id="character_realm" name="character[realm]" size="30" type="text" />
-                                </span>
-                                <span>
-                                    <label htmlFor='character_region'>Region</label>
-                                    <div className='regions'>
-                                        <label>
-                                            <input id="character_region_us" name="character[region]" type="radio" value="US" />  US</label>
-                                        <label>
-                                            <input id="character_region_eu" name="character[region]" type="radio" value="EU" /> EU</label>
-                                        <label>
-                                            <input id="character_region_kr" name="character[region]" type="radio" value="KR" /> KR</label>
-                                        <label>
-                                            <input id="character_region_tw" name="character[region]" type="radio" value="TW" /> TW</label>
-                                        <label>
-                                            <input id="character_region_cn" name="character[region]" type="radio" value="CN" /> CN</label>
-                                        <level>
-                                            <input id="character_region_sea" name="character[region]" type="radio" value="SEA" /> SEA</level>
-                                    </div>
-                                </span>
-                                <div className='submit'>
-                                    <input name="commit" type="submit" value="Begin" />
-                                </div>
-                            </form>
-                        </div>
+                            </span>
+                            <div className='submit'>
+                                {this.button()}
+                            </div>
+                        </form>
                     </div>
                 </div>
+            </div>
         )
     }
-})
+}
