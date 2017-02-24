@@ -106,22 +106,19 @@ class ArmoryCharacter(object):
         #            }],
         self.artifact = {}
         self.artifact['spec'] = self.active
-        self.artifact['traits'] = []
+        self.artifact['traits'] = {}
         for trait in json_data['items']['mainHand']['artifactTraits']:
             # Special case around an error in the artifact power DBC data from the CDN where
             # trait ID 859 maps to multiple spell IDs.
+            trait_id = ArmoryCharacter.artifact_id(trait['id'])
             if trait['id'] == 859:
-                trait['id'] = 197241
-            else:
-                trait['id'] = ArmoryCharacter.artifact_id(trait['id'])
-            self.artifact['traits'].append(trait)
+                trait_id = 197241
+            self.artifact['traits'][str(trait_id)] = trait['rank']
 
-        self.artifact['relics'] = []
+        self.artifact['relics'] = [None]*3
         for relic in json_data['items']['mainHand']['relics']:
             entry = {
-                'socket': relic['socket'],
                 'id': relic['itemId'],
-                'bonuses': relic['bonusLists'],
             }
 
             # Make another request to blizzard to get the item level for this relic,
@@ -130,9 +127,15 @@ class ArmoryCharacter(object):
                 params = {'bl': ','.join(map(str, relic['bonusLists']))}
                 relic_json = ArmoryDocument.get(region, '/wow/item/%d' % relic['itemId'], params)
                 entry['ilvl'] = relic_json['itemLevel']
-                self.artifact['relics'].append(entry)
+                self.artifact['relics'][relic['socket']] = entry
             except ArmoryDocument.MissingDocument:
                 print("Failed to retrieve extra relic data")
+
+        # Make sure there's something in each of the relic data slots so that the UI doesn't
+        # freak out about it.
+        for relic in self.artifact['relics']:
+            if relic is None:
+                relic = {'id': 0, 'ilvl': 0}
 
     def as_json(self):
         talents = {}
