@@ -8,7 +8,9 @@
     "build": "webpack",
     "start": "python app.py",
     "watch": "webpack -w",
-    "install-python": "pip install -r requirements.txt"
+    "install-python": "pip install -r requirements.txt",
+    "mongo-start": "mongod",
+    "dev": "npm-run-all --parallel watch start mongo-start"
   },
   "author": "",
   "license": "ISC",
@@ -17,12 +19,13 @@
     "babel-loader": "^6.2.1",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
-    "webpack": "^1.12.12",
-    "sass-loader": "^4.1.1",
-    "node-sass": "^4.0.0",
-    "style-loader": "0.13.1",
     "css-loader": "^0.26.1",
-    "extract-text-webpack-plugin": "^1.0.1"
+    "extract-text-webpack-plugin": "^1.0.1",
+    "node-sass": "^4.0.0",
+    "npm-run-all": "^4.0.2",
+    "sass-loader": "^4.1.1",
+    "style-loader": "0.13.1",
+    "webpack": "^1.12.12"
   },
   "dependencies": {
     "chart.js": "^1.1.1",
