@@ -1,7 +1,6 @@
 import React from "react"
 import GoogleAd from 'react-google-ad'
 
-var LineChart = require("react-chartjs").Line;
 var chartData = {};
 var chartOptions = {};
 
@@ -26,10 +25,6 @@ export default class RightPane extends React.Component {
                   </a>
                   <div id="dps">
                     <div className="inner">468306.3 DPS</div>
-                  </div>
-                  <LineChart data={chartData} options={chartOptions}/>
-                  <div className="ad">
-                    <GoogleAd client="ca-pub-0438541591834443" slot="0003037760" format="rectangle"/>
                   </div>
                 </div>
                 <div id="logs">
