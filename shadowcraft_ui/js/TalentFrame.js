@@ -2,7 +2,7 @@ import React from 'react'
 
 function Talent(props) {
     return (
-        <div className={"col-"+props.col+" row-"+props.row+" talent tt"+(props.active && " active")} data-tooltip-id={props.id} data-tooltip-type="spell" style={{ backgroundImage: "url(http://wow.zamimg.com/images/wow/icons/large/"+props.icon+".jpg)" }}>
+        <div className={"col-"+props.col+" row-"+props.row+" talent tt"+(props.active && " active")} data-tooltip-id={props.id} data-tooltip-type="spell" data-row={props.row} data-col={props.col} style={{ backgroundImage: "url(http://wow.zamimg.com/images/wow/icons/large/"+props.icon+".jpg)" }} onClick={props.handleClick} >
             <div className="grey"></div>
         </div>
     )
@@ -12,14 +12,16 @@ export default class TalentFrame extends React.Component {
     constructor(props)
     {
         super(props)
-
-        this.state = {}
-        this.state.setup = this.props.setup
+        this.handleClick = this.handleClick.bind(this)
     }
 
     handleClick(e)
     {
-        
+        var row = parseInt(e.currentTarget.dataset["row"])
+        var col = parseInt(e.currentTarget.dataset["col"])
+        var current = this.props.setup
+        var newSetup = current.substr(0, row) + col + current.substr(row+1)
+        this.props.onChange(newSetup)
     }
 
     render()
@@ -28,11 +30,11 @@ export default class TalentFrame extends React.Component {
         for (var index in this.props.layout.talents) {
             var talent = this.props.layout.talents[index]
             var active = false
-            if (this.state.setup[talent.row] == talent.col) {
+            if (this.props.setup[talent.row] == talent.col) {
                 active = true
             }
 
-            talents.push(<Talent key={talent.id} col={talent.col} row={talent.row} id={talent.id} icon={talent.icon} active={active}/>)
+            talents.push(<Talent key={talent.id} col={talent.col} row={talent.row} id={talent.id} icon={talent.icon} active={active} handleClick={this.handleClick}/>)
         }
         
         return(
