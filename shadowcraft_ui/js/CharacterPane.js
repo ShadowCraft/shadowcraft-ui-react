@@ -14,10 +14,14 @@ export default class CharacterPane extends React.Component {
 
     constructor(props) {
         super(props);
+
         // have bind this because otherwise you get handleArtifactChange's this
         // #javascriptproblems
         this.handleArtifactChange = this.handleArtifactChange.bind(this)
+        this.handleTalentChange = this.handleTalentChange.bind(this)
+        
         this.state = this.props.data;
+        this.state.current_talents = this.props.data.talents[this.props.data.active]
     }
 
     handleArtifactChange(artifact){
@@ -28,6 +32,10 @@ export default class CharacterPane extends React.Component {
         // this.state.artifact.setState(artifact)
         // or something...
         console.log(this.state.artifact)
+    }
+
+    handleTalentChange(spec, talents) {
+        this.setState({active: spec, current_talents: talents})
     }
 
     render() {
@@ -41,12 +49,12 @@ export default class CharacterPane extends React.Component {
                                     <GearPane data={this.props.data} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Talents">
-                                    <TalentPane data={this.props.data} />
+                                    <TalentPane data={this.state} onChange={this.handleTalentChange} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Artifact">
                                     {/*pass the this.state dependant data to the compent, and give it a function to call when it changes*/}
                                     {/*onChange is a convention, you can use any name, it is just a prop that gives us a function to update state*/}
-                                    <ArtifactPane data={this.state.artifact} onChange={this.handleArtifactChange} />
+                                    <ArtifactPane data={this.state.artifact} onChange={this.props.handleArtifactChange} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Settings">
                                     <SettingsPane />

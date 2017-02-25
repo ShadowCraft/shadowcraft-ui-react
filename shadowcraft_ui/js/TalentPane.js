@@ -12,65 +12,61 @@ function TalentSetButton(props) {
 }
 
 export default class TalentPane extends React.Component {
+    
     constructor(props) {
         super(props)
 
+        console.log(this.props.data)
         this.state = {
-            spec: this.props.data.active,
-            setup: this.props.data.talents[this.props.data.active],
-            rankings: {}
-        }
-
-        this.state.rankings = {
-            16511: 22367.17,
-            193640: 19529.94,
-            196864: 14410.1,
-            14062: 0,
-            108208: 0,
-            108209: 0,
-            193531: 12215.65,
-            14983: 7316.87,
-            114015: 5557.31,
-            108211: 0,
-            31230: 0,
-            79008: 0,
-            131511: 0,
-            196861: 0,
-            154094: 0,
-            200806: 42383.59,
-            193539: 40205.04,
-            200802: 29827.76,
-            152152: 12107.6,
-            152150: 9754.46,
-            137619: 3313.58,
+            rankings: {
+                16511: 22367.17,
+                193640: 19529.94,
+                196864: 14410.1,
+                14062: 0,
+                108208: 0,
+                108209: 0,
+                193531: 12215.65,
+                14983: 7316.87,
+                114015: 5557.31,
+                108211: 0,
+                31230: 0,
+                79008: 0,
+                131511: 0,
+                196861: 0,
+                154094: 0,
+                200806: 42383.59,
+                193539: 40205.04,
+                200802: 29827.76,
+                152152: 12107.6,
+                152150: 9754.46,
+                137619: 3313.58,
+            }
         }
 
         this.clickButton = this.clickButton.bind(this)
     }
 
-    set_spec(spec) {
-        this.setState({spec: "a"})
-    }
-
     clickButton(e) {
         e.preventDefault()
         console.log(e.currentTarget)
+        this.props.onChange(e.currentTarget.dataset["spec"],
+                            e.currentTarget.dataset["talents"])
     }
 
     render() {
         var frame = null
         var ranking_layout = null
 
-        if (this.state.spec == "a") {
-            frame = <TalentFrame layout={layouts.assassination_layout} setup={this.state.setup} />;
+        if (this.props.data.active == "a") {
+            frame = <TalentFrame layout={layouts.assassination_layout} setup={this.props.data.current_talents} />;
             ranking_layout = layouts.assassination_ranking
         }
-        else if (this.state.spec == "Z") {
-            frame = <TalentFrame layout={layouts.outlaw_layout} setup={this.state.setup} />
+        else if (this.props.data.active == "Z") {
+            frame = <TalentFrame layout={layouts.outlaw_layout} setup={this.props.data.current_talents} />
             ranking_layout = layouts.outlaw_ranking
         }
-        else if (this.state.spec == "b") {
-            frame = <TalentFrame layout={layouts.subtlety_layout} setup={this.state.setup} />
+        else if (this.props.data.active == "b") {
+            frame = <TalentFrame layout={layouts.subtlety_layout} setup={this.props.data.current_talents} />
             ranking_layout = layouts.subtlety_ranking
         }
 
