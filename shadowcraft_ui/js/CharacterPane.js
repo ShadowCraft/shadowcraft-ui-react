@@ -54,7 +54,7 @@ export default class CharacterPane extends React.Component {
                                 <Tabs.Panel title="Artifact">
                                     {/*pass the this.state dependant data to the compent, and give it a function to call when it changes*/}
                                     {/*onChange is a convention, you can use any name, it is just a prop that gives us a function to update state*/}
-                                    <ArtifactPane data={this.state.artifact} onChange={this.props.handleArtifactChange} />
+                                    <ArtifactPane data={this.state.artifact} onChange={this.handleArtifactChange} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Settings">
                                     <SettingsPane />

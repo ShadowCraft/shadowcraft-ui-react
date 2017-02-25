@@ -1,10 +1,10 @@
-import React from "react"
-import StatPanel from './StatPanel'
-import EquippedItem from './EquippedItem'
+import React from 'react';
+import StatPanel from './StatPanel';
+import EquippedItem from './EquippedItem';
 
 export default class GearPane extends React.Component {
     render() {
-        let data = this.props.data
+        let data = this.props.data;
         // console.log(data.gear.shoulder.gems)
         return (
             <div className="with-tools ui-tabs-panel ui-widget-content ui-corner-bottom" id="gear">
@@ -38,10 +38,10 @@ export default class GearPane extends React.Component {
                         <div id="filter">
                             <input className="search" placeholder="Filter..." type="search" />
                         </div>
-                        <div className="body"></div>
+                        <div className="body" />
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
