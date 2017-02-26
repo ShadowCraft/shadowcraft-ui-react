@@ -1,10 +1,10 @@
-import React from 'react'
-import EquippedGems from './EquippedGems'
-import EquippedEnchant from './EquippedEnchant'
+import React from 'react';
+import EquippedGems from './EquippedGems';
+import EquippedEnchant from './EquippedEnchant';
 
 export default class EquippedItem extends React.Component {
     render() {
-        let item = this.props.item
+        let item = this.props.item;
         // console.log(item)
         return (
             // do we need all these data targets?
@@ -42,6 +42,6 @@ export default class EquippedItem extends React.Component {
                 {/*need to handle enchant slot validation*/}
                 <EquippedEnchant enchantID={item.enchant}/>
             </div >
-        )
+        );
     }
 }
