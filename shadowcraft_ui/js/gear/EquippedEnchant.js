@@ -7,8 +7,8 @@ export default class EquippedEnchant extends React.Component {
 
     // handle unimplimented enchants. To impliment an enchant, edit EnchantMap.
     getEnchant(id) {
-        if (EnchantMap[this.props.enchant]) {
-            return EnchantMap[this.props.enchant];
+        if (EnchantMap[this.props.enchantID]) {
+            return EnchantMap[this.props.enchantID];
         }
         else {
             return {
@@ -31,9 +31,9 @@ export default class EquippedEnchant extends React.Component {
         return (
             <div className="enchant">
                 <span className="img">
-                    {this.getEnchantImg(this.props.enchant)}
+                    {this.getEnchantImg(this.props.enchantID)}
                 </span>
-                {this.getEnchant(this.props.enchant).itemName}
+                {this.getEnchant(this.props.enchantID).itemName}
             </div>
         );
     }

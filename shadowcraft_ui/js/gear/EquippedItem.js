@@ -40,7 +40,7 @@ export default class EquippedItem extends React.Component {
                     {/*need to pass whole item because we need to check item quality to filter out relics*/}
                 <EquippedGems item={item} />
                 {/*need to handle enchant slot validation*/}
-                <EquippedEnchant enchant={item.enchant}/>
+                <EquippedEnchant enchantID={item.enchant}/>
             </div >
         )
     }
