@@ -3,23 +3,28 @@ import React from 'react';
 
 export default class EquippedEnchant extends React.Component {
 
-    // TODO: Need to map name as well
+    //EnchantMap is manual right now, may need to be auto generated in the future
 
-    getEnchantImg(id) {
-        let icon = '';
-        // WARNING! FALLTHROUGH TO DEFAULT IS INTENTIONAL! WARNING!
-        switch (id) {
-            case 5437: icon = 'inv_enchant_formulasuperior_01';//just an example
-            default: {
-                if (icon !== '') {
-                    return (<img src={`http://media.blizzard.com/wow/icons/56/${icon}.jpg`} />);
-                }
-                else {
-                    console.error(`Missing an enchant definition for id#: ${id} in EquippedEnchant`);
-                    return (<img />);
-                }
-            }
+    // handle unimplimented enchants. To impliment an enchant, edit EnchantMap.
+    getEnchant(id) {
+        if (EnchantMap[this.props.enchant]) {
+            return EnchantMap[this.props.enchant];
         }
+        else {
+            return {
+                stats: {},
+                icon: '',
+                itemName: `Enchant not implimented. (${id})`,
+                EquipmentSlot: 0,
+                SpellId: 0
+            };
+        }
+    }
+
+    // handle image links for unimplimented enchants
+    getEnchantImg(id) {
+        if (this.getEnchant(id).icon) return (<img src={`http://media.blizzard.com/wow/icons/56/${this.getEnchant(id).icon}.jpg`} />);
+        else return (<img />);
     }
 
     render() {
@@ -28,7 +33,7 @@ export default class EquippedEnchant extends React.Component {
                 <span className="img">
                     {this.getEnchantImg(this.props.enchant)}
                 </span>
-                {EnchantMap[5243]}
+                {this.getEnchant(this.props.enchant).itemName}
             </div>
         );
     }

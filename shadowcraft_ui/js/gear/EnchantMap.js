@@ -96,5 +96,5 @@ export const EnchantMap = {
         EquipmentSlot: 2,
         SpellId: 141909
     }
-}
-export default EnchantMap
+};
+export default EnchantMap;
