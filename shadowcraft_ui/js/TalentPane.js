@@ -44,6 +44,7 @@ export default class TalentPane extends React.Component {
         }
 
         this.clickButton = this.clickButton.bind(this)
+        this.changeTalents = this.changeTalents.bind(this)
     }
 
     clickButton(e) {
@@ -53,21 +54,25 @@ export default class TalentPane extends React.Component {
                             e.currentTarget.dataset["talents"])
     }
 
+    changeTalents(talents) {
+        this.props.onChange(this.props.data.active, talents)
+    }
+
     render() {
         var frame = null
-        var ranking_layout = null
+        var ranking_frame = null
 
         if (this.props.data.active == "a") {
-            frame = <TalentFrame layout={layouts.assassination_layout} setup={this.props.data.current_talents} />;
-            ranking_layout = layouts.assassination_ranking
+            frame = <TalentFrame layout={layouts.assassination_layout} setup={this.props.data.current_talents} onChange={this.changeTalents} />;
+            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.assassination_ranking} values={this.state.rankings}/>
         }
         else if (this.props.data.active == "Z") {
-            frame = <TalentFrame layout={layouts.outlaw_layout} setup={this.props.data.current_talents} />
-            ranking_layout = layouts.outlaw_ranking
+            frame = <TalentFrame layout={layouts.outlaw_layout} setup={this.props.data.current_talents} onChange={this.changeTalents} />
+            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.outlaw_ranking} values={this.state.rankings}/>
         }
         else if (this.props.data.active == "b") {
-            frame = <TalentFrame layout={layouts.subtlety_layout} setup={this.props.data.current_talents} />
-            ranking_layout = layouts.subtlety_ranking
+            frame = <TalentFrame layout={layouts.subtlety_layout} setup={this.props.data.current_talents} onChange={this.changeTalents} />
+            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.subtlety_ranking} values={this.state.rankings}/>
         }
 
         return (
@@ -84,7 +89,7 @@ export default class TalentPane extends React.Component {
                             <TalentSetButton spec="b" talents="1210011" name="Stock Subtlety" handler={this.clickButton} />
                         </div>
                     </section>
-                    <RankingSection id="talentrankings" name="Talent Rankings" layout={ranking_layout} values={this.state.rankings}/>
+                    {ranking_frame}
                 </div>
                 {frame}
             </div>
