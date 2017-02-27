@@ -3,6 +3,17 @@ import EquippedGems from './EquippedGems';
 import EquippedEnchant from './EquippedEnchant';
 
 export default class EquippedItem extends React.Component {
+
+    IsEnchantable(slot) {
+        switch (slot) {
+            case 'neck': return true;
+            case 'finger1': return true;
+            case 'finger2': return true;
+            case 'back': return true;
+            default: return false;
+        }
+    }
+
     render() {
         let item = this.props.item;
         // console.log(item)
@@ -37,10 +48,10 @@ export default class EquippedItem extends React.Component {
                 <div className="bonuses">
                     {/*this probably doesn't need a huge full length div, maybe gear under the item icon?'*/}
                     <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>
-                    {/*need to pass whole item because we need to check item quality to filter out relics*/}
+                {/*need to pass whole item because we need to check item quality to filter out relics*/}
                 <EquippedGems item={item} />
-                {/*need to handle enchant slot validation*/}
-                <EquippedEnchant enchantID={item.enchant}/>
+                {/*javascript trickery to only show enchants for neck, ring and back*/}
+                { this.IsEnchantable(item.slot) && <EquippedEnchant enchantID={item.enchant} />}
             </div >
         );
     }

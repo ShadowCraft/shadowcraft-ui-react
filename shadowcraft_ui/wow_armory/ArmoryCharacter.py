@@ -49,6 +49,7 @@ class ArmoryCharacter(object):
             tooltip = slot_item['tooltipParams'] if 'tooltipParams' in slot_item else {}
             info = {
                 'id': slot_item['id'],
+                'slot': key,
                 'name': slot_item['name'],
                 'icon': slot_item['icon'],
                 'item_level': slot_item['itemLevel'],

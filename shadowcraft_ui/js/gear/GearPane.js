@@ -5,7 +5,7 @@ import EquippedItem from './EquippedItem';
 export default class GearPane extends React.Component {
     render() {
         let data = this.props.data;
-        // console.log(data.gear.shoulder.gems)
+        //  console.log(data.gear)
         return (
             <div className="with-tools ui-tabs-panel ui-widget-content ui-corner-bottom" id="gear">
                 {/*need stats in character data*/}

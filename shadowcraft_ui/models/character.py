@@ -5,7 +5,7 @@ import pymongo
 import traceback
 from ..wow_armory.ArmoryCharacter import ArmoryCharacter
 
-CHARACTER_DATA_VERSION = 3
+CHARACTER_DATA_VERSION = 4
 
 # TODO: is there any reason for this to actually be an object? Do we ever edit a character
 # and save it again? Can this just be one class (not object) method that returns json? That
