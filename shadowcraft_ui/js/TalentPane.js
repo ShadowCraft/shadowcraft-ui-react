@@ -1,22 +1,21 @@
-import React from "react"
-import RankingSection from './SidebarRanking'
-import TalentFrame from './TalentFrame'
-import * as layouts from './TalentLayouts'
+import React from 'react';
+import RankingSection from './SidebarRanking';
+import TalentFrame from './TalentFrame';
+import * as layouts from './TalentLayouts';
 
 function TalentSetButton(props) {
     return (
         <button className="talent_set ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-spec={props.spec} data-talents={props.talents} role="button" onClick={props.handler}>
             <span className="ui-button-text">{props.name}</span>
         </button>
-    )
+    );
 }
 
 export default class TalentPane extends React.Component {
     
     constructor(props) {
-        super(props)
+        super(props);
 
-        console.log(this.props.data)
         this.state = {
             rankings: {
                 16511: 22367.17,
@@ -41,38 +40,37 @@ export default class TalentPane extends React.Component {
                 152150: 9754.46,
                 137619: 3313.58,
             }
-        }
+        };
 
-        this.clickButton = this.clickButton.bind(this)
-        this.changeTalents = this.changeTalents.bind(this)
+        this.clickButton = this.clickButton.bind(this);
+        this.changeTalents = this.changeTalents.bind(this);
     }
 
     clickButton(e) {
-        e.preventDefault()
-        console.log(e.currentTarget)
-        this.props.onChange(e.currentTarget.dataset["spec"],
-                            e.currentTarget.dataset["talents"])
+        e.preventDefault();
+        this.props.onChange(e.currentTarget.dataset['spec'],
+                            e.currentTarget.dataset['talents']);
     }
 
     changeTalents(talents) {
-        this.props.onChange(this.props.data.active, talents)
+        this.props.onChange(this.props.data.active, talents);
     }
 
     render() {
-        var frame = null
-        var ranking_frame = null
+        var frame = null;
+        var ranking_frame = null;
 
-        if (this.props.data.active == "a") {
+        if (this.props.data.active == 'a') {
             frame = <TalentFrame layout={layouts.assassination_layout} setup={this.props.data.current_talents} onChange={this.changeTalents} />;
-            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.assassination_ranking} values={this.state.rankings}/>
+            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.assassination_ranking} values={this.state.rankings}/>;
         }
-        else if (this.props.data.active == "Z") {
-            frame = <TalentFrame layout={layouts.outlaw_layout} setup={this.props.data.current_talents} onChange={this.changeTalents} />
-            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.outlaw_ranking} values={this.state.rankings}/>
+        else if (this.props.data.active == 'Z') {
+            frame = <TalentFrame layout={layouts.outlaw_layout} setup={this.props.data.current_talents} onChange={this.changeTalents} />;
+            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.outlaw_ranking} values={this.state.rankings}/>;
         }
-        else if (this.props.data.active == "b") {
-            frame = <TalentFrame layout={layouts.subtlety_layout} setup={this.props.data.current_talents} onChange={this.changeTalents} />
-            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.subtlety_ranking} values={this.state.rankings}/>
+        else if (this.props.data.active == 'b') {
+            frame = <TalentFrame layout={layouts.subtlety_layout} setup={this.props.data.current_talents} onChange={this.changeTalents} />;
+            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.subtlety_ranking} values={this.state.rankings}/>;
         }
 
         return (
@@ -93,6 +91,6 @@ export default class TalentPane extends React.Component {
                 </div>
                 {frame}
             </div>
-        )
+        );
     }
 }
