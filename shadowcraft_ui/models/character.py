@@ -5,13 +5,15 @@ import pymongo
 import traceback
 from ..wow_armory.ArmoryCharacter import ArmoryCharacter
 
-CHARACTER_DATA_VERSION = 4
+CHARACTER_DATA_VERSION = 5
 
 # TODO: is there any reason for this to actually be an object? Do we ever edit a character
 # and save it again? Can this just be one class (not object) method that returns json? That
 # seems more realistic. The code to save a character as a sha could go in here too.
 
 def load(db, region, realm, name, sha=None, refresh=False):
+
+    # refresh=True
 
     char_data = None
     if sha:

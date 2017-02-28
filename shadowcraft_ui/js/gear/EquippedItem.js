@@ -1,5 +1,5 @@
 import React from 'react';
-import EquippedGems from './EquippedGems';
+import EquippedGemList from './EquippedGemsList';
 import EquippedEnchant from './EquippedEnchant';
 
 export default class EquippedItem extends React.Component {
@@ -49,7 +49,7 @@ export default class EquippedItem extends React.Component {
                     {/*this probably doesn't need a huge full length div, maybe gear under the item icon?'*/}
                     <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>
                 {/*need to pass whole item because we need to check item quality to filter out relics*/}
-                <EquippedGems item={item} />
+                <EquippedGemList gems={item.gems} />
                 {/*javascript trickery to only show enchants for neck, ring and back*/}
                 { this.IsEnchantable(item.slot) && <EquippedEnchant enchantID={item.enchant} />}
             </div >

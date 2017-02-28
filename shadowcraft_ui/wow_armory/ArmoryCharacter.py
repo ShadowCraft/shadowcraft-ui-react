@@ -60,11 +60,25 @@ class ArmoryCharacter(object):
             }
 
             info['enchant'] = tooltip['enchant'] if 'enchant' in tooltip else 0
-            
-            # there can be multiple gems, so we need to check for them all i.e. gem0, gem1, gem2
-            for gem in tooltip:
-                if gem.startswith('gem'):
-                    info['gems'].append(tooltip[gem])
+
+            # there can be multiple gems in tooltipParams from the armory
+            # so we need to check for them all i.e. gem0, gem1, gem2
+            for tooltip_item in tooltip:
+                if tooltip_item.startswith('gem'):
+                    # armory will error if we request an id of zero and an empty gem slot is 0
+                    if tooltip[tooltip_item] != 0:
+                        gemdata = ArmoryDocument.get('us', '/wow/item/%d' % tooltip[tooltip_item])
+                        info['gems'].append(
+                            {
+                                'name': gemdata['name'],
+                                'id': gemdata['id'],
+                                'icon': gemdata['icon'],
+                                'quality': gemdata['quality'],
+                                'bonus': gemdata['gemInfo']['bonus']['name'],
+                                'gemslot': tooltip_item
+                            })
+                    else:
+                        info['gems'].append(tooltip[tooltip_item])
 
             # We squash all of the world quest contexts down into one.
             # TODO: why are we doing this again? something about the data being the
