@@ -1,13 +1,12 @@
-import React from 'react'
-import StatPanelElement from './StatPanelElement'
-import StatPanelButton from './StatPanelButton'
+import React from 'react';
+import StatPanelElement from './StatPanelElement';
+import StatPanelButton from './StatPanelButton';
 
 
 export default class StatPane extends React.Component {
     render() {
         // there are no stats in character data yet
-        let stats = this.props.stats
-        // console.log(stats)
+        console.log(this.props.stats);
         return (
             <div className="panel-tools">
                 <section id="summary">
@@ -21,26 +20,23 @@ export default class StatPane extends React.Component {
                 <section className="clearfix" id="stats">
                     <h3>Gear Stats</h3>
                     <div className="inner">
-                        <StatPanelElement name="Agility" value="24" />
-                        <StatPanelElement name="Crit" value="243" />
-                        <StatPanelElement name="Haste" value="2334" />
-                        <StatPanelElement name="Indestructible" value="234234" />
-                        <StatPanelElement name="Mastery" value="342" />
-                        <StatPanelElement name="Stamina" value="23423" />
-                        <StatPanelElement name="Versatility" value="234" />
+                        <StatPanelElement name="Agility" value={this.props.stats.agi} />
+                        <StatPanelElement name="Crit" value={this.props.stats.critRating} />
+                        <StatPanelElement name="Haste" value={this.props.stats.hasteRating} />
+                        <StatPanelElement name="Mastery" value={this.props.stats.masteryRating} />
+                        <StatPanelElement name="Versatility" value={this.props.stats.versatility} />
                     </div>
                 </section>
                 <section id="weights">
                     <h3>Stat Weights</h3>
                     <div className="inner">
-                        <StatPanelElement name="Agility" value="24" />
-                        <StatPanelElement name="Attack Power" value="34" />
-                        <StatPanelElement name="Versatility" value="24" />
-                        <StatPanelElement name="Crit" value="243" />
-                        <StatPanelElement name="Mastery" value="342" />
-                        <StatPanelElement name="Haste" value="2334" />
-                        <StatPanelElement name="Mainhand DPS" value="233" />
-                        <StatPanelElement name="Offhand DPS" value="23" />
+                        <StatPanelElement name="Agility" value={this.props.weights.agi} />
+                        <StatPanelElement name="Versatility" value={this.props.weights.versatility} />
+                        <StatPanelElement name="Crit" value={this.props.weights.crit} />
+                        <StatPanelElement name="Mastery" value={this.props.weights.mastery} />
+                        <StatPanelElement name="Haste" value={this.props.weights.haste} />
+                        <StatPanelElement name="Mainhand DPS" value={this.props.weights.mainHand} />
+                        <StatPanelElement name="Offhand DPS" value={this.props.weights.offHand} />
                     </div>
                 </section>
                 <section>
@@ -53,6 +49,6 @@ export default class StatPane extends React.Component {
                     </div>
                 </section>
             </div >
-        )
+        );
     }
 }

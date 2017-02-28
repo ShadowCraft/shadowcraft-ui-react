@@ -11,7 +11,7 @@ class ArmoryCharacter(object):
 
     def __init__(self, character, realm, region='us'):
         region = region.lower()
-        params = {'fields': 'talents,items'}
+        params = {'fields': 'talents, items, stats'}
         json_data = ArmoryDocument.get(region, '/wow/character/%s/%s' % (realm, character), params)
 
         # Make sure these get stored in the same fashion as they come in.
@@ -30,6 +30,18 @@ class ArmoryCharacter(object):
         self.player_class = ArmoryConstants.CLASS_MAP[int(json_data['class'])]
         self.race = ArmoryConstants.RACE_MAP[int(json_data['race'])]
         self.portrait = 'http://%s.battle.net/static-render/%s/%s' % (region, region, json_data['thumbnail'])
+        self.stats = json_data['stats']
+
+        # stub data from engine
+        self.weights = {
+            "agi" : 2.5,
+            "haste": 1.5,
+            "mastery": 1.1,
+            "versatility": 1.1,
+            "crit": 1.2,
+            "mainHand": 3.1,
+            "offHand": 2.1
+        }
 
         # For talents, make sure to ignore any blank specs. Druids will actually have 4 specs
         # filled in, but rogues will return three good specs and one with a blank calcSpec
@@ -161,13 +173,15 @@ class ArmoryCharacter(object):
             "region": self.region,
             "realm": self.realm,
             "name": self.name,
+            "stats": self.stats,
             "gear": self.gear,
             "artifact": self.artifact,
             "race": self.race,
             "level": self.level,
             "active": self.active,
             "player_class": self.player_class,
-            "talents": talents
+            "talents": talents,
+            "weights": self.weights
         }
 
     def __iter__(self):

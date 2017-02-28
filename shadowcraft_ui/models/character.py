@@ -1,11 +1,13 @@
 import hashlib
 import json
+import os
+import traceback
 import jsonschema
 import pymongo
-import traceback
 from ..wow_armory.ArmoryCharacter import ArmoryCharacter
 
-CHARACTER_DATA_VERSION = 5
+# re-version data when ArmoryCharacter.py changes (file size)
+CHARACTER_DATA_VERSION = os.path.getsize('shadowcraft_ui/wow_armory/ArmoryCharacter.py')
 
 # TODO: is there any reason for this to actually be an object? Do we ever edit a character
 # and save it again? Can this just be one class (not object) method that returns json? That

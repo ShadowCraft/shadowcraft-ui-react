@@ -9,7 +9,7 @@ export default class GearPane extends React.Component {
         return (
             <div className="with-tools ui-tabs-panel ui-widget-content ui-corner-bottom" id="gear">
                 {/*need stats in character data*/}
-                <StatPanel data={data} />
+                <StatPanel stats={data.stats} weights={data.weights}/>
                 {/*this layout method could probably be revised*/}
                 <div className="panel-content">
                     <div className="slots half" id="slots-left">
