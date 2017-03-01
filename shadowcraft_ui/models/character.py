@@ -4,14 +4,13 @@ import os
 import traceback
 import jsonschema
 import pymongo
-from ..wow_armory.ArmoryCharacter import ArmoryCharacter
+
+from wow_armory import ArmoryDocument
+from wow_armory import ArmoryConstants
+from wow_armory.ArmoryCharacter import ArmoryCharacter
 
 # re-version data when ArmoryCharacter.py changes (file size)
-CHARACTER_DATA_VERSION = os.path.getsize('shadowcraft_ui/wow_armory/ArmoryCharacter.py')
-
-# TODO: is there any reason for this to actually be an object? Do we ever edit a character
-# and save it again? Can this just be one class (not object) method that returns json? That
-# seems more realistic. The code to save a character as a sha could go in here too.
+CHARACTER_DATA_VERSION = os.path.getsize('shadowcraft_ui/models/character.py')
 
 def load(db, region, realm, name, sha=None, refresh=False):
 
@@ -47,8 +46,7 @@ def load(db, region, realm, name, sha=None, refresh=False):
         # If we haven't gotten data yet, we need to try to reload it from the
         # armory.
         try:
-            char = ArmoryCharacter(name, realm, region)
-            char_data = char.as_json()
+            char_data = __get_from_armory(db, name, realm, region)
             char_data['data_version'] = CHARACTER_DATA_VERSION
         except Exception as error:
             char_data = None
@@ -90,6 +88,189 @@ def get_sha(db, char_data):
 
     return {}
 
+__artifact_ids = None
+
+# Maps the a trait ID from the artifact data to a spell ID using the DBC data
+# from the Blizzard CDN
+def __artifact_id(trait_id):
+    # The header on the ArtifactPowerRank data looks like (as of 7.0.3):
+    # id,id_spell,value,id_power,f5,index
+    # We're mapping between id_power and id_spell
+    if __artifact_ids is None:
+        __artifact_ids = {}
+        with open(os.getcwd()+'/shadowcraft_ui/external_data/ArtifactPowerRank.dbc.csv', mode='r') as infile:
+            reader = csv.reader(infile)
+            next(reader) # Skip the first row with the header
+            for row in reader:
+                __artifact_ids[int(row[3])] = int(row[1])
+
+    return __artifact_ids[trait_id] if trait_id in __artifact_ids else 0
+
+def __get_from_armory(db, character, realm, region):
+
+    region = region.lower()
+    params = {'fields': 'talents, items, stats'}
+    json_data = ArmoryDocument.get(region, '/wow/character/%s/%s' % (realm, character), params)
+
+    output = {
+        "region": region,
+        "realm": realm,
+        "name": character,
+        "level": int(json_data['level']),
+        "player_class": ArmoryConstants.CLASS_MAP[int(json_data['class'])],
+        "race": ArmoryConstants.RACE_MAP[int(json_data['race'])],
+        "portrait": 'http://%s.battle.net/static-render/%s/%s' % (region, region, json_data['thumbnail']),
+        "stats": json_data['stats'],
+        "talents": {},
+        "gear": {},
+        "artifact": {},
+
+        # stub data from engine
+        "weights": {
+            "agi" : 2.5,
+            "haste": 1.5,
+            "mastery": 1.1,
+            "versatility": 1.1,
+            "crit": 1.2,
+            "mainHand": 3.1,
+            "offHand": 2.1
+        }
+    }
+
+    for index, tree in enumerate(json_data['talents']):
+        if 'selected' in tree and tree['selected']:
+            output['active'] = tree['calcSpec']
+
+    # For talents, make sure to ignore any blank specs. Druids will actually have 4 specs
+    # filled in, but rogues will return three good specs and one with a blank calcSpec
+    # field.
+    talents = [x for x in json_data['talents'] if len(x['calcSpec']) > 0]
+    for tree in talents:
+        output['talents'][tree['calcSpec']] = tree['calcTalent']
+
+    if 'items' not in json_data or len(json_data['items']) == 0:
+        raise ArmoryDocument.ArmoryError('No items found on character')
+
+    for key, slot_item in json_data['items'].items():
+        if not isinstance(slot_item, dict):
+            continue
+        if key == 'shirt' or key == 'tabard':
+            continue
+
+        tooltip = slot_item['tooltipParams'] if 'tooltipParams' in slot_item else {}
+        info = {
+            'id': slot_item['id'],
+            'slot': key,
+            'name': slot_item['name'],
+            'icon': slot_item['icon'],
+            'item_level': slot_item['itemLevel'],
+            'gems': [],
+            'bonuses': slot_item['bonusLists'],
+            'context': slot_item['context'],
+            'quality': slot_item['quality'],
+        }
+
+        info['enchant'] = tooltip['enchant'] if 'enchant' in tooltip else 0
+
+        # there can be multiple gems in tooltipParams from the armory
+        # so we need to check for them all i.e. gem0, gem1, gem2
+        for tooltip_item in tooltip:
+            if tooltip_item.startswith('gem'):
+                # armory will error if we request an id of zero and an empty gem slot is 0
+                if tooltip[tooltip_item] != 0:
+                    gemdata = ArmoryDocument.get('us', '/wow/item/%d' % tooltip[tooltip_item])
+                    info['gems'].append(
+                        {
+                            'name': gemdata['name'],
+                            'id': gemdata['id'],
+                            'icon': gemdata['icon'],
+                            'quality': gemdata['quality'],
+                            'bonus': gemdata['gemInfo']['bonus']['name'],
+                            'gemslot': tooltip_item
+                        })
+                else:
+                    info['gems'].append(tooltip[tooltip_item])
+
+        # We squash all of the world quest contexts down into one.
+        # TODO: why are we doing this again? something about the data being the
+        # same between all of those contexts?
+        if info['context'].startswith('world-quest'):
+            info['context'] = 'world-quest'
+
+        output['gear'][key] = info
+
+    # Artifact data from the API looks like this:
+    #            "artifactTraits": [{
+    #                "id": 1348,
+    #                "rank": 1
+    #            }, {
+    #                "id": 1061,
+    #                "rank": 4
+    #            }, {
+    #                "id": 1064,
+    #                "rank": 3
+    #            }, {
+    #                "id": 1066,
+    #                "rank": 3
+    #            }, {
+    #                "id": 1060,
+    #                "rank": 3
+    #            }, {
+    #                "id": 1054,
+    #                "rank": 1
+    #            }],
+    #            "relics": [{
+    #                "socket": 0,
+    #                "itemId": 133008,
+    #                "context": 11,
+    #                "bonusLists": [768, 1595, 1809]
+    #            }, {
+    #                "socket": 1,
+    #                "itemId": 133057,
+    #                "context": 11,
+    #                "bonusLists": [1793, 1595, 1809]
+    #            }],
+
+    output['artifact']['spec'] = output['active']
+    output['artifact']['traits'] = {}
+    for trait in json_data['items']['mainHand']['artifactTraits']:
+        # Special case around an error in the artifact power DBC data from the CDN where
+        # trait ID 859 maps to multiple spell IDs.
+        trait_id = ArmoryCharacter.artifact_id(trait['id'])
+        if trait['id'] == 859:
+            trait_id = 197241
+        output['artifact']['traits'][str(trait_id)] = trait['rank']
+
+    output['artifact']['relics'] = [None]*3
+    for relic in json_data['items']['mainHand']['relics']:
+
+        # We want to return the trait ID that this relic modifies here instead of the ID of
+        # the relic itself. This means we need to look up this relic in the database and
+        # find the trait for the currently active spec.
+        query = {'remote_id': relic['itemId']}
+        results = db.relics.find(query)
+        if results.count() != 0:
+
+            entry = { 'id': results[0]['traits'][output['active']]['spell'] }
+
+            # Make another request to blizzard to get the item level for this relic,
+            # since the character data doesn't include enough information.
+            try:
+                params = {'bl': ','.join(map(str, relic['bonusLists']))}
+                relic_json = ArmoryDocument.get(region, '/wow/item/%d' % relic['itemId'], params)
+                entry['ilvl'] = relic_json['itemLevel']
+                output['artifact']['relics'][relic['socket']] = entry
+            except ArmoryDocument.MissingDocument:
+                print("Failed to retrieve extra relic data")
+        
+    # Make sure there's something in each of the relic data slots so that the UI doesn't
+    # freak out about it.
+    for relic in output['artifact']['relics']:
+        if relic is None:
+            relic = {'id': 0, 'ilvl': 0}
+
+    return output
+
 def init_db(db):
     db.characters.create_index([("region", pymongo.ASCENDING),
                                 ("realm", pymongo.ASCENDING),
@@ -100,15 +281,16 @@ def test_character():
     from pymongo import MongoClient
     db = MongoClient()['roguesim_python']
 
-    init(db)
+    init_db(db)
 
-    load(db, 'us', 'aerie-peak', 'tamen', sha='12345')
-    data2 = load(db, 'us', 'aerie-peak', 'tamen')
+#    load(db, 'us', 'aerie-peak', 'tamen', sha='12345')
+#    data2 = load(db, 'us', 'aerie-peak', 'tamen')
     data3 = load(db, 'us', 'aerie-peak', 'tamen', refresh=True)
+    print(data3)
 
-    sha = get_sha(db, data3)
-    data4 = load(db, 'us', 'aerie-peak', 'tamen', sha=sha['sha'])
-    print(data2 == data4)
+#    sha = get_sha(db, data3)
+#    data4 = load(db, 'us', 'aerie-peak', 'tamen', sha=sha['sha'])
+#    print(data2 == data4)
 
 if __name__ == '__main__':
     test_character()
