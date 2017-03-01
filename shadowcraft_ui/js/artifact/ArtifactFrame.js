@@ -95,10 +95,10 @@ export default class ArtifactFrame extends React.Component {
 
     change_relic(slot, trait, ilvl)
     {
-        var cur_state = this.state.relics
-        this.state.relics[parseInt(slot)].trait = trait
-        this.state.relics[parseInt(slot)].ilvl = ilvl
-        this.update_state(this.state.traits, cur_state, false)
+        var cur_state = this.props.data.artifact.relics
+        cur_state[parseInt(slot)].trait = trait
+        cur_state[parseInt(slot)].ilvl = ilvl
+        this.props.onChange(null, cur_state)
     }
 
     update_state(new_traits, new_relics, from_constructor)
@@ -162,10 +162,16 @@ export default class ArtifactFrame extends React.Component {
         }
     }
 
+    update_traits(artifact_data)
+    {
+    }
+
     render()
     {
         var trait_elements = [];
         var line_elements = [];
+
+        this.update_traits(this.props.data.artifact)
 
         for (var idx in this.props.layout.traits) {
             var trait = this.props.layout.traits[idx]
@@ -209,11 +215,11 @@ export default class ArtifactFrame extends React.Component {
                 </div>
 
                 <br/>
-                <ArtifactRelicSelect index="0" relics={this.relics} selected={this.state.relics[0]} type={this.props.layout.relics[0]} parent={this}/>
+                <ArtifactRelicSelect index="0" relics={this.relics} selected={this.props.data.artifact.relics[0]} type={this.props.layout.relics[0]} parent={this}/>
                 <br/>
-                <ArtifactRelicSelect index="1" relics={this.relics} selected={this.state.relics[1]} type={this.props.layout.relics[1]} parent={this} />
+                <ArtifactRelicSelect index="1" relics={this.relics} selected={this.props.data.artifact.relics[1]} type={this.props.layout.relics[1]} parent={this} />
                 <br/>
-                <ArtifactRelicSelect index="2" relics={this.relics} selected={this.state.relics[2]} type={this.props.layout.relics[2]} parent={this} />
+                <ArtifactRelicSelect index="2" relics={this.relics} selected={this.props.data.artifact.relics[2]} type={this.props.layout.relics[2]} parent={this} />
             </div>
         )
     }

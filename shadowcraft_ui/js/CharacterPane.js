@@ -24,14 +24,18 @@ export default class CharacterPane extends React.Component {
         this.state.current_talents = this.props.data.talents[this.props.data.active]
     }
 
-    handleArtifactChange(artifact){
-        // we will hand this to the Artifact component so that it can change the state here in CharacterPane
-        console.log('CharacterPane.handleArtifactChange called');
-        // call setState with changed artifact here
-        // something like
-        // this.state.artifact.setState(artifact)
-        // or something...
-        console.log(this.state.artifact)
+    handleArtifactChange(traits, relics){
+        var state = this.state
+
+        if (relics != null) {
+            state.artifact.relics = relics
+        }
+
+        if (traits != null) {
+            state.artifact.traits = traits
+        }
+        
+        this.setState(state)
     }
 
     handleTalentChange(spec, talents) {
@@ -52,9 +56,7 @@ export default class CharacterPane extends React.Component {
                                     <TalentPane data={this.state} onChange={this.handleTalentChange} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Artifact">
-                                    {/*pass the this.state dependant data to the compent, and give it a function to call when it changes*/}
-                                    {/*onChange is a convention, you can use any name, it is just a prop that gives us a function to update state*/}
-                                    <ArtifactPane data={this.state.artifact} onChange={this.handleArtifactChange} />
+                                    <ArtifactPane data={this.state} onChange={this.handleArtifactChange} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Settings">
                                     <SettingsPane />
