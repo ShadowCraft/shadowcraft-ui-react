@@ -41,10 +41,10 @@ export default class StatPane extends React.Component {
                 <section>
                     <h3>Toolbox</h3>
                     <div className="inner">
-                        <StatPanelButton name='Optimize Gems' />
-                        <StatPanelButton name='Optimize Enchants' />
-                        <StatPanelButton name='Lock All' />
-                        <StatPanelButton name='Unlock All' />
+                        <StatPanelButton id='optimizeGems' name='Optimize Gems' />
+                        <StatPanelButton id='optimizeEnchants' name='Optimize Enchants' />
+                        <StatPanelButton id='lockAll' name='Lock All' />
+                        <StatPanelButton id='unlockAll' name='Unlock All' />
                     </div>
                 </section>
             </div >
