@@ -19,12 +19,12 @@ export default class CharacterPane extends React.Component {
         // #javascriptproblems
         this.handleArtifactChange = this.handleArtifactChange.bind(this)
         this.handleTalentChange = this.handleTalentChange.bind(this)
-        
+
         this.state = this.props.data;
         this.state.current_talents = this.props.data.talents[this.props.data.active]
     }
 
-    handleArtifactChange(traits, relics){
+    handleArtifactChange(traits, relics) {
         var state = this.state
 
         if (relics != null) {
@@ -34,15 +34,54 @@ export default class CharacterPane extends React.Component {
         if (traits != null) {
             state.artifact.traits = traits
         }
-        
+
         this.setState(state)
     }
 
     handleTalentChange(spec, talents) {
-        this.setState({active: spec, current_talents: talents})
+        this.setState({ active: spec, current_talents: talents })
     }
 
     render() {
+
+        // mocking data
+        let advanced = {
+            breakdown: [
+                {
+                    name: 'Serrate',
+                    dps: 123124,
+                    pct: .15
+                },
+                {
+                    name: 'Stab',
+                    dps: 325643,
+                    pct: .25
+                },{
+                    name: 'Slit',
+                    dps: 123124,
+                    pct: .5
+                },
+                {
+                    name: 'Shiv',
+                    dps: 325643,
+                    pct: .30
+                },
+                {
+                    name: 'Slice',
+                    dps: 123124,
+                    pct: .10
+                },
+                {
+                    name: 'Slash',
+                    dps: 325643,
+                    pct: .20
+                }
+            ],
+            build: {
+                ui: 'thisfake',
+                engine: 'commitid'
+            }
+        };
         return (
             <div>
                 <div style={{ display: 'flex' }}>
@@ -62,7 +101,7 @@ export default class CharacterPane extends React.Component {
                                     <SettingsPane />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Advanced">
-                                    <AdvancedPane />
+                                    <AdvancedPane data={advanced} />
                                 </Tabs.Panel>
                                 <Tabs.Panel title="Documentation">
                                     <DocsPane />
