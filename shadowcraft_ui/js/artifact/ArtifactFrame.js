@@ -1,72 +1,72 @@
-import React from "react"
-import ArtifactTrait from './ArtifactTrait'
-import ArtifactRelicSelect from './ArtifactRelicSelect'
+import React from 'react';
+import ArtifactTrait from './ArtifactTrait';
+import ArtifactRelicSelect from './ArtifactRelicSelect';
 
-var FRAME_WIDTH=720.0
-var FRAME_HEIGHT=615.0
+var FRAME_WIDTH=720.0;
+var FRAME_HEIGHT=615.0;
 
 export default class ArtifactFrame extends React.Component {
 
     constructor(props)
     {
-        super(props)
+        super(props);
 
-        this.connected_traits = {}
+        this.connected_traits = {};
         for (var line of this.props.layout.lines) {
-            var trait1 = this.props.layout.traits[line.trait1].id
-            var trait2 = this.props.layout.traits[line.trait2].id
+            var trait1 = this.props.layout.traits[line.trait1].id;
+            var trait2 = this.props.layout.traits[line.trait2].id;
 
             if (!(trait1 in this.connected_traits)) {
-                this.connected_traits[trait1] = []
+                this.connected_traits[trait1] = [];
             }
             if (!(trait2 in this.connected_traits)) {
-                this.connected_traits[trait2] = []
+                this.connected_traits[trait2] = [];
             }
 
-            this.connected_traits[trait1].push(trait2)
-            this.connected_traits[trait2].push(trait1)
+            this.connected_traits[trait1].push(trait2);
+            this.connected_traits[trait2].push(trait1);
         }
 
         this.state = {
             total_traits: 1,
             traits: {},
             relics: []
-        }
+        };
 
-        this.relics = []
+        this.relics = [];
         for (var idx in this.props.layout.traits) {
-            var trait = this.props.layout.traits[idx]
-            var trait_id = trait.id
+            var trait = this.props.layout.traits[idx];
+            var trait_id = trait.id;
             this.state.traits[trait_id] = {
                 cur_rank: 0,
                 max_rank: trait.max_rank,
                 default_max_rank: trait.max_rank,
                 enabled: false
-            }
+            };
 
             if (trait.relic) {
-                this.relics.push([trait.id, trait.name])
+                this.relics.push([trait.id, trait.name]);
             }
         }
 
         this.relics.sort(function(a,b) {
             if (a[1] == b[1]) {
-                return 0
+                return 0;
             } else if (a[1] < b[1]) {
-                return -1
+                return -1;
             } else {
-                return 1
+                return 1;
             }
-        })
+        });
 
-        this.state.traits[this.props.layout.primary_trait].cur_rank = 1
-        this.state.traits[this.props.layout.primary_trait].enabled = true
+        this.state.traits[this.props.layout.primary_trait].cur_rank = 1;
+        this.state.traits[this.props.layout.primary_trait].enabled = true;
 
-        this.state.relics.push({trait: (this.relics[0] && this.relics[0][0]) || 0, ilvl: 830})
-        this.state.relics.push({trait: (this.relics[0] && this.relics[0][0]) || 0, ilvl: 830})
-        this.state.relics.push({trait: (this.relics[0] && this.relics[0][0]) || 0, ilvl: 830})
+        this.state.relics.push({trait: (this.relics[0] && this.relics[0][0]) || 0, ilvl: 830});
+        this.state.relics.push({trait: (this.relics[0] && this.relics[0][0]) || 0, ilvl: 830});
+        this.state.relics.push({trait: (this.relics[0] && this.relics[0][0]) || 0, ilvl: 830});
 
-        this.update_state(this.state.traits, this.state.relics, true)
+        this.update_state(this.state.traits, this.state.relics, true);
     }
 
     increase_rank(trait_id)
@@ -76,9 +76,9 @@ export default class ArtifactFrame extends React.Component {
         if (this.state.traits[trait_id].enabled &&
             this.state.traits[trait_id].cur_rank < this.state.traits[trait_id].max_rank)
         {
-            var traits = this.state.traits
-            traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank + 1
-            this.update_state(traits, this.state.relics, false)
+            var traits = this.state.traits;
+            traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank + 1;
+            this.update_state(traits, this.state.relics, false);
         }
     }
 
@@ -87,78 +87,79 @@ export default class ArtifactFrame extends React.Component {
         // TODO: should these check whether any of the traits connected to this one are
         // enabled before doing the state update?
         if (this.state.traits[trait_id].enabled) {
-            var traits = this.state.traits
-            traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank - 1
-            this.update_state(traits, this.state.relics, false)
+            var traits = this.state.traits;
+            traits[trait_id].cur_rank = this.state.traits[trait_id].cur_rank - 1;
+            this.update_state(traits, this.state.relics, false);
         }
     }
 
     change_relic(slot, trait, ilvl)
     {
-        var cur_state = this.props.data.artifact.relics
-        cur_state[parseInt(slot)].trait = trait
-        cur_state[parseInt(slot)].ilvl = ilvl
-        this.props.onChange(null, cur_state)
+        var cur_state = this.props.data.artifact.relics;
+        cur_state[parseInt(slot)].trait = trait;
+        cur_state[parseInt(slot)].ilvl = ilvl;
+        this.props.onChange(null, cur_state);
     }
 
     update_state(new_traits, new_relics, from_constructor)
     {
         // starting at the top of the tree, walk down it to find all of the traits that should
         // actually be enabled.
-        var traits_to_check = [this.props.layout.primary_trait]
-        var traits_checked = []
-        var total_traits = 0
+        var traits_to_check = [this.props.layout.primary_trait];
+        var traits_checked = [];
+        var total_traits = 0;
+        var trait;
 
         while (traits_to_check.length > 0)
         {
-            var trait = traits_to_check.shift()
+            trait = traits_to_check.shift();
             if (traits_checked.indexOf(trait) != -1) {
-                continue
+                continue;
             }
 
-            traits_checked.push(trait)
+            traits_checked.push(trait);
             new_traits[trait].enabled = true;
             if (new_traits[trait].cur_rank == new_traits[trait].max_rank) {
-                traits_to_check = traits_to_check.concat(this.connected_traits[trait])
+                traits_to_check = traits_to_check.concat(this.connected_traits[trait]);
             }
         }
 
         // Disable everything else, unless there's a relic attached to it
-        for (var trait in new_traits)
+        for (trait in new_traits)
         {
-            var t = parseInt(trait)
+            var t = parseInt(trait);
 
             // If the current max rank is higher than the default max rank, subtract
             // that many ranks so that the relic stuff below can add them back in
             // without breaking stuff.
             if (new_traits[t].max_rank != new_traits[t].default_max_rank) {
-                new_traits[t].cur_rank -= (new_traits[t].max_rank - new_traits[t].default_max_rank)
+                new_traits[t].cur_rank -= (new_traits[t].max_rank - new_traits[t].default_max_rank);
             }
 
             // Force the max rank back to the default. If it needs to be higher for
             // relics, that'll happen later.
-            new_traits[t].max_rank = new_traits[t].default_max_rank
+            new_traits[t].max_rank = new_traits[t].default_max_rank;
 
             if (traits_checked.indexOf(parseInt(t)) == -1)
             {
-                new_traits[t].cur_rank = 0
-                new_traits[t].enabled = false
+                new_traits[t].cur_rank = 0;
+                new_traits[t].enabled = false;
             }
             else
             {
-                total_traits += new_traits[t].cur_rank
+                total_traits += new_traits[t].cur_rank;
             }
         }
 
         for (var relic in this.state.relics) {
-            var trait = this.state.relics[relic].trait
-            new_traits[trait].cur_rank += 1
-            new_traits[trait].max_rank += 1
-            new_traits[trait].enabled = true
+            trait = this.state.relics[relic].trait;
+            new_traits[trait].cur_rank += 1;
+            new_traits[trait].max_rank += 1;
+            new_traits[trait].enabled = true;
         }
 
         if (!from_constructor) {
-            this.setState({total_traits: total_traits, traits: new_traits, relics: new_relics})
+            this.setState({total_traits: total_traits, traits: new_traits, relics: new_relics});
         }
     }
 
@@ -171,32 +172,32 @@ export default class ArtifactFrame extends React.Component {
         var trait_elements = [];
         var line_elements = [];
 
-        this.update_traits(this.props.data.artifact)
+        this.update_traits(this.props.data.artifact);
 
         for (var idx in this.props.layout.traits) {
-            var trait = this.props.layout.traits[idx]
-            var trait_state = this.state.traits[trait.id]
+            var trait = this.props.layout.traits[idx];
+            var trait_state = this.state.traits[trait.id];
 
             // The position that we grab from wowhead is translated to match the center
             // of where the div is. This makes calculating the lines below easier.
             // Translate it back to where the corner of the div actually should be.
-            var left = (trait.x-45) / FRAME_WIDTH * 100.0
-            var top = (trait.y-45) / FRAME_HEIGHT * 100.0
+            var left = (trait.x-45) / FRAME_WIDTH * 100.0;
+            var top = (trait.y-45) / FRAME_HEIGHT * 100.0;
 
-            trait_elements.push(<ArtifactTrait key={idx} id={idx} tooltip_id={trait.id} left={left+"%"} top={top+"%"} cur_rank={trait_state.cur_rank} max_rank={trait_state.max_rank} icon={trait.icon} ring={trait.ring} enabled={trait_state.enabled} parent={this} />)
+            trait_elements.push(<ArtifactTrait key={idx} id={idx} tooltip_id={trait.id} left={left+'%'} top={top+'%'} cur_rank={trait_state.cur_rank} max_rank={trait_state.max_rank} icon={trait.icon} ring={trait.ring} enabled={trait_state.enabled} parent={this} />);
         }
 
         for (var line of this.props.layout.lines) {
-            var trait1 = this.props.layout.traits[line.trait1]
-            var trait2 = this.props.layout.traits[line.trait2]
-            var x1 = trait1.x / FRAME_WIDTH * 100.0
-            var y1 = trait1.y / FRAME_HEIGHT * 100.0
-            var x2 = trait2.x / FRAME_WIDTH * 100.0
-            var y2 = trait2.y / FRAME_HEIGHT * 100.0
+            var trait1 = this.props.layout.traits[line.trait1];
+            var trait2 = this.props.layout.traits[line.trait2];
+            var x1 = trait1.x / FRAME_WIDTH * 100.0;
+            var y1 = trait1.y / FRAME_HEIGHT * 100.0;
+            var x2 = trait2.x / FRAME_WIDTH * 100.0;
+            var y2 = trait2.y / FRAME_HEIGHT * 100.0;
 
-            var color = this.state.traits[trait1.id].enabled && this.state.traits[trait2.id].enabled ? "yellow" : "grey"
+            var color = this.state.traits[trait1.id].enabled && this.state.traits[trait2.id].enabled ? 'yellow' : 'grey';
 
-            line_elements.push(<line key={trait1.id.toString()+"-"+trait2.id.toString()} x1={x1+"%"} y1={y1+"%"} x2={x2+"%"} y2={y2+"%"} strokeWidth="6" stroke={color} />)
+            line_elements.push(<line key={trait1.id.toString()+'-'+trait2.id.toString()} x1={x1+'%'} y1={y1+'%'} x2={x2+'%'} y2={y2+'%'} strokeWidth="6" stroke={color} />);
         }
 
         return (
@@ -209,7 +210,7 @@ export default class ArtifactFrame extends React.Component {
 
                 <div id="artifactframe" style={{ backgroundImage: 'url(/static/images/artifacts/'+this.props.layout.artifact+'-bg.jpg)' }}>
                     {trait_elements}
-                    <svg width={FRAME_WIDTH} height={FRAME_HEIGHT} viewBox={"0 0 "+FRAME_WIDTH+" "+FRAME_HEIGHT}>
+                    <svg width={FRAME_WIDTH} height={FRAME_HEIGHT} viewBox={'0 0 '+FRAME_WIDTH+' '+FRAME_HEIGHT}>
                         {line_elements}
                     </svg>
                 </div>
@@ -221,6 +222,6 @@ export default class ArtifactFrame extends React.Component {
                 <br/>
                 <ArtifactRelicSelect index="2" relics={this.relics} selected={this.props.data.artifact.relics[2]} type={this.props.layout.relics[2]} parent={this} />
             </div>
-        )
+        );
     }
 }
