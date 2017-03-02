@@ -61,20 +61,20 @@ export default class ArtifactFrame extends React.Component {
     increase_rank(trait_id)
     {
         if (this.trait_state.traits[trait_id].enabled &&
-            this.props.data.artifact.traits[trait_id].cur_rank < this.trait_state.traits[trait_id].max_rank)
+            this.props.data.artifact.traits[trait_id] < this.trait_state.traits[trait_id].max_rank)
         {
-            var traits = this.props.data.artifact.traits;
-            traits[trait_id] += 1;
-            this.props.onChange(traits, null);
+            var data = this.props.data.artifact;
+            data.traits[trait_id] += 1;
+            this.update_state(data, true);
         }
     }
 
     decrease_rank(trait_id)
     {
-        if (this.state.traits[trait_id].enabled) {
-            var traits = this.props.data.artifact.traits;
-            traits[trait_id] -= 1
-            this.props.onChange(traits, null);
+        var data = this.props.data.artifact;
+        if (this.trait_state.traits[trait_id].enabled && data.traits[trait_id] != 0) {
+            data.traits[trait_id] -= 1;
+            this.update_state(data, true);
         }
     }
 
@@ -86,15 +86,15 @@ export default class ArtifactFrame extends React.Component {
         this.props.onChange(null, cur_state);
     }
 
-    update_state(artifact_data)
+    update_state(artifact_data, send_state)
     {
-        console.log(artifact_data)
         // starting at the top of the tree, walk down it to find all of the traits that should
         // actually be enabled.
         var traits_to_check = [this.props.layout.primary_trait];
         var traits_checked = [];
-        var total_traits = 0;
         var trait;
+
+        this.trait_state.total_traits = 0;
 
         while (traits_to_check.length > 0)
         {
@@ -110,30 +110,42 @@ export default class ArtifactFrame extends React.Component {
             }
         }
 
-        console.log(traits_checked)
-
         // Disable everything else, unless there's a relic attached to it
         for (trait in this.trait_state.traits)
         {
-            this.trait_state.traits[trait].max_rank = this.trait_state.traits[trait].default_max_rank
+            var t_state = this.trait_state.traits[trait]
+            this.trait_state.traits[trait].max_rank = this.trait_state.traits[trait].default_max_rank;
             
-            if (traits_checked.indexOf(parseInt(trait)) == -1)
-            {
-                console.log("disabling " + trait)
+            if (traits_checked.indexOf(parseInt(trait)) == -1) {
                 this.trait_state.traits[trait].enabled = false;
+                artifact_data.traits[trait] = 0;
+            }
+            else if (artifact_data.traits[trait]) {
+                this.trait_state.total_traits += artifact_data.traits[trait];
             }
         }
+
+        console.log(this.trait_state.total_traits)
 
         // Fix the max ranks for traits that have relics attached
         for (var relic in artifact_data.relics)
         {
-            var relic_trait = artifact_data.relics[relic].id
-            console.log(artifact_data.relics[relic])
-            console.log(relic_trait)
+            var relic_trait = artifact_data.relics[relic].id;
+            console.log(artifact_data.relics[relic]);
+            console.log(relic_trait);
 
             if (relic_trait != 0) {
-                this.trait_state.traits[relic_trait].max_rank += 1
+                this.trait_state.traits[relic_trait].max_rank += 1;
+                this.trait_state.total_traits -= 1;
+
+                if (traits_checked.indexOf(parseInt(relic_trait)) == -1) {
+                    artifact_data.traits[relic_trait] += 1;
+                }
             }
+        }
+
+        if (send_state) {
+            this.props.onChange(artifact_data.traits, null);
         }
     }
 
@@ -142,11 +154,11 @@ export default class ArtifactFrame extends React.Component {
         var trait_elements = [];
         var line_elements = [];
 
-        this.update_state(this.props.data.artifact);
+        this.update_state(this.props.data.artifact, false);
 
         for (var idx in this.props.layout.traits) {
             var trait = this.props.layout.traits[idx];
-            var trait_rank = this.props.data.artifact.traits[trait.id]
+            var trait_rank = this.props.data.artifact.traits[trait.id];
             var trait_state = this.trait_state.traits[trait.id];
 
             // The position that we grab from wowhead is translated to match the center
