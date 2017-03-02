@@ -1,204 +1,21 @@
-import React from "react"
+import React from 'react';
 
-export default class TalentPane extends React.Component {
+
+export default class SettingsPane extends React.Component {
+
+    getSpecOptions(spec) {
+        switch (spec.toLowerCase()) {
+            case 'assassination': return <AssassinationOptions />;
+            case 'outlaw': return <OutlawOptions />;
+            case 'subtlety': return <SubtletyOptions />;
+            default: return <div>Invalid Spec</div>;
+        }
+    }
+
     render() {
         return (
             <div id="settings" className="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
-                <section className="cluster combat" style={{ display: 'none' }}>
-                    <div className="option-list">
-                        <h3>Combat Rotation Settings</h3>
-                        <div className="settings">
-                            <label className="select" htmlFor="opt-rotation-blade_flurry">
-                                <span className="label">Blade Flurry</span>
-                                <input className="optionCheck" data-ns="rotation" id="opt-rotation-blade_flurry" name="blade_flurry" type="checkbox" value="false" />
-                                <span className="desc">Use Blade Flurry</span>
-                            </label>
-
-                            <label className="select">
-                                <span className="label">BtE Policy</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="between_the_eyes_policy" id="opt-rotation-between_the_eyes_policy" data-ns="rotation">
-                                        <option value="shark">Only use with Shark</option>
-                                        <option value="always">Use BtE on cooldown</option>
-                                        <option value="never">Never use BtE</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label>
-                            <label className="select">
-                                <span className="label">RtB Reroll Policy</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="reroll_policy" id="opt-rotation-reroll_policy" data-ns="rotation">
-                                        <option value="1">Reroll single buffs</option>
-                                        <option value="2">Reroll two or fewer buffs</option>
-                                        <option value="3">Reroll three or fewer buffs</option>
-                                        <option value="custom">Custom setup per buff (see below)</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label>
-                            <label className="select">
-                                <span className="label">Jolly Roger</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="jolly_roger_reroll" id="opt-rotation-jolly_roger_reroll" data-ns="rotation">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </span>
-                                <span className="desc">0 means never reroll combos with this buff. 1 means reroll singles of this buff. 2 means reroll double-buff rolls containing this buff. 3 means reroll triple-buff rolls containing this buff.</span>
-                            </label>
-                            <label className="select">
-                                <span className="label">Grand Melee</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="grand_melee_reroll" id="opt-rotation-grand_melee_reroll" data-ns="rotation">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label>
-                            <label className="select">
-                                <span className="label">Shark-Infested Waters</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="shark_reroll" id="opt-rotation-shark_reroll" data-ns="rotation">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label>
-                            <label className="select">
-                                <span className="label">True Bearing</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="true_bearing_reroll" id="opt-rotation-true_bearing_reroll" data-ns="rotation">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label>
-                            <label className="select">
-                                <span className="label">Buried Treasure</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="buried_treasure_reroll" id="opt-rotation-buried_treasure_reroll" data-ns="rotation">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label>
-                            <label className="select">
-                                <span className="label">Broadsides</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="broadsides_reroll" id="opt-rotation-broadsides_reroll" data-ns="rotation">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label>
-                        </div>
-                    </div>
-                </section>
-                <section className="cluster mutilate" style={{ display: 'block' }}>
-                    <div className="option-list">
-                        <h3>Assassination Rotation Settings</h3>
-                        <div className="settings">
-                            <label className="select">
-                                <span className="label">Kingsbane w/ Vendetta</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="kingsbane" id="opt-rotation-kingsbane" data-ns="rotation">
-                                        <option value="just">Use cooldown if it aligns, but don't delay usage</option>
-                                        <option value="only">Only use cooldown with Vendetta</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label>
-                            <label className="select">
-                                <span className="label">Exsang w/ Vendetta</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="exsang" id="opt-rotation-exsang" data-ns="rotation">
-                                        <option value="just">Use cooldown if it aligns, but don't delay usage</option>
-                                        <option value="only">Only use cooldown with Vendetta</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label> <label className="select">
-                                <span className="label">CP Builder</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="assn_cp_builder" id="opt-rotation-assn_cp_builder" data-ns="rotation">
-                                        <option value="mutilate">Mutilate</option>
-                                        <option value="fan_of_knives">Fan of Knives</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label>
-                            <label className="select">
-                                <span className="label">Lethal Poison</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="lethal_poison" id="opt-rotation-lethal_poison" data-ns="rotation">
-                                        <option value="dp">Deadly Poison</option>
-                                        <option value="wp">Wound Poison</option>
-                                        <option value="ap">Agonizing Poison</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label>
-                        </div>
-                    </div>
-                </section>
-                <section className="cluster subtlety" style={{ display: 'none' }}>
-                    <div className="option-list">
-                        <h3>Subtlety Rotation Settings</h3>
-                        <div className="settings">
-                            <label className="select">
-                                <span className="label">CP Builder</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="sub_cp_builder" id="opt-rotation-sub_cp_builder" data-ns="rotation">
-                                        <option value="backstab">Backstab</option>
-                                        <option value="shuriken_storm">Shuriken Storm</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label> <label className="select">
-                                <span className="label">SoD Policy</span>
-                                <span className="select-container">
-                                    <select className="optionSelect" name="symbols_policy" id="opt-rotation-symbols_policy" data-ns="rotation">
-                                        <option value="always">Use on cooldown</option>
-                                        <option value="just">Only use SoD when needed to refresh</option>
-                                    </select>
-                                </span>
-                                <span className="desc"></span>
-                            </label>
-                            <label className="select" htmlFor="opt-rotation-dance_finishers_allowed">
-                                <span className="label">Use Finishers during Dance</span>
-                                <input className="optionCheck" data-ns="rotation" id="opt-rotation-dance_finishers_allowed" name="dance_finishers_allowed" type="checkbox" checked="checked" value="true" />
-                                <span className="desc"></span>
-                            </label>
-                            <label className="input">
-                                <span className="label">Backstab uptime</span>
-                                <input className="optionInput" data-ns="rotation" id="opt-rotation-positional_uptime" name="positional_uptime" type="text" />
-                                <span className="desc">Percentage of the fight you are behind the target (0-100). This has no effect if Gloomblade is selected as a talent.</span>
-                            </label> <label className="select" htmlFor="opt-rotation-compute_cp_waste">
-                                <span className="label">Compute CP Waste</span>
-                                <input className="optionCheck" data-ns="rotation" id="opt-rotation-compute_cp_waste" name="compute_cp_waste" type="checkbox" checked="checked" value="true" />
-                                <span className="desc">EXPERIMENTAL FEATURE: Compute combo point waste</span>
-                            </label>
-                        </div>
-                    </div>
-                </section>
+                {this.getSpecOptions(this.props.spec)}
                 <section className="cluster">
                     <div className="option-list">
                         <h3>Raid Buffs</h3>
@@ -213,15 +30,15 @@ export default class TalentPane extends React.Component {
                                     <option value="food_legion_damage_3">Fishbrul Special (High Fire Proc)</option>
                                 </select>
                             </span>
-                            <span className="desc"></span>
+                            <span className="desc" />
                         </label>
                             <label className="select" htmlFor="opt-buffs-flask_legion_agi">
                                 <span className="label">Legion Agility Flask</span>
-                                <input className="optionCheck" data-ns="buffs" id="opt-buffs-flask_legion_agi" name="flask_legion_agi" type="checkbox" value="false" />
+                                <input className="optionCheck" data-ns="buffs" id="opt-buffs-flask_legion_agi" name="flask_legion_agi" type="checkbox" defaultChecked="checked" value="false" />
                                 <span className="desc">Flask of the Seventh Demon (1300 Agility)</span>
                             </label> <label className="select" htmlFor="opt-buffs-short_term_haste_buff">
                                 <span className="label">+30% Haste/40 sec</span>
-                                <input className="optionCheck" data-ns="buffs" id="opt-buffs-short_term_haste_buff" name="short_term_haste_buff" type="checkbox" checked="checked" value="true" />
+                                <input className="optionCheck" data-ns="buffs" id="opt-buffs-short_term_haste_buff" name="short_term_haste_buff" type="checkbox" defaultChecked="checked" value="true" />
                                 <span className="desc">Heroism/Bloodlust/Time Warp</span>
                             </label>
                         </div>
@@ -238,7 +55,7 @@ export default class TalentPane extends React.Component {
                                         <option value="potion_none">None</option>
                                     </select>
                                 </span>
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                             <label className="select">
                                 <span className="label">Combat Potion</span>
@@ -249,7 +66,7 @@ export default class TalentPane extends React.Component {
                                         <option value="potion_none">None</option>
                                     </select>
                                 </span>
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                         </div>
                     </div>
@@ -265,12 +82,12 @@ export default class TalentPane extends React.Component {
                                         <option value="70">7.0</option>
                                     </select>
                                 </span>
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                             <label className="input">
                                 <span className="label">Level</span>
                                 <input className="optionInput" data-ns="general" id="opt-general-level" name="level" type="text" />
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                             <label className="select">
                                 <span className="label">Race</span>
@@ -289,7 +106,7 @@ export default class TalentPane extends React.Component {
                                         <option value="Pandaren">Pandaren</option>
                                     </select>
                                 </span>
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                             <label className="select">
                                 <span className="label">Racial (Night Elf)</span>
@@ -299,32 +116,32 @@ export default class TalentPane extends React.Component {
                                         <option value="1">Day (1% Crit)</option>
                                     </select>
                                 </span>
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                             <label className="input">
                                 <span className="label">Fight Duration</span>
                                 <input className="optionInput" data-ns="general" id="opt-general-duration" name="duration" type="text" />
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                             <label className="input">
                                 <span className="label">Response Time</span>
                                 <input className="optionInput" data-ns="general" id="opt-general-response_time" name="response_time" type="text" />
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                             <label className="input">
                                 <span className="label">Number of Boss Adds</span>
                                 <input className="optionInput" data-ns="general" id="opt-general-num_boss_adds" name="num_boss_adds" type="text" />
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                             <label className="select" htmlFor="opt-general-demon_enemy">
                                 <span className="label">Enemy is Demon</span>
-                                <input className="optionCheck" data-ns="general" id="opt-general-demon_enemy" name="demon_enemy" type="checkbox" checked="checked" value="0" />
+                                <input className="optionCheck" data-ns="general" id="opt-general-demon_enemy" name="demon_enemy" type="checkbox" defaultChecked="checked" value="0" />
                                 <span className="desc">Enables damage buff from heirloom trinket against demons</span>
                             </label>
                             <label className="input">
                                 <span className="label">MfD Resets Per Minute</span>
                                 <input className="optionInput" data-ns="general" id="opt-general-mfd_resets" name="mfd_resets" type="text" />
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                             <label className="select">
                                 <span className="label">Finisher Threshold</span>
@@ -344,7 +161,7 @@ export default class TalentPane extends React.Component {
                         <div id="generalFilter">
                             <label className="select" htmlFor="opt-general-dynamic_ilvl">
                                 <span className="label">Dynamic ILevel filtering</span>
-                                <input className="optionCheck" data-ns="general" id="opt-general-dynamic_ilvl" name="dynamic_ilvl" type="checkbox" checked="checked" value="true" />
+                                <input className="optionCheck" data-ns="general" id="opt-general-dynamic_ilvl" name="dynamic_ilvl" type="checkbox" defaultChecked="checked" value="true" />
                                 <span className="desc">Dynamically filters items in gear lists to +/- 50 Ilevels of the item equipped in that slot. Disable this option to use the manual filtering options below.</span>
                             </label>
                             <label className="input">
@@ -375,7 +192,7 @@ export default class TalentPane extends React.Component {
                                         <option value="1">Yes</option>
                                     </select>
                                 </span>
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                         </div>
                     </div>
@@ -385,17 +202,233 @@ export default class TalentPane extends React.Component {
                             <label className="input">
                                 <span className="label">Latency</span>
                                 <input className="optionInput" data-ns="advanced" id="opt-advanced-latency" name="latency" type="text" />
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                             <label className="input">
                                 <span className="label">Advanced Parameters</span>
                                 <input className="optionInput" data-ns="advanced" id="opt-advanced-adv_params" name="adv_params" type="text" />
-                                <span className="desc"></span>
+                                <span className="desc" />
                             </label>
                         </div>
                     </div>
                 </section>
             </div>
+        );
+    }
+}
+
+class OutlawOptions extends React.Component {
+    render() {
+        return (
+            <section className="cluster combat">
+                <div className="option-list">
+                    <h3>Combat Rotation Settings</h3>
+                    <div className="settings">
+                        <label className="select" htmlFor="opt-rotation-blade_flurry">
+                            <span className="label">Blade Flurry</span>
+                            <input className="optionCheck" data-ns="rotation" id="opt-rotation-blade_flurry" name="blade_flurry" type="checkbox" value="false" />
+                            <span className="desc">Use Blade Flurry</span>
+                        </label>
+
+                        <label className="select">
+                            <span className="label">BtE Policy</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="between_the_eyes_policy" id="opt-rotation-between_the_eyes_policy" data-ns="rotation">
+                                    <option value="shark">Only use with Shark</option>
+                                    <option value="always">Use BtE on cooldown</option>
+                                    <option value="never">Never use BtE</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label>
+                        <label className="select">
+                            <span className="label">RtB Reroll Policy</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="reroll_policy" id="opt-rotation-reroll_policy" data-ns="rotation">
+                                    <option value="1">Reroll single buffs</option>
+                                    <option value="2">Reroll two or fewer buffs</option>
+                                    <option value="3">Reroll three or fewer buffs</option>
+                                    <option value="custom">Custom setup per buff (see below)</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label>
+                        <label className="select">
+                            <span className="label">Jolly Roger</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="jolly_roger_reroll" id="opt-rotation-jolly_roger_reroll" data-ns="rotation">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </span>
+                            <span className="desc">0 means never reroll combos with this buff. 1 means reroll singles of this buff. 2 means reroll double-buff rolls containing this buff. 3 means reroll triple-buff rolls containing this buff.</span>
+                        </label>
+                        <label className="select">
+                            <span className="label">Grand Melee</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="grand_melee_reroll" id="opt-rotation-grand_melee_reroll" data-ns="rotation">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label>
+                        <label className="select">
+                            <span className="label">Shark-Infested Waters</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="shark_reroll" id="opt-rotation-shark_reroll" data-ns="rotation">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label>
+                        <label className="select">
+                            <span className="label">True Bearing</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="true_bearing_reroll" id="opt-rotation-true_bearing_reroll" data-ns="rotation">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label>
+                        <label className="select">
+                            <span className="label">Buried Treasure</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="buried_treasure_reroll" id="opt-rotation-buried_treasure_reroll" data-ns="rotation">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label>
+                        <label className="select">
+                            <span className="label">Broadsides</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="broadsides_reroll" id="opt-rotation-broadsides_reroll" data-ns="rotation">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+}
+
+class AssassinationOptions extends React.Component {
+    render() {
+        return (
+            <section className="cluster mutilate">
+                <div className="option-list">
+                    <h3>Assassination Rotation Settings</h3>
+                    <div className="settings">
+                        <label className="select">
+                            <span className="label">Kingsbane w/ Vendetta</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="kingsbane" id="opt-rotation-kingsbane" data-ns="rotation">
+                                    <option value="just">Use cooldown if it aligns, but don't delay usage</option>
+                                    <option value="only">Only use cooldown with Vendetta</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label>
+                        <label className="select">
+                            <span className="label">Exsang w/ Vendetta</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="exsang" id="opt-rotation-exsang" data-ns="rotation">
+                                    <option value="just">Use cooldown if it aligns, but don't delay usage</option>
+                                    <option value="only">Only use cooldown with Vendetta</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label> <label className="select">
+                            <span className="label">CP Builder</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="assn_cp_builder" id="opt-rotation-assn_cp_builder" data-ns="rotation">
+                                    <option value="mutilate">Mutilate</option>
+                                    <option value="fan_of_knives">Fan of Knives</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label>
+                        <label className="select">
+                            <span className="label">Lethal Poison</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="lethal_poison" id="opt-rotation-lethal_poison" data-ns="rotation">
+                                    <option value="dp">Deadly Poison</option>
+                                    <option value="wp">Wound Poison</option>
+                                    <option value="ap">Agonizing Poison</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label>
+                    </div>
+                </div>
+            </section>
+        )
+    }
+}
+
+class SubtletyOptions extends React.Component {
+    render() {
+        return (
+            <section className="cluster subtlety">
+                <div className="option-list">
+                    <h3>Subtlety Rotation Settings</h3>
+                    <div className="settings">
+                        <label className="select">
+                            <span className="label">CP Builder</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="sub_cp_builder" id="opt-rotation-sub_cp_builder" data-ns="rotation">
+                                    <option value="backstab">Backstab</option>
+                                    <option value="shuriken_storm">Shuriken Storm</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label> <label className="select">
+                            <span className="label">SoD Policy</span>
+                            <span className="select-container">
+                                <select className="optionSelect" name="symbols_policy" id="opt-rotation-symbols_policy" data-ns="rotation">
+                                    <option value="always">Use on cooldown</option>
+                                    <option value="just">Only use SoD when needed to refresh</option>
+                                </select>
+                            </span>
+                            <span className="desc" />
+                        </label>
+                        <label className="select" htmlFor="opt-rotation-dance_finishers_allowed">
+                            <span className="label">Use Finishers during Dance</span>
+                            <input className="optionCheck" data-ns="rotation" id="opt-rotation-dance_finishers_allowed" name="dance_finishers_allowed" type="checkbox" defaultChecked="checked" value="true" />
+                            <span className="desc" />
+                        </label>
+                        <label className="input">
+                            <span className="label">Backstab uptime</span>
+                            <input className="optionInput" data-ns="rotation" id="opt-rotation-positional_uptime" name="positional_uptime" type="text" />
+                            <span className="desc">Percentage of the fight you are behind the target (0-100). This has no effect if Gloomblade is selected as a talent.</span>
+                        </label> <label className="select" htmlFor="opt-rotation-compute_cp_waste">
+                            <span className="label">Compute CP Waste</span>
+                            <input className="optionCheck" data-ns="rotation" id="opt-rotation-compute_cp_waste" name="compute_cp_waste" type="checkbox" defaultChecked="checked" value="true" />
+                            <span className="desc">EXPERIMENTAL FEATURE: Compute combo point waste</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
         )
     }
 }
