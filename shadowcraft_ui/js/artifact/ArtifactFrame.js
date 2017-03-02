@@ -179,7 +179,10 @@ export default class ArtifactFrame extends React.Component {
             var x2 = trait2.x / FRAME_WIDTH * 100.0;
             var y2 = trait2.y / FRAME_HEIGHT * 100.0;
 
-            var color = this.trait_state.traits[trait1.id].enabled && this.trait_state.traits[trait2.id].enabled ? 'yellow' : 'grey';
+            var color = 'grey';
+            if (this.trait_state.traits[trait1.id].enabled && this.trait_state.traits[trait2.id].enabled && ((this.props.data.artifact.traits[trait1.id] == this.trait_state.traits[trait1.id].max_rank) || (this.props.data.artifact.traits[trait2.id] == this.trait_state.traits[trait2.id].max_rank))) {
+                color = 'yellow';
+            }
 
             line_elements.push(<line key={trait1.id.toString()+'-'+trait2.id.toString()} x1={x1+'%'} y1={y1+'%'} x2={x2+'%'} y2={y2+'%'} strokeWidth="6" stroke={color} />);
         }
