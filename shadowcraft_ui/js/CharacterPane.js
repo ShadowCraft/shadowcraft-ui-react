@@ -7,7 +7,7 @@ import AdvancedPane from './AdvancedPane';
 import DocsPane from './DocsPane';
 import RightPane from './RightPane';
 
-var Tabs = require('react-simpletabs');
+var Tabs = require('react-simpletabs-alt');
 
 export default class CharacterPane extends React.Component {
     // hold on to your butts
