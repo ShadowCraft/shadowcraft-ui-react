@@ -136,6 +136,7 @@ export default class ArtifactFrame extends React.Component {
 
             if (relic_trait != 0) {
                 this.trait_state.traits[relic_trait].max_rank += 1;
+                this.trait_state.traits[relic_trait].enabled = true;
                 this.trait_state.total_traits -= 1;
 
                 if (traits_checked.indexOf(parseInt(relic_trait)) == -1) {
