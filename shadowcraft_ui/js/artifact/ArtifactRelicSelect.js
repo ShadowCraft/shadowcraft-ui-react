@@ -23,8 +23,6 @@ export default class ArtifactRelicSelect extends React.Component {
 
     render()
     {
-        console.log(this.props.index);
-
         this.selected_trait = this.props.selected.trait;
         this.selected_ilvl = this.props.selected.ilvl;
         
@@ -33,8 +31,8 @@ export default class ArtifactRelicSelect extends React.Component {
         });
 
         var ilvls = [];
-        for (var i = 835; i <= 955; i++) {
-            ilvls.push(<option key={i} id={'relicilvl-'+this.props.index+'-'+i}>{i}</option>);
+        for (var i = 835; i <= 955; i += 5) {
+            ilvls.push(<option key={i} id={'relicilvl-'+this.props.index+'-'+i} value={i}>{i}</option>);
         }
         
         return (
@@ -47,6 +45,7 @@ export default class ArtifactRelicSelect extends React.Component {
                         {relics}
                     </select>
                 </span>
+                {console.log(this.props.selected.ilvl)}
                 <span className="select-container">
                     <select className="optionSelect" id={'relic-'+this.props.index+'-select'} data-index={this.props.index} value={this.props.selected.ilvl} onChange={this.handleIlvlChange}>
                         {ilvls}
