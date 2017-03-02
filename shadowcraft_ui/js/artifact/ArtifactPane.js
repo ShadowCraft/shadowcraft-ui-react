@@ -48,7 +48,6 @@ export default class ArtifactPane extends React.Component {
         }
 
         for (var trait in this.props.data.artifact.traits) {
-            console.log(trait);
             traits[trait] = 0;
         }
 
@@ -58,7 +57,6 @@ export default class ArtifactPane extends React.Component {
     render() {
         var frame = null;
         var ranking_frame = null;
-        console.log(this.props);
 
         if (this.props.data.active == 'a') {
             frame = <ArtifactFrame layout={layouts.kingslayers_layout} data={this.props.data} onChange={this.props.onChange}/>;

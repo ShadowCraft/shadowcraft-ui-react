@@ -3,6 +3,7 @@ export const kingslayers_layout = {
     artifact_name: 'The Kingslayers',
     artifact_icon: 'inv_knife_1h_artifactgarona_d_01',
     primary_trait: 192759,
+    paragon_trait: 214928,
     relics: ['Shadow', 'Iron', 'Blood'],
     traits: {
         'ks_toxicblades': {
@@ -359,6 +360,7 @@ export const dreadblades_layout = {
     artifact_name: 'The Dreadblades',
     artifact_icon: 'inv_sword_1h_artifactskywall_d_01',
     primary_trait: 202665,
+    paragon_trait: 214929,
     relics: ['Blood', 'Iron', 'Storm'],
     traits: {
         'db_curse': {
@@ -703,6 +705,7 @@ export const fangs_layout = {
     artifact_name: 'Fangs of the Devourer',
     artifact_icon: 'inv_knife_1h_artifactfangs_d_01',
     primary_trait: 209782,
+    paragon_trait: 214930,
     relics: ['Fel', 'Shadow', 'Fel'],
     traits: {
         'fangs_goremawsbite': {

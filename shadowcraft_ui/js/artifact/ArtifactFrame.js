@@ -93,8 +93,22 @@ export default class ArtifactFrame extends React.Component {
         var traits_to_check = [this.props.layout.primary_trait];
         var traits_checked = [];
         var trait;
+        var relic_count = 0;
 
         this.trait_state.total_traits = 0;
+
+        // Force the primary trait to always be enabled. It always will be in-game, and it
+        // doesn't get sent in the data from the armory. Setting it up here means that it will
+        // get displayed correctly on the frame.
+        artifact_data.traits[this.props.layout.primary_trait] = 1;
+
+        // Get a quick count of the number of relics we have. We do more with relics later, but
+        // need the count right now so the paragon trait doesn't get enabled too early.
+        for (var relic in artifact_data.relics) {
+            if (artifact_data.relics[relic].id != 0) {
+                relic_count++;
+            }
+        }
 
         while (traits_to_check.length > 0)
         {
@@ -103,44 +117,49 @@ export default class ArtifactFrame extends React.Component {
                 continue;
             }
 
+            if (trait != this.props.layout.primary_trait) {
+                this.trait_state.total_traits += artifact_data.traits[trait];
+            }
+
+            if (this.trait_state.total_traits - relic_count >= 34 && traits_checked.indexOf(214928) == -1) {
+                traits_to_check.push(214928);
+            }
+
             traits_checked.push(trait);
             this.trait_state.traits[trait].enabled = true;
-            if ((trait == this.props.layout.primary_trait) || (artifact_data.traits[trait] == this.trait_state.traits[trait].max_rank)) {
-                traits_to_check = traits_to_check.concat(this.connected_traits[trait]);
+            if ((trait == this.props.layout.primary_trait) ||
+                (artifact_data.traits[trait] == this.trait_state.traits[trait].max_rank))
+            {
+                if (trait in this.connected_traits) {
+                    traits_to_check = traits_to_check.concat(this.connected_traits[trait]);
+                }
             }
         }
 
-        // Disable everything else, unless there's a relic attached to it
         for (trait in this.trait_state.traits)
         {
             var t_state = this.trait_state.traits[trait]
             this.trait_state.traits[trait].max_rank = this.trait_state.traits[trait].default_max_rank;
-            
+
             if (traits_checked.indexOf(parseInt(trait)) == -1) {
                 this.trait_state.traits[trait].enabled = false;
                 artifact_data.traits[trait] = 0;
             }
-            else if (artifact_data.traits[trait]) {
-                this.trait_state.total_traits += artifact_data.traits[trait];
-            }
         }
-
-        console.log(this.trait_state.total_traits)
 
         // Fix the max ranks for traits that have relics attached
         for (var relic in artifact_data.relics)
         {
             var relic_trait = artifact_data.relics[relic].id;
-            console.log(artifact_data.relics[relic]);
-            console.log(relic_trait);
 
             if (relic_trait != 0) {
                 this.trait_state.traits[relic_trait].max_rank += 1;
                 this.trait_state.traits[relic_trait].enabled = true;
-                this.trait_state.total_traits -= 1;
 
                 if (traits_checked.indexOf(parseInt(relic_trait)) == -1) {
                     artifact_data.traits[relic_trait] += 1;
+                } else {
+                    this.trait_state.total_traits -= 1;
                 }
             }
         }

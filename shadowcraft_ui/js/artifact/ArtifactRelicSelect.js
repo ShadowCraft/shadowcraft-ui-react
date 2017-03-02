@@ -39,13 +39,11 @@ export default class ArtifactRelicSelect extends React.Component {
             <label className="select">
                 <span className="label">Relic {parseInt(this.props.index)+1} ({this.props.type}):</span>
                 <span className="select-container">
-                {console.log(this.props.selected.id)}
                     <select className="optionSelect" id={'relic-'+this.props.index+'-select'} data-index={this.props.index} value={this.props.selected.id} onChange={this.handleRelicChange}>
                         <option id={'relic-'+this.props.index+'-none'} value="0">None</option>
                         {relics}
                     </select>
                 </span>
-                {console.log(this.props.selected.ilvl)}
                 <span className="select-container">
                     <select className="optionSelect" id={'relic-'+this.props.index+'-select'} data-index={this.props.index} value={this.props.selected.ilvl} onChange={this.handleIlvlChange}>
                         {ilvls}

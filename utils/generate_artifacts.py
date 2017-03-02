@@ -139,6 +139,7 @@ def get_db_data():
         'artifact_name': 'The Dreadblades',
         'artifact_icon': 'inv_sword_1h_artifactskywall_d_01',
         'primary_trait': 202665,
+        'paragon_trait': 214929,
         'relics': ['Blood', 'Iron', 'Storm']
     }
 
@@ -178,6 +179,7 @@ def get_ks_data():
         'artifact_name': "The Kingslayers",
         'artifact_icon': "inv_knife_1h_artifactgarona_d_01",
         'primary_trait': 192759,
+        'paragon_trait': 214928,
         'relics': ["Shadow", "Iron", "Blood"]
     }
 
@@ -217,6 +219,7 @@ def get_fangs_data():
         'artifact_name': 'Fangs of the Devourer',
         'artifact_icon': 'inv_knife_1h_artifactfangs_d_01',
         'primary_trait': 209782,
+        'paragon_trait': 214930,
         'relics': ["Fel", "Shadow", "Fel"]
     }
 
@@ -321,7 +324,7 @@ def dump_output(data):
     dump = re.sub(r'^(\s+)"(.+)":', r'\1\2:', json.dumps(data['lines'], indent=8), flags=re.M)
     dump = re.sub(r'^]$', r'    ]', dump, flags=re.M)
     print(dump)
-    print('}')
+    print('};')
     print()
 
     ranking_layout = []
@@ -341,7 +344,8 @@ def dump_output(data):
 
     print('export const %s_ranking = ' % data['artifact'], end='')
     dump = re.sub(r'^(\s+)"(.+)":', r'\1\2:', json.dumps(ranking_layout, indent=4), flags=re.M)
-    print(dump)
+    print(dump, end='')
+    print(';')
     print()
 
 if len(sys.argv) == 1:
