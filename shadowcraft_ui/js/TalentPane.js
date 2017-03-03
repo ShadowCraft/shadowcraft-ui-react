@@ -18,7 +18,6 @@ class TalentPane extends React.Component {
     
     constructor(props) {
         super(props);
-
         this.clickButton = this.clickButton.bind(this);
     }
 
@@ -34,15 +33,15 @@ class TalentPane extends React.Component {
         var frame = null;
         var ranking_frame = null;
 
-        if (this.props.data.active == 'a') {
+        if (this.props.active == 'a') {
             frame = <TalentFrame layout={layouts.assassination_layout} />;
             ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.assassination_ranking} values={this.props.rankings}/>;
         }
-        else if (this.props.data.active == 'Z') {
+        else if (this.props.active == 'Z') {
             frame = <TalentFrame layout={layouts.outlaw_layout} />;
             ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.outlaw_ranking} values={this.props.rankings}/>;
         }
-        else if (this.props.data.active == 'b') {
+        else if (this.props.active == 'b') {
             frame = <TalentFrame layout={layouts.subtlety_layout} />;
             ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.subtlety_ranking} values={this.props.rankings}/>;
         }
@@ -53,9 +52,9 @@ class TalentPane extends React.Component {
                     <section>
                         <h3>Talent Sets</h3>
                         <div className="inner" id="talentsets">
-                            <TalentSetButton spec="a" talents={this.props.data.talents['a']} name="Imported Assassination" handler={this.clickButton} />
-                            <TalentSetButton spec="Z" talents={this.props.data.talents['Z']} name="Imported Outlaw" handler={this.clickButton} />
-                            <TalentSetButton spec="b" talents={this.props.data.talents['b']} name="Imported Subtlety" handler={this.clickButton} />
+                            <TalentSetButton spec="a" talents={this.props.talents['a']} name="Imported Assassination" handler={this.clickButton} />
+                            <TalentSetButton spec="Z" talents={this.props.talents['Z']} name="Imported Outlaw" handler={this.clickButton} />
+                            <TalentSetButton spec="b" talents={this.props.talents['b']} name="Imported Subtlety" handler={this.clickButton} />
                             <TalentSetButton spec="a" talents="2211021" name="Stock Assassination" handler={this.clickButton} />
                             <TalentSetButton spec="Z" talents="2211011" name="Stock Outlaw" handler={this.clickButton} />
                             <TalentSetButton spec="b" talents="1210011" name="Stock Subtlety" handler={this.clickButton} />

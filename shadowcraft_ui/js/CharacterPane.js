@@ -502,7 +502,7 @@ class CharacterPane extends React.Component {
                                         <GearPane data={this.props.data} />
                                     </Tabs.Panel>
                                     <Tabs.Panel title="Talents">
-                                        <TalentPane data={this.props.store_data} />
+                                        <TalentPane />
                                     </Tabs.Panel>
                                     <Tabs.Panel title="Artifact">
                                         <ArtifactPane data={this.state} onChange={this.handleArtifactChange} />
