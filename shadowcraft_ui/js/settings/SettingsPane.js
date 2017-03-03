@@ -421,9 +421,11 @@ export default class SettingsPane extends React.Component {
         ];
 
         return (
-            <div id="settings" className="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+            // <div id="settings" className="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+            <div>
                 {this.getHeadingList(settings)}
-            </div >
+            </div>
+            // </div >
         );
     }
 }

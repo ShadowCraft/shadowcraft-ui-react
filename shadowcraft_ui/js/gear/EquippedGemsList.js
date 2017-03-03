@@ -7,19 +7,16 @@ export default class EquippedGemList extends React.Component {
     //if there is no id present in the gems array, then there is no socket on the item
     //there appears to be between 0 to 3 sockets on an item.
 
-    getGemList(gems) {
-        return gems.map(gem => {
-            // don't show relics (assuming all relics use this bonus text)
-            if (gem.bonus !== 'Relic Enhancement')
-                return (<EquippedGemItem gem={gem} key={gem.gemslot} />);
-        });
-    }
-
     render() {
+
+        let gemlist = this.props.gems
+            .filter((g => g.bonus !== 'Relic Enhancement')) // hide relics
+            .map((g, i) => <EquippedGemItem gem={g} key={i} />);
+
         // console.log(this.props.gems)
         return (
             <div className="gems">
-                {this.getGemList(this.props.gems)}
+                {gemlist}
             </div>
         );
     }

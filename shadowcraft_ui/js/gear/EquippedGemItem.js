@@ -17,7 +17,7 @@ export default class EquippedGemItem extends React.Component {
         };
     }
 
-    // TODO: this isn't the only place we style with hover, so this will need to the generalize and fix the error'
+    // TODO: this isn't the only place we style with hover so a more general solution may be wise
 
     toggleHover() {
         this.setState({ hovered: !this.state.hovered });
@@ -40,13 +40,12 @@ export default class EquippedGemItem extends React.Component {
         };
     }
 
-    // comments here indicate what classes were inlined until the process is finished
+    // comments here indicate what classes were inlined while testing inline css
     render() {
         return (
             // className="gem tt"
             <div
                 style={this.gemStyle()}
-                key={this.props.key}
                 onMouseEnter={this.toggleHover.bind(this)}
                 onMouseLeave={this.toggleHover.bind(this)}
             >

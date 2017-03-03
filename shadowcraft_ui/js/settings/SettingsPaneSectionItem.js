@@ -1,7 +1,7 @@
 import React from 'react';
-import DropDown from './DropDown';
-import TextBox from './TextBox';
-import CheckBox from './CheckBox';
+import DropDown from '../DropDown';
+import TextBox from '../TextBox';
+import CheckBox from '../CheckBox';
 
 export default class SettingsPaneSectionItem extends React.Component {
 

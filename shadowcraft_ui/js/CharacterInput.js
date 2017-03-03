@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default class CharacterInput extends React.Component {
 
@@ -8,27 +8,27 @@ export default class CharacterInput extends React.Component {
             region: 'US',
             realm: '',
             characterName: ''
-        }
+        };
         this.handleRegionOnChange = this.handleRegionOnChange.bind(this);
         this.handleRealmOnChange = this.handleRealmOnChange.bind(this);
         this.handleCharacterNameOnChange = this.handleCharacterNameOnChange.bind(this);
     }
 
     handleRegionOnChange(event) {
-        this.setState({ region: event.target.value })
+        this.setState({ region: event.target.value });
     }
 
     handleRealmOnChange(event) {
-        this.setState({ realm: event.target.value })
+        this.setState({ realm: event.target.value });
     }
 
     handleCharacterNameOnChange(event) {
-        this.setState({ characterName: event.target.value })
+        this.setState({ characterName: event.target.value });
     }
 
     button() {
-        if (this.state.realm && this.state.characterName) return (<button type='submit'>Begin</button>)
-        else return (<button type='submit' disabled>Begin</button>)
+        if (this.state.realm && this.state.characterName) return (<button type='submit'>Begin</button>);
+        else return (<button type='submit' disabled>Begin</button>);
     }
 
     render() {
@@ -66,6 +66,6 @@ export default class CharacterInput extends React.Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }

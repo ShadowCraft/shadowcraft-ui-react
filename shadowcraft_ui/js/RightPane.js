@@ -1,5 +1,5 @@
-import React from "react"
-import GoogleAd from 'react-google-ad'
+import React from "react";
+import GoogleAd from 'react-google-ad';
 
 var chartData = {};
 var chartOptions = {};
@@ -7,23 +7,26 @@ var chartOptions = {};
 export default class RightPane extends React.Component {
 
     render() {
+
+      // console.log(this.props.data)
         return (
             <div style={{ flex: 1}}>
                 <div id="console-footer" className="awin-medium">
-                  <a className="pandaren" href="http://us.battle.net/wow/en/character/aerie-peak/tamen/advanced" id="card" target="_blank">
+                  <a className="pandaren" href={`http://${this.props.data.region}.battle.net/wow/en/character/${this.props.data.realm}/${this.props.data.name}/advanced`} id="card" target="_blank">
                     <div className="img">
-                      <img src="http://us.battle.net/static-render/us/aerie-peak/10/124222474-avatar.jpg"/>
+                      <img src={this.props.data.portrait}/>
                     </div>
                     <span className="info">
                       <span className="name">
-                        Tamen
+                        {this.props.data.name}
                       </span>
                       <span className="realm">
-                        Aerie Peak-US
+                        {this.props.data.realm}-{this.props.data.region}
                       </span>
                     </span>
                   </a>
                   <div id="dps">
+                    {/*TODO: plumb engine output*/}
                     <div className="inner">468306.3 DPS</div>
                   </div>
                 </div>
@@ -37,11 +40,11 @@ export default class RightPane extends React.Component {
                   <section>
                     <div className="window" id="log">
                       <h3>Log</h3>
-                      <div className="inner"></div>
+                      <div className="inner" />
                     </div>
                   </section>
                 </div>
             </div>
-        )
+        );
     }
 }

@@ -42,11 +42,11 @@ export default class EquippedItem extends React.Component {
                     data-tooltip-id={item.id}
                 >
                     {item.name}
-                    <em className="heroic">do we need to keep this, because it is mostly meaningless for optimization?</em>
+                    <em className="heroic">TODO: bonus text</em>
                     <a className="wowhead" href={`http://legion.wowhead.com/item=${item.id}`} target="_blank">Wowhead</a>
                 </div>
                 <div className="bonuses">
-                    {/*this probably doesn't need a huge full length div, maybe gear under the item icon?'*/}
+                    {/*this probably doesn't need a huge full length div, maybe a gear under the item icon instead?'*/}
                     <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>
                 {/*need to pass whole item because we need to check item quality to filter out relics*/}
                 <EquippedGemList gems={item.gems} />

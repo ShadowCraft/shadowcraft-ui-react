@@ -2,8 +2,8 @@ import React from 'react';
 import GearPane from './gear/GearPane';
 import TalentPane from './TalentPane';
 import ArtifactPane from './artifact/ArtifactPane';
-import SettingsPane from './SettingsPane';
-import AdvancedPane from './AdvancedPane';
+import SettingsPane from './settings/SettingsPane';
+import AdvancedPane from './advanced/AdvancedPane';
 import DocsPane from './DocsPane';
 import RightPane from './RightPane';
 
@@ -102,11 +102,11 @@ export default class CharacterPane extends React.Component {
                                     <Tabs.Panel title="Artifact">
                                         <ArtifactPane data={this.state} onChange={this.handleArtifactChange} />
                                     </Tabs.Panel>
-                                    <Tabs.Panel title="Settings">
+                                    {/*<Tabs.Panel title="Settings">
                                         <SettingsPane spec={spec} settings={settings} />
-                                    </Tabs.Panel>
+                                    </Tabs.Panel>*/}
                                     <Tabs.Panel title="Advanced">
-                                        <AdvancedPane data={abilityRanking} />
+                                        <AdvancedPane data={abilityRanking} spec={spec} settings={settings} />
                                     </Tabs.Panel>
                                     <Tabs.Panel title="Documentation">
                                         <DocsPane />
@@ -115,7 +115,7 @@ export default class CharacterPane extends React.Component {
                             </div>
                         </div>
                     </div >
-                    <RightPane />
+                    <RightPane data={this.props.data} />
                 </div>
 
                 <div id="wait" style={{ display: 'none' }}>
