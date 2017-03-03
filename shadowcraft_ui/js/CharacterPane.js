@@ -45,8 +45,9 @@ export default class CharacterPane extends React.Component {
     render() {
 
         // mocking data
-        let spec = 'Assassination';
-        let advanced = {
+        let spec = 'Assassination'; //not actually being passed right, funnily enough
+        let settings = {};
+        let abilityRanking = {
             breakdown: [
                 {
                     name: 'Serrate',
@@ -87,7 +88,7 @@ export default class CharacterPane extends React.Component {
         // console.log(this.props.data)
         return (
             <div>
-                <div style={{ display: 'flex' }}>
+                <div style={{ marginBottom: '25px', display: 'flex' }}>
                     <div id="container" style={{ flex: 4 }}>
                         <div id="curtain">
                             <div id='tabs'>
@@ -102,10 +103,10 @@ export default class CharacterPane extends React.Component {
                                         <ArtifactPane data={this.state} onChange={this.handleArtifactChange} />
                                     </Tabs.Panel>
                                     <Tabs.Panel title="Settings">
-                                        <SettingsPane spec={spec} />
+                                        <SettingsPane spec={spec} settings={settings} />
                                     </Tabs.Panel>
                                     <Tabs.Panel title="Advanced">
-                                        <AdvancedPane data={advanced} />
+                                        <AdvancedPane data={abilityRanking} />
                                     </Tabs.Panel>
                                     <Tabs.Panel title="Documentation">
                                         <DocsPane />
@@ -121,6 +122,11 @@ export default class CharacterPane extends React.Component {
                     <div id="waitMsg" />
                 </div>
                 <div id="modal" style={{ display: 'none' }} />
+                <div id="footer">
+                    <div className='padding'>
+                        Questions to <a href="mailto:shadowcraft@ravenholdt.net">Ravenholdt</a> &bull; UI source at <a href="http://github.com/cheald/shadowcraft-ui">GitHub</a>      &bull; discussion at <a href="https://discord.gg/DdPahJ9">Ravenholdt</a> &bull; DPS/EP engine source at <a href="https://github.com/Fierydemise/ShadowCraft-Engine">GitHub</a>      &bull; Hosting provided by <a href="http://mmo-mumble.com">MMO-Mumble.com</a>
+                    </div>
+                </div>
             </div >
         );
     }
