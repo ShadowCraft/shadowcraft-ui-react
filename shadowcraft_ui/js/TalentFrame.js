@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import store from './store';
 
 function Talent(props) {
     return (
@@ -8,7 +10,7 @@ function Talent(props) {
     );
 }
 
-export default class TalentFrame extends React.Component {
+class TalentFrame extends React.Component {
     constructor(props)
     {
         super(props);
@@ -21,7 +23,11 @@ export default class TalentFrame extends React.Component {
         var col = parseInt(e.currentTarget.dataset['col']);
         var current = this.props.setup;
         var newSetup = current.substr(0, row) + col + current.substr(row+1);
-        this.props.onChange(newSetup);
+        
+        store.dispatch({
+            type: 'UPDATE_TALENTS',
+            talents: newSetup
+        })
     }
 
     render()
@@ -63,3 +69,11 @@ export default class TalentFrame extends React.Component {
         );
     }
 }
+
+const mapStateToProps = function(store) {
+    return {
+        setup: state.characterState.current_talents
+    };
+};
+
+export default connect(mapStateToProps)(TalentFrame);
