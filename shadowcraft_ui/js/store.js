@@ -43,12 +43,22 @@ const settingsReducer = function(state = initialSettingsState, action) {
             var key = action.setting;
             return Object.assign({}, state, {
                 key: action.value});
+        case 'SETTINGS_LAYOUT':
+            // TODO: go through the defaults for the settings and add them to the
+            // value state if it's not set yet.
+            console.log(action.data);
+            return Object.assign({}, state, {
+                layout: action.data});
     }
     
     return state;
 };
 
 const initialEngineState = {
+
+    ui_build: "7.1.5-UI-Test",
+    build: "7.1.5-Test",
+
     // This is just temporary, but sidebar ranking does actually work
     // without the data there (it just displays all zero).
     talentRanking: {
@@ -73,7 +83,39 @@ const initialEngineState = {
         152152: 12107.6,
         152150: 9754.46,
         137619: 3313.58,
-    }
+    },
+
+    dps_breakdown: [
+        {
+            name: 'Serrate',
+            dps: 123124,
+            pct: .15
+        },
+        {
+            name: 'Stab',
+            dps: 325643,
+            pct: .25
+        }, {
+            name: 'Slit',
+            dps: 123124,
+            pct: .5
+        },
+        {
+            name: 'Shiv',
+            dps: 325643,
+            pct: .30
+        },
+        {
+            name: 'Slice',
+            dps: 123124,
+            pct: .10
+        },
+        {
+            name: 'Slash',
+            dps: 325643,
+            pct: .20
+        }
+    ],
 };
 
 const engineReducer = function(state = initialEngineState, action) {
