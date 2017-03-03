@@ -23,6 +23,7 @@ class TalentFrame extends React.Component {
         var col = parseInt(e.currentTarget.dataset['col']);
         var current = this.props.setup;
         var newSetup = current.substr(0, row) + col + current.substr(row+1);
+        console.log(newSetup);
         
         store.dispatch({
             type: 'UPDATE_TALENTS',
@@ -32,6 +33,7 @@ class TalentFrame extends React.Component {
 
     render()
     {
+        console.log(this.props.setup);
         var talents = [];
         for (var index in this.props.layout.talents) {
             var talent = this.props.layout.talents[index];
@@ -72,7 +74,7 @@ class TalentFrame extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-        setup: state.characterState.current_talents
+        setup: store.characterState.talents.current
     };
 };
 

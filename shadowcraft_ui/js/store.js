@@ -9,6 +9,8 @@ const characterReducer = function(state = initialCharacterState, action) {
 
     switch(action.type) {
 
+        // Full reset of the character data. This is used on page load and
+        // whenever the user presses the refresh button.
         case 'RESET_CHARACTER_DATA':
             return Object.assign({}, state, action.data);
 
@@ -23,8 +25,9 @@ const characterReducer = function(state = initialCharacterState, action) {
                 active: action.spec});
 
         case 'UPDATE_TALENTS':
-            return Object.assign({}, state, {
-                current_talents: action.talents});
+            var newState = state;
+            newState.talents.current = action.talents;
+            return Object.assign({}, state, newState);
     }
 
     return state;
@@ -46,6 +49,31 @@ const settingsReducer = function(state = initialSettingsState, action) {
 };
 
 const initialEngineState = {
+    // This is just temporary, but sidebar ranking does actually work
+    // without the data there (it just displays all zero).
+    talentRanking: {
+        16511: 22367.17,
+        193640: 19529.94,
+        196864: 14410.1,
+        14062: 0,
+        108208: 0,
+        108209: 0,
+        193531: 12215.65,
+        14983: 7316.87,
+        114015: 5557.31,
+        108211: 0,
+        31230: 0,
+        79008: 0,
+        131511: 0,
+        196861: 0,
+        154094: 0,
+        200806: 42383.59,
+        193539: 40205.04,
+        200802: 29827.76,
+        152152: 12107.6,
+        152150: 9754.46,
+        137619: 3313.58,
+    }
 };
 
 const engineReducer = function(state = initialEngineState, action) {

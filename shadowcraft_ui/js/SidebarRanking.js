@@ -25,33 +25,41 @@ export default class RankingSection extends React.Component {
         }
 
         for (var s in this.props.layout) {
-            var section_data = this.props.layout[s]
+            var section_data = this.props.layout[s];
             var section_layout = {
                 name: section_data.name,
                 items: []
-            }
+            };
 
             // loop through the values and find the maximum so we can calculate percentages
             var max = 0
             for (var i in section_data.items) {
-                var section_item = section_data.items[i]
-                if (max < this.props.values[section_item.id]) {
-                    max = this.props.values[section_item.id]
+                var section_item = section_data.items[i];
+                if (this.props.values && section_item.id in this.props.values) {
+                    if (max < this.props.values[section_item.id]) {
+                        max = this.props.values[section_item.id];
+                    }
                 }
             }
 
             for (var i in section_data.items) {
-                var section_item = section_data.items[i]
+                var section_item = section_data.items[i];
 
-                var percentage = (this.props.values[section_item.id] / max) * 100.0
                 var layout_item = {
                     name: section_item.name,
                     id: section_item.id,
-                    label: this.props.values[section_item.id],
-                    pct: ""+percentage+"%"
+                    label: 0,
+                    pct: "0%"
+                };
+
+                if (this.props.values && section_item.id in this.props.values)
+                {
+                    var percentage = (this.props.values[section_item.id] / max) * 100.0;
+                    layout_item.label = this.props.values[section_item.id];
+                    layout_item.pct = ""+percentage+"%";
                 }
 
-                section_layout.items.push(layout_item)
+                section_layout.items.push(layout_item);
             }
 
             section_layout.items.sort(function(a, b) {

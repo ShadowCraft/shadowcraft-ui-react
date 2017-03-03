@@ -20,7 +20,6 @@ class TalentPane extends React.Component {
         super(props);
 
         this.clickButton = this.clickButton.bind(this);
-        this.changeTalents = this.changeTalents.bind(this);
     }
 
     clickButton(e) {

@@ -1,13 +1,16 @@
 import React from 'react';
+import Tabs from 'react-simpletabs-alt';
+import { connect } from 'react-redux';
+import store from './store';
+
 import GearPane from './gear/GearPane';
 import TalentPane from './TalentPane';
 import ArtifactPane from './artifact/ArtifactPane';
 import AdvancedPane from './advanced/AdvancedPane';
 import DocsPane from './DocsPane';
 import RightPane from './RightPane';
-import Tabs from 'react-simpletabs-alt';
 
-export default class CharacterPane extends React.Component {
+class CharacterPane extends React.Component {
     // hold on to your butts
 
     constructor(props) {
@@ -16,10 +19,12 @@ export default class CharacterPane extends React.Component {
         // have bind this because otherwise you get handleArtifactChange's this
         // #javascriptproblems
         this.handleArtifactChange = this.handleArtifactChange.bind(this);
-        this.handleTalentChange = this.handleTalentChange.bind(this);
 
         this.state = this.props.data;
-        this.state.current_talents = this.props.data.talents[this.props.data.active];
+    }
+
+    componentWillMount() {
+        store.dispatch({type: 'RESET_CHARACTER_DATA', data: this.props.data});
     }
 
     handleArtifactChange(traits, relics) {
@@ -34,10 +39,6 @@ export default class CharacterPane extends React.Component {
         }
 
         this.setState(state);
-    }
-
-    handleTalentChange(spec, talents) {
-        this.setState({ active: spec, current_talents: talents });
     }
 
     render() {
@@ -489,7 +490,7 @@ export default class CharacterPane extends React.Component {
             }
         };
 
-        // console.log(this.props.data)
+        console.log(this.props.store_data)
         return (
             <div>
                 <div style={{ marginBottom: '25px', display: 'flex' }}>
@@ -501,7 +502,7 @@ export default class CharacterPane extends React.Component {
                                         <GearPane data={this.props.data} />
                                     </Tabs.Panel>
                                     <Tabs.Panel title="Talents">
-                                        <TalentPane data={this.state} onChange={this.handleTalentChange} />
+                                        <TalentPane data={this.props.store_data} />
                                     </Tabs.Panel>
                                     <Tabs.Panel title="Artifact">
                                         <ArtifactPane data={this.state} onChange={this.handleArtifactChange} />
@@ -532,3 +533,11 @@ export default class CharacterPane extends React.Component {
         );
     }
 }
+
+const mapStateToProps = function(store) {
+    return {
+        store_data: store.characterState
+    };
+};
+
+export default connect(mapStateToProps)(CharacterPane);

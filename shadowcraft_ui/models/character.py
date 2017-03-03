@@ -147,6 +147,7 @@ def __get_from_armory(db, character, realm, region):
     talents = [x for x in json_data['talents'] if len(x['calcSpec']) > 0]
     for tree in talents:
         output['talents'][tree['calcSpec']] = tree['calcTalent']
+    output['talents']['current'] = output['talents'][output['active']]
 
     if 'items' not in json_data or len(json_data['items']) == 0:
         raise ArmoryDocument.ArmoryError('No items found on character')
