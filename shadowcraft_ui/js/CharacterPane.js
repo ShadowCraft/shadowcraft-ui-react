@@ -2,7 +2,7 @@ import React from 'react';
 import GearPane from './gear/GearPane';
 import TalentPane from './TalentPane';
 import ArtifactPane from './artifact/ArtifactPane';
-import SettingsPane from './settings/SettingsPane';
+// import SettingsPane from './settings/SettingsPane';
 import AdvancedPane from './advanced/AdvancedPane';
 import DocsPane from './DocsPane';
 import RightPane from './RightPane';

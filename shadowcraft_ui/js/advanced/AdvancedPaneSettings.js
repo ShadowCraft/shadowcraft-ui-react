@@ -1,13 +1,13 @@
 import React from 'react';
-import SettingsPaneSectionItem from './SettingsPaneSectionItem';
+import AdvancedPaneSettingItem from './AdvancedPaneSettingItem';
 
-export default class SettingsPaneSection extends React.Component {
+export default class AdvancedPaneSettings extends React.Component {
 
     render() {
 
         const sectionlist = this.props.section.items.map(
             (sectionitem, index) =>
-                <SettingsPaneSectionItem key={index} sectionitem={sectionitem} />
+                <AdvancedPaneSettingItem key={index} sectionitem={sectionitem} />
         );
 
         return (

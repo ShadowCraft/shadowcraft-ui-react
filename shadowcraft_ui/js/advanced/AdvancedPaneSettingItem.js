@@ -3,7 +3,7 @@ import DropDown from '../DropDown';
 import TextBox from '../TextBox';
 import CheckBox from '../CheckBox';
 
-export default class SettingsPaneSectionItem extends React.Component {
+export default class AdvancedPaneSettingItem extends React.Component {
 
     getSettingType(settingitem) {
         switch (settingitem.type) {
