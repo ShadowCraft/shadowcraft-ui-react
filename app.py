@@ -12,7 +12,7 @@ from bson import json_util
 
 app = Flask('shadowcraft_ui')
 app.config['SECRET_KEY'] = 'shhhhhhhh!'
-app.config['MONGO_DBNAME'] = 'roguesim_development'
+app.config['MONGO_DBNAME'] = 'roguesim_python'
 socketio = SocketIO(app)
 mongo = PyMongo(app)
 
