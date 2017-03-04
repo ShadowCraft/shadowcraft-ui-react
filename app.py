@@ -65,87 +65,97 @@ def settings():
         {
             'spec': 'a',
             'heading': 'Assassination Rotation Settings',
+            'name': 'rotation.assassination',
             'items': [
                 {
+                    'name': 'kingsbane',
                     'label': 'Kingsbane w/ Vendetta',
                     'description': '',
                     'type': 'dropdown',
-                    'active': "Use cooldown if it aligns, but don't delay usage",
-                    'options': [
-                        "Use cooldown if it aligns, but don't delay usage",
-                        'Only use cooldown with Vendetta',
-                    ]
+                    'default': 'just',
+                    'options': {
+                        'just': "Use cooldown if it aligns, but don't delay usage",
+                        'only': 'Only use cooldown with Vendetta'
+                    }
                 },
                 {
+                    'name': 'exsang',
                     'label': 'Exsang w/ Vendetta',
                     'description': '',
                     'type': 'dropdown',
-                    'active': "Use cooldown if it aligns, but don't delay usage",
-                    'options': [
-                        "Use cooldown if it aligns, but don't delay usage",
-                        'Only use cooldown with Vendetta',
-                    ]
+                    'default': 'just',
+                    'options': {
+                        'just': "Use cooldown if it aligns, but don't delay usage",
+                        'only': 'Only use cooldown with Vendetta'
+                    }
                 },
                 {
+                    'name': 'cp_builder',
                     'label': 'CP Builder',
                     'description': '',
                     'type': 'dropdown',
-                    'active': 'Mutilate',
-                    'options': [
-                        "Mutilate",
-                        'Fan of Knives',
-                    ]
+                    'default': 'mutilate',
+                    'options': {
+                        'mutilate': "Mutilate",
+                        'fan_of_knives': 'Fan of Knives'
+                    }
                 },
                 {
+                    'name': 'lethal_poison',
                     'label': 'Lethal Poison',
                     'description': '',
                     'type': 'dropdown',
-                    'active': "Use cooldown if it aligns, but don't delay usage",
-                    'options': [
-                        "Deadly Poison",
-                        'Wound Poison',
-                    ]
+                    'default': 'dp',
+                    'options': {
+                        'ap': "Deadly Poison",
+                        'wp': 'Wound Poison'
+                    }
                 },
             ]
         },
         {
             'spec': 'Z',
             'heading': 'Outlaw Rotation Settings',
+            'name': 'rotation.outlaw',
             'items': [
                 {
+                    'name': 'blade_flurry',
                     'label': 'Blade Flurry',
                     'description': 'Use Blade Flurry',
                     'type': 'checkbox',
-                    'checked': False
+                    'default': False
                 },
                 {
+                    'name': 'between_the_eyes_policy',
                     'label': 'BtE Policy',
                     'description': '',
                     'type': 'dropdown',
-                    'active': "Never use BtE",
-                    'options': [
-                        "Only use with Shark",
-                        'Use BtE on cooldown',
-                        'Never use BtE'
-                    ]
+                    'default': 'never',
+                    'options': {
+                        "shark": "Only use with Shark",
+                        "always": 'Use BtE on cooldown',
+                        "never": 'Never use BtE',
+                    }
                 },
                 {
+                    'name': 'reroll_policy',
                     'label': 'RtB Reroll Policy',
                     'description': '',
                     'type': 'dropdown',
-                    'active': "Reroll single buffs",
-                    'options': [
-                        'Reroll single buffs',
-                        'Reroll two or fewer buffs',
-                        'Reroll three or fewer buffs',
-                        'Custom setup per buff (see below)'
-                    ]
+                    'default': '1',
+                    'options': {
+                        "1": 'Reroll single buffs',
+                        "2": 'Reroll two or fewer buffs',
+                        "3": 'Reroll three or fewer buffs',
+                        "custom": 'Custom setup per buff (see below)',
+                    }
                 },
                 {
+                    'name': 'jolly_roger_reroll',
                     'label': 'Jolly Roger',
                     'description': '0 means never reroll combos with this buff. 1 means reroll singles of this buff. 2 means reroll double-buff rolls containing this buff. 3 means reroll triple-buff rolls containing this buff.',
                     'type': 'dropdown',
-                    'active': 0,
+                    'default': 0,
                     'options': [
                         0,
                         1,
@@ -154,10 +164,11 @@ def settings():
                     ]
                 },
                 {
+                    'name': 'grand_melee_reroll',
                     'label': 'Grand Melee',
                     'description': '0 means never reroll combos with this buff. 1 means reroll singles of this buff. 2 means reroll double-buff rolls containing this buff. 3 means reroll triple-buff rolls containing this buff.',
                     'type': 'dropdown',
-                    'active': 0,
+                    'default': 0,
                     'options': [
                         0,
                         1,
@@ -166,10 +177,11 @@ def settings():
                     ]
                 },
                 {
+                    'name': 'shark_reroll',
                     'label': 'Shark-Infested Waters',
                     'description': '0 means never reroll combos with this buff. 1 means reroll singles of this buff. 2 means reroll double-buff rolls containing this buff. 3 means reroll triple-buff rolls containing this buff.',
                     'type': 'dropdown',
-                    'active': 0,
+                    'default': 0,
                     'options': [
                         0,
                         1,
@@ -178,10 +190,11 @@ def settings():
                     ]
                 },
                 {
+                    'name': 'true_bearing_reroll',
                     'label': 'True Bearing',
                     'description': '0 means never reroll combos with this buff. 1 means reroll singles of this buff. 2 means reroll double-buff rolls containing this buff. 3 means reroll triple-buff rolls containing this buff.',
                     'type': 'dropdown',
-                    'active': 0,
+                    'default': 0,
                     'options': [
                         0,
                         1,
@@ -190,10 +203,11 @@ def settings():
                     ]
                 },
                 {
+                    'name': 'buried_treasure_reroll',
                     'label': 'Buried Treasure',
                     'description': '0 means never reroll combos with this buff. 1 means reroll singles of this buff. 2 means reroll double-buff rolls containing this buff. 3 means reroll triple-buff rolls containing this buff.',
                     'type': 'dropdown',
-                    'active': 0,
+                    'default': 0,
                     'options': [
                         0,
                         1,
@@ -202,10 +216,11 @@ def settings():
                     ]
                 },
                 {
+                    'name': 'broadsides_reroll',
                     'label': 'Broadsides',
                     'description': '0 means never reroll combos with this buff. 1 means reroll singles of this buff. 2 means reroll double-buff rolls containing this buff. 3 means reroll triple-buff rolls containing this buff.',
                     'type': 'dropdown',
-                    'active': 0,
+                    'default': 0,
                     'options': [
                         0,
                         1,
@@ -218,154 +233,172 @@ def settings():
         {
             'spec': 'b',
             'heading': 'Subtlety Rotation Settings',
+            'name': 'rotation.subtlety',
             'items': [
                 {
+                    'name': 'cp_builder',
                     'label': 'CP Builder',
                     'description': '',
                     'type': 'dropdown',
-                    'active': 'Backstab',
-                    'options': [
-                        'Backstab',
-                        'Shuriken Storm'
-                    ]
+                    'default': 'backstab',
+                    'options': {
+                        'backstab': 'Backstab',
+                        'shuriken_storm': 'Shuriken Storm',
+                    }
                 },
                 {
+                    'name': 'symbols_policy',
                     'label': 'SoD Policy',
                     'description': '',
                     'type': 'dropdown',
-                    'active': 'Use on cooldown',
-                    'options': [
-                        'Use on cooldown',
-                        'Only use SoD when needed to refresh'
-                    ]
+                    'default': 'always',
+                    'options': {
+                        'always': 'Use on cooldown',
+                        'just': 'Only use SoD when needed to refresh',
+                    }
                 },
                 {
+                    'name': 'dance_finishers_policy',
                     'label': 'Use Finishers during Dance',
                     'description': '',
                     'type': 'checkbox',
-                    'checked': False
+                    'default': False
                 },
                 {
+                    'name': 'positional_uptime',
                     'label': 'Backstab uptime',
                     'description': 'Percentage of the fight you are behind the target (0-100). This has no effect if Gloomblade is selected as a talent.',
                     'type': 'textbox',
                 },
                 {
+                    'name': 'compute_cp_waste',
                     'label': 'Compute CP Waste',
                     'description': 'EXPERIMENTAL FEATURE: Compute combo point waste',
                     'type': 'checkbox',
-                    'checked': False
+                    'default': False
                 }
             ]
         },
         {
             'spec': 'All',
             'heading': 'Raid Buffs',
+            'name': 'buffs',
             'items': [
                 {
+                    'name': 'flask_legion_agi',
                     'label': 'Legion Agility Flask',
                     'description': 'Flask of the Seventh Demon (1300 Agility)',
                     'type': 'checkbox',
-                    'checked': False
+                    'default': False
                 },
                 {
+                    'name': 'short_term_haste_buff',
                     'label': '+30% Haste/40 sec',
                     'description': 'Heroism/Bloodlust/Time Warp',
                     'type': 'checkbox',
-                    'checked': False
+                    'default': False
                 },
                 {
+                    'name': 'food_buff',
                     'label': 'Food',
                     'description': '',
                     'type': 'dropdown',
-                    'active': 'The Hungry Magister (375 Crit)',
-                    'options': [
-                        'The Hungry Magister (375 Crit)',
-                        'Azshari Salad (375 Haste)',
-                        'Nightborne Delicacy Platter (375 Mastery)',
-                        'Seed-Battered Fish Plate (375 Versatility)',
-                        'Lavish Suramar Feast (200 Agility)',
-                        'Fishbrul Special (High Fire Proc)'
-                    ]
+                    'default': 'food_legion_375_crit',
+                    'options': {
+                        'food_legion_375_crit': 'The Hungry Magister (375 Crit)',
+                        'food_legion_375_haste': 'Azshari Salad (375 Haste)',
+                        'food_legion_375_mastery': 'Nightborne Delicacy Platter (375 Mastery)',
+                        'food_legion_375_versatility': 'Seed-Battered Fish Plate (375 Versatility)',
+                        'food_legion_feast_200': 'Lavish Suramar Feast (200 Agility)',
+                        'food_legion_damage_3': 'Fishbrul Special (High Fire Proc)',
+                    }
                 },
                 {
+                    'name': 'prepot',
                     'label': 'Pre-pot',
                     'description': '',
                     'type': 'dropdown',
-                    'active': 'Potion of the Old War',
-                    'options': [
-                        'Potion of the Old War',
-                        'Potion of Deadly Grace',
-                        'None'
-                    ]
+                    'default': 'potion_old_war',
+                    'options': {
+                        'potion_old_war': 'Potion of the Old War',
+                        'potion_deadly_grace': 'Potion of Deadly Grace',
+                        'potion_none': 'None',
+                    }
                 },
                 {
+                    'name': 'potion',
                     'label': 'Combat Potion',
                     'description': '',
                     'type': 'dropdown',
-                    'active': 'Potion of the Old War',
-                    'options': [
-                        'Potion of the Old War',
-                        'Potion of Deadly Grace',
-                        'None'
-                    ]
+                    'default': 'potion_old_war',
+                    'options': {
+                        'potion_old_war': 'Potion of the Old War',
+                        'potion_deadly_grace': 'Potion of Deadly Grace',
+                        'potion_none': 'None',
+                    }
                 }
             ]
         },
         {
             'spec': 'All',
             'heading': 'General Settings',
+            'name': 'general.settings',
             'items': [
                 {
+                    'name': 'demon_enemy',
                     'label': 'Enemy is Demon',
                     'description': 'Enables damage buff from heirloom trinket against demons',
                     'type': 'checkbox',
-                    'checked': False
+                    'default': False
                 },
                 {
+                    'name': 'patch',
                     'label': 'Patch/Engine',
                     'description': '',
                     'type': 'dropdown',
-                    'active': 'Potion of the Old War',
-                    'options': [
-                        '7.0',
-                        'fierys strange voodoo'
-                    ]
+                    'default': '7.0',
+                    'options': {
+                        '7.0': '7.0',
+                        'fierys_strange_voodoo': 'fierys strange voodoo',
+                    }
                 },
                 {
+                    'name': 'race',
                     'label': 'Race',
                     'description': '',
                     'type': 'dropdown',
-                    'active': 'Human',
-                    'options': [
-                        'Human',
-                        'Dwarf',
-                        'Orc',
-                        'Blood Elf',
-                        'Gnome',
-                        'Worgen',
-                        'Troll',
-                        'Night Elf',
-                        'Undead',
-                        'Goblin',
-                        'Pandaren'
-                    ]
+                    'default': 'human',
+                    'options': {
+                        'human': 'Human',
+                        'dwarf': 'Dwarf',
+                        'orc': 'Orc',
+                        'blood_elf': 'Blood Elf',
+                        'gnome': 'Gnome',
+                        'worgen': 'Worgen',
+                        'troll': 'Troll',
+                        'night_elf': 'Night Elf',
+                        'undead': 'Undead',
+                        'goblin': 'Goblin',
+                        'pandren': 'Pandaren',
+                    }
                 },
                 {
+                    'name': 'night_elf_racial',
                     'label': 'Night Elf Racial',
                     'description': '',
                     'type': 'dropdown',
-                    'active': 'Night',
-                    'options': [
-                        'Night',
-                        'Day'
-                    ]
+                    'default': 'night',
+                    'options': {
+                        'night': 'Night',
+                        'day': 'Day',
+                    }
                 },
                 {
+                    'name': 'finisher_threshold',
                     'label': 'Finisher Threshold',
                     'description': 'Minimum CPs to use finisher',
                     'type': 'dropdown',
-                    'active': 5,
+                    'default': 5,
                     'options': [
                         4,
                         5,
@@ -373,87 +406,102 @@ def settings():
                     ]
                 },
                 {
+                    'name': 'level',
                     'label': 'Level',
                     'description': '',
                     'type': 'textbox',
+                    'default': '110'
                 },
                 {
+                    'name': 'duration',
                     'label': 'Fight Duration',
                     'description': '',
                     'type': 'textbox',
+                    'default': '360'
                 },
                 {
+                    'name': 'response_time',
                     'label': 'Response Time',
                     'description': '',
                     'type': 'textbox',
+                    'default': "0.5",
                 },
                 {
+                    'name': 'num_boss_adds',
                     'label': 'Number of Boss Adds',
                     'description': '',
                     'type': 'textbox',
+                    'default': "0",
                 },
                 {
+                    'name': 'mfd_resets',
                     'label': 'MfD Resets Per Minute',
                     'description': '',
                     'type': 'textbox',
+                    'default': "0",
                 }
             ]
         },
         {
             'spec': 'All',
             'heading': 'Item Filter',
+            'name': 'general.filter',
             'items': [
                 {
+                    'name': 'dynamic_ilvl',
                     'label': 'Dynamic ILevel filtering',
                     'description': 'Dynamically filters items in gear lists to +/- 50 Ilevels of the item equipped in that slot. Disable this option to use the manual filtering options below.',
                     'type': 'checkbox',
-                    'checked': False
+                    'default': False
                 },
                 {
+                    'name': 'max_ilvl',
                     'label': 'Max ILevel',
                     'description': "Don't show items over this item level in gear lists",
                     'type': 'textbox',
+                    'default': '1000'
                 },
                 {
+                    'name': 'min_ilvl',
                     'label': 'Min ILevel',
                     'description': "Don't show items under this item level in gear lists",
                     'type': 'textbox',
+                    'default': '850'
                 },
                 {
+                    'name': 'show_upgrades',
                     'label': 'Show Upgrades',
                     'description': 'Show all upgraded items in gear lists',
-                    'type': 'dropdown',
-                    'active': 'No',
-                    'options': [
-                        'Yes',
-                        'No'
-                    ]
+                    'type': 'checkbox',
+                    'default': False
                 },
                 {
+                    'name': 'epic_gems',
                     'label': 'Recommend Epic Gems',
                     'description': '',
-                    'type': 'dropdown',
-                    'active': 'No',
-                    'options': [
-                        'Yes',
-                            'No'
-                    ]
+                    'type': 'checkbox',
+                    'default': False
                 }
             ]
         },
         {
             'spec': 'All',
             'heading': 'Other',
+            'name': 'other',
             'items': [
                 {
+                    'name': 'latency',
                     'label': 'Latency',
                     'description': '',
                     'type': 'textbox',
+                    'default': '0'
                 },
                 {
+                    'name': 'advanced',
                     'label': 'Advanced Parameters',
                     'description': '',
                     'type': 'textbox',
+                    'default': ''
                 }
             ]
         }

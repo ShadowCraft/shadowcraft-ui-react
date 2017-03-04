@@ -31,7 +31,6 @@ class CharacterPane extends React.Component {
             .then(function(response) {
                 return response.json();
             }).then(function(json) {
-                console.log(json);
                 store.dispatch({type: 'SETTINGS_LAYOUT', data: json});
             });
     }
