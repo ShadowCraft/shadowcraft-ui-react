@@ -15,10 +15,6 @@
         "react"
     ],
     "rules": {
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
         "semi": [
             "error",
             "always"
