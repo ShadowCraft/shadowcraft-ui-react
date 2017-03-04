@@ -14,7 +14,6 @@ class AdvancedPane extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <div className="with-tools ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="advanced">
                 <div className="panel-tools">

@@ -5,10 +5,10 @@ export default class AdvancedPaneSettings extends React.Component {
 
     render() {
 
-        const sectionlist = this.props.section.items.map(
-            (sectionitem, index) =>
-                <AdvancedPaneSettingItem key={index} sectionitem={sectionitem} />
-        );
+        var sectionlist = [];
+        for (var index in this.props.section.items) {
+            sectionlist.push(<AdvancedPaneSettingItem key={index} sectionitem={this.props.section.items[index]} section={this.props.section.name} />);
+        }
 
         return (
             <section className="cluster">

@@ -46,7 +46,6 @@ const settingsReducer = function(state = initialSettingsState, action) {
         case 'SETTINGS_LAYOUT':
             // TODO: go through the defaults for the settings and add them to the
             // value state if it's not set yet.
-            console.log(action.data);
             return Object.assign({}, state, {
                 layout: action.data});
     }
