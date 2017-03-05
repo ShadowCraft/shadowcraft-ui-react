@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 function Ranking(props) {
     return (
@@ -9,8 +9,8 @@ function Ranking(props) {
                 <div className="pct-inner" style={{ width: props.pct }}></div>
             </div>
         </div>
-    )
-};
+    );
+}
 
 export default class RankingSection extends React.Component {
     constructor(props)
@@ -21,7 +21,7 @@ export default class RankingSection extends React.Component {
         // loop through the sections and set the values/percentages and build a state tree,
         // sorting as we go
         this.state = {
-            sections: []
+            sections: [];
         }
 
         for (var s in this.props.layout) {
@@ -32,7 +32,7 @@ export default class RankingSection extends React.Component {
             };
 
             // loop through the values and find the maximum so we can calculate percentages
-            var max = 0
+            var max = 0;
             for (var i in section_data.items) {
                 var section_item = section_data.items[i];
                 if (this.props.values && section_item.id in this.props.values) {
@@ -64,9 +64,9 @@ export default class RankingSection extends React.Component {
 
             section_layout.items.sort(function(a, b) {
                 return b.label - a.label;
-            })
+            });
 
-            this.state.sections.push(section_layout)
+            this.state.sections.push(section_layout);
         }
     }
 
@@ -82,13 +82,13 @@ export default class RankingSection extends React.Component {
                                 {section.items.map(function(item) {
                                     return (
                                         <Ranking key={item.id} id={item.id}name={item.name} label={item.label} pct={item.pct} />
-                                    )
+                                    );
                                 })}
                             </div>
-                        )
+                        );
                     })}
                 </div>
             </section>
-        )
+        );
     }
-};
+}

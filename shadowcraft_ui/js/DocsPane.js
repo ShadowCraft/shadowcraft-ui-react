@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 export default class DocsPane extends React.Component {
     render() {
@@ -46,6 +46,6 @@ export default class DocsPane extends React.Component {
                     <li>Trial of Valor items are not supported until they're available from the API.</li>
                 </ul>
             </div>
-        )
+        );
     }
 }

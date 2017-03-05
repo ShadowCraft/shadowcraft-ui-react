@@ -16,13 +16,14 @@ export default class DropDown extends React.Component {
     }
 
     render() {
+        var optionlist;
         if (this.props.data.options instanceof Array) {
-            var optionlist = this.props.data.options
-                                 .map((option, index) =>
-                                     (<option key={index} value={option}>{option}</option>));
+            optionlist = this.props.data.options
+                             .map((option, index) =>
+                                 (<option key={index} value={option}>{option}</option>));
         }
         else if (this.props.data.options instanceof Object) {
-            var optionlist = [];
+            optionlist = [];
             for (var key in this.props.data.options) {
                 optionlist.push(<option key={key} value={key}>{this.props.data.options[key]}</option>);
             }

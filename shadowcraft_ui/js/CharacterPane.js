@@ -27,7 +27,6 @@ class CharacterPane extends React.Component {
 
     render() {
 
-        console.log(this.props.store_data)
         return (
             <div>
                 <div style={{ marginBottom: '25px', display: 'flex' }}>

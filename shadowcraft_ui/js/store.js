@@ -79,7 +79,7 @@ const settingsReducer = function(state = {}, action) {
             // state if it's not set yet.
             var current = state.current;
             if (!current) {
-                current = {}
+                current = {};
             }
 
             for (var index in action.data) {

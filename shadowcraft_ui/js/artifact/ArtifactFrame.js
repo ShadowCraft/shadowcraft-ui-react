@@ -141,7 +141,6 @@ export default class ArtifactFrame extends React.Component {
 
         for (trait in this.trait_state.traits)
         {
-            var t_state = this.trait_state.traits[trait]
             this.trait_state.traits[trait].max_rank = this.trait_state.traits[trait].default_max_rank;
 
             if (traits_checked.indexOf(parseInt(trait)) == -1) {
