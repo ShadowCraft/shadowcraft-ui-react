@@ -1,4 +1,32 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import 'whatwg-fetch';
+
+// This middleware will just add the property "async dispatch"
+// to actions with the "async" propperty set to true
+const asyncDispatchMiddleware = store => next => action => {
+    let syncActivityFinished = false;
+    let actionQueue = [];
+
+    function flushQueue() {
+        actionQueue.forEach(a => store.dispatch(a)); // flush queue
+        actionQueue = [];
+    }
+
+    function asyncDispatch(asyncAction) {
+        actionQueue = actionQueue.concat([asyncAction]);
+
+        if (syncActivityFinished) {
+            flushQueue();
+        }
+    }
+
+    const actionWithAsyncDispatch =
+    Object.assign({}, action, { asyncDispatch });
+
+    next(actionWithAsyncDispatch);
+    syncActivityFinished = true;
+    flushQueue();
+};
 
 const characterReducer = function(state = {}, action) {
 
@@ -7,25 +35,30 @@ const characterReducer = function(state = {}, action) {
         // Full reset of the character data. This is used on page load and
         // whenever the user presses the refresh button.
         case 'RESET_CHARACTER_DATA':
+            action.asyncDispatch({type: 'CALL_ENGINE'});
             return Object.assign({}, state, action.data);
 
         case 'UPDATE_ARTIFACT_TRAITS':
             var newState = state;
             newState.artifact.traits = action.traits;
+            action.asyncDispatch({type: 'CALL_ENGINE'});
             return Object.assign({}, state, newState);
 
         case 'UPDATE_ARTIFACT_RELICS':
             var newState = state;
             newState.artifact.relics = action.relics;
+            action.asyncDispatch({type: 'CALL_ENGINE'});
             return Object.assign({}, state, newState);
 
         case 'UPDATE_SPEC':
+            action.asyncDispatch({type: 'CALL_ENGINE'});
             return Object.assign({}, state, {
                 active: action.spec});
 
         case 'UPDATE_TALENTS':
             var newState = state;
             newState.talents.current = action.talents;
+            action.asyncDispatch({type: 'CALL_ENGINE'});
             return Object.assign({}, state, newState);
     }
 
@@ -38,6 +71,7 @@ const settingsReducer = function(state = {}, action) {
         case 'CHANGE_SETTING':
             var current = state.current;
             current[action.setting] = action.value;
+            action.asyncDispatch({type: 'CALL_ENGINE'});
             return Object.assign({}, state, current);
 
         case 'SETTINGS_LAYOUT':
@@ -155,6 +189,15 @@ const initialEngineState = {
 const engineReducer = function(state = initialEngineState, action) {
 
     switch (action.type) {
+        case 'CALL_ENGINE':
+            fetch('http://10.0.0.5:5000/engine')
+                .then(r => r.json())
+                .then(r => action.asyncDispatch({
+                    type: 'ENGINE_UPDATE', response: r}));
+            return state;
+            
+        case 'ENGINE_UPDATE':
+            return action.response;
     }
 
     return state;
@@ -168,5 +211,5 @@ const reducers = combineReducers({
 });
 
 // Build the store
-const store = createStore(reducers);
+const store = createStore(reducers, applyMiddleware(asyncDispatchMiddleware));
 export default store;
