@@ -14,16 +14,6 @@ import RightPane from './RightPane';
 class CharacterPane extends React.Component {
     // hold on to your butts
 
-    constructor(props) {
-        super(props);
-
-        // have bind this because otherwise you get handleArtifactChange's this
-        // #javascriptproblems
-        this.handleArtifactChange = this.handleArtifactChange.bind(this);
-
-        this.state = this.props.data;
-    }
-
     componentWillMount() {
         store.dispatch({type: 'RESET_CHARACTER_DATA', data: this.props.data});
 
