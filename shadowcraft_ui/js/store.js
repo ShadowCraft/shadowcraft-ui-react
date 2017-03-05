@@ -1,11 +1,6 @@
 import { createStore, combineReducers } from 'redux';
 
-// Create an initial state and a reducer for each of the state objects that
-// go in the global store.
-const initialCharacterState = {
-};
-
-const characterReducer = function(state = initialCharacterState, action) {
+const characterReducer = function(state = {}, action) {
 
     switch(action.type) {
 
@@ -16,7 +11,7 @@ const characterReducer = function(state = initialCharacterState, action) {
 
         case 'UPDATE_ARTIFACT_TRAITS':
             return state;
-            
+
         case 'UPDATE_ARTIFACT_RELICS':
             return state;
 
@@ -33,23 +28,39 @@ const characterReducer = function(state = initialCharacterState, action) {
     return state;
 };
 
-const initialSettingsState = {
-};
-
-const settingsReducer = function(state = initialSettingsState, action) {
+const settingsReducer = function(state = {}, action) {
 
     switch (action.type) {
         case 'CHANGE_SETTING':
-            var key = action.setting;
-            return Object.assign({}, state, {
-                key: action.value});
+            var current = state.current;
+            current[action.setting] = action.value;
+            return Object.assign({}, state, current);
+
         case 'SETTINGS_LAYOUT':
-            // TODO: go through the defaults for the settings and add them to the
-            // value state if it's not set yet.
+            // Go through the defaults for the settings and add them to the value
+            // state if it's not set yet.
+            var current = state.current;
+            if (!current) {
+                current = {}
+            }
+
+            for (var index in action.data) {
+                var section = action.data[index];
+                for (var item_index in section.items) {
+                    var item = section.items[item_index];
+                    var key = section.name+"."+item.name;
+                    if (!(current.hasOwnProperty(key))) {
+                        current[key] = item.default;
+                    }
+                }
+            }
+
             return Object.assign({}, state, {
-                layout: action.data});
+                layout: action.data,
+                current: current,
+            });
     }
-    
+
     return state;
 };
 
@@ -121,7 +132,7 @@ const engineReducer = function(state = initialEngineState, action) {
 
     switch (action.type) {
     }
-    
+
     return state;
 };
 

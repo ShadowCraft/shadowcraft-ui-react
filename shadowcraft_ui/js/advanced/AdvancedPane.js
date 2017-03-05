@@ -30,7 +30,7 @@ class AdvancedPane extends React.Component {
                     </section>
                 </div>
                 <div className="panel-content">
-                    {this.getHeadingList(this.props.settings)}
+                    {this.getHeadingList(this.props.layout)}
                 </div>
             </div>
 
@@ -44,7 +44,7 @@ const mapStateToProps = function(store) {
         ui_build: store.engineState.ui_build,
         engine_build: store.engineState.build,
         breakdown: store.engineState.dps_breakdown,
-        settings: store.settingsState.layout,
+        layout: store.settingsState.layout,
     };
 };
 

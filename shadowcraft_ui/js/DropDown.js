@@ -1,6 +1,19 @@
 import React from 'react';
+import store from './store';
 
 export default class DropDown extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.selectOption = this.selectOption.bind(this);
+    }
+
+    selectOption(e) {
+        e.preventDefault();
+        store.dispatch({type: 'CHANGE_SETTING',
+                        setting: e.currentTarget.id,
+                        value: e.currentTarget.value});
+    }
 
     render() {
         if (this.props.data.options instanceof Array) {
@@ -18,8 +31,8 @@ export default class DropDown extends React.Component {
         return (
             <label className="select">
                 <span className="label">{this.props.data.label}</span>
-                <span className="select-container" value={this.props.data.default}>
-                    <select className="optionSelect" id={this.props.section+"."+this.props.data.name}>
+                <span className="select-container" value={this.props.value}>
+                    <select className="optionSelect" id={this.props.section+"."+this.props.data.name} onChange={this.selectOption}>
                         {optionlist}
                     </select>
                 </span>
