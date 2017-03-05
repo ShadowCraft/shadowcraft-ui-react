@@ -1,4 +1,5 @@
 import React from 'react';
+import store from '../store';
 import ArtifactTrait from './ArtifactTrait';
 import ArtifactRelicSelect from './ArtifactRelicSelect';
 
@@ -83,7 +84,9 @@ export default class ArtifactFrame extends React.Component {
         var cur_state = this.props.data.artifact.relics;
         cur_state[parseInt(slot)].trait = trait;
         cur_state[parseInt(slot)].ilvl = ilvl;
-        this.props.onChange(null, cur_state);
+        store.dispatch({
+            type: "UPDATE_ARTIFACT_RELICS",
+            relics: cur_state});
     }
 
     update_state(artifact_data, send_state)
@@ -165,7 +168,9 @@ export default class ArtifactFrame extends React.Component {
         }
 
         if (send_state) {
-            this.props.onChange(artifact_data.traits, null);
+            store.dispatch({
+                type: "UPDATE_ARTIFACT_TRAITS",
+                traits: artifact_data.traits});
         }
     }
 

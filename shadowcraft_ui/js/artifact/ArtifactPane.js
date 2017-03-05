@@ -1,37 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import store from '../store';
+
 import RankingSection from '../SidebarRanking';
 import * as layouts from './ArtifactLayouts';
 import ArtifactFrame from './ArtifactFrame';
 
-export default class ArtifactPane extends React.Component {
+class ArtifactPane extends React.Component {
 
     constructor(props)
     {
         super(props);
-
-        this.state = {
-            rankings: {
-                192657: 21135.69,
-                192923: 19508.73,
-                192428: 10685.3,
-                214368: 6580.27,
-                192759: 4743.23,
-                192384: 3245.69,
-                192329: 2748.73,
-                192315: 2064.07,
-                192349: 1742.83,
-                214928: 1358.92,
-                192326: 1329.21,
-                192424: 764.37,
-                192376: 749.16,
-                192310: 725.06,
-                192318: 374.58,
-                192323: 0,
-                192345: 0,
-                192422: 0,
-            }
-        };
-
         this.clickResetButton = this.clickResetButton.bind(this);
     }
 
@@ -51,7 +30,10 @@ export default class ArtifactPane extends React.Component {
             traits[trait] = 0;
         }
 
-        this.props.onChange(traits, relics);
+        store.dispatch({
+            type: "UPDATE_ARTIFACT_TRAITS",
+            traits: traits
+        });
     }
 
     render() {
@@ -59,16 +41,16 @@ export default class ArtifactPane extends React.Component {
         var ranking_frame = null;
 
         if (this.props.data.active == 'a') {
-            frame = <ArtifactFrame layout={layouts.kingslayers_layout} data={this.props.data} onChange={this.props.onChange}/>;
-            ranking_frame = <RankingSection id="traitrankings" name="Trait Rankings" layout={layouts.kingslayers_ranking} values={this.state.rankings}/>;
+            frame = <ArtifactFrame layout={layouts.kingslayers_layout} data={this.props.data} />;
+            ranking_frame = <RankingSection id="traitrankings" name="Trait Rankings" layout={layouts.kingslayers_ranking} values={this.props.rankings}/>;
         }
         else if (this.props.data.active == 'Z') {
-            frame = <ArtifactFrame layout={layouts.dreadblades_layout} data={this.props.data} onChange={this.props.onChange} />;
-            ranking_frame = <RankingSection id="traitrankings" name="Trait Rankings" layout={layouts.dreadblades_ranking} values={this.state.rankings}/>;
+            frame = <ArtifactFrame layout={layouts.dreadblades_layout} data={this.props.data} />;
+            ranking_frame = <RankingSection id="traitrankings" name="Trait Rankings" layout={layouts.dreadblades_ranking} values={this.props.rankings}/>;
         }
         else if (this.props.data.active == 'b') {
-            frame = <ArtifactFrame layout={layouts.fangs_layout} data={this.props.data} onChange={this.props.onChange} />;
-            ranking_frame = <RankingSection id="traitrankings" name="Trait Rankings" layout={layouts.fangs_ranking} values={this.state.rankings}/>;
+            frame = <ArtifactFrame layout={layouts.fangs_layout} data={this.props.data} />;
+            ranking_frame = <RankingSection id="traitrankings" name="Trait Rankings" layout={layouts.fangs_ranking} values={this.props.rankings}/>;
         }
 
         return (
@@ -85,3 +67,12 @@ export default class ArtifactPane extends React.Component {
         );
     }
 }
+
+const mapStateToProps = function(store) {
+    return {
+        rankings: store.engineState.traitRanking,
+        data: store.characterState
+    };
+};
+
+export default connect(mapStateToProps)(ArtifactPane);

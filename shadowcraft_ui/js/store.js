@@ -10,10 +10,14 @@ const characterReducer = function(state = {}, action) {
             return Object.assign({}, state, action.data);
 
         case 'UPDATE_ARTIFACT_TRAITS':
-            return state;
+            var newState = state;
+            newState.artifact.traits = action.traits;
+            return Object.assign({}, state, newState);
 
         case 'UPDATE_ARTIFACT_RELICS':
-            return state;
+            var newState = state;
+            newState.artifact.relics = action.relics;
+            return Object.assign({}, state, newState);
 
         case 'UPDATE_SPEC':
             return Object.assign({}, state, {
@@ -93,6 +97,26 @@ const initialEngineState = {
         152152: 12107.6,
         152150: 9754.46,
         137619: 3313.58,
+    },
+    traitRanking: {
+        192657: 21135.69,
+        192923: 19508.73,
+        192428: 10685.3,
+        214368: 6580.27,
+        192759: 4743.23,
+        192384: 3245.69,
+        192329: 2748.73,
+        192315: 2064.07,
+        192349: 1742.83,
+        214928: 1358.92,
+        192326: 1329.21,
+        192424: 764.37,
+        192376: 749.16,
+        192310: 725.06,
+        192318: 374.58,
+        192323: 0,
+        192345: 0,
+        192422: 0,
     },
 
     dps_breakdown: [

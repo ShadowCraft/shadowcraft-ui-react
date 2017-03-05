@@ -35,20 +35,6 @@ class CharacterPane extends React.Component {
             });
     }
 
-    handleArtifactChange(traits, relics) {
-        var state = this.state;
-
-        if (relics != null) {
-            state.artifact.relics = relics;
-        }
-
-        if (traits != null) {
-            state.artifact.traits = traits;
-        }
-
-        this.setState(state);
-    }
-
     render() {
 
         console.log(this.props.store_data)
@@ -66,7 +52,7 @@ class CharacterPane extends React.Component {
                                         <TalentPane />
                                     </Tabs.Panel>
                                     <Tabs.Panel title="Artifact">
-                                        <ArtifactPane data={this.state} onChange={this.handleArtifactChange} />
+                                        <ArtifactPane />
                                     </Tabs.Panel>
                                     <Tabs.Panel title="Advanced">
                                         <AdvancedPane />
