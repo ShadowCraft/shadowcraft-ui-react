@@ -21,8 +21,8 @@ export default class RankingSection extends React.Component {
         // loop through the sections and set the values/percentages and build a state tree,
         // sorting as we go
         this.state = {
-            sections: [];
-        }
+            sections: []
+        };
 
         for (var s in this.props.layout) {
             var section_data = this.props.layout[s];
