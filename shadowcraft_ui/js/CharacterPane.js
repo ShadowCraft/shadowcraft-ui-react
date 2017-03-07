@@ -72,7 +72,7 @@ class CharacterPane extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-        store_data: store.characterState
+        store_data: store.character
     };
 };
 

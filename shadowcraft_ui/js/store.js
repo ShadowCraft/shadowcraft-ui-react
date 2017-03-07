@@ -205,9 +205,9 @@ const engineReducer = function(state = initialEngineState, action) {
 
 // Combine the reducers into a single reducer to put into the store.
 const reducers = combineReducers({
-    characterState: characterReducer,
-    settingsState: settingsReducer,
-    engineState: engineReducer,
+    character: characterReducer,
+    settings: settingsReducer,
+    engine: engineReducer,
 });
 
 // Build the store

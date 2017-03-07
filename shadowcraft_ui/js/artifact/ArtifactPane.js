@@ -70,8 +70,8 @@ class ArtifactPane extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-        rankings: store.engineState.traitRanking,
-        data: store.characterState
+        rankings: store.engine.traitRanking,
+        data: store.character
     };
 };
 

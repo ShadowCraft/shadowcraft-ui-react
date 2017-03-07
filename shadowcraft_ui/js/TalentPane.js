@@ -70,9 +70,9 @@ class TalentPane extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-        rankings: store.engineState.talentRanking,
-        active: store.characterState.active,
-        talents: store.characterState.talents,
+        rankings: store.engine.talentRanking,
+        active: store.character.active,
+        talents: store.character.talents,
     };
 };
 

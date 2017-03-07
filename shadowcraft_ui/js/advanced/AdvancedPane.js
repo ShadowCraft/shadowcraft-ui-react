@@ -40,11 +40,11 @@ class AdvancedPane extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-        active_spec: store.characterState.active,
-        ui_build: store.engineState.ui_build,
-        engine_build: store.engineState.build,
-        breakdown: store.engineState.dps_breakdown,
-        layout: store.settingsState.layout,
+        active_spec: store.character.active,
+        ui_build: store.engine.ui_build,
+        engine_build: store.engine.build,
+        breakdown: store.engine.dps_breakdown,
+        layout: store.settings.layout,
     };
 };
 

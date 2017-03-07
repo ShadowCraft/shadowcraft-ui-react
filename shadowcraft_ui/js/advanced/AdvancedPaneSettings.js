@@ -26,7 +26,7 @@ class AdvancedPaneSettings extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-        current: store.settingsState.current,
+        current: store.settings.current,
     };
 };
 
