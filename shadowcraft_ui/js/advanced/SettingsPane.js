@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import SettingsPaneSection from './SettingsPaneSection';
 
 export default class SettingsPane extends React.Component {
@@ -428,4 +428,4 @@ export default class SettingsPane extends React.Component {
             // </div >
         );
     }
-}
+}*/

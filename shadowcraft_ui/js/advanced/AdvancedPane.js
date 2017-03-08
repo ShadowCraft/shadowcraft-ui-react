@@ -14,6 +14,7 @@ class AdvancedPane extends React.Component {
     }
 
     render() {
+        // console.log(this.props);
         return (
             <div className="with-tools ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="advanced">
                 <div className="panel-tools">
@@ -38,7 +39,7 @@ class AdvancedPane extends React.Component {
     }
 }
 
-const mapStateToProps = function(store) {
+const mapStateToProps = function (store) {
     return {
         active_spec: store.character.active,
         ui_build: store.engine.ui_build,

@@ -7,7 +7,7 @@ import AdvancedPaneSettingItem from './AdvancedPaneSettingItem';
 class AdvancedPaneSettings extends React.Component {
 
     render() {
-
+        // console.log(this.props)
         var sectionlist = [];
         for (var index in this.props.section.items) {
             sectionlist.push(<AdvancedPaneSettingItem key={index} sectionitem={this.props.section.items[index]} section={this.props.section.name} current={this.props.current} />);

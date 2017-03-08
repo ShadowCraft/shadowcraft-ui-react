@@ -21,63 +21,73 @@ const asyncDispatchMiddleware = store => next => action => {
     }
 
     const actionWithAsyncDispatch =
-    Object.assign({}, action, { asyncDispatch });
+        Object.assign({}, action, { asyncDispatch });
 
     next(actionWithAsyncDispatch);
     syncActivityFinished = true;
     flushQueue();
 };
 
-const characterReducer = function(state = {}, action) {
+const characterReducer = function (state = {}, action) {
 
-    switch(action.type) {
+    switch (action.type) {
 
         // Full reset of the character data. This is used on page load and
         // whenever the user presses the refresh button.
-        case 'RESET_CHARACTER_DATA':
-            action.asyncDispatch({type: 'CALL_ENGINE'});
+        case 'RESET_CHARACTER_DATA': {
+            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
             return Object.assign({}, state, action.data);
+        }
 
-        case 'UPDATE_ARTIFACT_TRAITS':
-            var newState = state;
+        case 'UPDATE_ARTIFACT_TRAITS': {
+            let newState = state;
             newState.artifact.traits = action.traits;
-            action.asyncDispatch({type: 'CALL_ENGINE'});
+            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
             return Object.assign({}, state, newState);
+        }
 
-        case 'UPDATE_ARTIFACT_RELICS':
-            var newState = state;
+        case 'UPDATE_ARTIFACT_RELICS': {
+            let newState = state;
             newState.artifact.relics = action.relics;
-            action.asyncDispatch({type: 'CALL_ENGINE'});
+            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
             return Object.assign({}, state, newState);
+        }
 
-        case 'UPDATE_SPEC':
-            action.asyncDispatch({type: 'CALL_ENGINE'});
+        case 'UPDATE_SPEC': {
+            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
             return Object.assign({}, state, {
-                active: action.spec});
+                active: action.spec
+            });
+        }
 
-        case 'UPDATE_TALENTS':
-            var newState = state;
+        case 'UPDATE_TALENTS': {
+            let newState = state;
             newState.talents.current = action.talents;
-            action.asyncDispatch({type: 'CALL_ENGINE'});
+            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
             return Object.assign({}, state, newState);
+        }
     }
 
     return state;
 };
 
-const settingsReducer = function(state = {}, action) {
+const settingsReducer = function (state = {}, action) {
 
     switch (action.type) {
-        case 'CHANGE_SETTING':
-            var current = state.current;
-            current[action.setting] = action.value;
-            action.asyncDispatch({type: 'CALL_ENGINE'});
-            return Object.assign({}, state, current);
+        //TODO: figure out how to properly merge a nested property, this is nasty
+        case 'CHANGE_SETTING': {
+            let newcurrent = Object.assign({}, state.current);
+            newcurrent[action.setting] = action.value;
+            let newstate = Object.assign({}, state);
+            newstate.current = newcurrent;
+            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
+            return newstate;
+        }
 
-        case 'SETTINGS_LAYOUT':
+        case 'SETTINGS_LAYOUT': {
             // Go through the defaults for the settings and add them to the value
             // state if it's not set yet.
-            var current = state.current;
+            let current = state.current;
             if (!current) {
                 current = {};
             }
@@ -86,7 +96,7 @@ const settingsReducer = function(state = {}, action) {
                 var section = action.data[index];
                 for (var item_index in section.items) {
                     var item = section.items[item_index];
-                    var key = section.name+"."+item.name;
+                    var key = section.name + "." + item.name;
                     if (!(current.hasOwnProperty(key))) {
                         current[key] = item.default;
                     }
@@ -97,6 +107,7 @@ const settingsReducer = function(state = {}, action) {
                 layout: action.data,
                 current: current,
             });
+        }
     }
 
     return state;
@@ -186,18 +197,19 @@ const initialEngineState = {
     ],
 };
 
-const engineReducer = function(state = initialEngineState, action) {
+const engineReducer = function (state = initialEngineState, action) {
 
     switch (action.type) {
-        case 'CALL_ENGINE':
-            fetch('http://10.0.0.5:5000/engine')
+        case 'GET_ENGINE_DATA':
+            fetch('/engine')
                 .then(r => r.json())
                 .then(r => action.asyncDispatch({
-                    type: 'ENGINE_UPDATE', response: r}));
-            return state;
-            
-        case 'ENGINE_UPDATE':
-            return action.response;
+                    type: 'SET_ENGINE_STATE', response: r
+                }));
+            return Object.assign({}, state, action.response);
+
+        case 'SET_ENGINE_STATE':
+            return Object.assign({}, state, action.response);
     }
 
     return state;

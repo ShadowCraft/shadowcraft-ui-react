@@ -17,7 +17,7 @@ class CharacterPane extends React.Component {
     componentWillMount() {
         store.dispatch({type: 'RESET_CHARACTER_DATA', data: this.props.data});
 
-        fetch('http://10.0.0.5:5000/settings')
+        fetch('/settings')
             .then(function(response) {
                 return response.json();
             }).then(function(json) {
