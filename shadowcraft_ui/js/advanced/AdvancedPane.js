@@ -3,18 +3,16 @@ import { connect } from 'react-redux';
 import store from '../store';
 
 import BreakdownList from './BreakdownList';
-import AdvancedPaneSettings from './AdvancedPaneSettings';
+import AdvancedPaneSection from './AdvancedPaneSection';
 
 class AdvancedPane extends React.Component {
 
-    getHeadingList(settings) {
-        return settings
-            .filter(section => section.spec.toLowerCase() === 'all' || section.spec.toLowerCase() === this.props.active_spec)
-            .map((section, index) => <AdvancedPaneSettings key={index} section={section} />);
-    }
-
     render() {
-        // console.log(this.props);
+
+        let headinglist = this.props.layout
+            .filter(section => section.spec.toLowerCase() === 'all' || section.spec.toLowerCase() === this.props.active_spec)
+            .map((section, index) => <AdvancedPaneSection key={index} section={section} />);
+
         return (
             <div className="with-tools ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="advanced">
                 <div className="panel-tools">
@@ -31,7 +29,7 @@ class AdvancedPane extends React.Component {
                     </section>
                 </div>
                 <div className="panel-content">
-                    {this.getHeadingList(this.props.layout)}
+                    {headinglist}
                 </div>
             </div>
 

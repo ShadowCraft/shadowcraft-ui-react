@@ -1,10 +1,9 @@
 import React from 'react';
-import store from './store';
+import store from '../store';
 
 export default class DropDown extends React.Component {
 
     onChange(e) {
-        e.preventDefault();
         store.dispatch({
             type: 'CHANGE_SETTING',
             setting: e.currentTarget.id,

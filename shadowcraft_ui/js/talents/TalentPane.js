@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import RankingSection from './SidebarRanking';
+import RankingSection from '../SidebarRanking';
 import TalentFrame from './TalentFrame';
 import * as layouts from './TalentLayouts';
-import store from './store';
+import store from '../store';
 
 function TalentSetButton(props) {
     return (

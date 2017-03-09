@@ -5,7 +5,7 @@ import store from './store';
 import 'whatwg-fetch';
 
 import GearPane from './gear/GearPane';
-import TalentPane from './TalentPane';
+import TalentPane from './talents/TalentPane';
 import ArtifactPane from './artifact/ArtifactPane';
 import AdvancedPane from './advanced/AdvancedPane';
 import DocsPane from './DocsPane';

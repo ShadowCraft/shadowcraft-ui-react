@@ -1,9 +1,9 @@
 import React from 'react';
-import DropDown from '../DropDown';
-import TextBox from '../TextBox';
-import CheckBox from '../CheckBox';
+import DropDown from './DropDown';
+import TextBox from './TextBox';
+import CheckBox from './CheckBox';
 
-export default class AdvancedPaneSettingItem extends React.Component {
+export default class AdvancedPaneSetting extends React.Component {
 
     getSettingType(setting, id, value) {
         switch (setting.type) {
@@ -14,7 +14,7 @@ export default class AdvancedPaneSettingItem extends React.Component {
     }
 
     render() {
-        var id = `${this.props.section}.${this.props.sectionitem.name}`;
-        return this.getSettingType(this.props.sectionitem, id, this.props.current[id]);
+        var id = `${this.props.section}.${this.props.setting.name}`;
+        return this.getSettingType(this.props.setting, id, this.props.current[id]);
     }
 }
