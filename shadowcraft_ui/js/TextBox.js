@@ -3,25 +3,28 @@ import store from './store';
 
 export default class TextBox extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.changeText = this.changeText.bind(this);
-    }
-
-    changeText(e) {
+    onKeyDown(e) {
         if (e.keyCode == 13) {
-            store.dispatch({type: 'CHANGE_SETTING',
-                            setting: e.currentTarget.id,
-                            value: e.currentTarget.value});
+            store.dispatch({
+                type: 'CHANGE_SETTING',
+                setting: e.currentTarget.id,
+                value: e.currentTarget.value
+            });
         }
     }
 
     render() {
         return (
             <label className="input">
-                <span className="label">{this.props.data.label}</span>
-                <input className="optionInput" data-ns="general" id={this.props.section+"."+this.props.data.name} type="text" defaultValue={this.props.value} onKeyDown={this.changeText} />
-                <span className="desc">{this.props.data.description}</span>
+                <span className="label">{this.props.setting.label}</span>
+                <input
+                    className="optionInput"
+                    id={this.props.id}
+                    type={this.props.setting.type}
+                    defaultValue={this.props.value}
+                    onKeyDown={this.onKeyDown.bind(this)}
+                />
+                <span className="desc">{this.props.setting.description}</span>
             </label>
         );
     }

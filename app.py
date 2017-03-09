@@ -1068,7 +1068,7 @@ def settings():
                     'name': 'positional_uptime',
                     'label': 'Backstab uptime',
                     'description': 'Percentage of the fight you are behind the target (0-100). This has no effect if Gloomblade is selected as a talent.',
-                    'type': 'textbox',
+                    'type': 'text',
                 },
                 {
                     'name': 'compute_cp_waste',
@@ -1209,35 +1209,35 @@ def settings():
                     'name': 'level',
                     'label': 'Level',
                     'description': '',
-                    'type': 'textbox',
+                    'type': 'text',
                     'default': '110'
                 },
                 {
                     'name': 'duration',
                     'label': 'Fight Duration',
                     'description': '',
-                    'type': 'textbox',
+                    'type': 'text',
                     'default': '360'
                 },
                 {
                     'name': 'response_time',
                     'label': 'Response Time',
                     'description': '',
-                    'type': 'textbox',
+                    'type': 'text',
                     'default': "0.5",
                 },
                 {
                     'name': 'num_boss_adds',
                     'label': 'Number of Boss Adds',
                     'description': '',
-                    'type': 'textbox',
+                    'type': 'text',
                     'default': "0",
                 },
                 {
                     'name': 'mfd_resets',
                     'label': 'MfD Resets Per Minute',
                     'description': '',
-                    'type': 'textbox',
+                    'type': 'text',
                     'default': "0",
                 }
             ]
@@ -1258,14 +1258,14 @@ def settings():
                     'name': 'max_ilvl',
                     'label': 'Max ILevel',
                     'description': "Don't show items over this item level in gear lists",
-                    'type': 'textbox',
+                    'type': 'text',
                     'default': '1000'
                 },
                 {
                     'name': 'min_ilvl',
                     'label': 'Min ILevel',
                     'description': "Don't show items under this item level in gear lists",
-                    'type': 'textbox',
+                    'type': 'text',
                     'default': '850'
                 },
                 {
@@ -1293,14 +1293,14 @@ def settings():
                     'name': 'latency',
                     'label': 'Latency',
                     'description': '',
-                    'type': 'textbox',
+                    'type': 'text',
                     'default': '0'
                 },
                 {
                     'name': 'advanced',
                     'label': 'Advanced Parameters',
                     'description': '',
-                    'type': 'textbox',
+                    'type': 'text',
                     'default': ''
                 }
             ]
