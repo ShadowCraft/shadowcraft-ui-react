@@ -10,7 +10,7 @@ class AdvancedPane extends React.Component {
     render() {
 
         let headinglist = this.props.layout
-            .filter(section => section.spec.toLowerCase() === 'all' || section.spec.toLowerCase() === this.props.active_spec)
+            .filter(section => section.spec.toLowerCase() === 'all' || section.spec === this.props.active_spec)
             .map((section, index) => <AdvancedPaneSection key={index} section={section} />);
 
         return (
