@@ -215,11 +215,32 @@ const engineReducer = function (state = initialEngineState, action) {
     return state;
 };
 
+const initialWarningsState = {
+    warnings: [
+        "Band of Crystalline Bone needs an enchantment"
+    ]
+};
+
+const warningsReducer = function(state = initialWarningsState, action) {
+    switch (action.type) {
+        case 'CLEAR_WARNINGS':
+            return state;
+
+        case 'ADD_WARNING':
+            var curState = state;
+            curState.warnings.push(action.value);
+            return curState;
+    }
+
+    return state;
+};
+
 // Combine the reducers into a single reducer to put into the store.
 const reducers = combineReducers({
     character: characterReducer,
     settings: settingsReducer,
     engine: engineReducer,
+    warnings: warningsReducer,
 });
 
 // Build the store

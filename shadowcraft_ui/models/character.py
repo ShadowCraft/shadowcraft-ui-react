@@ -119,7 +119,7 @@ def __get_from_armory(db, character, realm, region):
         "level": int(json_data['level']),
         "player_class": ArmoryConstants.CLASS_MAP[int(json_data['class'])],
         "race": ArmoryConstants.RACE_MAP[int(json_data['race'])],
-        "portrait": 'http://%s.battle.net/static-render/%s/%s' % (region, region, json_data['thumbnail']),
+        "portrait": 'http://render-%s.worldofwarcraft.com/character/%s' % (region, json_data['thumbnail']),
         "stats": json_data['stats'],
         "talents": {},
         "gear": {},

@@ -1,14 +1,18 @@
 import React from "react";
 import GoogleAd from 'react-google-ad';
+import { connect } from 'react-redux';
+import store from './store';
 
 var chartData = {};
 var chartOptions = {};
 
-export default class RightPane extends React.Component {
+class RightPane extends React.Component {
 
     render() {
 
-      // console.log(this.props.data)
+        var realm = this.props.realm.replace("-", " ");
+        realm = realm.replace(/\b\w/g, l => l.toUpperCase());
+
         return (
             <div style={{ flex: 1}}>
                 <div id="console-footer" className="awin-medium">
@@ -18,16 +22,15 @@ export default class RightPane extends React.Component {
                     </div>
                     <span className="info">
                       <span className="name">
-                        {this.props.data.name}
+                        {this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)}
                       </span>
                       <span className="realm">
-                        {this.props.data.realm}-{this.props.data.region}
+                        {realm} - {this.props.region.toUpperCase()}
                       </span>
                     </span>
                   </a>
                   <div id="dps">
-                    {/*TODO: plumb engine output*/}
-                    <div className="inner">468306.3 DPS</div>
+                    <div className="inner">{Math.round(this.props.dps*10)/10.0}</div>
                   </div>
                 </div>
                 <div id="logs">
@@ -48,3 +51,15 @@ export default class RightPane extends React.Component {
         );
     }
 }
+
+const mapStateToProps = function(store) {
+    return {
+        name: store.character.name,
+        region: store.character.region,
+        realm: store.character.realm,
+        dps: store.engine.total_dps,
+        warnings: store.warnings.warnings
+    };
+};
+
+export default connect(mapStateToProps)(RightPane);
