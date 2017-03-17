@@ -1,0 +1,13 @@
+[Unit]
+Description=Shadowcraft-React gunicorn daemon
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+Environment=BLIZZARD_API_KEY=wwa5krsuf4m4yzuu7qtrd42natfu2an2
+WorkingDirectory=/home/ubuntu/shadowcraft-ui-react
+ExecStart=/home/ubuntu/shadowcraft-ui-react/venv/bin/gunicorn -R --access-logfile - --log-file /run/shcreact/shcreact.log --workers 4 --bind unix:/run/shcreact/shcreact.sock app:app
+
+[Install]
+WantedBy=multi-user.target
