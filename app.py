@@ -1,5 +1,4 @@
 from flask import Flask, render_template, url_for, redirect, json, jsonify
-from flask_socketio import SocketIO
 from flask_pymongo import PyMongo
 from werkzeug.routing import BaseConverter
 from bson import json_util
@@ -9,7 +8,6 @@ import shadowcraft_ui
 app = Flask('shadowcraft_ui')
 app.config['SECRET_KEY'] = 'shhhhhhhh!'
 app.config['MONGO_DBNAME'] = 'roguesim_python'
-socketio = SocketIO(app)
 mongo = PyMongo(app)
 
 
@@ -1304,26 +1302,32 @@ def settings():
     ]
     return jsonify(dummy_data)
 
-# Websocket event for requesting a new debug SHA based on from character data.
+# Endpoint for requesting a new debug SHA based on from character data.
 
 
-@socketio.on('get_sha')
-def history_getsha(character_data):
-    return shadowcraft_ui.get_debug_sha(mongo, character_data)
+@app.route('/get_sha', methods=['POST'])
+def get_sha():
+    # TODO: this should probably validate the JSON
+    return shadowcraft_ui.get_debug_sha(mongo, request.form['data'])
 
-# Websocket event for requesting item data by slot. Also able to filter by
-# ilvl.
+# Endpoint for requesting item data by slot. Also able to filter by ilvl.
 
 
-@socketio.on('get_items_by_slot')
-def get_items_by_slot(slot, min_ilvl=-1, max_ilvl=-1):
+@app.route('/get_items_by_slot')
+def get_items_by_slot():
+    # TODO: this should probably take some sort of key to make sure that we're
+    # only returning data to our clients and not leaving this open to abuse by
+    # other people.
+    slot = request.form['slot']
+    min_ilvl = request.form['min_ilvl']
+    max_ilvl = request.form['max_ilvl']
     return shadowcraft_ui.get_items_by_slot(mongo, slot, min_ilvl, max_ilvl)
 
 # TODO: we probably need other endpoints here for gems, relics, and other
 # types of data. Theoretically the event above might be able to handle those
 # if we add another argument. Basically I'm trying to get rid of items-rogue.js
-# as much as possible. Anything that can be requested on-the-fly via a
-# websocket event should be moved to one.
+# as much as possible. Anything that can be requested on-the-fly via an endpoint
+# should be moved to one.
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')
