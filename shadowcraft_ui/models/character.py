@@ -5,9 +5,9 @@ import traceback
 import jsonschema
 import pymongo
 
-from wow_armory import ArmoryDocument
-from wow_armory import ArmoryConstants
-from wow_armory.ArmoryCharacter import ArmoryCharacter
+from ..wow_armory import ArmoryDocument
+from ..wow_armory import ArmoryConstants
+from ..wow_armory.ArmoryCharacter import ArmoryCharacter
 
 # re-version data when ArmoryCharacter.py changes (file size)
 CHARACTER_DATA_VERSION = os.path.getsize('shadowcraft_ui/models/character.py')

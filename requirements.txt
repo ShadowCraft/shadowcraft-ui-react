@@ -8,5 +8,6 @@ Flask-SocketIO==2.8.2
 Flask-PyMongo==0.4.1
 python-wowapi
 requests[security]
-gevent
 jsonschema
+eventlet
+gunicorn

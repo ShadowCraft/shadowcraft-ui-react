@@ -4,8 +4,8 @@ import requests
 import pymongo
 from pymongo import MongoClient
 from bson.json_util import dumps
-from wow_armory import ArmoryDocument
-from wow_armory.ArmoryItem import ArmoryItem
+from ..wow_armory import ArmoryDocument
+from ..wow_armory.ArmoryItem import ArmoryItem
 
 # These are the only bonus IDs we care about displaying on the gear popouts.  They're
 # mostly just the different difficulty levels that can be on gear.  Anything not listed
