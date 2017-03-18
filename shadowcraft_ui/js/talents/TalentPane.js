@@ -5,6 +5,7 @@ import RankingSection from '../SidebarRanking';
 import TalentFrame from './TalentFrame';
 import * as layouts from './TalentLayouts';
 import store from '../store';
+import { updateCharacterState } from '../store';
 
 function TalentSetButton(props) {
     return (
@@ -23,10 +24,8 @@ class TalentPane extends React.Component {
 
     clickButton(e) {
         e.preventDefault();
-        store.dispatch({type: 'UPDATE_TALENTS',
-                        talents: e.currentTarget.dataset['talents']});
-        store.dispatch({type: 'UPDATE_SPEC',
-                        spec: e.currentTarget.dataset['spec']});
+        store.dispatch(updateCharacterState('UPDATE_TALENTS', e.currentTarget.dataset['talents']));
+        store.dispatch(updateCharacterState('UPDATE_SPEC', e.currentTarget.dataset['spec']));
     }
 
     render() {

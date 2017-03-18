@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import store from '../store';
+import { updateCharacterState } from '../store';
 
 import RankingSection from '../SidebarRanking';
 import * as layouts from './ArtifactLayouts';
@@ -30,10 +31,7 @@ class ArtifactPane extends React.Component {
             traits[trait] = 0;
         }
 
-        store.dispatch({
-            type: "UPDATE_ARTIFACT_TRAITS",
-            traits: traits
-        });
+        store.dispatch(updateCharacterState("UPDATE_ARTIFACT_TRAITS", traits));
     }
 
     render() {

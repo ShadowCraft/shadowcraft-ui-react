@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import store from '../store';
+import { updateCharacterState } from '../store';
 
 function Talent(props) {
     return (
@@ -24,10 +25,7 @@ class TalentFrame extends React.Component {
         var current = this.props.setup;
         var newSetup = current.substr(0, row) + col + current.substr(row+1);
         
-        store.dispatch({
-            type: 'UPDATE_TALENTS',
-            talents: newSetup
-        });
+        store.dispatch(updateCharacterState('UPDATE_TALENTS', newSetup));
     }
 
     render()

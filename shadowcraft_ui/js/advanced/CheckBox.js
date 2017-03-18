@@ -1,14 +1,14 @@
 import React from 'react';
 import store from '../store';
+import { changeSetting } from '../store';
 
 export default class CheckBox extends React.Component {
 
     onChange(e) {
-        store.dispatch({
-            type: 'CHANGE_SETTING',
+        store.dispatch(changeSetting({
             setting: e.currentTarget.id,
             value: (this.props.value) ? false : true
-        });
+        }));
     }
 
     render() {

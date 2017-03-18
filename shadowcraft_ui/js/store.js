@@ -1,32 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import 'whatwg-fetch';
-
-// This middleware will just add the property "async dispatch"
-// to actions with the "async" propperty set to true
-const asyncDispatchMiddleware = store => next => action => {
-    let syncActivityFinished = false;
-    let actionQueue = [];
-
-    function flushQueue() {
-        actionQueue.forEach(a => store.dispatch(a)); // flush queue
-        actionQueue = [];
-    }
-
-    function asyncDispatch(asyncAction) {
-        actionQueue = actionQueue.concat([asyncAction]);
-
-        if (syncActivityFinished) {
-            flushQueue();
-        }
-    }
-
-    const actionWithAsyncDispatch =
-        Object.assign({}, action, { asyncDispatch });
-
-    next(actionWithAsyncDispatch);
-    syncActivityFinished = true;
-    flushQueue();
-};
 
 const characterReducer = function (state = {}, action) {
 
@@ -35,41 +9,46 @@ const characterReducer = function (state = {}, action) {
         // Full reset of the character data. This is used on page load and
         // whenever the user presses the refresh button.
         case 'RESET_CHARACTER_DATA': {
-            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
             return Object.assign({}, state, action.data);
         }
 
         case 'UPDATE_ARTIFACT_TRAITS': {
             let newState = state;
-            newState.artifact.traits = action.traits;
-            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
+            newState.artifact.traits = action.data;
             return Object.assign({}, state, newState);
         }
 
         case 'UPDATE_ARTIFACT_RELICS': {
             let newState = state;
-            newState.artifact.relics = action.relics;
-            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
+            newState.artifact.relics = action.data;
             return Object.assign({}, state, newState);
         }
 
         case 'UPDATE_SPEC': {
-            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
             return Object.assign({}, state, {
-                active: action.spec
+                active: action.data
             });
         }
 
         case 'UPDATE_TALENTS': {
             let newState = state;
-            newState.talents.current = action.talents;
-            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
+            newState.talents.current = action.data;
             return Object.assign({}, state, newState);
         }
     }
 
     return state;
 };
+
+// Thunk for calling the events in the character reducer. Using this to dispatch events
+// into the character reducer will also make a call to the engine to update that data.
+export function updateCharacterState(event, data)
+{
+    return function(dispatch) {
+        dispatch({type: event, data: data})
+        dispatch(getEngineData());
+    }
+}
 
 const settingsReducer = function (state = {}, action) {
 
@@ -80,7 +59,6 @@ const settingsReducer = function (state = {}, action) {
             newcurrent[action.setting] = action.value;
             let newstate = Object.assign({}, state);
             newstate.current = newcurrent;
-            action.asyncDispatch({ type: 'GET_ENGINE_DATA' });
             return newstate;
         }
 
@@ -112,6 +90,15 @@ const settingsReducer = function (state = {}, action) {
 
     return state;
 };
+
+export function changeSetting(setting) {
+    return function(dispatch) {
+        dispatch({type: 'CHANGE_SETTING',
+                  setting: setting.setting,
+                  value: setting.value})
+        dispatch(getEngineData());
+    }
+}
 
 const initialEngineState = {
 
@@ -200,20 +187,45 @@ const initialEngineState = {
 const engineReducer = function (state = initialEngineState, action) {
 
     switch (action.type) {
-        case 'GET_ENGINE_DATA':
-            fetch('/engine')
-                .then(r => r.json())
-                .then(r => action.asyncDispatch({
-                    type: 'SET_ENGINE_STATE', response: r
-                }));
-            return Object.assign({}, state, action.response);
-
         case 'SET_ENGINE_STATE':
+            console.log(action.response)
             return Object.assign({}, state, action.response);
     }
 
     return state;
 };
+
+function checkStatus(response) {
+    if (response.status >= 200 && response.status < 300) {
+        return response
+    } else {
+        var error = new Error(response.statusText)
+        error.response = response
+        throw error
+    }
+}
+
+function getEngineData(character, settings) {
+    // TODO: this needs error handling
+    return function(dispatch, getState) {
+        const state = getState();
+        
+        fetch('/engine', {
+            method: 'POST',
+            body: JSON.stringify({
+                character: state.character,
+                settings: state.settings.current
+            }),                
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(checkStatus)
+            .then(r => r.json())
+            .then(r => dispatch({type: 'SET_ENGINE_STATE', response: r}))
+            .catch(ex => console.log(ex));
+    }
+}
 
 const initialWarningsState = {
     warnings: [
@@ -244,5 +256,5 @@ const reducers = combineReducers({
 });
 
 // Build the store
-const store = createStore(reducers, applyMiddleware(asyncDispatchMiddleware));
+const store = createStore(reducers, applyMiddleware(thunk));
 export default store;

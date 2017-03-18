@@ -4,8 +4,7 @@ import store from '../store';
 export default class DropDown extends React.Component {
 
     onChange(e) {
-        store.dispatch({
-            type: 'CHANGE_SETTING',
+        store.changeSetting({
             setting: e.currentTarget.id,
             value: e.currentTarget.value
         });
