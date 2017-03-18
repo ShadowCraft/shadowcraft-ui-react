@@ -1,4 +1,4 @@
-# shadowcraft-ui-python
+# shadowcraft-ui-react
 
 ## Requires
 
