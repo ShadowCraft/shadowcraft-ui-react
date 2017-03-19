@@ -166,6 +166,7 @@ def __get_from_armory(db, character, realm, region):
             'icon': slot_item['icon'],
             'item_level': slot_item['itemLevel'],
             'gems': [],
+            'stats': {},
             'bonuses': slot_item['bonusLists'],
             'context': slot_item['context'],
             'quality': slot_item['quality'],
@@ -191,6 +192,20 @@ def __get_from_armory(db, character, realm, region):
                         })
                 else:
                     info['gems'].append(tooltip[tooltip_item])
+
+        # Convert the stats from the numeric index to a text one
+        for stat_entry in slot_item['stats']:
+            stat = ArmoryConstants.STAT_LOOKUP[stat_entry['stat']]
+            if stat not in info['stats']:
+                info['stats'][stat] = 0
+            info['stats'][stat] += stat_entry['amount']
+
+        # If this is a weapon, add the weapon stats to the stat block as well
+        if 'weaponInfo' in slot_item:
+            info['stats']['min_dmg'] = slot_item['weaponInfo']['damage']['exactMin']
+            info['stats']['max_dmg'] = slot_item['weaponInfo']['damage']['exactMax']
+            info['stats']['speed'] = slot_item['weaponInfo']['weaponSpeed']
+            info['stats']['dps'] = slot_item['weaponInfo']['dps']
 
         # We squash all of the world quest contexts down into one.
         # TODO: why are we doing this again? something about the data being the
