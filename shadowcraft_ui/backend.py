@@ -541,7 +541,7 @@ class ShadowcraftComputation:
             out["stats"] = calculator.stats.get_character_stats(calculator.race)
             # Filter interesting stats
             out["stats"]["agility"] = out["stats"]["agi"]
-            out['stats'] = {k:out['stats'] for k in ['agility', 'crit', 'versatility', 'mastery', 'haste']}
+            out['stats'] = {k:out['stats'][k] for k in ['agility', 'crit', 'versatility', 'mastery', 'haste']}
 
             # Get EP Values
             default_ep_stats = ['agi', 'haste', 'crit', 'mastery', 'versatility', 'ap']
