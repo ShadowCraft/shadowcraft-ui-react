@@ -16,9 +16,9 @@ class RightPane extends React.Component {
         return (
             <div style={{ flex: 1}}>
                 <div id="console-footer" className="awin-medium">
-                  <a className="pandaren" href={`http://${this.props.data.region}.battle.net/wow/en/character/${this.props.data.realm}/${this.props.data.name}/advanced`} id="card" target="_blank">
+                  <a className="pandaren" href={`http://${this.props.region}.battle.net/wow/en/character/${this.props.realm}/${this.props.name}/advanced`} id="card" target="_blank">
                     <div className="img">
-                      <img src={this.props.data.portrait}/>
+                      <img src={this.props.portrait}/>
                     </div>
                     <span className="info">
                       <span className="name">
@@ -57,7 +57,8 @@ const mapStateToProps = function(store) {
         name: store.character.name,
         region: store.character.region,
         realm: store.character.realm,
-        dps: store.engine.total_dps,
+        portrait: store.character.portrait,
+        dps: store.engine.totalDps,
         warnings: store.warnings.warnings
     };
 };

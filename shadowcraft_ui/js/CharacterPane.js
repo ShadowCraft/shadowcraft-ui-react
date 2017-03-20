@@ -53,7 +53,7 @@ class CharacterPane extends React.Component {
                             </div>
                         </div>
                     </div >
-                    <RightPane data={this.props.data} />
+                    <RightPane />
                 </div>
 
                 <div id="wait" style={{ display: 'none' }}>

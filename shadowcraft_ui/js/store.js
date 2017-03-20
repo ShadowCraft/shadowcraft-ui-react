@@ -182,6 +182,8 @@ const initialEngineState = {
             pct: .20
         }
     ],
+
+    totalDps: 1000.0
 };
 
 const engineReducer = function (state = initialEngineState, action) {
