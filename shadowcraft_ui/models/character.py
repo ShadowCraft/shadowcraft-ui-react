@@ -202,10 +202,11 @@ def __get_from_armory(db, character, realm, region):
 
         # If this is a weapon, add the weapon stats to the stat block as well
         if 'weaponInfo' in slot_item:
-            info['stats']['min_dmg'] = slot_item['weaponInfo']['damage']['exactMin']
-            info['stats']['max_dmg'] = slot_item['weaponInfo']['damage']['exactMax']
-            info['stats']['speed'] = slot_item['weaponInfo']['weaponSpeed']
-            info['stats']['dps'] = slot_item['weaponInfo']['dps']
+            info['weaponStats'] = {}
+            info['weaponStats']['min_dmg'] = slot_item['weaponInfo']['damage']['exactMin']
+            info['weaponStats']['max_dmg'] = slot_item['weaponInfo']['damage']['exactMax']
+            info['weaponStats']['speed'] = slot_item['weaponInfo']['weaponSpeed']
+            info['weaponStats']['dps'] = slot_item['weaponInfo']['dps']
 
         # We squash all of the world quest contexts down into one.
         # TODO: why are we doing this again? something about the data being the

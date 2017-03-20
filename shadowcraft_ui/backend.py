@@ -1,10 +1,5 @@
 import traceback
-
-# Add the path to the engine to the PYTHONPATH here so that we can import modules from it
-# directly without doing screwy pathing.
-import sys
-from os import path
-sys.path.append(path.abspath(path.join(path.dirname(__file__), 'ShadowCraft-Engine')))
+import pymongo
 
 from shadowcraft.calcs.rogue.Aldriana import AldrianasRogueDamageCalculator, settings, InputNotModeledException
 from shadowcraft.objects import buffs
@@ -22,7 +17,6 @@ class ShadowcraftComputation:
         5437: "mark_of_the_claw",
         5438: "mark_of_the_distant_army",
         5439: "mark_of_the_hidden_satyr",
-        0: None
     }
 
     trinkets = {
@@ -253,20 +247,6 @@ class ShadowcraftComputation:
         19: 'wand'
     }
 
-    buffMap = [
-        'short_term_haste_buff',
-        'flask_wod_agi',
-    ]
-
-    buffFoodMap = [
-        'food_legion_crit_375',
-        'food_legion_haste_375',
-        'food_legion_mastery_375',
-        'food_legion_versatility_375',
-        'food_legion_feast_200',
-        'food_legion_damage_3'
-    ]
-
     validCycleKeys = [[
           'kingsbane_with_vendetta',
           'exsang_with_vendetta',
@@ -295,16 +275,13 @@ class ShadowcraftComputation:
 
         return total
 
-    def weapon(self, input, index):
-        i = input.get(index, [])
-        if len(i) < 4:
+    def weapon(self, gear_data, slot):
+        if slot not in gear_data or gear_data[slot] is None or len(gear_data[slot]) == 0:
             return stats.Weapon(0.01, 2, None, None)
 
-        speed = float(i[0])
-        dmg = float(i[1])
-        subclass = self.subclassMap.get(i[3], None)
-        enchant = self.enchantMap.get( i[2], None )
-        return stats.Weapon(dmg, speed, subclass, enchant)
+        speed = float(gear_data[slot]['weaponStats']['speed'])
+        dmg = float(gear_data[slot]['weaponStats']['dps']) * speed
+        return stats.Weapon(dmg, speed, None, None)
 
     def convert_bools(self, dict):
         for k in dict:
@@ -314,129 +291,133 @@ class ShadowcraftComputation:
                 dict[k] = True
         return dict
 
-    def setup(self, input_data):
-        gear_data = input_data.get("g", [])
-        gear = frozenset([x[0] for x in gear_data])
+    def setup(self, db, input_data, gear_data, gear_stats, gear_ids):
 
         i18n.set_language('local')
 
         # Base
-        _level = int(input_data.get("l", 100))
-        _level = 110
+        _level = int(input_data['character'].get("level", 110))
 
         # Buffs
         buff_list = []
-        __max = len(self.buffMap)
-        for b in input_data.get("b", []):
-            b = int(b)
-            if b >= 0 and b < __max:
-                buff_list.append(self.buffMap[b])
-
-        # Buff Food
-        buff_list.append(self.buffFoodMap[input_data.get("bf", 0)])
+        if input_data['settings'].get('buffs.flask_legion_agi', False):
+            buff_list.append('flask_wod_agi')
+        if input_data['settings'].get('buffs.short_term_haste_buff', False):
+            buff_list.append('short_term_haste_buff')
+        buff_list.append(input_data['settings']['buffs.food_buff'])
 
         _buffs = buffs.Buffs(*buff_list, level=_level)
-
-        # ##################################################################################
-        # Weapons
-        _mh = self.weapon(input_data, 'mh')
-        _oh = self.weapon(input_data, 'oh')
-        # ##################################################################################
 
         # ##################################################################################
         # Set up gear buffs.
         buff_list = ['gear_specialization']
 
-        if len(self.tier18IDs & gear) >= 2:
+        if len(self.tier18IDs & gear_ids) >= 2:
             buff_list.append('rogue_t18_2pc')
 
-        if len(self.tier18IDs & gear) >= 4:
+        if len(self.tier18IDs & gear_ids) >= 4:
             buff_list.append('rogue_t18_4pc')
 
-        if len(self.tier18LFRIDs & gear) >= 4:
+        if len(self.tier18LFRIDs & gear_ids) >= 4:
             buff_list.append('rogue_t18_4pc_lfr')
 
-        if len(self.tier19IDs & gear) >= 2:
+        if len(self.tier19IDs & gear_ids) >= 2:
             buff_list.append('rogue_t19_2pc')
 
-        if len(self.tier19IDs & gear) >= 4:
+        if len(self.tier19IDs & gear_ids) >= 4:
             buff_list.append('rogue_t19_4pc')
 
-        if len(self.orderhallIDs & gear) >= 6:
+        if len(self.orderhallIDs & gear_ids) >= 6:
             buff_list.append('rogue_orderhall_6pc')
 
-        if len(self.orderhallIDs & gear) == 8:
+        if len(self.orderhallIDs & gear_ids) == 8:
             buff_list.append('rogue_orderhall_8pc')
 
-        if len(self.marchOfTheLegionIDs & gear) == 2:
+        if len(self.marchOfTheLegionIDs & gear_ids) == 2:
             buff_list.append('march_of_the_legion_2pc')
 
-        if len(self.journeyThroughTimeIDs & gear) == 2:
+        if len(self.journeyThroughTimeIDs & gear_ids) == 2:
             buff_list.append('journey_through_time_2pc')
 
-        if len(self.jacinsRuseIDs & gear) == 2:
+        if len(self.jacinsRuseIDs & gear_ids) == 2:
             buff_list.append('jacins_ruse_2pc')
 
-        if len(self.toeKneesIDs & gear) == 2 or len(self.bloodstainedIDs & gear) == 2 or len(self.eyeOfCommandIDs & gear) == 2:
+        if len(self.toeKneesIDs & gear_ids) == 2 or len(self.bloodstainedIDs & gear_ids) == 2 or len(self.eyeOfCommandIDs & gear_ids) == 2:
             buff_list.append('kara_empowered_2pc')
 
-        for k,v in self.gearBoosts.items():
-            if k in gear:
-                buff_list.append(v)
+        for item_id, item_name in self.gearBoosts.items():
+            if item_id in gear_ids:
+                buff_list.append(item_name)
 
         _gear_buffs = stats.GearBuffs(*buff_list)
 
         # ##################################################################################
-        # Trinket procs
+        # Trinket procs and enchants
         proclist = []
-        for k in self.gearProcs:
-            if k in gear:
-                for gd in gear_data:
-                    if gd[0] == k:
-                        proclist.append((self.gearProcs[k],gd[1]))
-                        if gd[0] == 133597:
-                            proclist.append(('infallible_tracking_charm_mod', gd[1]))
-                        break
+        for slot, item in gear_data.items():
+            item_id = item['id']
+            if item_id in self.gearProcs:
+                proclist.append((self.gearProcs[item_id], item['item_level']))
+                if item_id == 133597:
+                    proclist.append(('infallible_tracking_charm_mod', gd[1]))
 
-        if input_data.get("l", 0) > 90:
-            if input_data.get("prepot", 0) == 1:
-                proclist.append('draenic_agi_prepot')
-            if input_data.get("pot", 0) == 1:
-                proclist.append('draenic_agi_pot')
+            enchant = item['enchant']
+            if enchant != 0:
 
-        # Add enchant procs to the list of gear buffs
-        for k in gear_data:
-            if k[2] != 0 and k[2] in self.enchantMap:
-                proclist.append(self.enchantMap[k[2]])
+                # Look up this enchant from the database to determine whether it has a stat
+                # component to it.
+                results = db.enchants.find({'spell_id': enchant})
+                if results.count() != 0:
+                    for stat, value in results[0]['stats'].items():
+                        if stat not in gear_stats:
+                            gear_stats[stat] = 0
+                        gear_stats[stat] += value
 
+                # Also if this is a proc-based enchant, add it to the proclist
+                if enchant in self.enchantMap:
+                    proclist.append(self.enchantMap[enchant])
+
+        pot = input_data['settings'].get('buffs.pot', 'potion_none')
+        if pot != 'potion_none':
+            proclist.append(pot)
+
+        prepot = input_data['settings'].get('buffs.prepot', 'potion_none')
+        if prepot != 'potion_none':
+            proclist.append(prepot)
+
+        # TODO: this doesn't like our new settings for potions
         _procs = procs.ProcsList(*proclist)
+
+        # ##################################################################################
+        # Weapons
+        _mh = self.weapon(gear_data, 'mainHand')
+        _oh = self.weapon(gear_data, 'offHand')
+        # ##################################################################################
 
         # ##################################################################################
         # Player stats
         # Need parameter order here
         # str, agi, int, spi, sta, ap, crit, hit, exp, haste, mastery, mh, oh, thrown, procs, gear buffs
-        raceStr = input_data.get("r", 'human').lower().replace(" ", "_")
-        _race = race.Race(raceStr, 'rogue', _level)
-
-        s = input_data.get("sta", {})
-        _opt = input_data.get("settings", {})
-        duration = int(_opt.get("duration", 300))
+        raceStr = input_data['settings'].get("race", 'human').lower().replace(" ", "_")
+        _class = input_data['character'].get('player_class', 'rogue')
+        _race = race.Race(raceStr, _class, _level)
 
         _stats = stats.Stats(
             mh=_mh, oh=_oh, procs=_procs, gear_buffs=_gear_buffs,
-            str=s[0],             # Str
-            agi=s[1],             # AGI
-            int=0,
-            stam=0,
-            ap=s[2],              # AP
-            crit=s[3],            # Crit
-            haste=s[4],           # Haste
-            mastery=s[5],         # Mastery
-            versatility=s[6],     # Versatility
+            str=gear_stats.get('strength', 0),
+            agi=gear_stats.get('agility', 0),
+            int=gear_stats.get('intellect', 0),
+            stam=gear_stats.get('stamina', 0),
+            ap=0,
+            crit=gear_stats.get('crit', 0),
+            haste=gear_stats.get('haste', 0),
+            mastery=gear_stats.get('mastery', 0),
+            versatility=gear_stats.get('versatility', 0),
             level=_level)
+        
         # ##################################################################################
 
-        _spec = input_data.get("spec", 'a')
+        _spec = input_data['character'].get("active", 'a')
         if _spec == "a":
             tree = 0
             spec = "assassination"
@@ -448,33 +429,40 @@ class ShadowcraftComputation:
             spec = "subtlety"
 
         # Talents
-        t = input_data.get("t", '')
-        _talents = talents.Talents(t, spec, "rogue", _level)
+        t = input_data['character']['talents']['current']
+        _talents = talents.Talents(t, spec, _class, _level)
 
-        rotation_keys = input_data.get("ro", {})
-        rotation_options = dict( (key.encode('ascii'), val) for key, val in self.convert_bools(input_data.get("ro", {})).items() if key in self.validCycleKeys[tree] )
-
+        _opt = input_data['settings']
+        rotation_keys = [x for x in _opt if x.startswith('rotation') and x.find(spec) != -1]
+        existing_options = {key:_opt[key] for key in rotation_keys}
+        rotation_options = {}
+        for key, value in existing_options.items():
+            new_key = key.split('.')[-1]
+            rotation_options[new_key] = value
+            
         if spec == "outlaw":
             opts = ['jolly_roger_reroll', 'grand_melee_reroll', 'shark_reroll', 'true_bearing_reroll', 'buried_treasure_reroll', 'broadsides_reroll']
 
-            if rotation_options['reroll_policy'] != 'custom':
-                value = int(rotation_options['reroll_policy'])
+            if _opt['rotation.outlaw.reroll_policy'] != 'custom':
+                value = int(_opt['reroll_policy'])
                 for opt in opts:
-                    rotation_options[opt] = value
+                    rotation_options[opt] = int(value)
             else:
                 for opt in opts:
-                    rotation_options[opt] = int(rotation_options[opt])
-            del rotation_options['reroll_policy']
-        elif spec == "subtlety":
-            rotation_options['positional_uptime'] = rotation_options['positional_uptime'] / 100.0
+                    rotation_options[opt] = int(_opt[opt])
+
+        # TODO: this option doesn't exist anymore?
+#        elif spec == "subtlety":
+#            rotation_options['positional_uptime'] = rotation_options['positional_uptime'] / 100.0
 
         settings_options = {}
-        settings_options['num_boss_adds'] = _opt.get("num_boss_adds", 0)
-        settings_options['is_day'] = _opt.get("night_elf_racial", 0) == 1
-        settings_options['is_demon'] = _opt.get("demon_enemy", 0) == 1
-        settings_options['marked_for_death_resets'] = _opt.get("mfd_resets", 0)
-        settings_options['finisher_threshold'] = _opt.get("finisher_threshold", 0)
+        settings_options['num_boss_adds'] = int(_opt.get('general.settings.num_boss_adds', 0))
+        settings_options['is_day'] = _opt.get('general.settings.night_elf_racial', 'day') == 'day'
+        settings_options['marked_for_death_resets'] = int(_opt.get('general.settings.mfd_resets', 0))
+        settings_options['finisher_threshold'] = int(_opt.get("general.settings.finisher_threshold", 0))
 
+        # TODO: this option doesn't exist anymore?
+        settings_options['is_demon'] = _opt.get("demon_enemy", 0) == 1
         if tree == 0:
             _cycle = settings.AssassinationCycle(**rotation_options)
         elif tree == 1:
@@ -483,28 +471,37 @@ class ShadowcraftComputation:
             _cycle = settings.SubtletyCycle(**rotation_options)
             _cycle.cp_builder
         _settings = settings.Settings(_cycle,
-            response_time = _opt.get("response_time", 0.5),
-            duration = duration,
-            latency = _opt.get("latency", 0.03),
-            adv_params = _opt.get("adv_params", ''),
+            response_time = float(_opt.get("general.settings.response_time", 0.5)),
+            duration = int(_opt.get('general.settings.duration', 300)),
+            latency = float(_opt.get("other.latency", 0.03)),
+            adv_params = _opt.get("other.advanced", ''),
             default_ep_stat = 'ap',
             **settings_options
         )
 
-        if len(input_data['art']) == 0:
+        _artifact = input_data['character']['artifact']
+
+        if len(_artifact['traits']) == 0:
             # if no artifact data was passed (probably because the user had the wrong
             # weapons equipped), pass a string of zeros as the trait data.
             _traits = artifact.Artifact(spec, "rogue", "0"*len(artifact_data.traits[("rogue",spec)]))
-        elif len(input_data['art']) == len(artifact_data.traits[("rogue",spec)]):
+        elif len(_artifact['traits']) == len(artifact_data.traits[("rogue",spec)]) - 1:
             traitstr = ""
             remap = {}
-            for k,v in input_data['art'].items():
+            for k,v in _artifact['traits'].items():
                 remap[self.artifactTraits[_spec][int(k)]] = v
+
             for t in artifact_data.traits[("rogue",spec)]:
                 if (t in remap):
                     traitstr += str(remap[t])
+                elif t == 192759:
+                    # TODO: this is temporary. the trait data we get from the UI is missing the
+                    # primary traits for each weapon and it's causing issues. this needs to be
+                    # fixed and the -1 above can be removed then too.
+                    traitstr += "1"
                 else:
                     traitstr += "0"
+
             _traits = artifact.Artifact(spec, "rogue", traitstr)
         else:
             _traits = None
@@ -512,12 +509,29 @@ class ShadowcraftComputation:
         calculator = AldrianasRogueDamageCalculator(_stats, _talents, _traits, _buffs, _race, spec, _settings, _level)
         return calculator
 
-    def get_all(self, input_data):
+    def get_all(self, db, input_data):
         out = {}
         try:
-            calculator = self.setup(input_data)
-            gear_data = input_data.get("g", [])
-            gear = frozenset([x[0] for x in gear_data])
+
+            # We do this here instead of in the setup method because the gear data is needed
+            # in this method too, so just do it and pass it into setup to avoid doing it
+            # twice.
+            gear_data = input_data['character'].get("gear", {})
+            gear_ids = []
+            gear_stats = {}
+            for slot, item in gear_data.items():
+                gear_ids.append(item['id'])
+                
+                # Calculate overall stats as we go
+                for stat, value in item['stats'].items():
+                    if stat not in gear_stats:
+                        gear_stats[stat] = 0
+                    gear_stats[stat] += value
+
+            # Turn this into a frozenset so it can be compared against other frozensets
+            gear_ids = frozenset(gear_ids)
+
+            calculator = self.setup(db, input_data, gear_data, gear_stats, gear_ids)
 
             # Compute DPS Breakdown.
             out["breakdown"] = calculator.get_dps_breakdown()
@@ -527,9 +541,7 @@ class ShadowcraftComputation:
             out["stats"] = calculator.stats.get_character_stats(calculator.race)
             # Filter interesting stats
             out["stats"]["agility"] = out["stats"]["agi"]
-            for key in out["stats"].keys():
-                if key not in ['agility', 'crit', 'versatility', 'mastery', 'haste']:
-                    del out["stats"][key]
+            out['stats'] = {k:out['stats'] for k in ['agility', 'crit', 'versatility', 'mastery', 'haste']}
 
             # Get EP Values
             default_ep_stats = ['agi', 'haste', 'crit', 'mastery', 'versatility', 'ap']
@@ -548,7 +560,7 @@ class ShadowcraftComputation:
 
             out["other_ep"] = calculator.get_other_ep(other_buffs)
 
-            exclude_items = [item for item in gear if item in self.trinkets]
+            exclude_items = [item for item in gear_data if item in self.trinkets]
             exclude_procs = [self.gearProcs[x] for x in exclude_items]
             gear_rankings = calculator.get_upgrades_ep_fast(self.trinketGroups)
 
@@ -582,10 +594,10 @@ class ShadowcraftComputation:
             out["error"] = e.error_msg
             return out
 
-def get_engine_output(input_data):
+def get_engine_output(db, input_data):
     engine = ShadowcraftComputation()
     try:
-        response = engine.get_all(input_data)
+        response = engine.get_all(db, input_data)
     except KeyError as e:
         traceback.print_exc()
         response = {'error': "%s: %s" % (e.__class__, e.args[0])}
@@ -834,12 +846,12 @@ def get_settings():
                     'label': 'Food',
                     'description': '',
                     'type': 'dropdown',
-                    'default': 'food_legion_375_crit',
+                    'default': 'food_legion_crit_375',
                     'options': {
-                        'food_legion_375_crit': 'The Hungry Magister (375 Crit)',
-                        'food_legion_375_haste': 'Azshari Salad (375 Haste)',
-                        'food_legion_375_mastery': 'Nightborne Delicacy Platter (375 Mastery)',
-                        'food_legion_375_versatility': 'Seed-Battered Fish Plate (375 Versatility)',
+                        'food_legion_crit_375': 'The Hungry Magister (375 Crit)',
+                        'food_legion_haste_375': 'Azshari Salad (375 Haste)',
+                        'food_legion_mastery_375': 'Nightborne Delicacy Platter (375 Mastery)',
+                        'food_legion_versatility_375': 'Seed-Battered Fish Plate (375 Versatility)',
                         'food_legion_feast_200': 'Lavish Suramar Feast (200 Agility)',
                         'food_legion_damage_3': 'Fishbrul Special (High Fire Proc)',
                     }
