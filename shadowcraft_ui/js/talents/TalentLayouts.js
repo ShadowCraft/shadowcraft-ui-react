@@ -137,15 +137,15 @@ export const assassination_ranking = [
         items: [
             {
                 name: 'Master Poisoner',
-                id: 196864
+                id: 'master_poisoner'
             },
             {
                 name: 'Elaborate Planning',
-                id: 193640
+                id: 'elaborate_planning'
             },
             {
                 name: 'Hemorrhage',
-                id: 16511
+                id: 'hemorrhage'
             }
         ]
     },
@@ -154,15 +154,15 @@ export const assassination_ranking = [
         items: [
             {
                 name: 'Nightstalker',
-                id: 14062
+                id: 'nightstalker'
             },
             {
                 name: 'Subterfuge',
-                id: 108208
+                id: 'subterfuge'
             },
             {
                 name: 'Shadow Focus',
-                id: 108209
+                id: 'shadow_focus'
             }
         ]
     },
@@ -171,15 +171,15 @@ export const assassination_ranking = [
         items: [
             {
                 name: 'Deeper Stratagem',
-                id: 193531
+                id: 'deeper_stratagem'
             },
             {
                 name: 'Anticipation',
-                id: 114015
+                id: 'anticipation'
             },
             {
                 name: 'Vigor',
-                id: 14983
+                id: 'vigor'
             }
         ]
     },
@@ -188,15 +188,15 @@ export const assassination_ranking = [
         items: [
             {
                 name: 'Leeching Poison',
-                id: 108211
+                id: 'leeching_poison'
             },
             {
                 name: 'Elusiveness',
-                id: 79008
+                id: 'elusiveness'
             },
             {
                 name: 'Cheat Death',
-                id: 31230
+                id: 'cheat_death'
             }
         ]
     },
@@ -205,15 +205,15 @@ export const assassination_ranking = [
         items: [
             {
                 name: 'Thuggee',
-                id: 196861
+                id: 'thuggee'
             },
             {
                 name: 'Prey on the Weak',
-                id: 131511
+                id: 'prey_on_the_weak'
             },
             {
                 name: 'Internal Bleeding',
-                id: 154904
+                id: 'internal_bleeding'
             }
         ]
     },
@@ -222,15 +222,15 @@ export const assassination_ranking = [
         items: [
             {
                 name: 'Agonizing Poison',
-                id: 200802
+                id: 'agonizing_poison'
             },
             {
                 name: 'Alacrity',
-                id: 193539
+                id: 'alacrity'
             },
             {
                 name: 'Exsanguinate',
-                id: 200806
+                id: 'exsanguinate'
             }
         ]
     },
@@ -239,15 +239,15 @@ export const assassination_ranking = [
         items: [
             {
                 name: 'Venom Rush',
-                id: 152152
+                id: 'venom_rush'
             },
             {
                 name: 'Marked for Death',
-                id: 137619
+                id: 'marked_for_death'
             },
             {
                 name: 'Death from Above',
-                id: 152150
+                id: 'death_from_above'
             }
         ]
     }
@@ -392,15 +392,15 @@ export const outlaw_ranking = [
         items: [
             {
                 name: 'Ghostly Strike',
-                id: 196937
+                id: 'ghostly_strike'
             },
             {
                 name: 'Swordmaster',
-                id: 200733
+                id: 'swordmaster'
             },
             {
                 name: 'Quick Draw',
-                id: 196938
+                id: 'quick_draw'
             }
         ]
     },
@@ -409,15 +409,15 @@ export const outlaw_ranking = [
         items: [
             {
                 name: 'Grappling Hook',
-                id: 195457
+                id: 'grappling_hook'
             },
             {
                 name: 'Acrobatic Strikes',
-                id: 196924
+                id: 'acrobatic_strikes'
             },
             {
                 name: 'Hit and Run',
-                id: 196922
+                id: 'hit_and_run'
             }
         ]
     },
@@ -426,15 +426,15 @@ export const outlaw_ranking = [
         items: [
             {
                 name: 'Deeper Stratagem',
-                id: 193531
+                id: 'deeper_stratagem'
             },
             {
                 name: 'Anticipation',
-                id: 114015
+                id: 'anticipation'
             },
             {
                 name: 'Vigor',
-                id: 14983
+                id: 'vigor'
             }
         ]
     },
@@ -443,15 +443,15 @@ export const outlaw_ranking = [
         items: [
             {
                 name: 'Iron Stomach',
-                id: 193546
+                id: 'iron_stomach'
             },
             {
                 name: 'Elusiveness',
-                id: 79008
+                id: 'elusiveness'
             },
             {
                 name: 'Cheat Death',
-                id: 31230
+                id: 'cheat_death'
             }
         ]
     },
@@ -460,15 +460,15 @@ export const outlaw_ranking = [
         items: [
             {
                 name: 'Parley',
-                id: 199743
+                id: 'parley'
             },
             {
                 name: 'Prey on the Weak',
-                id: 131511
+                id: 'prey_on_the_weak'
             },
             {
                 name: 'Dirty Tricks',
-                id: 108216
+                id: 'dirty_tricks'
             }
         ]
     },
@@ -477,15 +477,15 @@ export const outlaw_ranking = [
         items: [
             {
                 name: 'Cannonball Barrage',
-                id: 185767
+                id: 'cannonball_barrage'
             },
             {
                 name: 'Alacrity',
-                id: 193539
+                id: 'alacrity'
             },
             {
                 name: 'Killing Spree',
-                id: 51690
+                id: 'killing_spree'
             }
         ]
     },
@@ -494,15 +494,15 @@ export const outlaw_ranking = [
         items: [
             {
                 name: 'Slice and Dice',
-                id: 5171
+                id: 'slice_and_dice'
             },
             {
                 name: 'Marked for Death',
-                id: 137619
+                id: 'marked_for_death'
             },
             {
                 name: 'Death from Above',
-                id: 152150
+                id: 'death_from_above'
             }
         ]
     }
@@ -647,15 +647,15 @@ export const subtlety_ranking = [
         items: [
             {
                 name: 'Master of Subtlety',
-                id: 31223
+                id: 'master_of_subtlety'
             },
             {
                 name: 'Weaponmaster',
-                id: 193537
+                id: 'weaponmaster'
             },
             {
                 name: 'Gloomblade',
-                id: 200758
+                id: 'gloomblade'
             }
         ]
     },
@@ -664,15 +664,15 @@ export const subtlety_ranking = [
         items: [
             {
                 name: 'Nightstalker',
-                id: 14062
+                id: 'nightstalker'
             },
             {
                 name: 'Subterfuge',
-                id: 108208
+                id: 'subterfuge'
             },
             {
                 name: 'Shadow Focus',
-                id: 108209
+                id: 'shadow_focus'
             }
         ]
     },
@@ -681,15 +681,15 @@ export const subtlety_ranking = [
         items: [
             {
                 name: 'Deeper Stratagem',
-                id: 193531
+                id: 'deeper_stratagem'
             },
             {
                 name: 'Anticipation',
-                id: 114015
+                id: 'anticipation'
             },
             {
                 name: 'Vigor',
-                id: 14983
+                id: 'vigor'
             }
         ]
     },
@@ -698,15 +698,15 @@ export const subtlety_ranking = [
         items: [
             {
                 name: 'Soothing Darkness',
-                id: 200759
+                id: 'soothing_darkness'
             },
             {
                 name: 'Elusiveness',
-                id: 79008
+                id: 'elusiveness'
             },
             {
                 name: 'Cheat Death',
-                id: 31230
+                id: 'cheat_death'
             }
         ]
     },
@@ -715,15 +715,15 @@ export const subtlety_ranking = [
         items: [
             {
                 name: 'Strike from the Shadows',
-                id: 196951
+                id: 'strike_from_the_shadows'
             },
             {
                 name: 'Prey on the Weak',
-                id: 131511
+                id: 'prey_on_the_weak'
             },
             {
                 name: 'Tangled Shadow',
-                id: 200778
+                id: 'tangled_shadow'
             }
         ]
     },
@@ -732,15 +732,15 @@ export const subtlety_ranking = [
         items: [
             {
                 name: 'Premeditation',
-                id: 196979
+                id: 'premeditation'
             },
             {
                 name: 'Alacrity',
-                id: 193539
+                id: 'alacrity'
             },
             {
                 name: 'Enveloping Shadows',
-                id: 206237
+                id: 'enveloping_shadows'
             }
         ]
     },
@@ -749,15 +749,15 @@ export const subtlety_ranking = [
         items: [
             {
                 name: 'Master of Shadows',
-                id: 196976
+                id: 'master_of_shadows'
             },
             {
                 name: 'Marked for Death',
-                id: 137619
+                id: 'marked_for_death'
             },
             {
                 name: 'Death from Above',
-                id: 152150
+                id: 'death_from_above'
             }
         ]
     }

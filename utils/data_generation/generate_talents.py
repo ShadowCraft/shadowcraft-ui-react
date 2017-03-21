@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 # This script generates talent data from wowhead. It generally shouldn't be necessary
 # once an expansion is released because we usually get talent data from the Blizzard
 # API and use that instead. The output from this script should be copied into
@@ -137,8 +135,8 @@ elif sys.argv[1] == '--blizzard':
     for spec in talent_data:
         data = talent_data[spec]
         print('export const %s_layout = {' % specs[spec])
-        print('    name: "%s",' % data['name'])
-        print('    icon: "%s",' % data['icon'])
+        print('    name: \'%s\',' % data['name'])
+        print('    icon: \'%s\',' % data['icon'])
         print('    talents: [')
 
         data['talents'] = sorted(data['talents'], key = lambda x: (x['row'], x['col']))
@@ -146,26 +144,26 @@ elif sys.argv[1] == '--blizzard':
             print('        {')
             print('            row: %d,' % talent['row'])
             print('            col: %d,' % talent['col'])
-            print('            icon: "%s",' % talent['icon'])
+            print('            icon: \'%s\',' % talent['icon'])
             print('            id: %d' % talent['id'])
             if talent_idx != (len(data['talents'])-1):
                 print('        },')
             else:
                 print('        }')
         print('    ]')
-        print('}')
+        print('};')
         print()
 
         print('export const %s_ranking = [' % specs[spec])
         for tier in range(0, 7):
             talents = [x for x in data['talents'] if x['row'] == tier]
             print('    {')
-            print('        name: "%s",' % tiers[tier])
+            print('        name: \'%s\',' % tiers[tier])
             print('        items: [')
             for talent_idx, talent in enumerate(talents):
                 print('            {')
-                print('                name: "%s",' % talent['name'])
-                print('                id: %d' % talent['id'])
+                print('                name: \'%s\',' % talent['name'])
+                print('                id: \'%s\'' % talent['name'].lower().replace(' ', '_'))
                 if talent_idx != (len(talents)-1):
                     print('            },')
                 else:
@@ -176,5 +174,5 @@ elif sys.argv[1] == '--blizzard':
                 print('    },')
             else:
                 print('    }')
-        print(']')
+        print('];')
         print()
