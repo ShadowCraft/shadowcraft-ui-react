@@ -18,7 +18,7 @@ class AdvancedPane extends React.Component {
                 <div className="panel-tools">
                     <section id="dpsbreakdown">
                         <h3>DPS Breakdown</h3>
-                        <BreakdownList list={this.props.breakdown} />
+                        <BreakdownList list={this.props.breakdown} max={this.props.dps} />
                     </section>
                     <section id="engineinfo">
                         <h3>Version Info</h3>
@@ -42,7 +42,8 @@ const mapStateToProps = function (store) {
         active_spec: store.character.active,
         ui_build: store.engine.ui_build,
         engine_build: store.engine.build,
-        breakdown: store.engine.dps_breakdown,
+        breakdown: store.engine.breakdown,
+        dps: store.engine.totalDps,
         layout: store.settings.layout,
     };
 };

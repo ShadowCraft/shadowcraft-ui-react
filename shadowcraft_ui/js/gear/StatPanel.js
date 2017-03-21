@@ -1,41 +1,58 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import store from '../store';
+
 import StatPanelElement from './StatPanelElement';
 import StatPanelButton from './StatPanelButton';
 
+function round3(val) {
+    return Math.round(val * 1000.0) / 1000.0;
+}
 
-export default class StatPane extends React.Component {
+class StatPane extends React.Component {
     render() {
-        // console.log(this.props.stats);
+
+        var spec;
+        if (this.props.spec == 'a') {
+            spec = 'Assassination';
+        }
+        else if (this.props.spec == 'Z') {
+            spec = 'Outlaw';
+        }
+        else if (this.props.spec == 'b') {
+            spec = 'Subtlety';
+        }
+
         return (
             <div className="panel-tools">
                 <section id="summary">
                     <h3>Summary</h3>
                     <div className="inner">
-                        <StatPanelElement name="Engine" value="7.0" />
-                        <StatPanelElement name="Spec" value="Assassination" />
+                        <StatPanelElement name="Engine" value={this.props.engine_target} />
+                        <StatPanelElement name="Spec" value={spec} />
                         <StatPanelElement name="Boss Adds" value="0" />
                     </div>
                 </section>
                 <section className="clearfix" id="stats">
                     <h3>Gear Stats</h3>
                     <div className="inner">
-                        <StatPanelElement name="Agility" value={this.props.stats.agi} />
-                        <StatPanelElement name="Crit" value={this.props.stats.critRating} />
-                        <StatPanelElement name="Haste" value={this.props.stats.hasteRating} />
-                        <StatPanelElement name="Mastery" value={this.props.stats.masteryRating} />
-                        <StatPanelElement name="Versatility" value={this.props.stats.versatility} />
+                        <StatPanelElement name="Agility" value={Math.round(this.props.stats.agility)} />
+                        <StatPanelElement name="Crit" value={Math.round(this.props.stats.crit)} />
+                        <StatPanelElement name="Haste" value={Math.round(this.props.stats.haste)} />
+                        <StatPanelElement name="Mastery" value={Math.round(this.props.stats.mastery)} />
+                        <StatPanelElement name="Versatility" value={Math.round(this.props.stats.versatility)} />
                     </div>
                 </section>
                 <section id="weights">
                     <h3>Stat Weights</h3>
                     <div className="inner">
-                        <StatPanelElement name="Agility" value={this.props.weights.agi} />
-                        <StatPanelElement name="Versatility" value={this.props.weights.versatility} />
-                        <StatPanelElement name="Crit" value={this.props.weights.crit} />
-                        <StatPanelElement name="Mastery" value={this.props.weights.mastery} />
-                        <StatPanelElement name="Haste" value={this.props.weights.haste} />
-                        <StatPanelElement name="Mainhand DPS" value={this.props.weights.mainHand} />
-                        <StatPanelElement name="Offhand DPS" value={this.props.weights.offHand} />
+                        <StatPanelElement name="Agility" value={round3(this.props.weights.agi)} />
+                        <StatPanelElement name="Versatility" value={round3(this.props.weights.versatility)} />
+                        <StatPanelElement name="Crit" value={round3(this.props.weights.crit)} />
+                        <StatPanelElement name="Mastery" value={round3(this.props.weights.mastery)} />
+                        <StatPanelElement name="Haste" value={round3(this.props.weights.haste)} />
+                        <StatPanelElement name="Mainhand DPS" value={round3(this.props.mh_ep)} />
+                        <StatPanelElement name="Offhand DPS" value={round3(this.props.oh_ep)} />
                     </div>
                 </section>
                 <section>
@@ -51,3 +68,15 @@ export default class StatPane extends React.Component {
         );
     }
 }
+
+const mapStateToProps = function(store) {
+    return {
+        stats: store.engine.stats,
+        weights: store.engine.ep,
+        mh_ep: store.engine.mh_ep.mh_dps,
+        oh_ep: store.engine.oh_ep.oh_dps,
+        engine_target: store.engine.engine_info.wow_build_target,
+        spec: store.character.active
+    };
+};
+export default connect(mapStateToProps)(StatPane);

@@ -1,11 +1,19 @@
 import React from 'react';
 
+function round1(val) {
+    var newVal = Math.round(val * 10.0) / 10.0;
+    if (isNaN(newVal)) {
+        newVal = 0;
+    }
+    return newVal;
+}
+
 function Ranking(props) {
     return (
         <div className="talent_contribute" id={"talent-weight-"+props.id}>
             <div className="name">{props.name}</div>
             <div className="pct">
-                <div className="label">{props.label}</div>
+                <div className="label">{round1(props.label)}</div>
                 <div className="pct-inner" style={{ width: props.pct }}></div>
             </div>
         </div>

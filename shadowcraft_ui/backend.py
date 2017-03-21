@@ -228,53 +228,6 @@ class ShadowcraftComputation:
     bloodstainedIDs = frozenset([142159, 142203])
     eyeOfCommandIDs = frozenset([142167, 142203])
 
-    subclassMap = {
-    -1: None,
-        0: '1h_axe',
-        1: '2h_axe',
-        2: 'bow',
-        3: 'gun',
-        4: '1h_mace',
-        5: '2h_mace',
-        6: 'polearm',
-        7: '1h_sword',
-        8: '2h_sword',
-        10: 'staff',
-        13: 'fist',
-        15: 'dagger',
-        16: 'thrown',
-        18: 'crossbow',
-        19: 'wand'
-    }
-
-    validCycleKeys = [[
-          'kingsbane_with_vendetta',
-          'exsang_with_vendetta',
-          'cp_builder',
-      ], [
-          'blade_flurry',
-          'between_the_eyes_policy',
-          'jolly_roger_reroll',
-          'grand_melee_reroll',
-          'shark_reroll',
-          'true_bearing_reroll',
-          'buried_treasure_reroll',
-          'broadsides_reroll',
-          'reroll_policy'
-      ], [
-          'cp_builder',
-          'positional_uptime',
-          'symbols_policy',
-          'dance_finishers_allowed',
-      ]]
-
-    def sumstring(self, x):
-        total=0
-        for letter in str(x):
-            total += int(letter)
-
-        return total
-
     def weapon(self, gear_data, slot):
         if slot not in gear_data or gear_data[slot] is None or len(gear_data[slot]) == 0:
             return stats.Weapon(0.01, 2, None, None)
@@ -282,14 +235,6 @@ class ShadowcraftComputation:
         speed = float(gear_data[slot]['weaponStats']['speed'])
         dmg = float(gear_data[slot]['weaponStats']['dps']) * speed
         return stats.Weapon(dmg, speed, None, None)
-
-    def convert_bools(self, dict):
-        for k in dict:
-            if dict[k] == "false":
-                dict[k] = False
-            elif dict[k] == "true":
-                dict[k] = True
-        return dict
 
     def setup(self, db, input_data, gear_data, gear_stats, gear_ids):
 
@@ -535,7 +480,7 @@ class ShadowcraftComputation:
 
             # Compute DPS Breakdown.
             out["breakdown"] = calculator.get_dps_breakdown()
-            out["total_dps"] = sum(entry[1] for entry in out["breakdown"].items())
+            out["totalDps"] = sum(entry[1] for entry in out["breakdown"].items())
 
             # Get character stats used for calculation (should equal armory)
             out["stats"] = calculator.stats.get_character_stats(calculator.race)
@@ -575,19 +520,22 @@ class ShadowcraftComputation:
               out["mh_type_ep"], out["oh_type_ep"] = calculator.get_weapon_type_ep()
 
             # Talent ranking is slow. This is done last per a note from nextormento.
-            out["talent_ranking"] = calculator.get_talents_ranking()
+            talents = calculator.get_talents_ranking()
+            out['talentRanking'] = {}
+            for tier, values in talents.items():
+                out['talentRanking'].update(values)
 
             out["engine_info"] = calculator.get_engine_info()
 
             # Get the artifact ranking and change the IDs from the engine back to
             # the item IDs using the artifactMap data.
             artifactRanks = calculator.get_trait_ranking()
-            out["artifact_ranking"] = {}
+            out["traitRanking"] = {}
             for trait,spell_id in self.artifactTraitsReverse[_spec].items():
                 if trait in artifactRanks:
-                    out['artifact_ranking'][spell_id] = artifactRanks[trait]
+                    out['traitRanking'][spell_id] = round(artifactRanks[trait], 2)
                 else:
-                    out['artifact_ranking'][spell_id] = 0
+                    out['traitRanking'][spell_id] = 0
 
             return out
         except (InputNotModeledException, exceptions.InvalidInputException) as e:

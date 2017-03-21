@@ -105,85 +105,38 @@ const initialEngineState = {
     ui_build: "7.1.5-UI-Test",
     build: "7.1.5-Test",
 
-    // This is just temporary, but sidebar ranking does actually work
-    // without the data there (it just displays all zero).
-    talentRanking: {
-        16511: 22367.17,
-        193640: 19529.94,
-        196864: 14410.1,
-        14062: 0,
-        108208: 0,
-        108209: 0,
-        193531: 12215.65,
-        14983: 7316.87,
-        114015: 5557.31,
-        108211: 0,
-        31230: 0,
-        79008: 0,
-        131511: 0,
-        196861: 0,
-        154094: 0,
-        200806: 42383.59,
-        193539: 40205.04,
-        200802: 29827.76,
-        152152: 12107.6,
-        152150: 9754.46,
-        137619: 3313.58,
+    // TODO: I'm not a huge fan of hard-coding the layout of the data we get back
+    // from the engine here like this, but I don't know if requesting it from the
+    // backend or engine is any better.
+    ep: {
+        agi: 0,
+        crit: 0,
+        crit: 0,
+        haste: 0,
+        mastery: 0,
+        versatility: 0
     },
-    traitRanking: {
-        192657: 21135.69,
-        192923: 19508.73,
-        192428: 10685.3,
-        214368: 6580.27,
-        192759: 4743.23,
-        192384: 3245.69,
-        192329: 2748.73,
-        192315: 2064.07,
-        192349: 1742.83,
-        214928: 1358.92,
-        192326: 1329.21,
-        192424: 764.37,
-        192376: 749.16,
-        192310: 725.06,
-        192318: 374.58,
-        192323: 0,
-        192345: 0,
-        192422: 0,
+    mh_ep: {
+        mh_dps: 0
+    },
+    oh_ep: {
+        oh_dps: 0
+    },
+    stats: {
+        agility: 0,
+        crit: 0,
+        haste: 0,
+        mastery: 0,
+        versatility: 0
+    },
+    engine_info: {
+        wow_build_target: ''
     },
 
-    dps_breakdown: [
-        {
-            name: 'Serrate',
-            dps: 123124,
-            pct: .15
-        },
-        {
-            name: 'Stab',
-            dps: 325643,
-            pct: .25
-        }, {
-            name: 'Slit',
-            dps: 123124,
-            pct: .5
-        },
-        {
-            name: 'Shiv',
-            dps: 325643,
-            pct: .30
-        },
-        {
-            name: 'Slice',
-            dps: 123124,
-            pct: .10
-        },
-        {
-            name: 'Slash',
-            dps: 325643,
-            pct: .20
-        }
-    ],
-
-    totalDps: 1000.0
+    talentRanking: {},
+    traitRanking: {},
+    dps_breakdown: []
+    totalDps: 0.0
 };
 
 const engineReducer = function (state = initialEngineState, action) {
