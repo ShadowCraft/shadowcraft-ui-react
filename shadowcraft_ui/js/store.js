@@ -207,7 +207,7 @@ function checkStatus(response) {
     }
 }
 
-function getEngineData(character, settings) {
+export function getEngineData() {
     // TODO: this needs error handling
     return function(dispatch, getState) {
         const state = getState();

@@ -1,8 +1,10 @@
 import React from 'react';
 import Tabs from 'react-simpletabs-alt';
 import { connect } from 'react-redux';
-import store from './store';
 import 'whatwg-fetch';
+
+import store from './store';
+import { getEngineData } from './store';
 
 import GearPane from './gear/GearPane';
 import TalentPane from './talents/TalentPane';
@@ -11,18 +13,26 @@ import AdvancedPane from './advanced/AdvancedPane';
 import DocsPane from './DocsPane';
 import RightPane from './RightPane';
 
-class CharacterPane extends React.Component {
-    // hold on to your butts
-
-    componentWillMount() {
-        store.dispatch({type: 'RESET_CHARACTER_DATA', data: this.props.data});
+function setInitialCharacterData(chardata)
+{
+    return function(dispatch) {
+        dispatch({type: 'RESET_CHARACTER_DATA', data: chardata});
 
         fetch('/settings')
             .then(function(response) {
                 return response.json();
             }).then(function(json) {
-                store.dispatch({type: 'SETTINGS_LAYOUT', data: json});
+                dispatch({type: 'SETTINGS_LAYOUT', data: json});
+                dispatch(getEngineData());
             });
+    }
+}
+
+class CharacterPane extends React.Component {
+    // hold on to your butts
+
+    componentWillMount() {
+        store.dispatch(setInitialCharacterData(this.props.data));
     }
 
     render() {
