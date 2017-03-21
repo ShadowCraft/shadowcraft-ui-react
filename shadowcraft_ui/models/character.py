@@ -258,6 +258,17 @@ def __get_from_armory(db, character, realm, region):
             trait_id = 197241
         output['artifact']['traits'][str(trait_id)] = trait['rank']
 
+    # Make sure that the primary trait for every spec is present in the character data. It
+    # doesn't come over in the data from Blizzard. Just set it to one, because honestly who
+    # is going to load a weapon with no traits in it? If they do, they can just deal with it
+    # not showing up right.
+    if output['active'] == 'a':
+        output['artifact']['traits']['192759'] = 1
+    elif output['active'] == 'Z':
+        output['artifact']['traits']['202665'] = 1
+    elif output['active'] == 'b':
+        output['artifact']['traits']['209782'] = 1
+
     output['artifact']['relics'] = [None]*3
     for relic in json_data['items']['mainHand']['relics']:
 

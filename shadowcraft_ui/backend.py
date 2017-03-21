@@ -359,7 +359,7 @@ class ShadowcraftComputation:
             mastery=gear_stats.get('mastery', 0),
             versatility=gear_stats.get('versatility', 0),
             level=_level)
-        
+
         # ##################################################################################
 
         _spec = input_data['character'].get("active", 'a')
@@ -384,7 +384,7 @@ class ShadowcraftComputation:
         for key, value in existing_options.items():
             new_key = key.split('.')[-1]
             rotation_options[new_key] = value
-            
+
         if spec == "outlaw":
             opts = ['jolly_roger_reroll', 'grand_melee_reroll', 'shark_reroll', 'true_bearing_reroll', 'buried_treasure_reroll', 'broadsides_reroll']
 
@@ -430,7 +430,7 @@ class ShadowcraftComputation:
             # if no artifact data was passed (probably because the user had the wrong
             # weapons equipped), pass a string of zeros as the trait data.
             _traits = artifact.Artifact(spec, "rogue", "0"*len(artifact_data.traits[("rogue",spec)]))
-        elif len(_artifact['traits']) == len(artifact_data.traits[("rogue",spec)]) - 1:
+        elif len(_artifact['traits']) == len(artifact_data.traits[("rogue",spec)]):
             traitstr = ""
             remap = {}
             for k,v in _artifact['traits'].items():
@@ -439,11 +439,6 @@ class ShadowcraftComputation:
             for t in artifact_data.traits[("rogue",spec)]:
                 if (t in remap):
                     traitstr += str(remap[t])
-                elif t == 192759:
-                    # TODO: this is temporary. the trait data we get from the UI is missing the
-                    # primary traits for each weapon and it's causing issues. this needs to be
-                    # fixed and the -1 above can be removed then too.
-                    traitstr += "1"
                 else:
                     traitstr += "0"
 
@@ -466,7 +461,7 @@ class ShadowcraftComputation:
             gear_stats = {}
             for slot, item in gear_data.items():
                 gear_ids.append(item['id'])
-                
+
                 # Calculate overall stats as we go
                 for stat, value in item['stats'].items():
                     if stat not in gear_stats:
