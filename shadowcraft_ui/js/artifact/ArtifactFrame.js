@@ -82,10 +82,8 @@ export default class ArtifactFrame extends React.Component {
 
     change_relic(slot, trait, ilvl)
     {
-        var cur_state = this.props.data.artifact.relics;
-        cur_state[parseInt(slot)].trait = trait;
-        cur_state[parseInt(slot)].ilvl = ilvl;
-        store.dispatch(updateCharacterState("UPDATE_ARTIFACT_RELICS", cur_state));
+        store.dispatch(updateCharacterState(
+            "UPDATE_ARTIFACT_RELIC", {slot: slot, trait: trait, ilvl: ilvl}));
     }
 
     update_state(artifact_data, send_state)
@@ -123,8 +121,8 @@ export default class ArtifactFrame extends React.Component {
                 this.trait_state.total_traits += artifact_data.traits[trait];
             }
 
-            if (this.trait_state.total_traits - relic_count >= 34 && traits_checked.indexOf(214928) == -1) {
-                traits_to_check.push(214928);
+            if (this.trait_state.total_traits - relic_count >= 34 && traits_checked.indexOf(this.props.layout.paragon_trait) == -1) {
+                traits_to_check.push(this.props.layout.paragon_trait);
             }
 
             traits_checked.push(trait);
@@ -140,11 +138,15 @@ export default class ArtifactFrame extends React.Component {
 
         for (trait in this.trait_state.traits)
         {
-            this.trait_state.traits[trait].max_rank = this.trait_state.traits[trait].default_max_rank;
+            var t = parseInt(trait)
+
+            // Reset all of the traits back to their default max rank. The ones that have
+            // relics associated with them will get fixed later.
+            this.trait_state.traits[t].max_rank = this.trait_state.traits[t].default_max_rank;
 
             if (traits_checked.indexOf(parseInt(trait)) == -1) {
-                this.trait_state.traits[trait].enabled = false;
-                artifact_data.traits[trait] = 0;
+                this.trait_state.traits[t].enabled = false;
+                artifact_data.traits[t] = 0;
             }
         }
 
@@ -157,9 +159,7 @@ export default class ArtifactFrame extends React.Component {
                 this.trait_state.traits[relic_trait].max_rank += 1;
                 this.trait_state.traits[relic_trait].enabled = true;
 
-                if (traits_checked.indexOf(parseInt(relic_trait)) == -1) {
-                    artifact_data.traits[relic_trait] += 1;
-                } else {
+                if (traits_checked.indexOf(parseInt(relic_trait)) != -1) {
                     this.trait_state.total_traits -= 1;
                 }
             }

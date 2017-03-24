@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default class ArtifactRelicSelect extends React.Component {
-    
+
     constructor(props)
     {
         super(props);
@@ -23,9 +23,9 @@ export default class ArtifactRelicSelect extends React.Component {
 
     render()
     {
-        this.selected_trait = this.props.selected.trait;
+        this.selected_trait = this.props.selected.id;
         this.selected_ilvl = this.props.selected.ilvl;
-        
+
         var relics = this.props.relics.map(function(relic) {
             return <option key={relic[0]} id={'relic-'+relic[0]+'-select'} value={relic[0]}>{relic[1]}</option>;
         });
@@ -34,7 +34,7 @@ export default class ArtifactRelicSelect extends React.Component {
         for (var i = 835; i <= 955; i += 5) {
             ilvls.push(<option key={i} id={'relicilvl-'+this.props.index+'-'+i} value={i}>{i}</option>);
         }
-        
+
         return (
             <label className="select">
                 <span className="label">Relic {parseInt(this.props.index)+1} ({this.props.type}):</span>

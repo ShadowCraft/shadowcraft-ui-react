@@ -18,9 +18,19 @@ const characterReducer = function (state = {}, action) {
             return Object.assign({}, state, newState);
         }
 
-        case 'UPDATE_ARTIFACT_RELICS': {
+        case 'UPDATE_ARTIFACT_RELIC': {
             let newState = state;
-            newState.artifact.relics = action.data;
+            if (newState.artifact.relics[action.data.slot].id != 0)
+            {
+                newState.artifact.traits[newState.artifact.relics[action.data.slot].id] -= 1;
+            }
+
+            newState.artifact.relics[action.data.slot].id = action.data.trait;
+            newState.artifact.relics[action.data.slot].ilvl = action.data.ilvl;
+
+            // Update the new trait
+            newState.artifact.traits[action.data.trait] += 1;
+            
             return Object.assign({}, state, newState);
         }
 
