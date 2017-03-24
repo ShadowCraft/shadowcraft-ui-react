@@ -1,15 +1,15 @@
 import React from 'react';
 import store from '../store';
+import { changeSetting } from '../store';
 
 export default class TextBox extends React.Component {
 
     onKeyDown(e) {
         if (e.keyCode == 13) {
-            store.dispatch({
-                type: 'CHANGE_SETTING',
+            store.dispatch(changeSetting({
                 setting: e.currentTarget.id,
                 value: e.currentTarget.value
-            });
+            }));
         }
     }
 

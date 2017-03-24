@@ -23,6 +23,14 @@ class StatPane extends React.Component {
             spec = 'Subtlety';
         }
 
+        // This gets called once before the settings object gets setup so we
+        // need to make sure the current settings exist before trying to use
+        // them.
+        var numAdds = 0;
+        if ('current' in this.props.settings) {
+            numAdds = this.props.settings.current['general.settings.num_boss_adds'];
+        }
+        
         return (
             <div className="panel-tools">
                 <section id="summary">
@@ -30,7 +38,7 @@ class StatPane extends React.Component {
                     <div className="inner">
                         <StatPanelElement name="Engine" value={this.props.engine_target} />
                         <StatPanelElement name="Spec" value={spec} />
-                        <StatPanelElement name="Boss Adds" value="0" />
+                        <StatPanelElement name="Boss Adds" value={numAdds} />
                     </div>
                 </section>
                 <section className="clearfix" id="stats">
@@ -76,7 +84,8 @@ const mapStateToProps = function(store) {
         mh_ep: store.engine.mh_ep.mh_dps,
         oh_ep: store.engine.oh_ep.oh_dps,
         engine_target: store.engine.engine_info.wow_build_target,
-        spec: store.character.active
+        spec: store.character.active,
+        settings: store.settings
     };
 };
 export default connect(mapStateToProps)(StatPane);

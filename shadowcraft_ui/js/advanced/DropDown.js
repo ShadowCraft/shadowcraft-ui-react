@@ -1,13 +1,14 @@
 import React from 'react';
 import store from '../store';
+import { changeSetting } from '../store';
 
 export default class DropDown extends React.Component {
 
     onChange(e) {
-        store.changeSetting({
+        store.dispatch(changeSetting({
             setting: e.currentTarget.id,
             value: e.currentTarget.value
-        });
+        }));
     }
 
     render() {
