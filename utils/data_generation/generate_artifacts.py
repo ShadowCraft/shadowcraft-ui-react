@@ -165,6 +165,11 @@ def get_db_data():
         202753: ["db_hiddenblade", "Hidden Blade"],
         216230: ["db_blackpowder", "Black Powder"],
         214929: ["db_cursedsteel", "Cursed Steel"],
+        241153: ["db_silence", "Bravado of the Uncrowned"],
+        238067: ["db_sabermetrics", "Sabermetrics"],
+        238103: ["db_dreadbladesvigor", "Dreadblade's Vigor"],
+        238139: ["db_loadeddice", "Loaded Dice"],
+        239042: ["db_concordance", "Concordance of the Legionfall"]
     }
 
     generateData('dreadblades_data.txt', ICONS, LINES, spell_id_map)
@@ -205,6 +210,11 @@ def get_ks_data():
         192376: ["ks_poisonknives", "Poison Knives"],
         214928: ["ks_slayersprecision", "Slayer's Precision"],
         214368: ["ks_assassinsblades", "Assassin's Blades"],
+        241152: ["ks_silence", "Silence of the Uncrowned"],
+        238066: ["ks_strangler", "Strangler"],
+        238102: ["ks_denseconcoction", "Dense Concoction"],
+        238138: ["ks_sinistercirculation", "Sinister Circulation"],
+        239042: ["ks_concordance", "Concordance of the Legionfall"]
     }
 
     generateData('kingslayers_data.txt', ICONS, LINES, spell_id_map)
@@ -245,6 +255,11 @@ def get_fangs_data():
         197369: ["fangs_fortunesbite", "Fortune's Bite"],
         214930: ["fangs_legionblade", "Legionblade"],
         221856: ["fangs_shadowfangs", "Shadow Fangs"],
+        241154: ["fangs_shadows", "Shadows of the Uncrowned"],
+        238068: ["fangs_etchedinshadow", "Etched in Shadow"],
+        242707: ["fangs_shadowswhisper", "Shadow's Whisper"],
+        238140: ["fangs_feedingfrenzy", "Feeding Frenzy"],
+        239042: ["fangs_concordance", "Concordance of the Legionfall"]
     }
 
     generateData('fangs_data.txt', ICONS, LINES, spell_id_map)
@@ -264,7 +279,7 @@ def fetch_data():
     # the javascript on the page.
     browser = webdriver.PhantomJS(desired_capabilities=dcap)
 
-    browser.get('http://www.wowhead.com/artifact-calc/rogue/outlaw/AgXiIsA')
+    browser.get('http://ptr.wowhead.com/artifact-calc/rogue/outlaw/AgXiIsA')
     time.sleep(2)
     source = browser.page_source
     soup = BeautifulSoup(source, 'html.parser')
@@ -274,7 +289,7 @@ def fetch_data():
     f.write(str(core))
     f.close()
 
-    browser.get('http://www.wowhead.com/artifact-calc/rogue/assassination/AvTSIrA')
+    browser.get('http://ptr.wowhead.com/artifact-calc/rogue/assassination/AvTSIrA')
     time.sleep(2)
     source = browser.page_source
     soup = BeautifulSoup(source, 'html.parser')
@@ -284,7 +299,7 @@ def fetch_data():
     f.write(str(core))
     f.close()
 
-    browser.get('http://www.wowhead.com/artifact-calc/rogue/subtlety/AlIxIRA')
+    browser.get('http://ptr.wowhead.com/artifact-calc/rogue/subtlety/AlIxIRA')
     time.sleep(2)
     source = browser.page_source
     soup = BeautifulSoup(source, 'html.parser')
@@ -299,10 +314,11 @@ def fetch_data():
 
 def dump_output(data):
     print('export const %s_layout = {' % data['artifact'])
-    print('    artifact: "%s",' % data['artifact'])
-    print('    artifact_name: "%s",' % data['artifact_name'])
-    print('    artifact_icon: "%s",' % data['artifact_icon'])
+    print('    artifact: \'%s\',' % data['artifact'])
+    print('    artifact_name: \'%s\',' % data['artifact_name'])
+    print('    artifact_icon: \'%s\',' % data['artifact_icon'])
     print('    primary_trait: %d,' % data['primary_trait'])
+    print('    paragon_trait: %d,' % data['paragon_trait'])
     print('    relics: ', end='')
     print(data['relics'], end='')
     print(',')
@@ -310,8 +326,10 @@ def dump_output(data):
 
     index = 0
     for key, value in data['traits'].items():
-        print('        "%s": ' % key, end='')
+        print('        \'%s\': ' % key, end='')
         dump = re.sub(r'^(\s+)"(.+)":', r'\1\2:', json.dumps(value, indent=12), flags=re.M)
+        dump = re.sub(r'\'', r'\'', dump, flags=re.M)
+        dump = re.sub(r'"', r"'", dump, flags=re.M)
         if index == len(data['traits'])-1:
             dump = re.sub(r'^}$', r'        }', dump, flags=re.M)
         else:
@@ -323,6 +341,9 @@ def dump_output(data):
     print('    lines: ', end='')
     dump = re.sub(r'^(\s+)"(.+)":', r'\1\2:', json.dumps(data['lines'], indent=8), flags=re.M)
     dump = re.sub(r'^]$', r'    ]', dump, flags=re.M)
+    dump = re.sub(r'\'', r'\'', dump, flags=re.M)
+    dump = re.sub(r'"', r"'", dump, flags=re.M)
+    dump = re.sub(r'               ', '           ', dump, flags=re.M)
     print(dump)
     print('};')
     print()
@@ -344,6 +365,8 @@ def dump_output(data):
 
     print('export const %s_ranking = ' % data['artifact'], end='')
     dump = re.sub(r'^(\s+)"(.+)":', r'\1\2:', json.dumps(ranking_layout, indent=4), flags=re.M)
+    dump = re.sub(r'\'', r'\'', dump, flags=re.M)
+    dump = re.sub(r'"', r"'", dump, flags=re.M)
     print(dump, end='')
     print(';')
     print()
