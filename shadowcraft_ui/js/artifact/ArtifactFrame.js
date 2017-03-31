@@ -74,8 +74,6 @@ export default class ArtifactFrame extends React.Component {
     decrease_rank(trait_id)
     {
         var data = this.props.data.artifact;
-        console.log("decreasing " + trait_id);
-        console.log(data);
         if (this.trait_state.traits[trait_id].enabled && data.traits[trait_id] != 0) {
             data.traits[trait_id] -= 1;
             this.update_state(data, true);
@@ -90,8 +88,6 @@ export default class ArtifactFrame extends React.Component {
 
     update_state(artifact_data, send_state)
     {
-        console.log("UPDATING STATE")
-        console.log(artifact_data.traits)
         // starting at the top of the tree, walk down it to find all of the traits that should
         // actually be enabled.
         var traits_to_check = [this.props.layout.primary_trait];
@@ -102,7 +98,6 @@ export default class ArtifactFrame extends React.Component {
         // Force the primary trait to always be enabled. It always will be in-game, and it
         // doesn't get sent in the data from the armory. Setting it up here means that it will
         // get displayed correctly on the frame.
-        console.log(artifact_data.traits)
         artifact_data.traits[this.props.layout.primary_trait] = 1;
 
         // Get a quick count of the number of relics we have. We do more with relics later, but
@@ -113,8 +108,6 @@ export default class ArtifactFrame extends React.Component {
                 artifact_data.traits[artifact_data.relics[relic].id] -= 1;
             }
         }
-
-        console.log(artifact_data.traits)
 
         // Calculate how many traits are selected, minus the relic additions. This makes some
         // calculations easier later on, so we take the speed loss on looping through the
@@ -141,7 +134,6 @@ export default class ArtifactFrame extends React.Component {
                 artifact_data.traits[t] = this.trait_state.traits[t].max_rank;
             }
         }
-        console.log(this.trait_state.total_traits)
 
         // Make sure that all of the traits that are dependent on certain trait counts get
         // added to the tree to check.
@@ -167,7 +159,6 @@ export default class ArtifactFrame extends React.Component {
             // Add connected traits to the check list if one of the following:
             // 1. The trait is at max rank (always true for the first major trait)
             // 2. The trait is a 4-point trait, has at least 3 points in it, and the 35 point trait is active
-            console.log("" + trait + " " + artifact_data.traits[this.props.layout.paragon_trait] + " " + artifact_data.traits[trait] + " " + this.trait_state.traits[trait].max_rank);
             if (artifact_data.traits[trait] == this.trait_state.traits[trait].max_rank ||
                 (this.props.layout.paragon_trait in artifact_data.traits &&
                  artifact_data.traits[this.props.layout.paragon_trait] > 0 &&
@@ -197,7 +188,6 @@ export default class ArtifactFrame extends React.Component {
         // so they're not included in the count.
         this.trait_state.total_traits = Object.values(artifact_data.traits).reduce((a,b) => a+b);
         this.trait_state.total_traits -= 1;
-        console.log(this.trait_state.total_traits);
 
         // Fix the max ranks for traits that have relics attached
         for (var relic in artifact_data.relics)
@@ -211,15 +201,9 @@ export default class ArtifactFrame extends React.Component {
             }
         }
 
-        console.log("done")
-        console.log("done")
-        console.log("done")
-
         if (send_state) {
             store.dispatch(updateCharacterState("UPDATE_ARTIFACT_TRAITS", artifact_data.traits));
         }
-
-        console.log(artifact_data.traits);
     }
 
     render()
