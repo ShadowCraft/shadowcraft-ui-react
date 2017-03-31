@@ -128,10 +128,6 @@ def generateData(datafile, iconmap, linemap, idmap):
                 'trait2': power_to_id[from_to[1]]}
         linemap.append(line)
 
-def scale(y, old_min, old_max, new_min, new_max):
-    return (((float(new_max)-float(new_min))*(float(y)-float(old_min))) /
-            (float(old_max)-float(old_min))) + float(new_min)
-
 def get_db_data():
 
     DATA = {
@@ -140,6 +136,8 @@ def get_db_data():
         'artifact_icon': 'inv_sword_1h_artifactskywall_d_01',
         'primary_trait': 202665,
         'paragon_trait': 214929,
+        'second_major': 241153,
+        'concordance': 239042,
         'relics': ['Blood', 'Iron', 'Storm']
     }
 
@@ -185,6 +183,8 @@ def get_ks_data():
         'artifact_icon': "inv_knife_1h_artifactgarona_d_01",
         'primary_trait': 192759,
         'paragon_trait': 214928,
+        'second_major': 241152,
+        'concordance': 239042,
         'relics': ["Shadow", "Iron", "Blood"]
     }
 
@@ -230,6 +230,8 @@ def get_fangs_data():
         'artifact_icon': 'inv_knife_1h_artifactfangs_d_01',
         'primary_trait': 209782,
         'paragon_trait': 214930,
+        'second_major': 241154,
+        'concordance': 239042,
         'relics': ["Fel", "Shadow", "Fel"]
     }
 
@@ -319,6 +321,8 @@ def dump_output(data):
     print('    artifact_icon: \'%s\',' % data['artifact_icon'])
     print('    primary_trait: %d,' % data['primary_trait'])
     print('    paragon_trait: %d,' % data['paragon_trait'])
+    print('    second_major: %d,' % data['second_major'])
+    print('    concordance: %d,' % data['concordance'])
     print('    relics: ', end='')
     print(data['relics'], end='')
     print(',')

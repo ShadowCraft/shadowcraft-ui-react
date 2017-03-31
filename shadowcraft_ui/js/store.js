@@ -13,7 +13,7 @@ const characterReducer = function (state = {}, action) {
         }
 
         case 'UPDATE_ARTIFACT_TRAITS': {
-            let newState = state;
+            let newState = Object.assign({}, state);
             newState.artifact.traits = action.data;
             return Object.assign({}, state, newState);
         }
