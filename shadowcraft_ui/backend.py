@@ -82,6 +82,11 @@ class ShadowcraftComputation:
             192310: 'toxic_blades',
             192384: 'urge_to_kill',
             214928: 'slayers_precision',
+            241152: 'silence_of_the_uncrowned',
+            238066: 'strangler',
+            238102: 'dense_concoction',
+            238138: 'sinister_circulation',
+            239042: 'concordance_of_the_legionfall',
         },
 
         # Outlaw/Dreadblades traits
@@ -104,6 +109,11 @@ class ShadowcraftComputation:
             202522: 'gunslinger',
             202753: 'hidden_blade',
             214929: 'cursed_steel',
+            241153: 'bravado_of_the_uncrowned',
+            238067: 'sabermetrics',
+            238103: 'dreadblades_vigor',
+            238139: 'loaded_dice',
+            239042: 'concordance_of_the_legionfall',
         },
 
         # Subtlety/Fangs traits
@@ -126,6 +136,11 @@ class ShadowcraftComputation:
             209781: 'shadow_nova',
             197386: 'soul_shadows',
             214930: 'legionblade',
+            241154: 'shadows_of_the_uncrowned',
+            238068: 'etched_in_shadow',
+            242707: 'shadows_whisper',
+            238140: 'feeding_frenzy',
+            239042: 'concordance_of_the_legionfall',
         },
     }
 
@@ -426,12 +441,15 @@ class ShadowcraftComputation:
 
         _artifact = input_data['character']['artifact']
 
+        print(len(_artifact['traits']))
+        print(len(artifact_data.traits[('rogue', spec)]))
+        num_engine_traits = len(artifact_data.traits[('rogue', spec)])
+        traitstr = ""
         if len(_artifact['traits']) == 0:
             # if no artifact data was passed (probably because the user had the wrong
             # weapons equipped), pass a string of zeros as the trait data.
-            _traits = artifact.Artifact(spec, "rogue", "0"*len(artifact_data.traits[("rogue",spec)]))
-        elif len(_artifact['traits']) == len(artifact_data.traits[("rogue",spec)]):
-            traitstr = ""
+            traitstr = '0' * num_engine_traits
+        elif len(_artifact['traits']) <= num_engine_traits:
             remap = {}
             for k,v in _artifact['traits'].items():
                 remap[self.artifactTraits[_spec][int(k)]] = v
@@ -442,10 +460,12 @@ class ShadowcraftComputation:
                 else:
                     traitstr += "0"
 
-            _traits = artifact.Artifact(spec, "rogue", traitstr)
         else:
-            _traits = None
-
+            print("Too many traits received from front end (%d vs %d)" %
+                  (len(_artifact['traits']), len(artifact_data.traits[('rogue',spec)])))
+            traitstr = '0' * num_engine_traits
+            
+        _traits = artifact.Artifact(spec, "rogue", traitstr)
         calculator = AldrianasRogueDamageCalculator(_stats, _talents, _traits, _buffs, _race, spec, _settings, _level)
         return calculator
 
