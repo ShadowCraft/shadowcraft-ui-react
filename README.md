@@ -2,39 +2,43 @@
 
 ## Requires
 
-Python3, Pip, MongoDB, Git, Nodejs, NPM, (and virtualenv if you are using it)
+Python3, Pip, (virtualenv, if you are using it), Nodejs, NPM, MongoDB, Git
 
-## Install on *nix (Bash)
+## Install on **nix* (bash)
 
-1. `git clone https://github.com/ShadowCraft/shadowcraft-ui-react.git` (clone the repo)
+1. `git clone https://github.com/ShadowCraft/shadowcraft-ui-react.git` (clone this repo)
 2. `virtualenv --python=python3 venv` (create a virtual environment)
 3. `source venv/bin/activate` (use the virtual environment)
-4. `pip install -r requirements.txt` (install python dependancies)
-5. `npm install` (install javascript dependancies)
+4. `pip install -r requirements.txt` (install python dependencies)
+5. `npm install` (install javascript dependencies)
 
 ## Install on Windows (cmd/powershell)
 
-1. `git clone https://github.com/ShadowCraft/shadowcraft-ui-react.git` (clone the repo)
-4. `npm run install:python` (install python dependancies)
-5. `npm install` (install javascript dependancies)
+1. `git clone https://github.com/ShadowCraft/shadowcraft-ui-react.git` (clone this repo)
+4. `npm run install:python` (install python dependencies)
+5. `npm install` (install javascript dependencies)
 
-Note: Be sure set PATHs for node, python and mongo. You will also need to register for a [blizzard api key](https://dev.battle.net/) and store it in an environment variable called `BLIZZARD_API_KEY`.
+*Be sure set PATHs for node, python and mongo. Command not found is usualy a missing PATH or dependancy.*
+
+You will also need to register for a [blizzard api key](https://dev.battle.net/).
+
+Store the key in an environment variable named `BLIZZARD_API_KEY`.
 
 ## Running
 
-See the scripts section in package.json or `npm run` for a full list of commands
+You will usually just want to run this dev script for development.
 
-`npm start` - start flask (start serving the website)
-`npm run build`- build the javascript manually (webpack)
-`npm run watch` - watch and rebuild on changes (webpack)
-`npm run mongo` - start mongo
+`npm run dev` - **RUN ALL THE THINGS!**
 
-You will usually just want to run the dev script for development
-`npm run dev` - start mongo, start webpack, start flask (RUN ALL THE THINGS!)
-Note: This command may not work on BASH for Windows.
-Note: You may need to `sudo` for mongo on *nix.
+This will start up flask, mongo, and build the javascript and css.
 
-Open your browser to `127.0.0.1:5000` to see the site.
+*This command may not work on BASH for Windows.*
+
+_You may need to prefix with `sudo` on *nix to run mongod._
+
+**Navigate your browser to `127.0.0.1:5000` to see the site.**
+
+*See the scripts section in package.json or `npm run` for a full list of commands.*
 
 ## General Project Architecture
 
@@ -46,7 +50,7 @@ React contains the bulk of the user interface outside of the error pages. It use
 
 The engine is developed in a separate project named [shadowcraft-engine](https://github.com/ShadowCraft/ShadowCraft-Engine). It houses all of the complex calculations that people care about like dps, tier estimations, stat weights, etc.. It is installed along with the other python dependancies in `requirements.txt`. It is located in `src` To update, simply run the python dependancy installation again and it will fetch the current verison with git.
 
-There are a few other tools, which shouldn't be needed most of the time located in `shadowcraft_ui/external_data` which are used to populate the db. Warning, running these can take some time and aren't needed unless you are specificly working on the db. There are additional tools for deployment and generating talent layouts located in `utils`, which are not usually needed.
+There are a few other tools, which shouldn't be needed most of the time located in `shadowcraft_ui/external_data` which are used to populate the db. Warning: Running these can take some time. They aren't usualy needed unless you are specificly working on the db. There are additional tools for deployment and generating talent layouts located in `utils`, which are not usually needed.
 
 ## Contributing
 
