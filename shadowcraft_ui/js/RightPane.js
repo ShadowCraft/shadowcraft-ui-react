@@ -1,10 +1,58 @@
 import React from "react";
 import GoogleAd from 'react-google-ad';
+import { Line } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import store from './store';
 
 var chartData = {};
 var chartOptions = {};
+
+const graphColor = '#dfb73d';
+
+const graphTestData = {
+    labels: ['','','','',''],
+    datasets: [
+        {
+            fill: false,
+            lineTension: 0,
+            backgroundColor: graphColor,
+            borderColor: graphColor,
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: graphColor,
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 2,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: graphColor,
+            pointHoverBorderColor: graphColor,
+            pointHoverBorderWidth: 2,
+            pointRadius: 3,
+            pointHitRadius: 10,
+            data: []
+        }
+    ]};
+
+const graphOptions={
+    legend: {
+        display: false,
+    },
+    layout: {
+        padding: {
+            left: 15,
+            right: 15,
+            top: 15,
+            bottom: 15,
+        }
+    }
+};
+
+function graphClick(elems) {
+    console.log(elems);
+}
+
+graphTestData['labels'] = Array(graphTestData['datasets'][0]['data'].length).fill('');
 
 class RightPane extends React.Component {
 
@@ -12,6 +60,11 @@ class RightPane extends React.Component {
 
         var realm = this.props.realm.replace("-", " ");
         realm = realm.replace(/\b\w/g, l => l.toUpperCase());
+
+        console.log(this.props.history);
+
+        graphTestData['datasets'][0]['data'] = this.props.history.dps;
+        graphTestData['labels'] = Array(graphTestData['datasets'][0]['data'].length).fill('');
 
         return (
             <div style={{ flex: 1}}>
@@ -32,6 +85,7 @@ class RightPane extends React.Component {
                   <div id="dps">
                     <div className="inner">{Math.round(this.props.dps*10)/10.0}</div>
                   </div>
+                  <Line data={graphTestData} options={graphOptions} getElementsAtEvent={graphClick} />
                 </div>
                 <div id="logs">
                   <section>
@@ -59,7 +113,8 @@ const mapStateToProps = function(store) {
         realm: store.character.realm,
         portrait: store.character.portrait,
         dps: store.engine.totalDps,
-        warnings: store.warnings.warnings
+        warnings: store.warnings.warnings,
+        history: store.history
     };
 };
 

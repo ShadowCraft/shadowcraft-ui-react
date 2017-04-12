@@ -160,6 +160,20 @@ const engineReducer = function (state = initialEngineState, action) {
     return state;
 };
 
+// Thunk for handling incoming engine state. It updates the engine state, plus passes
+// the current character and settings state to the history reducer.
+export function updateEngineState(data)
+{
+    return function(dispatch, getState) {
+        const state = getState();
+        dispatch({type: 'SET_ENGINE_STATE', response: data});
+        dispatch({type: 'ADD_HISTORY', dps: data.totalDps,
+                  character: state.character,
+                  settings: state.settings.current});
+    }
+}
+
+
 function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response
@@ -187,8 +201,8 @@ export function getEngineData() {
         })
             .then(checkStatus)
             .then(r => r.json())
-            .then(r => dispatch({type: 'SET_ENGINE_STATE', response: r}))
-            .catch(ex => console.log(ex));
+            .then(r => dispatch(updateEngineState(r)))
+            .catch(ex => console.log(ex))
     }
 }
 
@@ -201,12 +215,36 @@ const initialWarningsState = {
 const warningsReducer = function(state = initialWarningsState, action) {
     switch (action.type) {
         case 'CLEAR_WARNINGS':
-            return state;
+            var newState = state;
+            newState.warnings = [];
+            return Object.assign({}, state, newState);
 
         case 'ADD_WARNING':
-            var curState = state;
-            curState.warnings.push(action.value);
-            return curState;
+            return state;
+    }
+
+    return state;
+};
+
+const initialHistoryState = {
+    dps: [],
+    data: []
+};
+
+const historyReducer = function(state = initialHistoryState, action) {
+    switch (action.type) {
+        case 'CLEAR_HISTORY':
+            var newState = state;
+            newState.dps = [];
+            newState.data = [];
+            return Object.assign({}, state, newState);
+
+        case 'ADD_HISTORY':
+            var newState = state;
+            newState.dps.push(action.dps);
+            newState.data.push({character: action.character,
+                                settings: action.settings});
+            return Object.assign({}, state, newState);
     }
 
     return state;
@@ -218,6 +256,7 @@ const reducers = combineReducers({
     settings: settingsReducer,
     engine: engineReducer,
     warnings: warningsReducer,
+    history: historyReducer,
 });
 
 // Build the store
