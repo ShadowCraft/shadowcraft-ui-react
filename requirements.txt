@@ -2,11 +2,12 @@ Flask==0.11
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
-Werkzeug==0.11.5
+Werkzeug==0.11.15
 wheel==0.24.0
 Flask-PyMongo==0.4.1
 python-wowapi
 requests[security]
 jsonschema
 gunicorn
+future
 -e git+https://github.com/ShadowCraft/ShadowCraft-Engine.git@legion-newui#egg=ShadowCraft-Engine

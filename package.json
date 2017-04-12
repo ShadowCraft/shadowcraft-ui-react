@@ -7,10 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "start": "python app.py",
-    "watch": "webpack -w",
-    "install-python": "pip install -r requirements.txt",
-    "mongo-start": "mongod",
-    "dev": "npm-run-all --parallel watch start mongo-start"
+    "watch": "webpack --watch --progress",
+    "install:python": "pip install -r requirements.txt",
+    "mongo": "mongod",
+    "dev": "npm-run-all --parallel watch start mongo"
   },
   "author": "",
   "license": "ISC",
