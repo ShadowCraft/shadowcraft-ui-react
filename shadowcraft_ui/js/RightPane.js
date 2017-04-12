@@ -4,9 +4,6 @@ import { Line } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import store from './store';
 
-var chartData = {};
-var chartOptions = {};
-
 const graphColor = '#dfb73d';
 
 const graphTestData = {
@@ -48,13 +45,20 @@ const graphOptions={
     }
 };
 
-function graphClick(elems) {
-    console.log(elems);
-}
-
 graphTestData['labels'] = Array(graphTestData['datasets'][0]['data'].length).fill('');
 
 class RightPane extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+    
+    graphClick(elems) {
+        console.log(elems);
+        if (elems[0]._datasetIndex + 1 == this.props.history.dps.length) {
+            console.log("skipping");
+        }
+    }
 
     render() {
 
@@ -85,7 +89,7 @@ class RightPane extends React.Component {
                   <div id="dps">
                     <div className="inner">{Math.round(this.props.dps*10)/10.0}</div>
                   </div>
-                  <Line data={graphTestData} options={graphOptions} getElementsAtEvent={graphClick} />
+                  <Line data={graphTestData} options={graphOptions} getElementsAtEvent={this.graphClick} />
                 </div>
                 <div id="logs">
                   <section>
