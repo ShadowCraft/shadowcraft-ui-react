@@ -8,9 +8,9 @@
     "build": "webpack",
     "start": "python app.py",
     "watch": "webpack --watch --progress",
-    "install-python": "pip install -r requirements.txt",
-    "mongo-start": "mongod",
-    "dev": "npm-run-all --parallel watch start mongo-start"
+    "install:python": "pip install -r requirements.txt",
+    "mongo": "mongod",
+    "dev": "npm-run-all --parallel watch start mongo"
   },
   "author": "",
   "license": "ISC",
