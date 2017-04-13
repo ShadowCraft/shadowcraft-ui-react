@@ -1,7 +1,11 @@
+"""This module serves as the interface to the shadowcraft engine"""
+
 import traceback
 import pymongo
 
-from shadowcraft.calcs.rogue.Aldriana import AldrianasRogueDamageCalculator, settings, InputNotModeledException
+from shadowcraft.calcs.rogue.Aldriana \
+    import AldrianasRogueDamageCalculator, settings, InputNotModeledException
+
 from shadowcraft.objects import buffs
 from shadowcraft.objects import race
 from shadowcraft.objects import stats
@@ -11,6 +15,7 @@ from shadowcraft.objects import artifact
 from shadowcraft.objects import artifact_data
 from shadowcraft.core import i18n
 from shadowcraft.core import exceptions
+
 
 class ShadowcraftComputation:
     enchantMap = {
@@ -145,7 +150,7 @@ class ShadowcraftComputation:
     }
 
     artifactTraitsReverse = {}
-    for k,v in artifactTraits.items():
+    for k, v in artifactTraits.items():
         artifactTraitsReverse[k] = {v2: k2 for k2, v2 in v.items()}
 
     gearProcs = trinkets.copy()
@@ -155,16 +160,16 @@ class ShadowcraftComputation:
     # base_ilvls array, it will create additional entries stepping by step_size up to
     # num_steps times.
     def createGroup(base_ilvls, num_steps, step_size):
-      trinketGroup = []
-      subgroup = ()
-      for base_ilvl in base_ilvls:
-        for i in range(base_ilvl,base_ilvl + (num_steps+1)*step_size, step_size):
-          subgroup += (i,)
-      trinketGroup.extend(list(subgroup))
-      return trinketGroup
+        trinketGroup = []
+        subgroup = ()
+        for base_ilvl in base_ilvls:
+            for i in range(base_ilvl, base_ilvl + (num_steps + 1) * step_size, step_size):
+                subgroup += (i,)
+        trinketGroup.extend(list(subgroup))
+        return trinketGroup
 
     def createGroupMax(base_ilvl, max_ilvl, step_size):
-      group = range(base_ilvl, max_ilvl, step_size)
+        group = range(base_ilvl, max_ilvl, step_size)
 
     # used for rankings
     trinketGroups = {
@@ -231,7 +236,8 @@ class ShadowcraftComputation:
     tier18IDs = frozenset([124248, 124257, 124263, 124269, 124274])
     tier18LFRIDs = frozenset([128130, 128121, 128125, 128054, 128131, 128137])
     tier19IDs = frozenset([138326, 138329, 138332, 138335, 138338, 138371])
-    orderhallIDs = frozenset([139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746])
+    orderhallIDs = frozenset(
+        [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746])
 
     # Legion Dungeon sets
     marchOfTheLegionIDs = frozenset([134529, 134533])
@@ -302,7 +308,9 @@ class ShadowcraftComputation:
         if len(self.jacinsRuseIDs & gear_ids) == 2:
             buff_list.append('jacins_ruse_2pc')
 
-        if len(self.toeKneesIDs & gear_ids) == 2 or len(self.bloodstainedIDs & gear_ids) == 2 or len(self.eyeOfCommandIDs & gear_ids) == 2:
+        if len(self.toeKneesIDs & gear_ids) == 2 \
+                or len(self.bloodstainedIDs & gear_ids) == 2 \
+                or len(self.eyeOfCommandIDs & gear_ids) == 2:
             buff_list.append('kara_empowered_2pc')
 
         for item_id, item_name in self.gearBoosts.items():
@@ -357,8 +365,10 @@ class ShadowcraftComputation:
         # ##################################################################################
         # Player stats
         # Need parameter order here
-        # str, agi, int, spi, sta, ap, crit, hit, exp, haste, mastery, mh, oh, thrown, procs, gear buffs
-        raceStr = input_data['settings'].get("race", 'human').lower().replace(" ", "_")
+        # str, agi, int, spi, sta, ap, crit, hit, exp, haste, mastery, mh, oh,
+        # thrown, procs, gear buffs
+        raceStr = input_data['settings'].get(
+            "race", 'human').lower().replace(" ", "_")
         _class = input_data['character'].get('player_class', 'rogue')
         _race = race.Race(raceStr, _class, _level)
 
@@ -393,15 +403,17 @@ class ShadowcraftComputation:
         _talents = talents.Talents(t, spec, _class, _level)
 
         _opt = input_data['settings']
-        rotation_keys = [x for x in _opt if x.startswith('rotation') and x.find(spec) != -1]
-        existing_options = {key:_opt[key] for key in rotation_keys}
+        rotation_keys = [x for x in _opt if x.startswith(
+            'rotation') and x.find(spec) != -1]
+        existing_options = {key: _opt[key] for key in rotation_keys}
         rotation_options = {}
         for key, value in existing_options.items():
             new_key = key.split('.')[-1]
             rotation_options[new_key] = value
 
         if spec == "outlaw":
-            opts = ['jolly_roger_reroll', 'grand_melee_reroll', 'shark_reroll', 'true_bearing_reroll', 'buried_treasure_reroll', 'broadsides_reroll']
+            opts = ['jolly_roger_reroll', 'grand_melee_reroll', 'shark_reroll',
+                    'true_bearing_reroll', 'buried_treasure_reroll', 'broadsides_reroll']
 
             if _opt['rotation.outlaw.reroll_policy'] != 'custom':
                 value = int(_opt['reroll_policy'])
@@ -416,10 +428,14 @@ class ShadowcraftComputation:
 #            rotation_options['positional_uptime'] = rotation_options['positional_uptime'] / 100.0
 
         settings_options = {}
-        settings_options['num_boss_adds'] = int(_opt.get('general.settings.num_boss_adds', 0))
-        settings_options['is_day'] = _opt.get('general.settings.night_elf_racial', 'day') == 'day'
-        settings_options['marked_for_death_resets'] = int(_opt.get('general.settings.mfd_resets', 0))
-        settings_options['finisher_threshold'] = int(_opt.get("general.settings.finisher_threshold", 0))
+        settings_options['num_boss_adds'] = int(
+            _opt.get('general.settings.num_boss_adds', 0))
+        settings_options['is_day'] = _opt.get(
+            'general.settings.night_elf_racial', 'day') == 'day'
+        settings_options['marked_for_death_resets'] = int(
+            _opt.get('general.settings.mfd_resets', 0))
+        settings_options['finisher_threshold'] = int(
+            _opt.get("general.settings.finisher_threshold", 0))
 
         # TODO: this option doesn't exist anymore?
         settings_options['is_demon'] = _opt.get("demon_enemy", 0) == 1
@@ -430,12 +446,17 @@ class ShadowcraftComputation:
         else:
             _cycle = settings.SubtletyCycle(**rotation_options)
             _cycle.cp_builder
-        _settings = settings.Settings(_cycle,
-            response_time = float(_opt.get("general.settings.response_time", 0.5)),
-            duration = int(_opt.get('general.settings.duration', 300)),
-            latency = float(_opt.get("other.latency", 0.03)),
-            adv_params = _opt.get("other.advanced", ''),
-            default_ep_stat = 'ap',
+        _settings = settings.Settings(
+            _cycle,
+            response_time=float(
+                _opt.get("general.settings.response_time", 0.5)),
+            duration=int(
+                _opt.get('general.settings.duration', 300)),
+            latency=float(
+                _opt.get("other.latency", 0.03)),
+            adv_params=_opt.get(
+                "other.advanced", ''),
+            default_ep_stat='ap',
             **settings_options
         )
 
@@ -451,22 +472,23 @@ class ShadowcraftComputation:
             traitstr = '0' * num_engine_traits
         elif len(_artifact['traits']) <= num_engine_traits:
             remap = {}
-            for k,v in _artifact['traits'].items():
+            for k, v in _artifact['traits'].items():
                 remap[self.artifactTraits[_spec][int(k)]] = v
 
-            for t in artifact_data.traits[("rogue",spec)]:
-                if (t in remap):
+            for t in artifact_data.traits[("rogue", spec)]:
+                if t in remap:
                     traitstr += str(remap[t])
                 else:
                     traitstr += "0"
 
         else:
             print("Too many traits received from front end (%d vs %d)" %
-                  (len(_artifact['traits']), len(artifact_data.traits[('rogue',spec)])))
+                  (len(_artifact['traits']), len(artifact_data.traits[('rogue', spec)])))
             traitstr = '0' * num_engine_traits
-            
+
         _traits = artifact.Artifact(spec, "rogue", traitstr)
-        calculator = AldrianasRogueDamageCalculator(_stats, _talents, _traits, _buffs, _race, spec, _settings, _level)
+        calculator = AldrianasRogueDamageCalculator(
+            _stats, _talents, _traits, _buffs, _race, spec, _settings, _level)
         return calculator
 
     def get_all(self, db, input_data):
@@ -488,39 +510,46 @@ class ShadowcraftComputation:
                         gear_stats[stat] = 0
                     gear_stats[stat] += value
 
-            # Turn this into a frozenset so it can be compared against other frozensets
+            # Turn this into a frozenset so it can be compared against other
+            # frozensets
             gear_ids = frozenset(gear_ids)
 
-            calculator = self.setup(db, input_data, gear_data, gear_stats, gear_ids)
+            calculator = self.setup(
+                db, input_data, gear_data, gear_stats, gear_ids)
 
             # Compute DPS Breakdown.
             out["breakdown"] = calculator.get_dps_breakdown()
-            out["totalDps"] = sum(entry[1] for entry in out["breakdown"].items())
+            out["totalDps"] = sum(entry[1]
+                                  for entry in out["breakdown"].items())
 
             # Get character stats used for calculation (should equal armory)
-            out["stats"] = calculator.stats.get_character_stats(calculator.race)
+            out["stats"] = calculator.stats.get_character_stats(
+                calculator.race)
             # Filter interesting stats
             out["stats"]["agility"] = out["stats"]["agi"]
-            out['stats'] = {k:out['stats'][k] for k in ['agility', 'crit', 'versatility', 'mastery', 'haste']}
+            out['stats'] = {k: out['stats'][k] for k in [
+                'agility', 'crit', 'versatility', 'mastery', 'haste']}
 
             # Get EP Values
-            default_ep_stats = ['agi', 'haste', 'crit', 'mastery', 'versatility', 'ap']
+            default_ep_stats = ['agi', 'haste',
+                                'crit', 'mastery', 'versatility', 'ap']
             _opt = input_data.get("settings", {})
             out["ep"] = calculator.get_ep(ep_stats=default_ep_stats)
 
-            other_buffs = ['rogue_t19_2pc','rogue_t19_4pc','rogue_orderhall_8pc',
-                           'rogue_t18_2pc','rogue_t18_4pc','rogue_t18_4pc_lfr',
-                           'mark_of_the_hidden_satyr','mark_of_the_distant_army',
-                           'mark_of_the_claw','march_of_the_legion_2pc',
-                           'journey_through_time_2pc','jacins_ruse_2pc',
+            other_buffs = ['rogue_t19_2pc', 'rogue_t19_4pc', 'rogue_orderhall_8pc',
+                           'rogue_t18_2pc', 'rogue_t18_4pc', 'rogue_t18_4pc_lfr',
+                           'mark_of_the_hidden_satyr', 'mark_of_the_distant_army',
+                           'mark_of_the_claw', 'march_of_the_legion_2pc',
+                           'journey_through_time_2pc', 'jacins_ruse_2pc',
                            'kara_empowered_2pc']
 
-            for k,v in self.gearBoosts.items():
+            for k, v in self.gearBoosts.items():
                 other_buffs.append(v)
 
             out["other_ep"] = calculator.get_other_ep(other_buffs)
 
-            exclude_items = [item for item in gear_data if item in self.trinkets]
+            exclude_items = [
+                item for item in gear_data if item in self.trinkets]
             exclude_procs = [self.gearProcs[x] for x in exclude_items]
             gear_rankings = calculator.get_upgrades_ep_fast(self.trinketGroups)
 
@@ -528,13 +557,17 @@ class ShadowcraftComputation:
             out["trinket_map"] = self.trinketMap
 
             # Compute weapon ep
-            out["mh_ep"], out["oh_ep"] = calculator.get_weapon_ep(dps=True, enchants=True)
-            out["mh_speed_ep"], out["oh_speed_ep"] = calculator.get_weapon_ep([2.4, 2.6, 1.7, 1.8])
-            _spec = input_data.get("spec","a")
+            out["mh_ep"], out["oh_ep"] = calculator.get_weapon_ep(
+                dps=True, enchants=True)
+            out["mh_speed_ep"], out["oh_speed_ep"] = calculator.get_weapon_ep(
+                [2.4, 2.6, 1.7, 1.8])
+            _spec = input_data.get("spec", "a")
             if _spec == "Z":
-              out["mh_type_ep"], out["oh_type_ep"] = calculator.get_weapon_type_ep()
+                out["mh_type_ep"], out[
+                    "oh_type_ep"] = calculator.get_weapon_type_ep()
 
-            # Talent ranking is slow. This is done last per a note from nextormento.
+            # Talent ranking is slow. This is done last per a note from
+            # nextormento.
             talents = calculator.get_talents_ranking()
             out['talentRanking'] = {}
             for tier, values in talents.items():
@@ -546,9 +579,10 @@ class ShadowcraftComputation:
             # the item IDs using the artifactMap data.
             artifactRanks = calculator.get_trait_ranking()
             out["traitRanking"] = {}
-            for trait,spell_id in self.artifactTraitsReverse[_spec].items():
+            for trait, spell_id in self.artifactTraitsReverse[_spec].items():
                 if trait in artifactRanks:
-                    out['traitRanking'][spell_id] = round(artifactRanks[trait], 2)
+                    out['traitRanking'][spell_id] = round(
+                        artifactRanks[trait], 2)
                 else:
                     out['traitRanking'][spell_id] = 0
 
@@ -556,6 +590,7 @@ class ShadowcraftComputation:
         except (InputNotModeledException, exceptions.InvalidInputException) as e:
             out["error"] = e.error_msg
             return out
+
 
 def get_engine_output(db, input_data):
     engine = ShadowcraftComputation()
@@ -565,6 +600,7 @@ def get_engine_output(db, input_data):
         traceback.print_exc()
         response = {'error': "%s: %s" % (e.__class__, e.args[0])}
     return response
+
 
 def get_settings():
     dummy_data = [
@@ -773,7 +809,8 @@ def get_settings():
                 {
                     'name': 'positional_uptime',
                     'label': 'Backstab uptime',
-                    'description': 'Percentage of the fight you are behind the target (0-100). This has no effect if Gloomblade is selected as a talent.',
+                    'description': 'Percentage of the fight you are behind the target (0-100). \
+                                    This has no effect if Gloomblade is selected as a talent.',
                     'type': 'text',
                 },
                 {
@@ -956,7 +993,9 @@ def get_settings():
                 {
                     'name': 'dynamic_ilvl',
                     'label': 'Dynamic ILevel filtering',
-                    'description': 'Dynamically filters items in gear lists to +/- 50 Ilevels of the item equipped in that slot. Disable this option to use the manual filtering options below.',
+                    'description': 'Dynamically filters items in gear lists to \
+                                    +/- 50 Ilevels of the item equipped in that slot. \
+                                    Disable this option to use the manual filtering options below.',
                     'type': 'checkbox',
                     'default': False
                 },

@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectItemList from './SelectItemList';
+import SelectedItemList from './SelectedItemList';
 
 export default class ItemSelectPopup extends React.Component {
     render() {
@@ -8,7 +8,7 @@ export default class ItemSelectPopup extends React.Component {
                 <div id="filter">
                     <input className="search" placeholder="Filter..." type="search" />
                 </div>
-                <SelectItemList itemlist={{}} />
+                <SelectedItemList itemlist={{}} />
             </div>
         );
     }

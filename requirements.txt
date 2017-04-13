@@ -10,4 +10,5 @@ requests[security]
 jsonschema
 gunicorn
 future
+pylint
 -e git+https://github.com/ShadowCraft/ShadowCraft-Engine.git@legion-newui#egg=ShadowCraft-Engine

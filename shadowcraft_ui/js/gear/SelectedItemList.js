@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class SelectItemList extends React.Component {
+export default class SelectedItemList extends React.Component {
     render() {
         return (
             <div className="body">

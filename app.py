@@ -1,3 +1,4 @@
+"""This is the module for the main flask app."""
 from flask import Flask, render_template, url_for, redirect, json, jsonify, request
 from flask_pymongo import PyMongo
 from werkzeug.routing import BaseConverter
@@ -6,15 +7,15 @@ from bson import json_util
 import shadowcraft_ui
 from shadowcraft_ui import backend
 
-app = Flask('shadowcraft_ui')
-app.config['SECRET_KEY'] = 'shhhhhhhh!'
-app.config['MONGO_DBNAME'] = 'roguesim_python'
+APP = Flask('shadowcraft_ui')
+APP.config['SECRET_KEY'] = 'shhhhhhhh!'
+APP.config['MONGO_DBNAME'] = 'roguesim_python'
 
 # Have to do this so that the request object sent to the /engine endpoint doesn't
 # overrun the limit
-app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+APP.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 
-mongo = PyMongo(app)
+mongo = PyMongo(APP)
 
 
 class RegexConverter(BaseConverter):
@@ -22,17 +23,17 @@ class RegexConverter(BaseConverter):
     def __init__(self, url_map, *items):
         super(RegexConverter, self).__init__(url_map)
         self.regex = items[0]
-app.url_map.converters['regex'] = RegexConverter
+APP.url_map.converters['regex'] = RegexConverter
 
 
-@app.route('/')
+@APP.route('/')
 def main():
     return render_template('index.html')
 
 # Main route for the application. Loads a character.
 
 
-@app.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>')
+@APP.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>')
 def character_show(region, realm, name):
     data = shadowcraft_ui.get_character_data(mongo, region, realm, name)
     character_json = json.dumps(data, indent=4, default=json_util.default)
@@ -43,7 +44,7 @@ def character_show(region, realm, name):
 # to keep it from doing that?
 
 
-@app.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>/refresh')
+@APP.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>/refresh')
 def character_refresh(region, realm, name):
     shadowcraft_ui.refresh_character(mongo, region, realm, name)
     url = url_for('character_show', region=region, realm=realm, name=name)
@@ -52,7 +53,7 @@ def character_refresh(region, realm, name):
 # Requests a character page based on a saved sha value.
 
 
-@app.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>/#!/<sha>')
+@APP.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>/#!/<sha>')
 def character_sha(region, realm, name, sha):
     shadowcraft_ui.get_character_data(mongo, region, realm, name, sha=sha)
     url = url_for('character_show', region=region, realm=realm, name=name)
@@ -62,23 +63,23 @@ def character_sha(region, realm, name, sha):
 # necessary and configure flask to handle them as such?
 
 
-@app.route('/error')
+@APP.route('/error')
 def error():
     return render_template('500.html')
 
 
-@app.route('/missing')
+@APP.route('/missing')
 def missing():
     return render_template('404.html')
 
 
-@app.route('/engine', methods=['POST'])
+@APP.route('/engine', methods=['POST'])
 def engine():
     output = backend.get_engine_output(mongo.db, request.get_json())
     return jsonify(output)
 
 
-@app.route('/settings')
+@APP.route('/settings')
 def settings():
     settings_data = backend.get_settings()
     return jsonify(settings_data)
@@ -86,7 +87,7 @@ def settings():
 # Endpoint for requesting a new debug SHA based on from character data.
 
 
-@app.route('/get_sha', methods=['POST'])
+@APP.route('/get_sha', methods=['POST'])
 def get_sha():
     # TODO: this should probably validate the JSON
     return shadowcraft_ui.get_debug_sha(mongo, request.form['data'])
@@ -94,7 +95,7 @@ def get_sha():
 # Endpoint for requesting item data by slot. Also able to filter by ilvl.
 
 
-@app.route('/get_items_by_slot')
+@APP.route('/get_items_by_slot')
 def get_items_by_slot():
     # TODO: this should probably take some sort of key to make sure that we're
     # only returning data to our clients and not leaving this open to abuse by
@@ -111,4 +112,4 @@ def get_items_by_slot():
 # should be moved to one.
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    APP.run(debug=True, host='127.0.0.1', port=5000)
