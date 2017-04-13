@@ -1,3 +1,5 @@
+"""model for characters in mongo"""
+
 import hashlib
 import json
 import os
@@ -12,6 +14,7 @@ from ..wow_armory.ArmoryCharacter import ArmoryCharacter
 # re-version data when ArmoryCharacter.py changes (file size)
 CHARACTER_DATA_VERSION = os.path.getsize('shadowcraft_ui/models/character.py')
 
+
 def load(db, region, realm, name, sha=None, refresh=False):
 
     # refresh=True
@@ -20,24 +23,28 @@ def load(db, region, realm, name, sha=None, refresh=False):
     if sha:
         # If we're loading from a sha, check to see if that sha is in the db.
         # If it's there, load that data. If it's not, force a refresh.
-        results = db.history.find({'sha':sha})
+        results = db.history.find({'sha': sha})
         if results.count() != 0:
             char_data = results[0]['json']
         else:
-            print("Failed to find SHA value in the database, will attempt to load character from Armory")
+            print(
+                "Failed to find SHA value in the database, \
+                will attempt to load character from Armory"
+            )
             refresh = True
 
     if not refresh:
         # Check to see if the character is in the database. If it's there, load
         # it and return.
-        query = {'region':region, 'realm': realm, 'name':name}
+        query = {'region': region, 'realm': realm, 'name': name}
         results = db.characters.find(query)
         if results.count() != 0:
             char_data = results[0]
 
     # Check if the character data version from the database is still current. If it's not,
     # ignore the data from the database and load something new from the armory. This lets
-    # us make changes to the character data layout and not break the UI every time.
+    # us make changes to the character data layout and not break the UI every
+    # time.
     if char_data is not None:
         if 'data_version' not in char_data or char_data['data_version'] != CHARACTER_DATA_VERSION:
             char_data = None
@@ -50,24 +57,26 @@ def load(db, region, realm, name, sha=None, refresh=False):
             char_data['data_version'] = CHARACTER_DATA_VERSION
         except Exception as error:
             char_data = None
-            print("Failed to load character data for %s/%s/%s: %s" % (region, realm, name, error))
+            print("Failed to load character data for %s/%s/%s: %s" %
+                  (region, realm, name, error))
             traceback.print_exc()
 
         if char_data != None:
             # Store it in the database
-            db.characters.replace_one({'region':region, 'realm':realm, 'name':name},
+            db.characters.replace_one({'region': region, 'realm': realm, 'name': name},
                                       char_data, upsert=True)
 
     return char_data
+
 
 def get_sha(db, char_data):
     # TODO: load the schema from disk
 
     # load the schema and validate this data against it
     schema = {
-        "type" : "object",
-        "properties" : {
-            "value" : {"type": "number"},
+        "type": "object",
+        "properties": {
+            "value": {"type": "number"},
         },
     }
 
@@ -83,7 +92,8 @@ def get_sha(db, char_data):
 
         # store the hash in the database, making sure to set the expiration on it
         # so that mongo automatically removes it after a set amount of time.
-        db.history.replace_one({'sha':sha}, {'sha':sha, 'json':char_data}, upsert=True)
+        db.history.replace_one(
+            {'sha': sha}, {'sha': sha, 'json': char_data}, upsert=True)
         return {'sha': sha}
 
     return {}
@@ -92,25 +102,32 @@ __artifact_ids = None
 
 # Maps the a trait ID from the artifact data to a spell ID using the DBC data
 # from the Blizzard CDN
+
+
 def __artifact_id(trait_id):
     # The header on the ArtifactPowerRank data looks like (as of 7.0.3):
     # id,id_spell,value,id_power,f5,index
     # We're mapping between id_power and id_spell
     if __artifact_ids is None:
         __artifact_ids = {}
-        with open(os.getcwd()+'/shadowcraft_ui/external_data/ArtifactPowerRank.dbc.csv', mode='r') as infile:
+        with open(
+            os.getcwd() + '/shadowcraft_ui/external_data/ArtifactPowerRank.dbc.csv',
+            mode='r'
+        ) as infile:
             reader = csv.reader(infile)
-            next(reader) # Skip the first row with the header
+            next(reader)  # Skip the first row with the header
             for row in reader:
                 __artifact_ids[int(row[3])] = int(row[1])
 
     return __artifact_ids[trait_id] if trait_id in __artifact_ids else 0
 
+
 def __get_from_armory(db, character, realm, region):
 
     region = region.lower()
     params = {'fields': 'talents, items, stats'}
-    json_data = ArmoryDocument.get(region, '/wow/character/%s/%s' % (realm, character), params)
+    json_data = ArmoryDocument.get(
+        region, '/wow/character/%s/%s' % (realm, character), params)
 
     output = {
         "region": region,
@@ -119,7 +136,9 @@ def __get_from_armory(db, character, realm, region):
         "level": int(json_data['level']),
         "player_class": ArmoryConstants.CLASS_MAP[int(json_data['class'])],
         "race": ArmoryConstants.RACE_MAP[int(json_data['race'])],
-        "portrait": 'http://render-%s.worldofwarcraft.com/character/%s' % (region, json_data['thumbnail']),
+        "portrait": 'http://render-%s.worldofwarcraft.com/character/%s' % (
+            region, json_data['thumbnail']
+        ),
         "stats": json_data['stats'],
         "talents": {},
         "gear": {},
@@ -127,7 +146,7 @@ def __get_from_armory(db, character, realm, region):
 
         # stub data from engine
         "weights": {
-            "agi" : 2.5,
+            "agi": 2.5,
             "haste": 1.5,
             "mastery": 1.1,
             "versatility": 1.1,
@@ -158,7 +177,8 @@ def __get_from_armory(db, character, realm, region):
         if key == 'shirt' or key == 'tabard':
             continue
 
-        tooltip = slot_item['tooltipParams'] if 'tooltipParams' in slot_item else {}
+        tooltip = slot_item[
+            'tooltipParams'] if 'tooltipParams' in slot_item else {}
         info = {
             'id': slot_item['id'],
             'slot': key,
@@ -178,9 +198,11 @@ def __get_from_armory(db, character, realm, region):
         # so we need to check for them all i.e. gem0, gem1, gem2
         for tooltip_item in tooltip:
             if tooltip_item.startswith('gem'):
-                # armory will error if we request an id of zero and an empty gem slot is 0
+                # armory will error if we request an id of zero and an empty
+                # gem slot is 0
                 if tooltip[tooltip_item] != 0:
-                    gemdata = ArmoryDocument.get('us', '/wow/item/%d' % tooltip[tooltip_item])
+                    gemdata = ArmoryDocument.get(
+                        'us', '/wow/item/%d' % tooltip[tooltip_item])
                     info['gems'].append(
                         {
                             'name': gemdata['name'],
@@ -203,9 +225,12 @@ def __get_from_armory(db, character, realm, region):
         # If this is a weapon, add the weapon stats to the stat block as well
         if 'weaponInfo' in slot_item:
             info['weaponStats'] = {}
-            info['weaponStats']['min_dmg'] = slot_item['weaponInfo']['damage']['exactMin']
-            info['weaponStats']['max_dmg'] = slot_item['weaponInfo']['damage']['exactMax']
-            info['weaponStats']['speed'] = slot_item['weaponInfo']['weaponSpeed']
+            info['weaponStats']['min_dmg'] = slot_item[
+                'weaponInfo']['damage']['exactMin']
+            info['weaponStats']['max_dmg'] = slot_item[
+                'weaponInfo']['damage']['exactMax']
+            info['weaponStats']['speed'] = slot_item[
+                'weaponInfo']['weaponSpeed']
             info['weaponStats']['dps'] = slot_item['weaponInfo']['dps']
 
         # We squash all of the world quest contexts down into one.
@@ -269,7 +294,7 @@ def __get_from_armory(db, character, realm, region):
     elif output['active'] == 'b':
         output['artifact']['traits']['209782'] = 1
 
-    output['artifact']['relics'] = [None]*3
+    output['artifact']['relics'] = [None] * 3
     for relic in json_data['items']['mainHand']['relics']:
 
         # We want to return the trait ID that this relic modifies here instead of the ID of
@@ -279,18 +304,19 @@ def __get_from_armory(db, character, realm, region):
         results = db.relics.find(query)
         if results.count() != 0:
 
-            entry = { 'id': results[0]['traits'][output['active']]['spell'] }
+            entry = {'id': results[0]['traits'][output['active']]['spell']}
 
             # Make another request to blizzard to get the item level for this relic,
             # since the character data doesn't include enough information.
             try:
                 params = {'bl': ','.join(map(str, relic['bonusLists']))}
-                relic_json = ArmoryDocument.get(region, '/wow/item/%d' % relic['itemId'], params)
+                relic_json = ArmoryDocument.get(
+                    region, '/wow/item/%d' % relic['itemId'], params)
                 entry['ilvl'] = relic_json['itemLevel']
                 output['artifact']['relics'][relic['socket']] = entry
             except ArmoryDocument.MissingDocument:
                 print("Failed to retrieve extra relic data")
-        
+
     # Make sure there's something in each of the relic data slots so that the UI doesn't
     # freak out about it.
     for relic in output['artifact']['relics']:
@@ -299,11 +325,13 @@ def __get_from_armory(db, character, realm, region):
 
     return output
 
+
 def init_db(db):
     db.characters.create_index([("region", pymongo.ASCENDING),
                                 ("realm", pymongo.ASCENDING),
                                 ("name", pymongo.ASCENDING)], unique=True)
     db.history.create_index("sha", unique=True, expireAfterSeconds=1209600)
+
 
 def test_character():
     from pymongo import MongoClient

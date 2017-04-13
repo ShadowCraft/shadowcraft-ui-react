@@ -1,3 +1,5 @@
+"""model for items in mongo"""
+
 import copy
 import re
 import requests
@@ -32,34 +34,53 @@ BONUS_ID_WHITELIST = BASE_WHITELIST + BASE_ILEVEL_WHITELIST
 # chanceBonusList entry.  This is the list of bonus IDs for those stages and is
 # handled slightly differently.  See below for the check for trade-skill for more
 # details.
-WOD_TRADESKILL_BONUS_IDS = [525, 526, 527, 558, 559, 593, 594, 617, 619, 618, 620]
+WOD_TRADESKILL_BONUS_IDS = [525, 526, 527,
+                            558, 559, 593, 594, 617, 619, 618, 620]
 TRADESKILL_BONUS_IDS = [596, 597, 598, 599, 666, 667, 668, 669, 670, 671, 672]
 
 ARTIFACT_WEAPONS = [128476, 128479, 128870, 128869, 128872, 134552]
-ORDER_HALL_SET = [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746]
+ORDER_HALL_SET = [139739, 139740, 139741,
+                  139742, 139743, 139744, 139745, 139746]
 MIN_ILVL = 800
 
 # This is the set of bonus IDs that should be on basically every legion item, but the API
-# neglects to actually add. These are the four tertiary stats and a legion socket.
+# neglects to actually add. These are the four tertiary stats and a legion
+# socket.
 CHANCE_BONUSES = [40, 41, 42, 43, 1808, -1]
 
-def get_items_by_slot(db, slot, min_ilvl=-1, max_ilvl=-1):
+
+def get_items_by_slot(dbase, slot, min_ilvl=-1, max_ilvl=-1):
+    """provides item lists for the drop downs in the ui"""
     query = {'properties.equip_location': slot}
     if min_ilvl != -1:
-        query['item'] = {'$gte':min_ilvl}
+        query['item'] = {'$gte': min_ilvl}
     if max_ilvl != -1:
-        query['item'] = {'$lte':max_ilvl}
-        results = db.items.find(query)
+        query['item'] = {'$lte': max_ilvl}
+        results = dbase.items.find(query)
         return dumps([x for x in results])
 
-def init_db(db):
-    db.items.create_index([('remote_id', pymongo.ASCENDING),
-                           ('contexts', pymongo.ASCENDING)], unique=True)
-    db.items.create_index([('remote_id', pymongo.ASCENDING),
-                           ('item_level', pymongo.ASCENDING),
-                           ('is_gem', pymongo.ASCENDING)], unique=True)
 
-def populate_db(db):
+def init_db(dbase):
+    """create indexes"""
+    dbase.items.create_index(
+        [
+            ('remote_id', pymongo.ASCENDING),
+            ('contexts', pymongo.ASCENDING)
+        ],
+        unique=True
+    )
+    dbase.items.create_index(
+        [
+            ('remote_id', pymongo.ASCENDING),
+            ('item_level', pymongo.ASCENDING),
+            ('is_gem', pymongo.ASCENDING)
+        ],
+        unique=True
+    )
+
+
+def populate_db(dbase):
+    """get item data to put into mongo"""
 
     # Abuse wowhead to load in a big list of items to import
     wowhead_ids = []
@@ -102,9 +123,11 @@ def populate_db(db):
         pos += 1
         if pos % 10 == 0:
             print("Loading item %d of %d" % (pos, len(item_ids)))
-        import_item(db, item_id)
+        import_item(dbase, item_id)
 
-def import_item(db, item_id):
+
+def import_item(dbase, item_id):
+    """fetch data from bnet"""
     print("Importing %d" % item_id)
 
     # TODO: see if this item exists in the database before loading it. Do we want to
@@ -137,7 +160,8 @@ def import_item(db, item_id):
         base_json['bonusSummary']['chanceBonusLists'], base_json['context'], base_json['itemLevel'])
 
     # Loop through the now-modified list of bonus IDs and load an additional item for
-    # each of those IDs from teh armory, and store it in the list to be processed.
+    # each of those IDs from teh armory, and store it in the list to be
+    # processed.
     for bonus_id in item_chance_bonuses:
         try:
             print('Loading extra item for bonus ID %d' % bonus_id)
@@ -147,7 +171,8 @@ def import_item(db, item_id):
             json = ArmoryDocument.get('us', '/wow/item/%d' % item_id, params)
             json_data.append(json)
         except ArmoryDocument.MissingDocument as err:
-            print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
+            print("import_item failed to fetch %d with extra bonuses: %s" %
+                  (item_id, err))
             return
 
     world_quests = [x for x in contexts if x.startswith('world-quest-')]
@@ -157,17 +182,20 @@ def import_item(db, item_id):
     pvp_unranked.sort()
     pvp_unranked = pvp_unranked[:-1]
 
-    contexts = [x for x in contexts if x not in world_quests and x not in pvp_unranked]
+    contexts = [
+        x for x in contexts if x not in world_quests and x not in pvp_unranked]
 
     # For each of the extra contexts, load the document for each one of them and store
     # it in the list of json to deal with.
     for context in contexts:
         try:
             print('Loading document for extra context %s' % context)
-            json = ArmoryDocument.get('us', '/wow/item/%d/%s' % (item_id, context))
+            json = ArmoryDocument.get(
+                'us', '/wow/item/%d/%s' % (item_id, context))
             json_data.append(json)
         except ArmoryDocument.MissingDocument as err:
-            print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
+            print("import_item failed to fetch %d with extra bonuses: %s" %
+                  (item_id, err))
             return
 
         # Same thing with the bonus IDs. Gotta load all of those too.
@@ -175,23 +203,32 @@ def import_item(db, item_id):
             json['bonusSummary']['chanceBonusLists'], json['context'], json['itemLevel'])
 
         # Loop through the now-modified list of bonus IDs and load an additional item for
-        # each of those IDs from teh armory, and store it in the list to be processed.
+        # each of those IDs from teh armory, and store it in the list to be
+        # processed.
         for bonus_id in item_chance_bonuses:
             try:
                 print('Loading extra item for bonus ID %d' % bonus_id)
                 bonuses = copy.copy(json['bonusLists'])
                 bonuses.append(bonus_id)
                 params = {"bl": ','.join(map(str, bonuses))}
-                json = ArmoryDocument.get('us', '/wow/item/%d' % item_id, params)
+                json = ArmoryDocument.get(
+                    'us', '/wow/item/%d' % item_id, params)
                 json_data.append(json)
             except ArmoryDocument.MissingDocument as err:
-                print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
+                print("import_item failed to fetch %d with extra bonuses: %s" %
+                      (item_id, err))
                 return
 
     current_total = len(json_data)
-    json_data = [x for x in json_data if not(x['itemLevel'] < MIN_ILVL and item_id not in ARTIFACT_WEAPONS and item_id not in ORDER_HALL_SET)]
-    print('Rejected %d json entries due to to item level filter' % (current_total-len(json_data)))
-    print('Loading data from a total of %d json entries for this item' % len(json_data))
+    json_data = [x for x in json_data if not(
+        x['itemLevel'] < MIN_ILVL and
+        item_id not in ARTIFACT_WEAPONS and
+        item_id not in ORDER_HALL_SET
+    )]
+    print('Rejected %d json entries due to to item level filter' %
+          (current_total - len(json_data)))
+    print('Loading data from a total of %d json entries for this item' %
+          len(json_data))
 
     # Loop through the json data tha twas retrieved and process each in turn
     for json in json_data:
@@ -199,8 +236,10 @@ def import_item(db, item_id):
         item = ArmoryItem(json)
 
         # check to see if there is an item in the database with this ID and base item
-        # level yet. We combine duplicate items together based on those two values.
-        results = db.items.find({'remote_id': item.item_id, 'item_level': item.ilevel})
+        # level yet. We combine duplicate items together based on those two
+        # values.
+        results = dbase.items.find(
+            {'remote_id': item.item_id, 'item_level': item.ilevel})
         if results.count() != 0:
             db_item = results[0]
         else:
@@ -229,17 +268,19 @@ def import_item(db, item_id):
             db_item['context_map'][name] = context
             db_item['contexts'].append(name)
 
-        db.items.replace_one({'remote_id': item.item_id, 'item_level': item.ilevel},
-                             db_item, upsert=True)
+        dbase.items.replace_one({'remote_id': item.item_id, 'item_level': item.ilevel},
+                                db_item, upsert=True)
 
 
-# Trims a list of bonus IDs down to the set of IDs that we actually care about, like
-# titles, since we load an additional item for each one of those. The bonus IDs that
-# we want are white-listed earlier in this class. Extra items will be loaded for
-# these bonus IDs.
 def get_bonus_ids_to_load(possible_ids, context, item_level):
+    """Trims a list of bonus IDs down to the set of IDs that we actually care about, like
+    titles, since we load an additional item for each one of those. The bonus IDs that
+    we want are white-listed earlier in this class. Extra items will be loaded for
+    these bonus IDs."""
+
     item_chance_bonuses = copy.copy(possible_ids)
-    item_chance_bonuses = [x for x in item_chance_bonuses if x in BONUS_ID_WHITELIST]
+    item_chance_bonuses = [
+        x for x in item_chance_bonuses if x in BONUS_ID_WHITELIST]
 
     # For trade-skil items, also add the bonuses for each of the "stage" titles
     if context == 'trade-skill':
@@ -250,20 +291,28 @@ def get_bonus_ids_to_load(possible_ids, context, item_level):
 
     return item_chance_bonuses
 
-# Loads a list of item IDs from wowhead filtered by item level and quality
+
 def get_ids_from_wowhead_by_ilvl(quality, min_ilvl, max_ilvl):
-    url = 'http://www.wowhead.com/items/min-level:%d/max-level:%d/class:4/quality:%d/live-only:on?filter=21;1;0' % (min_ilvl, max_ilvl, quality)
+    """Loads a list of item IDs from wowhead filtered by item level and quality"""
+    url = 'http://www.wowhead.com/items/min-level:%d/max-level:%d/class:4/quality:%d/live-only:on?filter=21;1;0' % (
+        min_ilvl, max_ilvl, quality)
     return get_ids_from_wowhead(url)
 
-# Loads a list of gem item IDs from wowhead filtered by gem type
+
 def get_ids_from_wowhead_by_type(item_type):
+    """Loads a list of gem item IDs from wowhead filtered by gem type"""
     url = 'http://www.wowhead.com/gems/type:%d?filter=166;7;0' % item_type
     return get_ids_from_wowhead(url)
 
-# Loads a list of item IDs from wowhead based on a wowhead URL
+
 def get_ids_from_wowhead(url):
+    """Loads a list of item IDs from wowhead based on a wowhead URL"""
     ids = []
-    resp = requests.get(url, timeout=7, headers={'user-agent':ArmoryDocument.USER_AGENT})
+    resp = requests.get(
+        url,
+        timeout=7,
+        headers={'user-agent': ArmoryDocument.USER_AGENT}
+    )
     if resp.status_code == 200:
         match_iter = re.finditer(r'_\[(\d+)\]=\{.*?\}', resp.text)
         for match in match_iter:
@@ -272,7 +321,9 @@ def get_ids_from_wowhead(url):
     print("Found %d new items from wowhead" % len(ids))
     return ids
 
+
 def test_item():
+    """load mongo with test items"""
     mongo = MongoClient()
     populate_db(mongo.roguesim_python)
 #    import_item(mongo.roguesim_python, 121015)
