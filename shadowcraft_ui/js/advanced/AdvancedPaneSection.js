@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import store from '../store';
 
 import AdvancedPaneSetting from './AdvancedPaneSetting';
 
@@ -29,7 +28,7 @@ class AdvancedPaneSection extends React.Component {
     }
 }
 
-const mapStateToProps = function (store) {
+const mapStateToProps = function(store) {
     return {
         current: store.settings.current,
     };

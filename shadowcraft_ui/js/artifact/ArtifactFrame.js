@@ -93,7 +93,6 @@ export default class ArtifactFrame extends React.Component {
         var traits_to_check = [this.props.layout.primary_trait];
         var traits_checked = [];
         var trait;
-        var relic_count = 0;
 
         // Force the primary trait to always be enabled. It always will be in-game, and it
         // doesn't get sent in the data from the armory. Setting it up here means that it will
@@ -104,7 +103,6 @@ export default class ArtifactFrame extends React.Component {
         // need the count right now so the paragon trait doesn't get enabled too early.
         for (var relic in artifact_data.relics) {
             if (artifact_data.relics[relic].id != 0) {
-                relic_count++;
                 artifact_data.traits[artifact_data.relics[relic].id] -= 1;
             }
         }

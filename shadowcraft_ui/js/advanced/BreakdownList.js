@@ -5,7 +5,7 @@ export default class BreakdownList extends React.Component {
 
     getBreakdownItems(items, max) {
 
-        var newItems = []
+        var newItems = [];
 
         // calculate the percentages and find the max percentage
         for (var item in items) {

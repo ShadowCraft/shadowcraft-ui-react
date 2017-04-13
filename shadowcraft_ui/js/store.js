@@ -55,9 +55,9 @@ const characterReducer = function (state = {}, action) {
 export function updateCharacterState(event, data)
 {
     return function(dispatch) {
-        dispatch({type: event, data: data})
+        dispatch({type: event, data: data});
         dispatch(getEngineData());
-    }
+    };
 }
 
 const settingsReducer = function (state = {}, action) {
@@ -109,9 +109,9 @@ export function changeSetting(setting) {
     return function(dispatch) {
         dispatch({type: 'CHANGE_SETTING',
                   setting: setting.setting,
-                  value: setting.value})
+                  value: setting.value});
         dispatch(getEngineData());
-    }
+    };
 }
 
 const initialEngineState = {
@@ -124,7 +124,6 @@ const initialEngineState = {
     // backend or engine is any better.
     ep: {
         agi: 0,
-        crit: 0,
         crit: 0,
         haste: 0,
         mastery: 0,
@@ -157,7 +156,6 @@ const engineReducer = function (state = initialEngineState, action) {
 
     switch (action.type) {
         case 'SET_ENGINE_STATE':
-            console.log(action.response)
             return Object.assign({}, state, action.response);
     }
 
@@ -174,17 +172,17 @@ export function updateEngineState(data)
         dispatch({type: 'ADD_HISTORY', dps: data.totalDps,
                   character: state.character,
                   settings: state.settings.current});
-    }
+    };
 }
 
 
 function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
-        return response
+        return response;
     } else {
-        var error = new Error(response.statusText)
-        error.response = response
-        throw error
+        var error = new Error(response.statusText);
+        error.response = response;
+        throw error;
     }
 }
 
@@ -207,7 +205,7 @@ export function getEngineData() {
             .then(r => r.json())
             .then(r => dispatch(updateEngineState(r)))
             .catch(ex => console.log(ex))
-    }
+    };
 }
 
 const initialWarningsState = {
@@ -256,11 +254,10 @@ const historyReducer = function(state = initialHistoryState, action) {
 
 export function historyTimeMachine(character, settings) {
     return function(dispatch) {
-        console.log('time machine!');
         dispatch({type: 'RESET_CHARACTER_DATA', data: character});
         dispatch({type: 'RESET_SETTINGS', data: settings});
         dispatch(getEngineData());
-    }
+    };
 }
 
 // Combine the reducers into a single reducer to put into the store.

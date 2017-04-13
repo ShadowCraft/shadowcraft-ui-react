@@ -25,7 +25,7 @@ function setInitialCharacterData(chardata)
                 dispatch({type: 'SETTINGS_LAYOUT', data: json});
                 dispatch(getEngineData());
             });
-    }
+    };
 }
 
 class CharacterPane extends React.Component {

@@ -23,8 +23,7 @@ function Ranking(props) {
 export default class RankingSection extends React.Component {
     constructor(props)
     {
-        super(props)
-
+        super(props);
 
         // loop through the sections and set the values/percentages and build a state tree,
         // sorting as we go
