@@ -44,6 +44,10 @@ const graphOptions={
             top: 15,
             bottom: 15,
         }
+    },
+    scales: {
+        xAxes:[{gridLines: {display: true, color: "#262626"}}],
+        yAxes:[{gridLines: {display: true, color: "#262626"}}]
     }
 };
 

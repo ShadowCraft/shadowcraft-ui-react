@@ -245,7 +245,7 @@ const historyReducer = function(state = initialHistoryState, action) {
 
         case 'ADD_HISTORY':
             var newState = state;
-            newState.dps.push(action.dps);
+            newState.dps.push(Math.round(action.dps * 10.0) / 10.0);
             newState.data.push({character: JSON.parse(JSON.stringify(action.character)),
                                 settings: Object.create(action.settings)});
             return Object.assign({}, state, newState);
