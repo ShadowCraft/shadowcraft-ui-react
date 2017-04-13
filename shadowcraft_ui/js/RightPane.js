@@ -2,7 +2,9 @@ import React from "react";
 import GoogleAd from 'react-google-ad';
 import { Line } from 'react-chartjs-2';
 import { connect } from 'react-redux';
+
 import store from './store';
+import { historyTimeMachine } from './store';
 
 const graphColor = '#dfb73d';
 
@@ -51,12 +53,15 @@ class RightPane extends React.Component {
 
     constructor(props) {
         super(props);
+        this.graphClick = this.graphClick.bind(this);
     }
     
     graphClick(elems) {
-        console.log(elems);
-        if (elems[0]._datasetIndex + 1 == this.props.history.dps.length) {
-            console.log("skipping");
+        // Don't allow the user to continually click the last element and keep resetting
+        // to the same data.
+        if (elems[0]._index + 1 != this.props.history.dps.length) {
+            var historyEntry = this.props.history.data[elems[0]._index];
+            store.dispatch(historyTimeMachine(historyEntry.character, historyEntry.settings));
         }
     }
 
@@ -64,8 +69,6 @@ class RightPane extends React.Component {
 
         var realm = this.props.realm.replace("-", " ");
         realm = realm.replace(/\b\w/g, l => l.toUpperCase());
-
-        console.log(this.props.history);
 
         graphTestData['datasets'][0]['data'] = this.props.history.dps;
         graphTestData['labels'] = Array(graphTestData['datasets'][0]['data'].length).fill('');

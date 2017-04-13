@@ -96,6 +96,10 @@ const settingsReducer = function (state = {}, action) {
                 current: current,
             });
         }
+
+        case 'RESET_SETTINGS': {
+            return Object.assign({}, state, action.data);
+        }
     }
 
     return state;
@@ -242,13 +246,22 @@ const historyReducer = function(state = initialHistoryState, action) {
         case 'ADD_HISTORY':
             var newState = state;
             newState.dps.push(action.dps);
-            newState.data.push({character: action.character,
-                                settings: action.settings});
+            newState.data.push({character: JSON.parse(JSON.stringify(action.character)),
+                                settings: Object.create(action.settings)});
             return Object.assign({}, state, newState);
     }
 
     return state;
 };
+
+export function historyTimeMachine(character, settings) {
+    return function(dispatch) {
+        console.log('time machine!');
+        dispatch({type: 'RESET_CHARACTER_DATA', data: character});
+        dispatch({type: 'RESET_SETTINGS', data: settings});
+        dispatch(getEngineData());
+    }
+}
 
 // Combine the reducers into a single reducer to put into the store.
 const reducers = combineReducers({
