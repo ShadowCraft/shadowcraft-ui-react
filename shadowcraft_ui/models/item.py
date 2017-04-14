@@ -34,8 +34,7 @@ BONUS_ID_WHITELIST = BASE_WHITELIST + BASE_ILEVEL_WHITELIST
 # chanceBonusList entry.  This is the list of bonus IDs for those stages and is
 # handled slightly differently.  See below for the check for trade-skill for more
 # details.
-WOD_TRADESKILL_BONUS_IDS = [525, 526, 527,
-                            558, 559, 593, 594, 617, 619, 618, 620]
+WOD_TRADESKILL_BONUS_IDS = [525, 526, 527, 558, 559, 593, 594, 617, 619, 618, 620]
 TRADESKILL_BONUS_IDS = [596, 597, 598, 599, 666, 667, 668, 669, 670, 671, 672]
 
 ARTIFACT_WEAPONS = [128476, 128479, 128870, 128869, 128872, 134552]

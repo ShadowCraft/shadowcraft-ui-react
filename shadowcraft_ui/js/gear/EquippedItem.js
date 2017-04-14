@@ -2,14 +2,18 @@ import React from 'react';
 import EquippedGemList from './EquippedGemsList';
 import EquippedEnchant from './EquippedEnchant';
 import ItemSelectPopup from './ItemSelectPopup';
+import BonusIDPopup from './BonusIDPopup';
 
 export default class EquippedItem extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            modal: false
+            modal: false,
+            bonusModal: false
         };
+
+        this.onBonusClick = this.onBonusClick.bind(this);
     }
 
     IsEnchantable(slot) {
@@ -26,9 +30,13 @@ export default class EquippedItem extends React.Component {
         this.setState({ modal: !this.state.modal });
     }
 
+    onBonusClick() {
+        this.setState({ bonusModal: !this.state.bonusModal });
+    }
+
     render() {
         let item = this.props.item;
-        // console.log(item)
+//        console.log(item);
         return (
             // do we need all these data targets?
             <div>
@@ -59,7 +67,7 @@ export default class EquippedItem extends React.Component {
                         <em className="heroic">TODO: bonus text</em>
                         <a className="wowhead" href={`http://legion.wowhead.com/item=${item.id}`} target="_blank">Wowhead</a>
                     </div>
-                    <div className="bonuses">
+                    <div className="bonuses" onClick={this.onBonusClick} >
                         {/*this probably doesn't need a huge full length div, maybe a gear under the item icon instead?'*/}
                         <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>
                     {/*need to pass whole item because we need to check item quality to filter out relics*/}
@@ -68,10 +76,8 @@ export default class EquippedItem extends React.Component {
                     {this.IsEnchantable(item.slot) && <EquippedEnchant enchantID={item.enchant} />}
                 </div >
                 {this.state.modal ? <ItemSelectPopup /> : <div />}
+                {this.state.bonusModal ? <BonusIDPopup possible={item.bonuses} active={[]} /> : <div />}
             </div>
         );
     }
 }
-
-
-
