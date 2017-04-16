@@ -9,7 +9,7 @@ export default class EquippedItem extends React.Component {
     constructor() {
         super();
         this.state = {
-            modal: false,
+            itemModal: false,
             bonusModal: false,
             items: {}
         };
@@ -40,7 +40,7 @@ export default class EquippedItem extends React.Component {
                 }.bind(this));
         }
 
-        this.setState({ modal: !this.state.modal });
+        this.setState({ itemModal: !this.state.itemModal });
     }
 
     onBonusClick() {
@@ -88,7 +88,11 @@ export default class EquippedItem extends React.Component {
                     {/*javascript trickery to only show enchants for neck, ring and back*/}
                     {this.IsEnchantable(item.slot) && <EquippedEnchant enchantID={item.enchant} />}
                 </div >
-                {this.state.modal ? <ItemSelectPopup items={this.state.items[item.slot]} /> : <div />}
+                {/*probably want to do a full screen modal with fade and click away later
+                would work better on mobile and is snazzier
+                plus we still have plans to do the stacked bars rankings layout
+                no need to put the cart before the horse, so this will do for now until we get to the layout refactor*/}
+                {this.state.itemModal ? <ItemSelectPopup items={this.state.items[item.slot]} /> : <div />}
                 {this.state.bonusModal ? <BonusIDPopup possible={item.bonuses} active={[]} /> : <div />}
             </div>
         );
