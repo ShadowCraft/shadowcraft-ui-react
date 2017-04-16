@@ -34,7 +34,8 @@ BONUS_ID_WHITELIST = BASE_WHITELIST + BASE_ILEVEL_WHITELIST
 # chanceBonusList entry.  This is the list of bonus IDs for those stages and is
 # handled slightly differently.  See below for the check for trade-skill for more
 # details.
-WOD_TRADESKILL_BONUS_IDS = [525, 526, 527, 558, 559, 593, 594, 617, 619, 618, 620]
+WOD_TRADESKILL_BONUS_IDS = [525, 526, 527,
+                            558, 559, 593, 594, 617, 619, 618, 620]
 TRADESKILL_BONUS_IDS = [596, 597, 598, 599, 666, 667, 668, 669, 670, 671, 672]
 
 ARTIFACT_WEAPONS = [128476, 128479, 128870, 128869, 128872, 134552]
@@ -48,15 +49,17 @@ MIN_ILVL = 800
 CHANCE_BONUSES = [40, 41, 42, 43, 1808, -1]
 
 
-def get_items_by_slot(dbase, slot, min_ilvl=-1, max_ilvl=-1):
+def get_items_by_slot(dbase: MongoClient, slot: int, min_ilvl: int=-1, max_ilvl: int=-1):
     """provides item lists for the drop downs in the ui"""
     query = {'properties.equip_location': slot}
-    if min_ilvl != -1:
-        query['item'] = {'$gte': min_ilvl}
-    if max_ilvl != -1:
-        query['item'] = {'$lte': max_ilvl}
-        results = dbase.items.find(query)
-        return dumps([x for x in results])
+    print(type(slot))
+    # TODO: fix min/max query
+    # if min_ilvl != -1:
+    #     query['item'] = {'$gte': min_ilvl}
+    # if max_ilvl != -1:
+    #     query['item'] = {'$lte': max_ilvl}
+    results = dbase.items.find(query)
+    return dumps([x for x in results])
 
 
 def init_db(dbase):

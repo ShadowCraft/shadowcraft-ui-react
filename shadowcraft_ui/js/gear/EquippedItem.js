@@ -10,7 +10,8 @@ export default class EquippedItem extends React.Component {
         super();
         this.state = {
             modal: false,
-            bonusModal: false
+            bonusModal: false,
+            items: {}
         };
 
         this.onBonusClick = this.onBonusClick.bind(this);
@@ -27,6 +28,18 @@ export default class EquippedItem extends React.Component {
     }
 
     onClick() {
+        if (!this.state.items[this.props.item.slot]) {
+            //TODO: fix filtering here and in character.py
+            fetch(`/get_items_by_slot?slot=${this.props.item.slotid}&min_ilvl=${700}&max_ilvl=${700}`)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (json) {
+                    //just setting local state for now, not sure if a larger will be needed.
+                    this.setState({ items: { [this.props.item.slot]: json } });
+                }.bind(this));
+        }
+
         this.setState({ modal: !this.state.modal });
     }
 
@@ -36,7 +49,7 @@ export default class EquippedItem extends React.Component {
 
     render() {
         let item = this.props.item;
-//        console.log(item);
+        //    console.log(item);
         return (
             // do we need all these data targets?
             <div>
@@ -75,7 +88,7 @@ export default class EquippedItem extends React.Component {
                     {/*javascript trickery to only show enchants for neck, ring and back*/}
                     {this.IsEnchantable(item.slot) && <EquippedEnchant enchantID={item.enchant} />}
                 </div >
-                {this.state.modal ? <ItemSelectPopup /> : <div />}
+                {this.state.modal ? <ItemSelectPopup items={this.state.items[item.slot]} /> : <div />}
                 {this.state.bonusModal ? <BonusIDPopup possible={item.bonuses} active={[]} /> : <div />}
             </div>
         );

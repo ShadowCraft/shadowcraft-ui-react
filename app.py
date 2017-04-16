@@ -100,9 +100,9 @@ def get_items_by_slot():
     # TODO: this should probably take some sort of key to make sure that we're
     # only returning data to our clients and not leaving this open to abuse by
     # other people.
-    slot = request.form['slot']
-    min_ilvl = request.form['min_ilvl']
-    max_ilvl = request.form['max_ilvl']
+    slot = int(request.args.get('slot'))
+    min_ilvl = int(request.args.get('min_ilvl'))
+    max_ilvl = int(request.args.get('max_ilvl'))
     return shadowcraft_ui.get_items_by_slot(mongo, slot, min_ilvl, max_ilvl)
 
 # TODO: we probably need other endpoints here for gems, relics, and other

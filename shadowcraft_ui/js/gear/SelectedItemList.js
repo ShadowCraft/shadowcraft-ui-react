@@ -2,7 +2,8 @@ import React from 'react';
 
 export default class SelectedItemList extends React.Component {
     render() {
-        return (
+        console.log(this.props.itemlist);
+        return this.props.itemlist.map(item => (
             <div className="body">
                 <div
                     className="slot"
@@ -35,6 +36,6 @@ export default class SelectedItemList extends React.Component {
                     <span className="desc"> 2076.8 base   </span>
                     <span className="pct"><div className="label">2076.8</div><div className="pct-inner" style={{ width: '100%' }} /></span></div>
             </div>
-        );
+        ));
     }
 }
