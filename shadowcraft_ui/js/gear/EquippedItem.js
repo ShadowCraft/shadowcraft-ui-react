@@ -30,7 +30,7 @@ export default class EquippedItem extends React.Component {
     onClick() {
         if (!this.state.items[this.props.item.slot]) {
             //TODO: fix filtering here and in character.py
-            fetch(`/get_items_by_slot?slot=${this.props.item.slotid}&min_ilvl=${700}&max_ilvl=${700}`)
+            fetch(`/get_items_by_slot?slot=${this.slotIDtoEquipIDMap(this.props.item.slotid)}&min_ilvl=${700}&max_ilvl=${700}`)
                 .then(function (response) {
                     return response.json();
                 })
@@ -45,6 +45,16 @@ export default class EquippedItem extends React.Component {
 
     onBonusClick() {
         this.setState({ bonusModal: !this.state.bonusModal });
+    }
+
+    slotIDtoEquipIDMap(slotid) {
+        switch (slotid) {
+            case 12: return 11;
+            case 13: return 12;
+            case 14: return 12;
+            case 15: return 16;
+            default: return slotid;
+        }
     }
 
     render() {
@@ -74,7 +84,7 @@ export default class EquippedItem extends React.Component {
                         data-tooltip-bonus={item.bonuses}
                         data-tooltip-gems={item.gems}
                         data-tooltip-id={item.id}
-                        onClick={this.onClick.bind(this)}
+                        onClick={item.slotid !== 16 ? this.onClick.bind(this) : ''}
                     >
                         {item.name}
                         <em className="heroic">TODO: bonus text</em>

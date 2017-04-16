@@ -52,7 +52,6 @@ CHANCE_BONUSES = [40, 41, 42, 43, 1808, -1]
 def get_items_by_slot(dbase: MongoClient, slot: int, min_ilvl: int=-1, max_ilvl: int=-1):
     """provides item lists for the drop downs in the ui"""
     query = {'properties.equip_location': slot}
-    print(type(slot))
     # TODO: fix min/max query
     # if min_ilvl != -1:
     #     query['item'] = {'$gte': min_ilvl}

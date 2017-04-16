@@ -22,7 +22,7 @@ ITEM_BONUS_TYPES = {
     'base_ilvl': 14
 }
 
-ENCHANT_SCALING = 10.0 # for lvl 90 // lvl100 = 80
+ENCHANT_SCALING = 10.0  # for lvl 90 // lvl100 = 80
 
 CLASS_MAP = {
     4: 'rogue'
@@ -47,22 +47,22 @@ RACE_MAP = {
 }
 
 SLOT_MAP = {
-    'head': 1,
-    'neck': 2,
-    'shoulder': 3,
-    'back': 15,
-    'chest': 5,
-    'wrist': 9,
-    'hands': 10,
-    'waist': 6,
-    'legs': 7,
-    'feet': 8,
-    'finger1': 11,
-    'finger2': 12,
-    'trinket1': 13,
-    'trinket2': 14,
-    'mainHand': 16,
-    'offHand': 17,
+    'head': 0,
+    'neck': 1,
+    'shoulder': 2,
+    'back': 14,
+    'chest': 4,
+    'wrist': 8,
+    'hands': 9,
+    'waist': 5,
+    'legs': 6,
+    'feet': 7,
+    'finger1': 10,
+    'finger2': 11,
+    'trinket1': 12,
+    'trinket2': 13,
+    'mainHand': 15,
+    'offHand': 16,
 }
 
 # TODO: missing some mappings in here based on data from ItemBonus.dbc. The follow

@@ -182,7 +182,7 @@ def __get_from_armory(db, character, realm, region):
         info = {
             'id': slot_item['id'],
             'slot': key,
-            'slotid': ArmoryConstants.SLOT_MAP[key],
+            'slotid': ArmoryConstants.SLOT_MAP[key] + 1,
             'name': slot_item['name'],
             'icon': slot_item['icon'],
             'item_level': slot_item['itemLevel'],
