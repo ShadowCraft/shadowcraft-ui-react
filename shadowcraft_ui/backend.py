@@ -345,14 +345,6 @@ class ShadowcraftComputation:
                 if enchant in self.enchantMap:
                     proclist.append(self.enchantMap[enchant])
 
-        pot = input_data['settings'].get('buffs.pot', 'potion_none')
-        if pot != 'potion_none':
-            proclist.append(pot)
-
-        prepot = input_data['settings'].get('buffs.prepot', 'potion_none')
-        if prepot != 'potion_none':
-            proclist.append(prepot)
-
         # TODO: this doesn't like our new settings for potions
         _procs = procs.ProcsList(*proclist)
 
@@ -391,74 +383,21 @@ class ShadowcraftComputation:
         if _spec == "a":
             tree = 0
             spec = "assassination"
+            cycle = settings.AssassinationCycle(**input_data['settings'])
         elif _spec == "Z":
             tree = 1
             spec = "outlaw"
+            cycle = settings.OutlawCycle(**input_data['settings'])
         else:
             tree = 2
             spec = "subtlety"
+            cycle = settings.SubtletyCycle(**input_data['settings'])
 
         # Talents
         t = input_data['character']['talents']['current']
         _talents = talents.Talents(t, spec, _class, _level)
 
-        _opt = input_data['settings']
-        rotation_keys = [x for x in _opt if x.startswith(
-            'rotation') and x.find(spec) != -1]
-        existing_options = {key: _opt[key] for key in rotation_keys}
-        rotation_options = {}
-        for key, value in existing_options.items():
-            new_key = key.split('.')[-1]
-            rotation_options[new_key] = value
-
-        if spec == "outlaw":
-            opts = ['jolly_roger_reroll', 'grand_melee_reroll', 'shark_reroll',
-                    'true_bearing_reroll', 'buried_treasure_reroll', 'broadsides_reroll']
-
-            if _opt['rotation.outlaw.reroll_policy'] != 'custom':
-                value = int(_opt['reroll_policy'])
-                for opt in opts:
-                    rotation_options[opt] = int(value)
-            else:
-                for opt in opts:
-                    rotation_options[opt] = int(_opt[opt])
-
-        # TODO: this option doesn't exist anymore?
-#        elif spec == "subtlety":
-#            rotation_options['positional_uptime'] = rotation_options['positional_uptime'] / 100.0
-
-        settings_options = {}
-        settings_options['num_boss_adds'] = int(
-            _opt.get('general.settings.num_boss_adds', 0))
-        settings_options['is_day'] = _opt.get(
-            'general.settings.night_elf_racial', 'day') == 'day'
-        settings_options['marked_for_death_resets'] = int(
-            _opt.get('general.settings.mfd_resets', 0))
-        settings_options['finisher_threshold'] = int(
-            _opt.get("general.settings.finisher_threshold", 0))
-
-        # TODO: this option doesn't exist anymore?
-        settings_options['is_demon'] = _opt.get("demon_enemy", 0) == 1
-        if tree == 0:
-            _cycle = settings.AssassinationCycle(**rotation_options)
-        elif tree == 1:
-            _cycle = settings.OutlawCycle(**rotation_options)
-        else:
-            _cycle = settings.SubtletyCycle(**rotation_options)
-            _cycle.cp_builder
-        _settings = settings.Settings(
-            _cycle,
-            response_time=float(
-                _opt.get("general.settings.response_time", 0.5)),
-            duration=int(
-                _opt.get('general.settings.duration', 300)),
-            latency=float(
-                _opt.get("other.latency", 0.03)),
-            adv_params=_opt.get(
-                "other.advanced", ''),
-            default_ep_stat='ap',
-            **settings_options
-        )
+        _settings = settings.Settings(cycle, **input_data['settings'])
 
         _artifact = input_data['character']['artifact']
 
@@ -533,7 +472,6 @@ class ShadowcraftComputation:
             # Get EP Values
             default_ep_stats = ['agi', 'haste',
                                 'crit', 'mastery', 'versatility', 'ap']
-            _opt = input_data.get("settings", {})
             out["ep"] = calculator.get_ep(ep_stats=default_ep_stats)
 
             other_buffs = ['rogue_t19_2pc', 'rogue_t19_4pc', 'rogue_orderhall_8pc',
