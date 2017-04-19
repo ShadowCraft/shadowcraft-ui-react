@@ -36,10 +36,10 @@ export default class ItemSelectElement extends React.Component {
                 </div>
                 <div className="gems" />
                 {/*<span className="tags"> Mythic</span>*/}
-                <span className="desc"> 2076.8 base   </span>
+                <span className="desc"> {this.props.value.toFixed(0)}   </span>
                 <span className="pct">
-                    <div className="label">2076.8</div>
-                    <div className="pct-inner" style={{ width: '100%' }} />
+                    <div className="label">{this.props.value.toFixed(0)}</div>
+                    <div className="pct-inner" style={{ width: `${(this.props.value / this.props.max) * 100}%` }} />
                 </span>
             </div>
         );
