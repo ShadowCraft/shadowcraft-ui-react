@@ -4,18 +4,20 @@ import { connect } from 'react-redux';
 
 class ItemSelectPopup extends React.Component {
 
-    getItemValue(item, weights) {
+    getItemValue(stats, weights) {
         let value = 0;
-        if (item.properties.stats.agility) value += item.properties.stats.agility * weights.agi;
-        if (item.properties.stats.crit) value += item.properties.stats.crit * weights.crit;
-        if (item.properties.stats.haste) value += item.properties.stats.haste * weights.haste;
-        if (item.properties.stats.mastery) value += item.properties.stats.mastery * weights.mastery;
-        if (item.properties.stats.versatility) value += item.properties.stats.versatility * weights.versatility;
+        //explicit to mind possible mismatched/missing property names
+        value += (stats.agility || 0) * weights.agi;
+        value += (stats.crit || 0) * weights.crit;
+        value += (stats.haste || 0) * weights.haste;
+        value += (stats.mastery || 0) * weights.mastery;
+        value += (stats.versatility || 0) * weights.versatility;
+
         return value;
     }
 
     sortItems(items, weights) {
-        return items.sort((a, b) => this.getItemValue(b, weights) - this.getItemValue(a, weights));
+        return items.sort((a, b) => this.getItemValue(b.properties.stats, weights) - this.getItemValue(a.properties.stats, weights));
     }
 
     getItemSelectElements(items, weights) {
@@ -25,8 +27,8 @@ class ItemSelectPopup extends React.Component {
             <ItemSelectElement
                 key={index}
                 item={item}
-                value={this.getItemValue(item, weights)}
-                max={this.getItemValue(sortedItems[0], weights)}
+                value={this.getItemValue(item.properties.stats, weights)}
+                max={this.getItemValue(sortedItems[0].properties.stats, weights)}
             />
         ));
     }
