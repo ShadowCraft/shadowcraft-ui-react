@@ -1,5 +1,4 @@
 import React from 'react';
-import Tabs from 'react-simpletabs-alt';
 import { connect } from 'react-redux';
 import 'whatwg-fetch';
 
@@ -13,53 +12,75 @@ import AdvancedPane from './advanced/AdvancedPane';
 import DocsPane from './DocsPane';
 import RightPane from './RightPane';
 
-function setInitialCharacterData(chardata)
-{
-    return function(dispatch) {
-        dispatch({type: 'RESET_CHARACTER_DATA', data: chardata});
+function setInitialCharacterData(chardata) {
+    return function (dispatch) {
+        dispatch({ type: 'RESET_CHARACTER_DATA', data: chardata });
 
         fetch('/settings')
-            .then(function(response) {
+            .then(function (response) {
                 return response.json();
-            }).then(function(json) {
-                dispatch({type: 'SETTINGS_LAYOUT', data: json});
+            }).then(function (json) {
+                dispatch({ type: 'SETTINGS_LAYOUT', data: json });
                 dispatch(getEngineData());
             });
     };
 }
 
 class CharacterPane extends React.Component {
-    // hold on to your butts
+
+    constructor() {
+        super();
+        this.state = {
+            currentTab: 'gear'
+        };
+    }
 
     componentWillMount() {
         store.dispatch(setInitialCharacterData(this.props.data));
     }
 
-    render() {
+    renderTab(tab) {
+        switch (tab) {
+            case 'gear': return <GearPane data={this.props.data} />;
+            case 'talents': return <TalentPane />;
+            case 'artifact': return <ArtifactPane />;
+            case 'advanced': return <AdvancedPane />;
+            case 'documentation': return <DocsPane />;
+            default: return (<div>unreconized string passed to CharacterPane.renderTab</div>);
+        }
+    }
 
+    render() {
         return (
             <div>
                 <div style={{ marginBottom: '25px', display: 'flex' }}>
                     <div id="container" style={{ flex: 4 }}>
                         <div id="curtain">
                             <div id='tabs'>
-                                <Tabs>
-                                    <Tabs.Panel title="Gear">
-                                        <GearPane data={this.props.data} />
-                                    </Tabs.Panel>
-                                    <Tabs.Panel title="Talents">
-                                        <TalentPane />
-                                    </Tabs.Panel>
-                                    <Tabs.Panel title="Artifact">
-                                        <ArtifactPane />
-                                    </Tabs.Panel>
-                                    <Tabs.Panel title="Advanced">
-                                        <AdvancedPane />
-                                    </Tabs.Panel>
-                                    <Tabs.Panel title="Documentation">
-                                        <DocsPane />
-                                    </Tabs.Panel>
-                                </Tabs>
+                                <div className="tabs">
+                                    <nav className="tabs-navigation">
+                                        <ul className="tabs-menu">
+                                            <li className={`tabs-menu-item ${this.state.currentTab === 'gear' ? 'is-active' : ''}`}
+                                                onClick={() => this.setState({ currentTab: 'gear' })}
+                                            ><a>Gear</a></li>
+                                            <li className={`tabs-menu-item ${this.state.currentTab === 'talents' ? 'is-active' : ''}`}
+                                                onClick={() => this.setState({ currentTab: 'talents' })}
+                                            ><a>Talents</a></li>
+                                            <li className={`tabs-menu-item ${this.state.currentTab === 'artifact' ? 'is-active' : ''}`}
+                                                onClick={() => this.setState({ currentTab: 'artifact' })}
+                                            ><a>Artifact</a></li>
+                                            <li className={`tabs-menu-item ${this.state.currentTab === 'advanced' ? 'is-active' : ''}`}
+                                                onClick={() => this.setState({ currentTab: 'advanced' })}
+                                            ><a>Advanced</a></li>
+                                            <li className={`tabs-menu-item ${this.state.currentTab === 'documenation' ? 'is-active' : ''}`}
+                                                onClick={() => this.setState({ currentTab: 'documentation' })}
+                                            ><a>Documentation</a></li>
+                                        </ul>
+                                    </nav>
+                                    <article className="tab-panel">
+                                        {this.renderTab(this.state.currentTab)}
+                                    </article>
+                                </div>
                             </div>
                         </div>
                     </div >
@@ -80,7 +101,7 @@ class CharacterPane extends React.Component {
     }
 }
 
-const mapStateToProps = function(store) {
+const mapStateToProps = function (store) {
     return {
         store_data: store.character
     };
