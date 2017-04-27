@@ -14,7 +14,7 @@ export default class AdvancedPaneSetting extends React.Component {
     }
 
     render() {
-        var id = `${this.props.section}.${this.props.setting.name}`;
+        var id = `${this.props.setting.name}`;
         return this.getSettingType(this.props.setting, id, this.props.current[id]);
     }
 }

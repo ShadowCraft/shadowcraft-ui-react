@@ -11,4 +11,4 @@ jsonschema
 gunicorn
 future
 pylint
--e git+https://github.com/ShadowCraft/ShadowCraft-Engine.git@legion-newui-settings#egg=ShadowCraft-Engine
+-e git+https://github.com/ShadowCraft/ShadowCraft-Engine.git@legion#egg=ShadowCraft-Engine

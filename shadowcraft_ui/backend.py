@@ -4,7 +4,7 @@ import traceback
 import pymongo
 
 from shadowcraft.calcs.rogue.Aldriana \
-    import AldrianasRogueDamageCalculator, settings, InputNotModeledException
+    import AldrianasRogueDamageCalculator, settings, settings_data, InputNotModeledException
 
 from shadowcraft.objects import buffs
 from shadowcraft.objects import race
@@ -266,11 +266,11 @@ class ShadowcraftComputation:
 
         # Buffs
         buff_list = []
-        if input_data['settings'].get('buffs.flask_legion_agi', False):
+        if input_data['settings'].get('flask_legion_agi', False):
             buff_list.append('flask_wod_agi')
-        if input_data['settings'].get('buffs.short_term_haste_buff', False):
+        if input_data['settings'].get('short_term_haste_buff', False):
             buff_list.append('short_term_haste_buff')
-        buff_list.append(input_data['settings']['buffs.food_buff'])
+        buff_list.append(input_data['settings']['food_buff'])
 
         _buffs = buffs.Buffs(*buff_list, level=_level)
 
@@ -344,6 +344,14 @@ class ShadowcraftComputation:
                 # Also if this is a proc-based enchant, add it to the proclist
                 if enchant in self.enchantMap:
                     proclist.append(self.enchantMap[enchant])
+
+        pot = input_data['settings'].get('pot', 'potion_none')
+        if pot != 'potion_none':
+            proclist.append(pot)
+
+        prepot = input_data['settings'].get('prepot', 'potion_none')
+        if prepot != 'potion_none':
+            proclist.append(prepot)
 
         # TODO: this doesn't like our new settings for potions
         _procs = procs.ProcsList(*proclist)
@@ -541,6 +549,54 @@ def get_engine_output(db, input_data):
 
 
 def get_settings():
+    filters = {
+        'spec': 'All',
+        'heading': 'Item Filter',
+        'name': 'general.filter',
+        'items': [
+            {
+                'name': 'dynamic_ilvl',
+                'label': 'Dynamic ILevel filtering',
+                'description': 'Dynamically filters items in gear lists to \
+                                +/- 50 Ilevels of the item equipped in that slot. \
+                                Disable this option to use the manual filtering options below.',
+                'type': 'checkbox',
+                'default': False
+            },
+            {
+                'name': 'max_ilvl',
+                'label': 'Max ILevel',
+                'description': "Don't show items over this item level in gear lists",
+                'type': 'text',
+                'default': '1000'
+            },
+            {
+                'name': 'min_ilvl',
+                'label': 'Min ILevel',
+                'description': "Don't show items under this item level in gear lists",
+                'type': 'text',
+                'default': '850'
+            },
+            {
+                'name': 'show_upgrades',
+                'label': 'Show Upgrades',
+                'description': 'Show all upgraded items in gear lists',
+                'type': 'checkbox',
+                'default': False
+            },
+            {
+                'name': 'epic_gems',
+                'label': 'Recommend Epic Gems',
+                'description': '',
+                'type': 'checkbox',
+                'default': False
+            }
+        ]
+    }
+    data = list(settings_data.rogue_settings) #copies rogue_settings, so we don't append to that
+    data.append(filters)
+    return data
+    """
     dummy_data = [
         {
             'spec': 'a',
@@ -990,6 +1046,7 @@ def get_settings():
         }
     ]
     return dummy_data
+    """
 
 if __name__ == '__main__':
     print(get_engine_output({}))

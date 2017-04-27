@@ -86,7 +86,7 @@ const settingsReducer = function (state = {}, action) {
                 var section = action.data[index];
                 for (var item_index in section.items) {
                     var item = section.items[item_index];
-                    var key = section.name + "." + item.name;
+                    var key = item.name;
                     if (!(current.hasOwnProperty(key))) {
                         current[key] = item.default;
                     }
@@ -120,8 +120,8 @@ export function changeSetting(setting) {
 
 const initialEngineState = {
 
-    ui_build: "7.1.5-UI-Test",
-    build: "7.1.5-Test",
+    ui_build: "7.2.0-UI-Test",
+    build: "7.2.0-Test",
 
     // TODO: I'm not a huge fan of hard-coding the layout of the data we get back
     // from the engine here like this, but I don't know if requesting it from the
