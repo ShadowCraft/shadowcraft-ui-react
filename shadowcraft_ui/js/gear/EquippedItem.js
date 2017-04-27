@@ -102,7 +102,7 @@ export default class EquippedItem extends React.Component {
                 would work better on mobile and is snazzier
                 plus we still have plans to do the stacked bars rankings layout
                 no need to put the cart before the horse, so this will do for now until we get to the layout refactor*/}
-                {this.state.itemModal ? <ItemSelectPopup items={this.state.items[item.slot]} /> : <div />}
+                {this.state.itemModal ? <ItemSelectPopup slot={item.slot} items={this.state.items[item.slot]} /> : <div />}
                 {this.state.bonusModal ? <BonusIDPopup possible={item.bonuses} active={[]} /> : <div />}
             </div>
         );

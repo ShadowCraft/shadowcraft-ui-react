@@ -26,6 +26,7 @@ class ItemSelectPopup extends React.Component {
         return sortedItems.map((item, index) => (
             <ItemSelectElement
                 key={index}
+                slot={this.props.slot}
                 item={item}
                 value={this.getItemValue(item.properties.stats, weights)}
                 max={this.getItemValue(sortedItems[0].properties.stats, weights)}

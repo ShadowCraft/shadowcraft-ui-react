@@ -20,8 +20,7 @@ const characterReducer = function (state = {}, action) {
 
         case 'UPDATE_ARTIFACT_RELIC': {
             let newState = state;
-            if (newState.artifact.relics[action.data.slot].id != 0)
-            {
+            if (newState.artifact.relics[action.data.slot].id != 0) {
                 newState.artifact.traits[newState.artifact.relics[action.data.slot].id] -= 1;
             }
 
@@ -30,7 +29,7 @@ const characterReducer = function (state = {}, action) {
 
             // Update the new trait
             newState.artifact.traits[action.data.trait] += 1;
-            
+
             return Object.assign({}, state, newState);
         }
 
@@ -45,6 +44,10 @@ const characterReducer = function (state = {}, action) {
             newState.talents.current = action.data;
             return Object.assign({}, state, newState);
         }
+
+        case 'CHANGE_ITEM': {
+            return Object.assign({}, state, { gear: Object.assign({}, state.gear, action.data) });
+        }
     }
 
     return state;
@@ -52,10 +55,9 @@ const characterReducer = function (state = {}, action) {
 
 // Thunk for calling the events in the character reducer. Using this to dispatch events
 // into the character reducer will also make a call to the engine to update that data.
-export function updateCharacterState(event, data)
-{
-    return function(dispatch) {
-        dispatch({type: event, data: data});
+export function updateCharacterState(event, data) {
+    return function (dispatch) {
+        dispatch({ type: event, data: data });
         dispatch(getEngineData());
     };
 }
@@ -106,10 +108,12 @@ const settingsReducer = function (state = {}, action) {
 };
 
 export function changeSetting(setting) {
-    return function(dispatch) {
-        dispatch({type: 'CHANGE_SETTING',
-                  setting: setting.setting,
-                  value: setting.value});
+    return function (dispatch) {
+        dispatch({
+            type: 'CHANGE_SETTING',
+            setting: setting.setting,
+            value: setting.value
+        });
         dispatch(getEngineData());
     };
 }
@@ -164,14 +168,15 @@ const engineReducer = function (state = initialEngineState, action) {
 
 // Thunk for handling incoming engine state. It updates the engine state, plus passes
 // the current character and settings state to the history reducer.
-export function updateEngineState(data)
-{
-    return function(dispatch, getState) {
+export function updateEngineState(data) {
+    return function (dispatch, getState) {
         const state = getState();
-        dispatch({type: 'SET_ENGINE_STATE', response: data});
-        dispatch({type: 'ADD_HISTORY', dps: data.totalDps,
-                  character: state.character,
-                  settings: state.settings.current});
+        dispatch({ type: 'SET_ENGINE_STATE', response: data });
+        dispatch({
+            type: 'ADD_HISTORY', dps: data.totalDps,
+            character: state.character,
+            settings: state.settings.current
+        });
     };
 }
 
@@ -188,15 +193,15 @@ function checkStatus(response) {
 
 export function getEngineData() {
     // TODO: this needs error handling
-    return function(dispatch, getState) {
+    return function (dispatch, getState) {
         const state = getState();
-        
+
         fetch('/engine', {
             method: 'POST',
             body: JSON.stringify({
                 character: state.character,
                 settings: state.settings.current
-            }),                
+            }),
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -214,7 +219,7 @@ const initialWarningsState = {
     ]
 };
 
-const warningsReducer = function(state = initialWarningsState, action) {
+const warningsReducer = function (state = initialWarningsState, action) {
     switch (action.type) {
         case 'CLEAR_WARNINGS':
             var newState = state;
@@ -233,7 +238,7 @@ const initialHistoryState = {
     data: []
 };
 
-const historyReducer = function(state = initialHistoryState, action) {
+const historyReducer = function (state = initialHistoryState, action) {
     switch (action.type) {
         case 'CLEAR_HISTORY':
             var newState = state;
@@ -244,8 +249,10 @@ const historyReducer = function(state = initialHistoryState, action) {
         case 'ADD_HISTORY':
             var newState = state;
             newState.dps.push(Math.round(action.dps * 10.0) / 10.0);
-            newState.data.push({character: JSON.parse(JSON.stringify(action.character)),
-                                settings: Object.create(action.settings)});
+            newState.data.push({
+                character: JSON.parse(JSON.stringify(action.character)),
+                settings: Object.create(action.settings)
+            });
             return Object.assign({}, state, newState);
     }
 
@@ -253,9 +260,9 @@ const historyReducer = function(state = initialHistoryState, action) {
 };
 
 export function historyTimeMachine(character, settings) {
-    return function(dispatch) {
-        dispatch({type: 'RESET_CHARACTER_DATA', data: character});
-        dispatch({type: 'RESET_SETTINGS', data: settings});
+    return function (dispatch) {
+        dispatch({ type: 'RESET_CHARACTER_DATA', data: character });
+        dispatch({ type: 'RESET_SETTINGS', data: settings });
         dispatch(getEngineData());
     };
 }
