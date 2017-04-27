@@ -11,28 +11,21 @@ class BonusIDCheckBox extends React.Component {
     }
     
     render() {
-        var description;
+        let description;
         switch (this.props.bonusId.toString()) {
             case "1808":
                 description = "1 Socket";
-                break;
-            case "40":
-                description = "+" + this.props.value + " avoidance";
-                break;
-            case "41":
-                description = "+" + this.props.value + " leech";
-                break;
-            case "42":
-                description = "+" + this.props.value + " speed";
-                break;
-            case "43":
-                description = "indestructible";
-                break;
         }
 
-        console.log(this.props);
+        let classes = "";
+        if (this.props.checked) {
+            classes = "label_check c_on";
+        } else {
+            classes = "label_check";
+        }
+
         return (
-            <label className="label_check c_on">
+            <label className={classes}>
                 <input key={this.props.bonusId} id={"bonus-"+this.props.bonusId} data-bonusId={this.props.bonusId} type="checkbox" onChange={this.onChange} checked={this.props.checked} />{description}
             </label>
         );
@@ -65,42 +58,32 @@ export default class BonusIDPopup extends React.Component {
     }
 
     onChange(e) {
-        var bonusId = parseInt(e.currentTarget.dataset['bonusid']);
+        let bonusId = parseInt(e.currentTarget.dataset['bonusid']);
+
         // If the value was true, that means we're turning it off. Check to see if the
         // element is in the active list, and remove it.
-        var newActive = this.state.active;
-        if (e.currentTarget.value)
-        {
-            var index = this.state.active.indexOf(bonusId);
-            if (index != -1) {
-                newActive.splice(index, 1);
-            }
+        let newActive = this.state.active;
+        let index = this.state.active.indexOf(bonusId);
+        
+        if (index != -1) {
+            newActive.splice(index, 1);
         }
-        else
-        {
-            var index = this.state.active.indexOf(bonusId);
-            if (index == -1) {
-                newActive.push(bonusId);
-            }
+        else {
+            newActive.push(bonusId);
         }
+        
         this.setState({active: newActive});
     }
 
     render() {
 
-        /* var tertiaryInputs = [];
-         * for (var idx in this.tertiaryIds) {
-         *     var bonusId = this.tertiaryIds[idx];
-         *     tertiaryInputs.push(<BonusIDCheckBox key={bonusId} bonusId={bonusId} handleCheckbox={this.onChange} checked={this.state.active.indexOf(bonusId) != -1} />);
-         * }
-         */
-        var wfOptions = [];
-        var selectedWFBonus = "";
-        for (var i = 955; i >= this.props.baseIlvl; i -= 5) {
+        let wfOptions = [];
+        let selectedWFBonus = "";
+        for (let i = 955; i >= this.props.baseIlvl; i -= 5) {
             if (i == this.props.baseIlvl) {
                 wfOptions.push(<option value="">  Item Level {i} / None</option>)
             } else {
-                var bonus = i - this.props.baseIlvl + 1472;
+                let bonus = i - this.props.baseIlvl + 1472;
                 if (this.state.active.indexOf(bonus) != -1) {
                     selectedWFBonus = bonus;
                 }
@@ -109,7 +92,6 @@ export default class BonusIDPopup extends React.Component {
             }
         }
 
-        console.log(this.state.active);
         return(
             <div className="popup ui-dialog visible" id="bonuses" style={{top: "355px", left: "440px"}}>
                 <h1>Item Bonuses</h1>
@@ -117,11 +99,6 @@ export default class BonusIDPopup extends React.Component {
                     <fieldset className="bonus_line">
                         <legend>Extra Sockets</legend>
                         <BonusIDCheckBox bonusId="1808" handleCheckbox={this.onChange} checked={this.state.active.indexOf(1808) != -1} />
-                    </fieldset>
-
-                    <fieldset className="bonus_line">
-                        <legend>Tertiary Stats</legend>
-                        {/*tertiaryInputs*/}
                     </fieldset>
 
                     <fieldset className="bonus_line">
