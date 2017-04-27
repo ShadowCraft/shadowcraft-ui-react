@@ -30,7 +30,8 @@ export default class EquippedItem extends React.Component {
     onClick() {
         if (!this.state.items[this.props.item.slot]) {
             //TODO: fix filtering here and in character.py
-            fetch(`/get_items_by_slot?slot=${this.slotIDtoEquipIDMap(this.props.item.slotid)}&min_ilvl=${700}&max_ilvl=${700}`)
+            //TODO: what happens here if the user changes the filtering between requests?
+            fetch('/get_items_by_slot?slot=${this.slotIDtoEquipIDMap(this.props.item.slotid)}&min_ilvl=${700}&max_ilvl=${700}')
                 .then(function (response) {
                     return response.json();
                 })
@@ -59,13 +60,13 @@ export default class EquippedItem extends React.Component {
 
     render() {
         let item = this.props.item;
-        //    console.log(item);
+        console.log(item);
         return (
             // do we need all these data targets?
             <div>
                 <div
                     className="slot"
-                    data-bonus={item.bonusids}
+                    data-bonus={item.bonuses}
                     data-context={item.context}
                     data-name={item.name}
                     data-quality={item.quality}
@@ -103,7 +104,7 @@ export default class EquippedItem extends React.Component {
                 plus we still have plans to do the stacked bars rankings layout
                 no need to put the cart before the horse, so this will do for now until we get to the layout refactor*/}
                 {this.state.itemModal ? <ItemSelectPopup slot={item.slot} items={this.state.items[item.slot]} /> : <div />}
-                {this.state.bonusModal ? <BonusIDPopup possible={item.bonuses} active={[]} /> : <div />}
+                {this.state.bonusModal ? <BonusIDPopup item={item} /> : <div />}
             </div>
         );
     }

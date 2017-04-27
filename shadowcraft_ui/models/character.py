@@ -186,6 +186,7 @@ def __get_from_armory(db, character, realm, region):
             'name': slot_item['name'],
             'icon': slot_item['icon'],
             'item_level': slot_item['itemLevel'],
+            'base_item_level': 0,
             'gems': [],
             'stats': {},
             'bonuses': slot_item['bonusLists'],
@@ -239,6 +240,20 @@ def __get_from_armory(db, character, realm, region):
         # same between all of those contexts?
         if info['context'].startswith('world-quest'):
             info['context'] = 'world-quest'
+
+        # Look up this item/context in the database and set the base item level.
+        # This saves us from having to make extra requests later if the user
+        # opens the dialog to set tertiaries, etc.
+        query = {'remote_id': info['id'], 'contexts': info['context']}
+        results = db.items.find(query)
+        if results.count() != 0:
+            info['base_item_level'] = results[0]['item_level']
+
+        if info['base_item_level'] == 0:
+            query = {'remote_id': info['id']}
+            results = db.items.find(query)
+            if results.count() != 0:
+                info['base_item_level'] = results[0]['item_level']
 
         output['gear'][key] = info
 
