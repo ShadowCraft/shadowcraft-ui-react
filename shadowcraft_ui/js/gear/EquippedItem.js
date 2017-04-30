@@ -1,10 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import EquippedGemList from './EquippedGemsList';
 import EquippedEnchant from './EquippedEnchant';
 import ItemSelectPopup from './ItemSelectPopup';
 import BonusIDPopup from './BonusIDPopup';
+import store from '../store';
 
-export default class EquippedItem extends React.Component {
+class EquippedItem extends React.Component {
 
     constructor() {
         super();
@@ -64,7 +67,7 @@ export default class EquippedItem extends React.Component {
     }
 
     render() {
-        let item = this.props.item;
+        let item = this.props.items[this.props.slot];
         //console.log(item);
         return (
             // do we need all these data targets?
@@ -114,3 +117,11 @@ export default class EquippedItem extends React.Component {
         );
     }
 }
+
+const mapStateToProps = function(store) {
+    return {
+        items: store.character.gear
+    };
+};
+
+export default connect(mapStateToProps)(EquippedItem);

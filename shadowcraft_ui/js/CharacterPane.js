@@ -41,7 +41,7 @@ class CharacterPane extends React.Component {
 
     renderTab(tab) {
         switch (tab) {
-            case 'gear': return <GearPane data={this.props.data} />;
+            case 'gear': return <GearPane />;
             case 'talents': return <TalentPane />;
             case 'artifact': return <ArtifactPane />;
             case 'advanced': return <AdvancedPane />;

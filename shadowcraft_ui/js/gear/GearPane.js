@@ -7,29 +7,29 @@ export default class GearPane extends React.Component {
         //  console.log(data.gear)
         return (
             <div className="with-tools ui-tabs-panel ui-widget-content ui-corner-bottom" id="gear">
-                <StatPanel stats={this.props.data.stats} weights={this.props.data.weights} />
+                <StatPanel />
                 {/*this layout method could probably be revised*/}
                 <div className="panel-content">
                     <div className="slots half" id="slots-left">
-                        <EquippedItem item={this.props.data.gear.head} />
-                        <EquippedItem item={this.props.data.gear.neck} />
-                        <EquippedItem item={this.props.data.gear.shoulder} />
-                        <EquippedItem item={this.props.data.gear.back} />
-                        <EquippedItem item={this.props.data.gear.chest} />
-                        <EquippedItem item={this.props.data.gear.wrist} />
-                        <EquippedItem item={this.props.data.gear.mainHand} />
+                        <EquippedItem slot="head" />
+                        <EquippedItem slot="neck" />
+                        <EquippedItem slot="shoulder" />
+                        <EquippedItem slot="back" />
+                        <EquippedItem slot="chest" />
+                        <EquippedItem slot="wrist" />
+                        <EquippedItem slot="mainHand" />
                         {/*need to handle missing gear more gracefully*/}
-                        {/*<EquippedItem item={data.gear.offhand} />*/}
+                        {/*<EquippedItem slot="offhand" />*/}
                     </div>
                     <div className="slots half" id="slots-right">
-                        <EquippedItem item={this.props.data.gear.hands} />
-                        <EquippedItem item={this.props.data.gear.waist} />
-                        <EquippedItem item={this.props.data.gear.legs} />
-                        <EquippedItem item={this.props.data.gear.feet} />
-                        <EquippedItem item={this.props.data.gear.finger1} />
-                        <EquippedItem item={this.props.data.gear.finger2} />
-                        <EquippedItem item={this.props.data.gear.trinket1} />
-                        <EquippedItem item={this.props.data.gear.trinket2} />
+                        <EquippedItem slot="hands" />
+                        <EquippedItem slot="waist" />
+                        <EquippedItem slot="legs" />
+                        <EquippedItem slot="feet" />
+                        <EquippedItem slot="finger1" />
+                        <EquippedItem slot="finger2" />
+                        <EquippedItem slot="trinket1" />
+                        <EquippedItem slot="trinket2" />
                     </div>
                 </div >
             </div>
