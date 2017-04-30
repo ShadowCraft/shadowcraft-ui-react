@@ -15,6 +15,7 @@ export default class EquippedItem extends React.Component {
         };
 
         this.onBonusClick = this.onBonusClick.bind(this);
+        this.onBonusApply = this.onBonusApply.bind(this);
     }
 
     IsEnchantable(slot) {
@@ -45,7 +46,11 @@ export default class EquippedItem extends React.Component {
     }
 
     onBonusClick() {
-        this.setState({ bonusModal: !this.state.bonusModal });
+        this.setState({ bonusModal: true });
+    }
+
+    onBonusApply(bonuses) {
+        this.setState({ bonusModal: false });
     }
 
     slotIDtoEquipIDMap(slotid) {
@@ -60,7 +65,7 @@ export default class EquippedItem extends React.Component {
 
     render() {
         let item = this.props.item;
-        console.log(item);
+        //console.log(item);
         return (
             // do we need all these data targets?
             <div>
@@ -104,7 +109,7 @@ export default class EquippedItem extends React.Component {
                 plus we still have plans to do the stacked bars rankings layout
                 no need to put the cart before the horse, so this will do for now until we get to the layout refactor*/}
                 {this.state.itemModal ? <ItemSelectPopup slot={item.slot} items={this.state.items[item.slot]} /> : <div />}
-                {this.state.bonusModal ? <BonusIDPopup item={item} /> : <div />}
+                {this.state.bonusModal ? <BonusIDPopup item={item} onApply={this.onBonusApply} /> : <div />}
             </div>
         );
     }
