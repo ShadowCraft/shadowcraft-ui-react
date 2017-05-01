@@ -32,16 +32,16 @@ class EquippedItem extends React.Component {
     }
 
     onClick() {
-        if (!this.state.items[this.props.item.slot]) {
+        if (!this.state.items[this.props.slot]) {
             //TODO: fix filtering here and in character.py
             //TODO: what happens here if the user changes the filtering between requests?
-            fetch(`/get_items_by_slot?slot=${this.slotIDtoEquipIDMap(this.props.item.slotid)}&min_ilvl=${700}&max_ilvl=${700}`)
+            fetch(`/get_items_by_slot?slot=${this.slotIDtoEquipIDMap(this.props.items[this.props.slot].slotid)}&min_ilvl=${700}&max_ilvl=${700}`)
                 .then(function (response) {
                     return response.json();
                 })
                 .then(function (json) {
                     //just setting local state for now, not sure if a larger will be needed.
-                    this.setState({ items: { [this.props.item.slot]: json } });
+                    this.setState({ items: { [this.props.slot]: json } });
                 }.bind(this));
         }
 
