@@ -35,7 +35,7 @@ class EquippedItem extends React.Component {
         if (!this.state.items[this.props.item.slot]) {
             //TODO: fix filtering here and in character.py
             //TODO: what happens here if the user changes the filtering between requests?
-            fetch('/get_items_by_slot?slot=${this.slotIDtoEquipIDMap(this.props.item.slotid)}&min_ilvl=${700}&max_ilvl=${700}')
+            fetch(`/get_items_by_slot?slot=${this.slotIDtoEquipIDMap(this.props.item.slotid)}&min_ilvl=${700}&max_ilvl=${700}`)
                 .then(function (response) {
                     return response.json();
                 })
