@@ -69,13 +69,7 @@ class ArmoryItem(object):
         # etc. Store these with the item if they exist so they can be displayed
         # on the popup for the item.
         self.bonus_tree = json_data['bonusLists'] if 'bonusLists' in json_data else []
-
-        # TODO: what is this for? These 5 bonus IDs are for the 100% secondary
-        # stat bonuses.
-        self.chance_bonus_lists = []
-        for bonus_id in json_data['bonusSummary']['defaultBonusLists']:
-            if bonus_id in [486, 487, 488, 489, 490]:
-                self.chance_bonus_lists.append(bonus_id)
+        self.chance_bonus_lists = json_data['bonusSummary']['chanceBonusLists']
 
         # If this item is a weapon, we need to store a little bit of information
         # about it.
