@@ -227,6 +227,9 @@ class ShadowcraftComputation:
         137100: 'denial_of_the_half_giants',
         133976: 'cinidaria_the_symbiote',
         144236: 'mantle_of_the_master_assassin',
+        132452: 'sephuzs_secret',
+        134542: 'jeweled_signet_of_melandrus',
+        134526: 'gnawed_thumb_ring',
     }
 
     # combines gearProcs and gearBoosts
