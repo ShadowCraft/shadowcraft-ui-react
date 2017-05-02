@@ -78,6 +78,12 @@ def init_db(dbase):
         ],
         unique=True
     )
+    dbase.items.create_index(
+        [
+            ('slot', pymongo.ASCENDING),
+        ],
+        unique=True
+    )
 
 
 def populate_db(dbase):
