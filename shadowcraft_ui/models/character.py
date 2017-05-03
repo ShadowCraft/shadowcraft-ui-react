@@ -166,6 +166,14 @@ def __get_from_armory(db, character, realm, region):
     talents = [x for x in json_data['talents'] if len(x['calcSpec']) > 0]
     for tree in talents:
         output['talents'][tree['calcSpec']] = tree['calcTalent']
+
+        # Talents are indexed from 1 in the engine and zero means "not selected". Fix it so
+        # that's the case when we load the data here. There's probably a better way to do this.
+        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace("2","3")
+        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace("1","2")
+        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace("0","1")
+        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace(".","0")
+
     output['talents']['current'] = output['talents'][output['active']]
 
     if 'items' not in json_data or len(json_data['items']) == 0:
