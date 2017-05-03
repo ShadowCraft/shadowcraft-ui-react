@@ -47,10 +47,10 @@ class ArmoryItem(object):
         # If this item is a gem or an armor item, save some additional information about it.
         if json_data['itemClass'] == 3:
             if 'gemInfo' in json_data:
-                self.stats = {}
-            else:
                 self.gem_slot = json_data['gemInfo']['type']['type'].title()
                 self.stats = ArmoryItem.scan_str(json_data['gemInfo']['bonus']['name'])
+            else:
+                self.stats = {}
 
         elif json_data['itemClass'] == 4:
             if json_data['itemSubClass'] in ArmoryConstants.ARMOR_CLASS:

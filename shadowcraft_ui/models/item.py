@@ -46,8 +46,8 @@ MIN_ILVL = 800
 # This is the set of bonus IDs that should be on basically every legion item, but the API
 # neglects to actually add. These are the four tertiary stats and a legion
 # socket.
+# TODO: this isn't used anywhere
 CHANCE_BONUSES = [40, 41, 42, 43, 1808, -1]
-
 
 def get_items_by_slot(dbase: MongoClient, slot: int, min_ilvl: int=-1, max_ilvl: int=-1):
     """provides item lists for the drop downs in the ui"""
@@ -132,8 +132,23 @@ def populate_db(dbase):
             print("Loading item %d of %d" % (pos, len(item_ids)))
         import_item(dbase, item_id)
 
+def populate_gems(dbase):
+    """get gem data to put into mongo"""
+    wowhead_ids = []
+    wowhead_ids.extend(get_ids_from_wowhead("http://www.wowhead.com/items/gems/prismatic?filter=166;6;0"))
+    wowhead_ids.extend(get_ids_from_wowhead("http://www.wowhead.com/items/gems/prismatic?filter=166;7;0"))
 
-def import_item(dbase, item_id):
+    item_ids = set(wowhead_ids)
+    print("Have %d gems to load" % len(item_ids))
+    pos = 0
+    for item_id in item_ids:
+        pos += 1
+        if pos % 10 == 0:
+            print("Loading gem %d of %d" % (pos, len(item_ids)))
+        import_item(dbase, item_id, True)
+
+
+def import_item(dbase, item_id, is_gem=False):
     """fetch data from bnet"""
     print("Importing %d" % item_id)
 
@@ -227,11 +242,13 @@ def import_item(dbase, item_id):
                 return
 
     current_total = len(json_data)
-    json_data = [x for x in json_data if not(
-        x['itemLevel'] < MIN_ILVL and
-        item_id not in ARTIFACT_WEAPONS and
-        item_id not in ORDER_HALL_SET
-    )]
+    if not is_gem:
+        json_data = [x for x in json_data if not(
+            x['itemLevel'] < MIN_ILVL and
+            item_id not in ARTIFACT_WEAPONS and
+            item_id not in ORDER_HALL_SET
+        )]
+
     print('Rejected %d json entries due to to item level filter' %
           (current_total - len(json_data)))
     print('Loading data from a total of %d json entries for this item' %
@@ -259,21 +276,24 @@ def import_item(dbase, item_id):
                        'item_level': item.ilevel,
                        'properties': item.as_json()}
             db_item['is_gem'] = 'gem_slot' in db_item['properties']
-            db_item['contexts'] = []
-            db_item['context_map'] = {}
 
-        name = json['context']
-        context = {'tag': item.tag, 'defaultBonuses': item.bonus_tree}
-        if json['context'].startswith('world-quest'):
-            context['tag'] = 'World Quest'
-            name = 'world-quest'
-        elif json['context'].startswith('dungeon-level-up'):
-            context['tag'] = 'dungeon-level-up'
-            name = 'Level-up Dungeon'
+            if not is_gem:
+                db_item['contexts'] = []
+                db_item['context_map'] = {}
 
-        if name not in db_item['contexts']:
-            db_item['context_map'][name] = context
-            db_item['contexts'].append(name)
+        if not is_gem:
+            name = json['context']
+            context = {'tag': item.tag, 'defaultBonuses': item.bonus_tree}
+            if json['context'].startswith('world-quest'):
+                context['tag'] = 'World Quest'
+                name = 'world-quest'
+            elif json['context'].startswith('dungeon-level-up'):
+                context['tag'] = 'dungeon-level-up'
+                name = 'Level-up Dungeon'
+
+            if name not in db_item['contexts']:
+                db_item['context_map'][name] = context
+                db_item['contexts'].append(name)
 
         dbase.items.replace_one({'remote_id': item.item_id, 'item_level': item.ilevel},
                                 db_item, upsert=True)
@@ -332,9 +352,8 @@ def get_ids_from_wowhead(url):
 def test_item():
     """load mongo with test items"""
     mongo = MongoClient()
-    populate_db(mongo.roguesim_python)
-#    import_item(mongo.roguesim_python, 121015)
-#    import_item(mongo.roguesim_python, 135815)
+#    populate_db(mongo.roguesim_python)
+    populate_gems(mongo.roguesim_python)
 
 if __name__ == '__main__':
     test_item()
