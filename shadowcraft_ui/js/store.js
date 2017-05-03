@@ -48,7 +48,7 @@ const characterReducer = function (state = {}, action) {
         case 'CHANGE_ITEM': {
 
             // look away now, lest ye dispair
-            
+
             //TODO: clean up the data models so this mapping isn't required.
             //not clearing bonuses and gems because idk the right mapping right now
             //not change base ilvl, since I do not know how that works and it is not in item db entry
@@ -260,20 +260,22 @@ const initialHistoryState = {
 
 const historyReducer = function (state = initialHistoryState, action) {
     switch (action.type) {
-        case 'CLEAR_HISTORY':
-            var newState = state;
+        case 'CLEAR_HISTORY': {
+            let newState = state;
             newState.dps = [];
             newState.data = [];
             return Object.assign({}, state, newState);
+        }
 
-        case 'ADD_HISTORY':
-            var newState = state;
+        case 'ADD_HISTORY': {
+            let newState = state;
             newState.dps.push(Math.round(action.dps * 10.0) / 10.0);
             newState.data.push({
                 character: JSON.parse(JSON.stringify(action.character)),
                 settings: Object.create(action.settings)
             });
             return Object.assign({}, state, newState);
+        }
     }
 
     return state;
