@@ -33,7 +33,11 @@ if sys.argv[1] == '--wowhead':
         talents = source.select('div[cursor="pointer"]')
         for t in talents:
             tier = t['data-row']
-            column = t['data-col']
+
+            # Talents are indexed starting at 1 in the engine. Changing them to be the same here
+            # makes a lot of life easier in the UI code.
+            column = t['data-col'] + 1
+
             spell = t.select('a[class="screen"]')[0]['href'].split('=')[1]
             name = t.select('td')[0].text
 
@@ -110,6 +114,10 @@ elif sys.argv[1] == '--blizzard':
                     'icon': spec_talent['spell']['icon'],
                     'id': spec_talent['spell']['id']
                 }
+
+                # Talents are indexed starting at 1 in the engine. Changing them to be the same here
+                # makes a lot of life easier in the UI code.
+                t['col'] += 1
 
                 if 'spec' in spec_talent:
                     if spec_talent['spec']['order'] == 0:
