@@ -32,6 +32,7 @@ class EquippedItem extends React.Component {
     }
 
     onClick() {
+        // console.log(this.props.items[this.props.slot]);
         if (!this.state.items[this.props.slot]) {
             //TODO: fix filtering here and in character.py
             //TODO: what happens here if the user changes the filtering between requests?

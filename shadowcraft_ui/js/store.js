@@ -46,7 +46,27 @@ const characterReducer = function (state = {}, action) {
         }
 
         case 'CHANGE_ITEM': {
-            return Object.assign({}, state, { gear: Object.assign({}, state.gear, action.data) });
+
+            // look away now, lest ye dispair
+            
+            //TODO: clean up the data models so this mapping isn't required.
+            //not clearing bonuses and gems because idk the right mapping right now
+            //not change base ilvl, since I do not know how that works and it is not in item db entry
+            //context may not be mapped correctly, I'm just pulling the first entry and calling it good for now
+
+            let item = Object.assign({}, state.gear[action.data.slot]);
+            item.context = action.data.item.contexts[0];
+            item.gems = [];
+            item.bonuses = [];
+            item.icon = action.data.item.properties.icon;
+            item.id = action.data.item.remote_id;
+            item.item_level = action.data.item.item_level;
+            item.name = action.data.item.properties.name;
+            item.quality = action.data.item.properties.quality;
+            item.stats = action.data.item.properties.stats;
+
+            let gear = Object.assign({}, state.gear, { [action.data.slot]: item });
+            return Object.assign({}, state, { gear: gear });
         }
     }
 

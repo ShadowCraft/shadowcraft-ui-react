@@ -8,7 +8,10 @@ class ItemSelectElement extends React.Component {
     changeItem(slot, item) {
         store.dispatch({
             type: 'CHANGE_ITEM',
-            data: { [slot]: item }
+            data: {
+                slot: slot,
+                item: item
+            }
         });
     }
 
