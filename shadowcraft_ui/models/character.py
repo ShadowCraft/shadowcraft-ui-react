@@ -185,8 +185,7 @@ def __get_from_armory(db, character, realm, region):
         if key == 'shirt' or key == 'tabard':
             continue
 
-        tooltip = slot_item[
-            'tooltipParams'] if 'tooltipParams' in slot_item else {}
+        tooltip = slot_item['tooltipParams'] if 'tooltipParams' in slot_item else {}
         info = {
             'id': slot_item['id'],
             'slot': key,
@@ -194,12 +193,12 @@ def __get_from_armory(db, character, realm, region):
             'name': slot_item['name'],
             'icon': slot_item['icon'],
             'item_level': slot_item['itemLevel'],
-            'base_item_level': 0,
             'gems': [],
             'stats': {},
             'bonuses': slot_item['bonusLists'],
             'context': slot_item['context'],
             'quality': slot_item['quality'],
+            'socket_count': 0
         }
 
         info['enchant'] = tooltip['enchant'] if 'enchant' in tooltip else 0
@@ -254,14 +253,16 @@ def __get_from_armory(db, character, realm, region):
         # opens the dialog to set tertiaries, etc.
         query = {'remote_id': info['id'], 'contexts': info['context']}
         results = db.items.find(query)
-        if results.count() != 0:
-            info['base_item_level'] = results[0]['item_level']
-
-        if info['base_item_level'] == 0:
+        if results.count() == 0:
             query = {'remote_id': info['id']}
             results = db.items.find(query)
-            if results.count() != 0:
-                info['base_item_level'] = results[0]['item_level']
+
+        if results.count() != 0:
+            print(results[0])
+            if 1808 in info['bonuses']:
+                info['socket_count'] = 1
+            else:
+                info['socket_count'] = results[0]['properties']['socket_count']
 
         output['gear'][key] = info
 

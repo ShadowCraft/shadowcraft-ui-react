@@ -61,6 +61,16 @@ def get_items_by_slot(dbase: MongoClient, slot: int, min_ilvl: int=-1, max_ilvl:
     return dumps([x for x in results])
 
 
+def get_item_by_context(dbase: MongoClient, item_id: int, context: str):
+    """provides data for a single item by id and context"""
+    query = {'remote_id': item_id, 'contexts': context}
+    results = dbase.items.find(query)
+    if results.count() == 0:
+        return None
+    else:
+        return dumps(results[0])
+
+
 def init_db(dbase):
     """create indexes"""
     dbase.items.create_index(
@@ -295,6 +305,8 @@ def import_item(dbase, item_id, is_gem=False):
                 db_item['context_map'][name] = context
                 db_item['contexts'].append(name)
 
+            db_item['socket_count'] = item.socket_count
+
         dbase.items.replace_one({'remote_id': item.item_id, 'item_level': item.ilevel},
                                 db_item, upsert=True)
 
@@ -352,7 +364,7 @@ def get_ids_from_wowhead(url):
 def test_item():
     """load mongo with test items"""
     mongo = MongoClient()
-#    populate_db(mongo.roguesim_python)
+    populate_db(mongo.roguesim_python)
     populate_gems(mongo.roguesim_python)
 
 if __name__ == '__main__':

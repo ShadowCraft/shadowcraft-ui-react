@@ -1,4 +1,5 @@
 import React from 'react';
+import { checkFetchStatus } from '../store';
 
 class BonusIDCheckBox extends React.Component {
     constructor(props) {
@@ -39,7 +40,11 @@ export default class BonusIDPopup extends React.Component {
         super(props);
         this.state = {
             active: props.item.bonuses,
-            wfBonus: -1
+            wfBonus: -1,
+            baseItem: {
+                item_level: 0,
+                properties: {chance_bonus_lists: []}
+            }
         };
 
         this.onChange = this.onChange.bind(this);
@@ -54,16 +59,14 @@ export default class BonusIDPopup extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        fetch('/get_item_by_context?id={nextProps.item.id}&context={nextProps.item.context}')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (json) {
-                this.setState({ base_item: json });
-            }.bind(this));
-
-        this.setState({active: nextProps.item.bonuses});
+    componentWillMount()
+    {
+        let url = '/get_item_by_context?id='+this.props.item.id+'&context='+this.props.item.context;
+        fetch(url)
+            .then(checkFetchStatus)
+            .then(r => r.json())
+            .then(function(json) {this.setState({baseItem: json})}
+                .bind(this));
     }
 
     onChange(e) {
@@ -96,32 +99,43 @@ export default class BonusIDPopup extends React.Component {
     }
 
     onApply(e) {
-        this.props.onApply(this.state.active);
+        let newIlvl = this.state.baseItem.item_level;
+        if (this.state.wfBonus != 0) {
+            newIlvl += this.state.wfBonus - 1472;
+        }
+
+        let canHaveSocket = this.state.baseItem.properties.chance_bonus_lists.indexOf(1808) != -1;
+        let hasSocket = this.state.active.indexOf(1808) != -1;
+
+        this.props.onApply(this.state.active, canHaveSocket, hasSocket, newIlvl);
     }
 
     render() {
 
+        console.log(this.state.baseItem);
         let wfOptions = [];
         let selectedWFBonus = 0;
-        for (let i = 955; i >= this.props.item.base_item_level+5; i -= 5) {
-            let bonus = i - this.props.item.base_item_level + 1472;
+        for (let i = 955; i >= this.state.baseItem.item_level+5; i -= 5) {
+            let bonus = i - this.state.baseItem.item_level + 1472;
             if (this.state.active.indexOf(bonus) != -1) {
                 selectedWFBonus = bonus;
             }
 
-            wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i-this.props.item.base_item_level}</option>);
+            wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i-this.state.baseItem.item_level}</option>);
         }
 
-        wfOptions.push(<option value="0" key="0">Item Level {this.props.item.base_item_level} / None</option>);
+        wfOptions.push(<option value="0" key="0">Item Level {this.state.baseItem.item_level} / None</option>);
 
         return(
             <div className="popup ui-dialog visible" id="bonuses" style={{top: "355px", left: "440px"}}>
                 <h1>Item Bonuses</h1>
                 <form id="bonuses">
-                    <fieldset className="bonus_line">
-                        <legend>Extra Sockets</legend>
-                        <BonusIDCheckBox bonusId="1808" handleCheckbox={this.onChange} checked={this.state.active.indexOf(1808) != -1} />
-                    </fieldset>
+                    {this.state.baseItem.properties.chance_bonus_lists.indexOf(1808) != -1 &&
+                     <fieldset className="bonus_line">
+                         <legend>Extra Sockets</legend>
+                         <BonusIDCheckBox bonusId="1808" handleCheckbox={this.onChange} checked={this.state.active.indexOf(1808) != -1} />
+                     </fieldset>
+                    }
 
                     <fieldset className="bonus_line">
                         <legend>Titanforged Upgrades</legend>

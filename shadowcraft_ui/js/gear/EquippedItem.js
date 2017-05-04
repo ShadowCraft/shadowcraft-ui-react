@@ -53,7 +53,10 @@ class EquippedItem extends React.Component {
         this.setState({ bonusModal: true });
     }
 
-    onBonusApply(bonuses) {
+    onBonusApply(bonuses, canHaveBonusSocket, hasBonusSocket, newItemLevel) {
+        store.dispatch({type: 'CHANGE_BONUSES', bonuses: bonuses, ilvl: newItemLevel,
+                        canHaveBonusSocket: canHaveBonusSocket, hasBonusSocket: hasBonusSocket,
+                        slot: this.props.slot});
         this.setState({ bonusModal: false });
     }
 
@@ -91,7 +94,7 @@ class EquippedItem extends React.Component {
                         {/*this probably doesn't need a huge full length div, maybe a gear under the item icon instead?'*/}
                         <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>
                     {/*need to pass whole item because we need to check item quality to filter out relics*/}
-                    <EquippedGemList gems={item.gems} />
+                    {item.socket_count > 0 && <EquippedGemList gems={item.gems} />}
                     {/*javascript trickery to only show enchants for neck, ring and back*/}
                     {this.IsEnchantable(item.slot) && <EquippedEnchant enchantID={item.enchant} />}
                 </div >

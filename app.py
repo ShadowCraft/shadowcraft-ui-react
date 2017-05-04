@@ -1,5 +1,5 @@
 """This is the module for the main flask app."""
-from flask import Flask, render_template, url_for, redirect, json, jsonify, request
+from flask import Flask, render_template, url_for, redirect, json, jsonify, request, abort
 from flask_pymongo import PyMongo
 from werkzeug.routing import BaseConverter
 from bson import json_util
@@ -104,6 +104,22 @@ def get_items_by_slot():
     min_ilvl = int(request.args.get('min_ilvl'))
     max_ilvl = int(request.args.get('max_ilvl'))
     return shadowcraft_ui.get_items_by_slot(mongo, slot, min_ilvl, max_ilvl)
+
+# Endpoint for requesting item data by id and context.
+
+
+@APP.route('/get_item_by_context')
+def get_item_by_context():
+    # TODO: this should probably take some sort of key to make sure that we're
+    # only returning data to our clients and not leaving this open to abuse by
+    # other people.
+    item_id = int(request.args.get('id'))
+    context = request.args.get('context')
+    results = shadowcraft_ui.get_item_by_context(mongo, item_id, context)
+    if results == None:
+        abort(404)
+    else:
+        return results
 
 # TODO: we probably need other endpoints here for gems, relics, and other
 # types of data. Theoretically the event above might be able to handle those
