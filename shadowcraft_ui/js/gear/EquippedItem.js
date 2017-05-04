@@ -71,17 +71,8 @@ class EquippedItem extends React.Component {
         let item = this.props.items[this.props.slot];
         //console.log(item);
         return (
-            // do we need all these data targets?
             <div>
-                <div
-                    className="slot"
-                    data-bonus={item.bonuses}
-                    data-context={item.context}
-                    data-name={item.name}
-                    data-quality={item.quality}
-                    data-slot={item.slot}
-                    data-id={item.id}
-                >
+                <div className="slot">
                     <div className="image">
                         <img src={`http://media.blizzard.com/wow/icons/56/${item.icon}.jpg`} />
                         <span className="ilvl">{item.item_level}</span>
@@ -90,14 +81,10 @@ class EquippedItem extends React.Component {
                         <img src="/static/images/lock_off.png" />
                     </div>
                     <div
-                        className="name quality-4 tt"
-                        data-tooltip-bonus={item.bonuses}
-                        data-tooltip-gems={item.gems}
-                        data-tooltip-id={item.id}
+                        className={`name quality-${item.quality} tt`}
                         onClick={item.slotid !== 16 ? this.onClick.bind(this) : ''}
                     >
                         {item.name}
-                        <em className="heroic">TODO: bonus text</em>
                         <a className="wowhead" href={`http://legion.wowhead.com/item=${item.id}`} target="_blank">Wowhead</a>
                     </div>
                     <div className="bonuses" onClick={this.onBonusClick} >
@@ -112,14 +99,14 @@ class EquippedItem extends React.Component {
                 would work better on mobile and is snazzier
                 plus we still have plans to do the stacked bars rankings layout
                 no need to put the cart before the horse, so this will do for now until we get to the layout refactor*/}
-                {this.state.itemModal ? <ItemSelectPopup slot={item.slot} items={this.state.items[item.slot]} onClick={this.onClick.bind(this)}/> : <div />}
+                {this.state.itemModal ? <ItemSelectPopup slot={item.slot} items={this.state.items[item.slot]} onClick={this.onClick.bind(this)} /> : <div />}
                 {this.state.bonusModal ? <BonusIDPopup item={item} onApply={this.onBonusApply} /> : <div />}
             </div>
         );
     }
 }
 
-const mapStateToProps = function(store) {
+const mapStateToProps = function (store) {
     return {
         items: store.character.gear
     };
