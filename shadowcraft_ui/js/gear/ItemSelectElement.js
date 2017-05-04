@@ -1,18 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import store from '../store';
+import { updateCharacterState } from '../store';
 
 
 class ItemSelectElement extends React.Component {
 
     changeItem(slot, item) {
-        store.dispatch({
-            type: 'CHANGE_ITEM',
-            data: {
-                slot: slot,
-                item: item
-            }
-        });
+        store.dispatch(
+            updateCharacterState(
+                'CHANGE_ITEM',
+                {
+                    slot: slot,
+                    item: item
+                }
+            ));
         this.props.onClick();
     }
 
