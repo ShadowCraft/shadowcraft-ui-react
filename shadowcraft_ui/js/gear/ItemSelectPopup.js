@@ -30,6 +30,7 @@ class ItemSelectPopup extends React.Component {
                 item={item}
                 value={this.getItemValue(item.properties.stats, weights)}
                 max={this.getItemValue(sortedItems[0].properties.stats, weights)}
+                onClick={this.props.onClick}
             />
         ));
     }

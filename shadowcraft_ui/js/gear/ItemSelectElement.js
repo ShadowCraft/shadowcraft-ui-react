@@ -13,6 +13,7 @@ class ItemSelectElement extends React.Component {
                 item: item
             }
         });
+        this.props.onClick();
     }
 
     render() {
