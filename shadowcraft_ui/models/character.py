@@ -203,26 +203,43 @@ def __get_from_armory(db, character, realm, region):
 
         info['enchant'] = tooltip['enchant'] if 'enchant' in tooltip else 0
 
+
+        # Look up this item/context in the database and set the base item level.
+        # This saves us from having to make extra requests later if the user
+        # opens the dialog to set tertiaries, etc.
+        query = {'remote_id': info['id'], 'contexts': info['context']}
+        results = db.items.find(query)
+        if results.count() == 0:
+            query = {'remote_id': info['id']}
+            results = db.items.find(query)
+
+        if results.count() != 0:
+            print(results[0])
+            if 1808 in info['bonuses']:
+                info['socket_count'] = 1
+            else:
+                info['socket_count'] = results[0]['properties']['socket_count']
+
+        if info['socket_count'] > 0:
+            info['gems'] = [0] * info['socket_count']
+
         # there can be multiple gems in tooltipParams from the armory
         # so we need to check for them all i.e. gem0, gem1, gem2
-        for tooltip_item in tooltip:
-            if tooltip_item.startswith('gem'):
-                # armory will error if we request an id of zero and an empty
-                # gem slot is 0
-                if tooltip[tooltip_item] != 0:
-                    gemdata = ArmoryDocument.get(
-                        'us', '/wow/item/%d' % tooltip[tooltip_item])
-                    info['gems'].append(
-                        {
-                            'name': gemdata['name'],
-                            'id': gemdata['id'],
-                            'icon': gemdata['icon'],
-                            'quality': gemdata['quality'],
-                            'bonus': gemdata['gemInfo']['bonus']['name'],
-                            'gemslot': tooltip_item
-                        })
-                else:
-                    info['gems'].append(tooltip[tooltip_item])
+        for gemIndex in range(0, info['socket_count']):
+            gemEntry = 'gem%d' % gemIndex
+            if gemEntry in tooltip:
+                tooltip_item = tooltip[gemEntry]
+                # TODO: this can be a database lookup now
+                gemdata = ArmoryDocument.get(
+                    'us', '/wow/item/%d' % tooltip_item)
+                info['gems'][gemIndex] = {
+                    'name': gemdata['name'],
+                    'id': gemdata['id'],
+                    'icon': gemdata['icon'],
+                    'quality': gemdata['quality'],
+                    'bonus': gemdata['gemInfo']['bonus']['name'],
+                    'gemslot': tooltip_item
+                }
 
         # Convert the stats from the numeric index to a text one
         for stat_entry in slot_item['stats']:
@@ -247,22 +264,6 @@ def __get_from_armory(db, character, realm, region):
         # same between all of those contexts?
         if info['context'].startswith('world-quest'):
             info['context'] = 'world-quest'
-
-        # Look up this item/context in the database and set the base item level.
-        # This saves us from having to make extra requests later if the user
-        # opens the dialog to set tertiaries, etc.
-        query = {'remote_id': info['id'], 'contexts': info['context']}
-        results = db.items.find(query)
-        if results.count() == 0:
-            query = {'remote_id': info['id']}
-            results = db.items.find(query)
-
-        if results.count() != 0:
-            print(results[0])
-            if 1808 in info['bonuses']:
-                info['socket_count'] = 1
-            else:
-                info['socket_count'] = results[0]['properties']['socket_count']
 
         output['gear'][key] = info
 
