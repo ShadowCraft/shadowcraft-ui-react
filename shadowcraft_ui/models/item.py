@@ -305,8 +305,6 @@ def import_item(dbase, item_id, is_gem=False):
                 db_item['context_map'][name] = context
                 db_item['contexts'].append(name)
 
-            db_item['socket_count'] = item.socket_count
-
         dbase.items.replace_one({'remote_id': item.item_id, 'item_level': item.ilevel},
                                 db_item, upsert=True)
 
