@@ -16,6 +16,7 @@ class TalentFrame extends React.Component {
     {
         super(props);
         this.handleClick = this.handleClick.bind(this);
+        this.resetTalents = this.resetTalents.bind(this);
     }
 
     handleClick(e)
@@ -28,13 +29,18 @@ class TalentFrame extends React.Component {
         store.dispatch(updateCharacterState('UPDATE_TALENTS', newSetup));
     }
 
+    resetTalents()
+    {
+        store.dispatch(updateCharacterState('UPDATE_TALENTS', '0000000'));
+    }
+
     render()
     {
         var talents = [];
         for (var index in this.props.layout.talents) {
             var talent = this.props.layout.talents[index];
             var active = false;
-            if (this.props.setup[talent.row] == talent.col) {
+            if (this.props.setup[talent.row] == talent.col || this.props.setup[talent.row] == 0) {
                 active = true;
             }
 
@@ -61,7 +67,7 @@ class TalentFrame extends React.Component {
                     </div>
                 </div>
                 <div>
-                    <button id="reset_talents" className="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span className="ui-button-text">Reset Talents</span></button>
+                    <button id="reset_talents" className="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" onClick={this.resetTalents}><span className="ui-button-text">Reset Talents</span></button>
                 </div>
             </div>
         );
