@@ -63,8 +63,13 @@ def get_items_by_slot(dbase: MongoClient, slot: int, min_ilvl: int=-1, max_ilvl:
 
 def get_item_by_context(dbase: MongoClient, item_id: int, context: str):
     """provides data for a single item by id and context"""
+    # Try to look it up by context first, then if that fails, look it up by just the id.
     query = {'remote_id': item_id, 'contexts': context}
     results = dbase.items.find(query)
+    if results.count() == 0:
+        query = {'remote_id': item_id}
+        results = dbase.items.find(query)
+
     if results.count() == 0:
         return None
     else:
