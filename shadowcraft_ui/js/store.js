@@ -56,7 +56,6 @@ const characterReducer = function (state = {}, action) {
 
             let item = Object.assign({}, state.gear[action.data.slot]);
             item.context = action.data.item.contexts[0];
-            item.gems = [];
             item.bonuses = [];
             item.icon = action.data.item.properties.icon;
             item.id = action.data.item.remote_id;
@@ -64,6 +63,9 @@ const characterReducer = function (state = {}, action) {
             item.name = action.data.item.properties.name;
             item.quality = action.data.item.properties.quality;
             item.stats = action.data.item.properties.stats;
+            item.socket_count = action.data.item.properties.socket_count;
+            item.gems = new Array(item.socket_count);
+            item.gems.fill(0);
 
             let gear = Object.assign({}, state.gear, { [action.data.slot]: item });
             return Object.assign({}, state, { gear: gear });
