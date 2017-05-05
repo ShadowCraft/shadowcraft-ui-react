@@ -77,6 +77,12 @@ class RightPane extends React.Component {
         graphTestData['datasets'][0]['data'] = this.props.history.dps;
         graphTestData['labels'] = Array(graphTestData['datasets'][0]['data'].length).fill('');
 
+        let dpsChange = 0.0;
+        let historyLength = this.props.history.dps.length;
+        if (historyLength > 1) {
+            dpsChange = Math.round((this.props.history.dps[historyLength-1] - this.props.history.dps[historyLength-2]) * 100.0) / 100.0;
+        }
+
         return (
             <div style={{ flex: 1}}>
                 <div id="console-footer" className="awin-medium">
@@ -94,7 +100,7 @@ class RightPane extends React.Component {
                     </span>
                   </a>
                   <div id="dps">
-                    <div className="inner">{Math.round(this.props.dps*10)/10.0}</div>
+                      <div className="inner">{Math.round(this.props.dps*10)/10.0} {dpsChange < 0.0 ? (<em className="n">({dpsChange})</em>):(<em className="p">(+{dpsChange})</em>)}</div>
                   </div>
                   <Line data={graphTestData} options={graphOptions} getElementsAtEvent={this.graphClick} />
                 </div>
