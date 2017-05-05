@@ -108,6 +108,26 @@ export function updateCharacterState(event, data) {
     };
 }
 
+// Recalculates a stat block based on a change in item level.
+// TODO: this doesn't feel like the right place for this function to live, but we don't really
+// have any other truly common files beyond this one.
+export function recalculateStats(baseStats, ilvlChange) {
+    let newStats = {};
+    let ilvlMultiplier = 1.0 / Math.pow(1.15, (ilvlChange / -15.0));
+    let secondaryMultiplier = Math.pow(1.0037444020662509239443726693104, ilvlChange);
+    
+    for (let stat in baseStats) {
+        newStats[stat] = baseStats[stat];
+        if (stat != 'agility' && stat != 'stamina') {
+            newStats[stat] *= secondaryMultiplier;
+        }
+        
+        newStats[stat] = Math.round(newStats[stat] * ilvlMultiplier);
+    }
+
+    return newStats;
+}
+
 const settingsReducer = function (state = {}, action) {
 
     switch (action.type) {
