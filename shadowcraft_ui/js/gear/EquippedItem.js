@@ -6,6 +6,7 @@ import EquippedEnchant from './EquippedEnchant';
 import ItemSelectPopup from './ItemSelectPopup';
 import BonusIDPopup from './BonusIDPopup';
 import store from '../store';
+import { updateCharacterState } from '../store';
 
 class EquippedItem extends React.Component {
 
@@ -53,10 +54,7 @@ class EquippedItem extends React.Component {
         this.setState({ bonusModal: true });
     }
 
-    onBonusApply(bonuses, canHaveBonusSocket, hasBonusSocket, newItemLevel) {
-        store.dispatch({type: 'CHANGE_BONUSES', bonuses: bonuses, ilvl: newItemLevel,
-                        canHaveBonusSocket: canHaveBonusSocket, hasBonusSocket: hasBonusSocket,
-                        slot: this.props.slot});
+    onBonusApply() {
         this.setState({ bonusModal: false });
     }
 

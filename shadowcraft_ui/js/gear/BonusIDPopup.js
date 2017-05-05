@@ -1,5 +1,7 @@
 import React from 'react';
-import { checkFetchStatus } from '../store';
+
+import store from '../store';
+import { checkFetchStatus, updateCharacterState } from '../store';
 
 class BonusIDCheckBox extends React.Component {
     constructor(props) {
@@ -99,20 +101,44 @@ export default class BonusIDPopup extends React.Component {
     }
 
     onApply(e) {
-        let newIlvl = this.state.baseItem.item_level;
+
+        let eventData = {
+            slot: this.props.item.slot,
+            bonuses: this.state.active
+        };
+        
+        eventData['newIlvl'] = this.state.baseItem.item_level;
         if (this.state.wfBonus != 0) {
-            newIlvl += this.state.wfBonus - 1472;
+            eventData['newIlvl'] += this.state.wfBonus - 1472;
         }
 
-        let canHaveSocket = this.state.baseItem.properties.chance_bonus_lists.indexOf(1808) != -1;
-        let hasSocket = this.state.active.indexOf(1808) != -1;
+        eventData['canHaveBonusSocket'] = this.state.baseItem.properties.chance_bonus_lists.indexOf(1808) != -1;
+        eventData['hasBonusSocket'] = this.state.active.indexOf(1808) != -1;
 
-        this.props.onApply(this.state.active, canHaveSocket, hasSocket, newIlvl);
+        eventData['newStats'] = this.state.baseItem.properties.stats;
+        let ilvlDifference = (eventData['newIlvl'] - this.state.baseItem.item_level).toFixed(2);
+        for (let stat in eventData['newStats']) {
+            let multiplier = 1.0;
+            if (stat != 'agility' && stat != 'stamina') {
+                let multiplier = Math.pow(1.0037444020662509239443726693104, ilvlDifference);
+                eventData['newStats'][stat] *= multiplier;
+            } else {
+                multiplier =  1.0 / Math.pow(1.15, (ilvlDifference / -15.0));
+            }
+            
+            eventData['newStats'][stat] = Math.round(eventData['newStats'][stat] * multiplier);
+        }
+
+        let newBonuses = this.state.active;
+        let slot = this.props.slot;
+
+        store.dispatch(updateCharacterState('CHANGE_BONUSES', eventData));
+
+        this.props.onApply();
     }
 
     render() {
 
-        console.log(this.state.baseItem);
         let wfOptions = [];
         let selectedWFBonus = 0;
         for (let i = 955; i >= this.state.baseItem.item_level+5; i -= 5) {
