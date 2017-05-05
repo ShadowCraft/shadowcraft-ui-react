@@ -332,21 +332,10 @@ class ShadowcraftComputation:
                 if item_id == 133597:
                     proclist.append(('infallible_tracking_charm_mod', gd[1]))
 
+            # If the item has an enchant and it's proc-based, add it to the proc list
             enchant = item['enchant']
-            if enchant != 0:
-
-                # Look up this enchant from the database to determine whether it has a stat
-                # component to it.
-                results = db.enchants.find({'spell_id': enchant})
-                if results.count() != 0:
-                    for stat, value in results[0]['stats'].items():
-                        if stat not in gear_stats:
-                            gear_stats[stat] = 0
-                        gear_stats[stat] += value
-
-                # Also if this is a proc-based enchant, add it to the proclist
-                if enchant in self.enchantMap:
-                    proclist.append(self.enchantMap[enchant])
+            if enchant != 0 and enchant in self.enchantMap:
+                proclist.append(self.enchantMap[enchant])
 
         pot = input_data['settings'].get('pot', 'potion_none')
         if pot != 'potion_none':
@@ -459,6 +448,26 @@ class ShadowcraftComputation:
                     if stat not in gear_stats:
                         gear_stats[stat] = 0
                     gear_stats[stat] += value
+
+                if item['enchant'] != 0:
+                    # Look up this enchant from the database to determine whether it has a stat
+                    # component to it.
+                    results = db.enchants.find({'spell_id': item['enchant']})
+                    if results.count() != 0:
+                        for stat, value in results[0]['stats'].items():
+                            if stat not in gear_stats:
+                                gear_stats[stat] = 0
+                            gear_stats[stat] += value
+
+                for gem in item['gems']:
+                    if gem != 0:
+                        # Look up this gem from the database and add the stat
+                        results = db.items.find({'remote_id': gem['id']})
+                        if results.count() != 0:
+                            for stat, value in results[0]['properties']['stats'].items():
+                                if stat not in gear_stats:
+                                    gear_stats[stat] = 0
+                                gear_stats[stat] += value
 
             # Turn this into a frozenset so it can be compared against other
             # frozensets
