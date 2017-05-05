@@ -73,20 +73,22 @@ const characterReducer = function (state = {}, action) {
 
         case 'CHANGE_BONUSES': {
             let newGear = Object.assign({}, state.gear);
-            newGear[action.slot].bonuses = action.bonuses;
-            newGear[action.slot].itemLevel = action.ilvl;
+            console.log(newGear[action.data.slot].stats);
+            newGear[action.data.slot].bonuses = action.data.bonuses;
+            newGear[action.data.slot].itemLevel = action.data.ilvl;
+            newGear[action.data.slot].stats = action.data.newStats;
 
             // If this item can have a bonus socket but doesn't have one assigned, nuke
             // the equipped gems out of it so they don't show back up when if a socket
             // gets added back in.
-            if (action.canHaveBonusSocket) {
-                if (!action.hasBonusSocket) {
-                    newGear[action.slot].gems = [0];
-                    newGear[action.slot].socket_count = 0;
+            if (action.data.canHaveBonusSocket) {
+                if (!action.data.hasBonusSocket) {
+                    newGear[action.data.slot].gems = [0];
+                    newGear[action.data.slot].socket_count = 0;
                 }
-                else if (newGear[action.slot].socket_count == 0) {
-                    newGear[action.slot].gems = [0];
-                    newGear[action.slot].socket_count = 1;
+                else if (newGear[action.data.slot].socket_count == 0) {
+                    newGear[action.data.slot].gems = [0];
+                    newGear[action.data.slot].socket_count = 1;
                 }
             }
 
