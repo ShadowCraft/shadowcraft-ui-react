@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import 'whatwg-fetch';
+import { getArtifactIlvlChange } from './common';
 
 const characterReducer = function (state = {}, action) {
 
@@ -19,13 +20,27 @@ const characterReducer = function (state = {}, action) {
         }
 
         case 'UPDATE_ARTIFACT_RELIC': {
-            let newState = state;
+            let newState = Object.assign({}, state);
             if (newState.artifact.relics[action.data.slot].id != 0) {
                 newState.artifact.traits[newState.artifact.relics[action.data.slot].id] -= 1;
             }
 
+            // Determine what the artifact's ilvl should be based on any relic changes
+            if (newState.artifact.relics[action.data.slot].ilvl != action.data.ilvl) {
+                
+                newState.artifact.relics[action.data.slot].ilvl = action.data.ilvl;
+                let change = getArtifactIlvlChange(action.data.ilvl, newState.artifact.relics[action.data.ilvl]);
+
+                newState.gear['mainHand'].item_level += change;
+                newState.gear['mainHand'].stats = action.data.stats;
+                newState.gear['mainHand'].weaponStats = action.data.weaponStats;
+                
+                newState.gear['offHand'].item_level += change;
+                newState.gear['offHand'].stats = action.data.stats;
+                newState.gear['offHand'].weaponStats = action.data.weaponStats;
+            }
+
             newState.artifact.relics[action.data.slot].id = action.data.trait;
-            newState.artifact.relics[action.data.slot].ilvl = action.data.ilvl;
 
             // Update the new trait
             newState.artifact.traits[action.data.trait] += 1;
@@ -64,6 +79,8 @@ const characterReducer = function (state = {}, action) {
             item.quality = action.data.item.properties.quality;
             item.stats = action.data.item.properties.stats;
             item.socket_count = action.data.item.properties.socket_count;
+
+            // Generate a number of gem entries based on the number of sockets on the item
             item.gems = new Array(item.socket_count);
             item.gems.fill(0);
 
@@ -106,26 +123,6 @@ export function updateCharacterState(event, data) {
         dispatch({ type: event, data: data });
         dispatch(getEngineData());
     };
-}
-
-// Recalculates a stat block based on a change in item level.
-// TODO: this doesn't feel like the right place for this function to live, but we don't really
-// have any other truly common files beyond this one.
-export function recalculateStats(baseStats, ilvlChange) {
-    let newStats = {};
-    let ilvlMultiplier = 1.0 / Math.pow(1.15, (ilvlChange / -15.0));
-    let secondaryMultiplier = Math.pow(1.0037444020662509239443726693104, ilvlChange);
-    
-    for (let stat in baseStats) {
-        newStats[stat] = baseStats[stat];
-        if (stat != 'agility' && stat != 'stamina') {
-            newStats[stat] *= secondaryMultiplier;
-        }
-        
-        newStats[stat] = Math.round(newStats[stat] * ilvlMultiplier);
-    }
-
-    return newStats;
 }
 
 const settingsReducer = function (state = {}, action) {

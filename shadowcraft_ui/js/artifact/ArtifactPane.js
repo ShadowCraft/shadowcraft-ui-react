@@ -27,7 +27,7 @@ class ArtifactPane extends React.Component {
             relics.push({id:0, ilvl:0});
         }
 
-        for (var trait in this.props.data.artifact.traits) {
+        for (var trait in this.props.artifact.traits) {
             traits[trait] = 0;
         }
 
@@ -38,16 +38,16 @@ class ArtifactPane extends React.Component {
         var frame = null;
         var ranking_frame = null;
 
-        if (this.props.data.active == 'a') {
-            frame = <ArtifactFrame layout={layouts.kingslayers_layout} data={this.props.data} />;
+        if (this.props.activeSpec == 'a') {
+            frame = <ArtifactFrame layout={layouts.kingslayers_layout} />;
             ranking_frame = <RankingSection id="traitrankings" name="Trait Rankings" layout={layouts.kingslayers_ranking} values={this.props.rankings}/>;
         }
-        else if (this.props.data.active == 'Z') {
-            frame = <ArtifactFrame layout={layouts.dreadblades_layout} data={this.props.data} />;
+        else if (this.props.activeSpec == 'Z') {
+            frame = <ArtifactFrame layout={layouts.dreadblades_layout} />;
             ranking_frame = <RankingSection id="traitrankings" name="Trait Rankings" layout={layouts.dreadblades_ranking} values={this.props.rankings}/>;
         }
-        else if (this.props.data.active == 'b') {
-            frame = <ArtifactFrame layout={layouts.fangs_layout} data={this.props.data} />;
+        else if (this.props.activeSpec == 'b') {
+            frame = <ArtifactFrame layout={layouts.fangs_layout} />;
             ranking_frame = <RankingSection id="traitrankings" name="Trait Rankings" layout={layouts.fangs_ranking} values={this.props.rankings}/>;
         }
 
@@ -69,7 +69,8 @@ class ArtifactPane extends React.Component {
 const mapStateToProps = function(store) {
     return {
         rankings: store.engine.traitRanking,
-        data: store.character
+        artifact: store.character.artifact,
+        activeSpec: store.character.active
     };
 };
 

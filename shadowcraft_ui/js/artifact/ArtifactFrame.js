@@ -1,13 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import store from '../store';
 import { updateCharacterState } from '../store';
+import { recalculateStats, getArtifactIlvlChange } from '../common';
 import ArtifactTrait from './ArtifactTrait';
 import ArtifactRelicSelect from './ArtifactRelicSelect';
 
 var FRAME_WIDTH=720.0;
 var FRAME_HEIGHT=615.0;
 
-export default class ArtifactFrame extends React.Component {
+class ArtifactFrame extends React.Component {
 
     constructor(props)
     {
@@ -63,9 +66,9 @@ export default class ArtifactFrame extends React.Component {
     increase_rank(trait_id)
     {
         if (this.trait_state.traits[trait_id].enabled &&
-            this.props.data.artifact.traits[trait_id] < this.trait_state.traits[trait_id].max_rank)
+            this.props.artifact.traits[trait_id] < this.trait_state.traits[trait_id].max_rank)
         {
-            var data = this.props.data.artifact;
+            var data = this.props.artifact;
             data.traits[trait_id] += 1;
             this.update_state(data, true);
         }
@@ -73,7 +76,7 @@ export default class ArtifactFrame extends React.Component {
 
     decrease_rank(trait_id)
     {
-        var data = this.props.data.artifact;
+        var data = this.props.artifact;
         if (this.trait_state.traits[trait_id].enabled && data.traits[trait_id] != 0) {
             data.traits[trait_id] -= 1;
             this.update_state(data, true);
@@ -82,8 +85,16 @@ export default class ArtifactFrame extends React.Component {
 
     change_relic(slot, trait, ilvl)
     {
+        // Recalculate the stats on the artifact based on the change in ilevel because of
+        // the relic change.
+        let ilvlChange = getArtifactIlvlChange(this.props.artifact.relics[slot].ilvl, ilvl);
+        let stats = recalculateStats(this.props.gear['mainHand'].stats, ilvlChange);
+        let weaponStats = recalculateStats(this.props.gear['mainHand'].weaponStats, ilvlChange);
+
+        // TODO: this needs validation to make sure that the values are coming out correct
         store.dispatch(updateCharacterState(
-            "UPDATE_ARTIFACT_RELIC", {slot: slot, trait: trait, ilvl: ilvl}));
+            "UPDATE_ARTIFACT_RELIC", {slot: slot, trait: trait, ilvl: ilvl, stats: stats,
+                                      weaponStats: weaponStats}));
     }
 
     update_state(artifact_data, send_state)
@@ -209,11 +220,11 @@ export default class ArtifactFrame extends React.Component {
         var trait_elements = [];
         var line_elements = [];
 
-        this.update_state(Object.assign({}, this.props.data.artifact), false);
+        this.update_state(Object.assign({}, this.props.artifact), false);
 
         for (var idx in this.props.layout.traits) {
             var trait = this.props.layout.traits[idx];
-            var trait_rank = this.props.data.artifact.traits[trait.id];
+            var trait_rank = this.props.artifact.traits[trait.id];
             var trait_state = this.trait_state.traits[trait.id];
 
             // The position that we grab from wowhead is translated to match the center
@@ -233,7 +244,7 @@ export default class ArtifactFrame extends React.Component {
             var x2 = trait2.x / FRAME_WIDTH * 100.0;
             var y2 = trait2.y / FRAME_HEIGHT * 100.0;
 
-            var tdata = this.props.data.artifact.traits;
+            var tdata = this.props.artifact.traits;
             var tstate = this.trait_state.traits;
 
             var color = 'grey';
@@ -263,12 +274,21 @@ export default class ArtifactFrame extends React.Component {
                 </div>
 
                 <br/>
-                <ArtifactRelicSelect index="0" relics={this.relics} selected={this.props.data.artifact.relics[0]} type={this.props.layout.relics[0]} parent={this}/>
+                <ArtifactRelicSelect index="0" relics={this.relics} selected={this.props.artifact.relics[0]} type={this.props.layout.relics[0]} parent={this}/>
                 <br/>
-                <ArtifactRelicSelect index="1" relics={this.relics} selected={this.props.data.artifact.relics[1]} type={this.props.layout.relics[1]} parent={this} />
+                <ArtifactRelicSelect index="1" relics={this.relics} selected={this.props.artifact.relics[1]} type={this.props.layout.relics[1]} parent={this} />
                 <br/>
-                <ArtifactRelicSelect index="2" relics={this.relics} selected={this.props.data.artifact.relics[2]} type={this.props.layout.relics[2]} parent={this} />
+                <ArtifactRelicSelect index="2" relics={this.relics} selected={this.props.artifact.relics[2]} type={this.props.layout.relics[2]} parent={this} />
             </div>
         );
     }
 }
+
+const mapStateToProps = function(store) {
+    return {
+        artifact: store.character.artifact,
+        gear: store.character.gear
+    };
+};
+
+export default connect(mapStateToProps)(ArtifactFrame);
