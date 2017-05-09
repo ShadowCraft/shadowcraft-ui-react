@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "build": "webpack",
     "start": "python app.py",
     "watch": "webpack --watch --progress",
@@ -25,6 +26,7 @@
     "eslint-config-defaults": "^9.0.0",
     "eslint-plugin-react": "^6.10.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "jest-cli": "^20.0.0",
     "node-sass": "^4.0.0",
     "npm-run-all": "^4.0.2",
     "sass-loader": "^4.1.1",
@@ -41,5 +43,11 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "whatwg-fetch": "^2.0.3"
+  },
+  "babel": {
+    "presets": [
+      "react",
+      "es2015"
+    ]
   }
 }

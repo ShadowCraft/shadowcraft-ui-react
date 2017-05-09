@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import 'whatwg-fetch';
 import { getArtifactIlvlChange } from './common';
 
-const characterReducer = function (state = {}, action) {
+export const characterReducer = function (state = {}, action) {
 
     switch (action.type) {
 
