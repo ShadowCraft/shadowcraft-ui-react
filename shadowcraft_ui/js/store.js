@@ -29,7 +29,8 @@ export const characterReducer = function (state = {}, action) {
             if (newState.artifact.relics[action.data.slot].ilvl != action.data.ilvl) {
                 
                 newState.artifact.relics[action.data.slot].ilvl = action.data.ilvl;
-                let change = getArtifactIlvlChange(action.data.ilvl, newState.artifact.relics[action.data.ilvl]);
+                //TODO: not sure if this is working properly, always returns 0
+                let change = getArtifactIlvlChange(action.data.ilvl, newState.artifact.relics[action.data.slot].ilvl);
 
                 newState.gear['mainHand'].item_level += change;
                 newState.gear['mainHand'].stats = action.data.stats;
