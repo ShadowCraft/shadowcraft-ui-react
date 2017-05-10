@@ -105,8 +105,16 @@ describe('character reducer', () => {
         let expected = { active: 'example' };
 
         expect(characterReducer(init, action)).toEqual(expected);
-    }
-    );
+    });
+
+    it('should handle UPDATE_TALENTS', () => {
+
+        let init = { talents: { current: 'initial' } };
+        let action = { type: 'UPDATE_TALENTS', data: 'result' };
+        let expected = { talents: { current: 'result' } };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+    });
 }
 
 );
