@@ -115,6 +115,59 @@ describe('character reducer', () => {
 
         expect(characterReducer(init, action)).toEqual(expected);
     });
-}
 
+    it('should handle CHANGE_ITEM', () => {
+        let init = {
+            gear: {
+                slot: {
+                    bonuses: ['nobonuses'],
+                    context: "nocontexts",
+                    gems: [0],
+                    icon: "noicon",
+                    id: "noremote_id",
+                    item_level: "noitem_level",
+                    name: "noname",
+                    quality: "noquality",
+                    socket_count: "nosocket_count",
+                    stats: "nostats"
+                }
+            }
+        };
+        let action = {
+            type: 'CHANGE_ITEM',
+            data: {
+                slot: 'slot',
+                item: {
+                    remote_id: 'remote_id',
+                    item_level: 'item_level',
+                    contexts: ['contexts'],
+                    properties: {
+                        icon: 'icon',
+                        name: 'name',
+                        quality: 'quality',
+                        stats: 'stats',
+                        socket_count: 'socket_count'
+                    }
+                }
+            }
+        };
+        let expected = {
+            gear: {
+                slot: {
+                    bonuses: [],
+                    context: "contexts",
+                    gems: [0],
+                    icon: "icon",
+                    id: "remote_id",
+                    item_level: "item_level",
+                    name: "name",
+                    quality: "quality",
+                    socket_count: "socket_count",
+                    stats: "stats"
+                }
+            }
+        };
+        expect(characterReducer(init, action)).toEqual(expected);
+    });
+}
 );
