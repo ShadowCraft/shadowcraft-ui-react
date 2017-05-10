@@ -250,7 +250,7 @@ export function checkFetchStatus(response) {
         return response;
     } else {
         var error = new Error(response.statusText);
-        error.response = response;
+        error.message = response;
         throw error;
     }
 }
@@ -273,7 +273,7 @@ export function getEngineData() {
             .then(checkFetchStatus)
             .then(r => r.json())
             .then(r => dispatch(updateEngineState(r)))
-            .catch(ex => console.log(ex))
+            .catch(ex => console.log(ex));
     };
 }
 

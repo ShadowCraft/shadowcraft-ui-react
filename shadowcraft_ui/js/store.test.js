@@ -75,12 +75,12 @@ describe('character reducer', () => {
             {
                 gear: {
                     mainHand: {
-                        item_level: 'xxx',//this calc is probably incorrect
+                        item_level: 850, //this calc is probably incorrect
                         stats: { agi: 2 },
                         weaponStats: {}
                     },
                     offHand: {
-                        item_level: 'xxx',//this calc is probably incorrect
+                        item_level: 850, //this calc is probably incorrect
                         stats: { agi: 2 },
                         weaponStats: {}
                     }
@@ -98,6 +98,15 @@ describe('character reducer', () => {
             );
     });
 
+    it('should handle UPDATE_SPEC', () => {
+
+        let init = { active: 'anything' };
+        let action = { type: 'UPDATE_SPEC', data: 'example' };
+        let expected = { active: 'example' };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+    }
+    );
 }
 
 );
