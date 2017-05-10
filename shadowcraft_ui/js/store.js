@@ -91,7 +91,6 @@ export const characterReducer = function (state = {}, action) {
 
         case 'CHANGE_BONUSES': {
             let newGear = Object.assign({}, state.gear);
-            console.log(newGear[action.data.slot].stats);
             newGear[action.data.slot].bonuses = action.data.bonuses;
             newGear[action.data.slot].itemLevel = action.data.ilvl;
             newGear[action.data.slot].stats = action.data.newStats;
@@ -110,7 +109,7 @@ export const characterReducer = function (state = {}, action) {
                 }
             }
 
-            return Object.assign({}, state, newGear);
+            return Object.assign({}, state, {gear: newGear});
         }
     }
 

@@ -169,5 +169,48 @@ describe('character reducer', () => {
         };
         expect(characterReducer(init, action)).toEqual(expected);
     });
+
+    it('should handle CHANGE_BONUSES', () => {
+
+        let init = {
+            gear: {
+                slot: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 0,
+                    stats: {},
+                    itemLevel: 0,
+                    hasBonusSocket: true,
+                    canHaveBonusSocket: true
+                }
+            }
+        };
+        let action = {
+            type: 'CHANGE_BONUSES', data: {
+                slot: 'slot',
+                bonuses: [],
+                ilvl: 1,
+                newStats: { test: 'test' },
+                hasBonusSocket: true,
+                canHaveBonusSocket: true
+            }
+        };
+        let expected = {
+            gear: {
+                slot: {
+                    bonuses: [],
+                    gems: [0],
+                    socket_count: 1,
+                    stats: { test: 'test' },
+                    itemLevel: 1,
+                    hasBonusSocket: true,
+                    canHaveBonusSocket: true
+                }
+            }
+        };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+
+    });
 }
 );
