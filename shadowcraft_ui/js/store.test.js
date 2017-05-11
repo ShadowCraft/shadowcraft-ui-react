@@ -1,101 +1,92 @@
 import { characterReducer } from './store';
 
-describe('character reducer', () => {
+describe('characterReducer', () => {
     it('should return initial state', () => {
-        expect(
-            characterReducer(undefined, {})
-        ).toEqual({});
+        expect(characterReducer(undefined, {})).toEqual({});
     });
 
     it('should handle RESET_CHARACTER_DATA', () => {
-        expect(
-            characterReducer(
-                { test: 'test' },
-                {
-                    type: 'RESET_CHARACTER_DATA',
-                    data: { test: 'test' }
-                })
-        ).toEqual({ test: 'test' });
+
+        let init = { test: 'initial' };
+        let action = {
+            type: 'RESET_CHARACTER_DATA', data: { test: 'test' }
+        };
+        let expected = { test: 'test' };
+        expect(characterReducer(init, action)).toEqual(expected);
     });
 
     it('should handle UPDATE_ARTIFACT_TRAITS', () => {
-        expect(
-            characterReducer(
-                { artifact: { traits: {} } },
-                {
-                    type: 'UPDATE_ARTIFACT_TRAITS',
-                    data: 'test'
-                })
-        ).toEqual(
-            {
-                artifact: {
-                    traits: 'test'
-                }
+
+        let init = { artifact: { traits: {} } };
+        let action = {
+            type: 'UPDATE_ARTIFACT_TRAITS',
+            data: 'test'
+        };
+        let expected = {
+            artifact: {
+                traits: 'test'
             }
-            );
+        };
+        expect(characterReducer(init, action)).toEqual(expected);
     });
 
     it('should handle UPDATE_ARTIFACT_RELIC', () => {
-        expect(
-            characterReducer(
-                {
-                    gear: {
-                        mainHand: {
-                            item_level: 850,
-                            stats: { agi: 1 },
-                            weaponStats: {}
-                        },
-                        offHand: {
-                            item_level: 850,
-                            stats: { agi: 1 },
-                            weaponStats: {}
-                        }
-                    },
-                    artifact: {
-                        relics: [
-                            { id: 1, ilvl: 850 },
-                            { id: 1, ilvl: 850 },
-                            { id: 1, ilvl: 850 }
-                        ],
-                        traits: { 1: 3, 2: 0 }
-                    }
+        let init = {
+            gear: {
+                mainHand: {
+                    item_level: 850,
+                    stats: { agi: 1 },
+                    weaponStats: {}
                 },
-                {
-                    type: 'UPDATE_ARTIFACT_RELIC',
-                    data: {
-                        slot: 0,
-                        trait: 2,
-                        ilvl: 900,
-                        stats: { agi: 2 },
-                        weaponStats: {}
-                    }
+                offHand: {
+                    item_level: 850,
+                    stats: { agi: 1 },
+                    weaponStats: {}
                 }
-            )
-        ).toEqual(
-            {
-                gear: {
-                    mainHand: {
-                        item_level: 865,
-                        stats: { agi: 2 },
-                        weaponStats: {}
-                    },
-                    offHand: {
-                        item_level: 865,
-                        stats: { agi: 2 },
-                        weaponStats: {}
-                    }
-                },
-                artifact: {
-                    relics: [
-                        { id: 2, ilvl: 900 },
-                        { id: 1, ilvl: 850 },
-                        { id: 1, ilvl: 850 }
-                    ],
-                    traits: { 1: 2, 2: 1 }
-                }
-
+            },
+            artifact: {
+                relics: [
+                    { id: 1, ilvl: 850 },
+                    { id: 1, ilvl: 850 },
+                    { id: 1, ilvl: 850 }
+                ],
+                traits: { 1: 3, 2: 0 }
             }
-            );
+        };
+        let action = {
+            type: 'UPDATE_ARTIFACT_RELIC',
+            data: {
+                slot: 0,
+                trait: 2,
+                ilvl: 900,
+                stats: { agi: 2 },
+                weaponStats: {}
+            }
+        };
+        let expected = {
+            gear: {
+                mainHand: {
+                    item_level: 865,
+                    stats: { agi: 2 },
+                    weaponStats: {}
+                },
+                offHand: {
+                    item_level: 865,
+                    stats: { agi: 2 },
+                    weaponStats: {}
+                }
+            },
+            artifact: {
+                relics: [
+                    { id: 2, ilvl: 900 },
+                    { id: 1, ilvl: 850 },
+                    { id: 1, ilvl: 850 }
+                ],
+                traits: { 1: 2, 2: 1 }
+            }
+
+        };
+        expect(characterReducer(init, action)).toEqual(expected);
     });
 
     it('should handle UPDATE_SPEC', () => {
