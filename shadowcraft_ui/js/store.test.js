@@ -75,12 +75,12 @@ describe('character reducer', () => {
             {
                 gear: {
                     mainHand: {
-                        item_level: 850, //this calc is probably incorrect
+                        item_level: 865,
                         stats: { agi: 2 },
                         weaponStats: {}
                     },
                     offHand: {
-                        item_level: 850, //this calc is probably incorrect
+                        item_level: 865,
                         stats: { agi: 2 },
                         weaponStats: {}
                     }
