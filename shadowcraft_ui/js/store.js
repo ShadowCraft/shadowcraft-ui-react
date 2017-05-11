@@ -27,15 +27,15 @@ export const characterReducer = function (state = {}, action) {
 
             // Determine what the artifact's ilvl should be based on any relic changes
             if (newState.artifact.relics[action.data.slot].ilvl != action.data.ilvl) {
-                
+
+                let change = getArtifactIlvlChange(newState.artifact.relics[action.data.slot].ilvl, action.data.ilvl);
+
                 newState.artifact.relics[action.data.slot].ilvl = action.data.ilvl;
-                //TODO: not sure if this is working properly, always returns 0
-                let change = getArtifactIlvlChange(action.data.ilvl, newState.artifact.relics[action.data.slot].ilvl);
 
                 newState.gear['mainHand'].item_level += change;
                 newState.gear['mainHand'].stats = action.data.stats;
                 newState.gear['mainHand'].weaponStats = action.data.weaponStats;
-                
+
                 newState.gear['offHand'].item_level += change;
                 newState.gear['offHand'].stats = action.data.stats;
                 newState.gear['offHand'].weaponStats = action.data.weaponStats;
