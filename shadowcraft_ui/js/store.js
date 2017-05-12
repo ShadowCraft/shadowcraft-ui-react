@@ -1,120 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { characterReducer } from './reducers/characterReducer';
 import thunk from 'redux-thunk';
 import 'whatwg-fetch';
-import { getArtifactIlvlChange } from './common';
-
-export const characterReducer = function (state = {}, action) {
-
-    switch (action.type) {
-
-        // Full reset of the character data. This is used on page load and
-        // whenever the user presses the refresh button.
-        case 'RESET_CHARACTER_DATA': {
-            return Object.assign({}, state, action.data);
-        }
-
-        case 'UPDATE_ARTIFACT_TRAITS': {
-            let newState = Object.assign({}, state);
-            newState.artifact.traits = action.data;
-            return Object.assign({}, state, newState);
-        }
-
-        case 'UPDATE_ARTIFACT_RELIC': {
-            let newState = Object.assign({}, state);
-            if (newState.artifact.relics[action.data.slot].id != 0) {
-                newState.artifact.traits[newState.artifact.relics[action.data.slot].id] -= 1;
-            }
-
-            // Determine what the artifact's ilvl should be based on any relic changes
-            if (newState.artifact.relics[action.data.slot].ilvl != action.data.ilvl) {
-
-                let change = getArtifactIlvlChange(newState.artifact.relics[action.data.slot].ilvl, action.data.ilvl);
-
-                newState.artifact.relics[action.data.slot].ilvl = action.data.ilvl;
-
-                newState.gear['mainHand'].item_level += change;
-                newState.gear['mainHand'].stats = action.data.stats;
-                newState.gear['mainHand'].weaponStats = action.data.weaponStats;
-
-                newState.gear['offHand'].item_level += change;
-                newState.gear['offHand'].stats = action.data.stats;
-                newState.gear['offHand'].weaponStats = action.data.weaponStats;
-            }
-
-            newState.artifact.relics[action.data.slot].id = action.data.trait;
-
-            // Update the new trait
-            newState.artifact.traits[action.data.trait] += 1;
-
-            return Object.assign({}, state, newState);
-        }
-
-        case 'UPDATE_SPEC': {
-            return Object.assign({}, state, {
-                active: action.data
-            });
-        }
-
-        case 'UPDATE_TALENTS': {
-            let newState = state;
-            newState.talents.current = action.data;
-            return Object.assign({}, state, newState);
-        }
-
-        case 'CHANGE_ITEM': {
-
-            // look away now, lest ye dispair
-
-            //TODO: clean up the data models so this mapping isn't required.
-            //not clearing bonuses and gems because idk the right mapping right now
-            //not change base ilvl, since I do not know how that works and it is not in item db entry
-            //context may not be mapped correctly, I'm just pulling the first entry and calling it good for now
-
-            let item = Object.assign({}, state.gear[action.data.slot]);
-            item.context = action.data.item.contexts[0];
-            item.bonuses = [];
-            item.icon = action.data.item.properties.icon;
-            item.id = action.data.item.remote_id;
-            item.item_level = action.data.item.item_level;
-            item.name = action.data.item.properties.name;
-            item.quality = action.data.item.properties.quality;
-            item.stats = action.data.item.properties.stats;
-            item.socket_count = action.data.item.properties.socket_count;
-
-            // Generate a number of gem entries based on the number of sockets on the item
-            item.gems = new Array(item.socket_count);
-            item.gems.fill(0);
-
-            let gear = Object.assign({}, state.gear, { [action.data.slot]: item });
-            return Object.assign({}, state, { gear: gear });
-        }
-
-        case 'CHANGE_BONUSES': {
-            let newGear = Object.assign({}, state.gear);
-            newGear[action.data.slot].bonuses = action.data.bonuses;
-            newGear[action.data.slot].itemLevel = action.data.ilvl;
-            newGear[action.data.slot].stats = action.data.newStats;
-
-            // If this item can have a bonus socket but doesn't have one assigned, nuke
-            // the equipped gems out of it so they don't show back up when if a socket
-            // gets added back in.
-            if (action.data.canHaveBonusSocket) {
-                if (!action.data.hasBonusSocket) {
-                    newGear[action.data.slot].gems = [0];
-                    newGear[action.data.slot].socket_count = 0;
-                }
-                else if (newGear[action.data.slot].socket_count == 0) {
-                    newGear[action.data.slot].gems = [0];
-                    newGear[action.data.slot].socket_count = 1;
-                }
-            }
-
-            return Object.assign({}, state, {gear: newGear});
-        }
-    }
-
-    return state;
-};
 
 // Thunk for calling the events in the character reducer. Using this to dispatch events
 // into the character reducer will also make a call to the engine to update that data.
@@ -272,7 +159,9 @@ export function getEngineData() {
             .then(checkFetchStatus)
             .then(r => r.json())
             .then(r => dispatch(updateEngineState(r)))
+            /* eslint-disable no-console */
             .catch(ex => console.log(ex));
+            /* eslint-enable no-console */
     };
 }
 

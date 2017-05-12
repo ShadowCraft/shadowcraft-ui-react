@@ -1,7 +1,8 @@
 import React from 'react';
 
 import store from '../store';
-import { checkFetchStatus, updateCharacterState, recalculateStats } from '../store';
+import { checkFetchStatus, updateCharacterState } from '../store';
+import { recalculateStats } from '../common';
 
 class BonusIDCheckBox extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class BonusIDCheckBox extends React.Component {
 
         return (
             <label className={classes}>
-                <input key={this.props.bonusId} id={"bonus-"+this.props.bonusId} data-bonusId={this.props.bonusId} type="checkbox" onChange={this.onChange} checked={this.props.checked} />{description}
+                <input key={this.props.bonusId} id={"bonus-" + this.props.bonusId} data-bonusId={this.props.bonusId} type="checkbox" onChange={this.onChange} checked={this.props.checked} />{description}
             </label>
         );
     }
@@ -37,15 +38,14 @@ class BonusIDCheckBox extends React.Component {
 
 export default class BonusIDPopup extends React.Component {
 
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
         this.state = {
             active: props.item.bonuses,
             wfBonus: -1,
             baseItem: {
                 item_level: 0,
-                properties: {chance_bonus_lists: []}
+                properties: { chance_bonus_lists: [] }
             }
         };
 
@@ -61,13 +61,12 @@ export default class BonusIDPopup extends React.Component {
         }
     }
 
-    componentWillMount()
-    {
-        let url = '/get_item_by_context?id='+this.props.item.id+'&context='+this.props.item.context;
+    componentWillMount() {
+        let url = '/get_item_by_context?id=' + this.props.item.id + '&context=' + this.props.item.context;
         fetch(url)
             .then(checkFetchStatus)
             .then(r => r.json())
-            .then(function(json) {this.setState({baseItem: json})}
+            .then(function (json) { this.setState({ baseItem: json }); }
                 .bind(this));
     }
 
@@ -86,7 +85,7 @@ export default class BonusIDPopup extends React.Component {
             newActive.push(bonusId);
         }
 
-        this.setState({active: newActive});
+        this.setState({ active: newActive });
     }
 
     onWFChange(e) {
@@ -97,10 +96,10 @@ export default class BonusIDPopup extends React.Component {
         }
 
         newActive.push(parseInt(e.currentTarget.value));
-        this.setState({active: newActive, wfBonus: e.currentTarget.value});
+        this.setState({ active: newActive, wfBonus: e.currentTarget.value });
     }
 
-    onApply(e) {
+    onApply() {
 
         let eventData = {
             slot: this.props.item.slot,
@@ -110,7 +109,7 @@ export default class BonusIDPopup extends React.Component {
             hasBonusSocket: this.state.active.indexOf(1808) != -1,
             newStats: this.state.baseItem.properties.stats
         };
-        
+
         if (this.state.wfBonus != 0) {
             eventData['newIlvl'] += this.state.wfBonus - 1472;
         }
@@ -120,7 +119,7 @@ export default class BonusIDPopup extends React.Component {
                 this.state.baseItem.properties.stats,
                 (eventData['newIlvl'] - this.state.baseItem.item_level).toFixed(2));
         }
-        
+
         store.dispatch(updateCharacterState('CHANGE_BONUSES', eventData));
 
         this.props.onApply();
@@ -130,26 +129,26 @@ export default class BonusIDPopup extends React.Component {
 
         let wfOptions = [];
         let selectedWFBonus = 0;
-        for (let i = 955; i >= this.state.baseItem.item_level+5; i -= 5) {
+        for (let i = 955; i >= this.state.baseItem.item_level + 5; i -= 5) {
             let bonus = i - this.state.baseItem.item_level + 1472;
             if (this.state.active.indexOf(bonus) != -1) {
                 selectedWFBonus = bonus;
             }
 
-            wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i-this.state.baseItem.item_level}</option>);
+            wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i - this.state.baseItem.item_level}</option>);
         }
 
         wfOptions.push(<option value="0" key="0">Item Level {this.state.baseItem.item_level} / None</option>);
 
-        return(
-            <div className="popup ui-dialog visible" id="bonuses" style={{top: "355px", left: "440px"}}>
+        return (
+            <div className="popup ui-dialog visible" id="bonuses" style={{ top: "355px", left: "440px" }}>
                 <h1>Item Bonuses</h1>
                 <form id="bonuses">
                     {this.state.baseItem.properties.chance_bonus_lists.indexOf(1808) != -1 &&
-                     <fieldset className="bonus_line">
-                         <legend>Extra Sockets</legend>
-                         <BonusIDCheckBox bonusId="1808" handleCheckbox={this.onChange} checked={this.state.active.indexOf(1808) != -1} />
-                     </fieldset>
+                        <fieldset className="bonus_line">
+                            <legend>Extra Sockets</legend>
+                            <BonusIDCheckBox bonusId="1808" handleCheckbox={this.onChange} checked={this.state.active.indexOf(1808) != -1} />
+                        </fieldset>
                     }
 
                     <fieldset className="bonus_line">
@@ -158,10 +157,10 @@ export default class BonusIDPopup extends React.Component {
                             {wfOptions}
                         </select>
                     </fieldset>
-                    <input className="ui-button ui-widget ui-state-default ui-corner-all applyBonuses" role="button" value="Apply" readOnly onClick={this.onApply}/>
+                    <input className="ui-button ui-widget ui-state-default ui-corner-all applyBonuses" role="button" value="Apply" readOnly onClick={this.onApply} />
                 </form>
                 <a href="#" className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button">
-                    <span className="ui-icon ui-icon-closethick"></span>
+                    <span className="ui-icon ui-icon-closethick" />
                 </a>
             </div>
         );

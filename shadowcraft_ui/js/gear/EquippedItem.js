@@ -5,8 +5,7 @@ import EquippedGemList from './EquippedGemsList';
 import EquippedEnchant from './EquippedEnchant';
 import ItemSelectPopup from './ItemSelectPopup';
 import BonusIDPopup from './BonusIDPopup';
-import store from '../store';
-import { updateCharacterState } from '../store';
+
 
 class EquippedItem extends React.Component {
 
