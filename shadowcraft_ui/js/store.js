@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { characterReducer } from './reducers/characterReducer';
 import { settingsReducer } from './reducers/settingsReducer';
 import { engineReducer } from './reducers/engineReducer';
+import { warningsReducer } from './reducers/warningsReducer';
 import thunk from 'redux-thunk';
 import 'whatwg-fetch';
 
@@ -39,7 +40,6 @@ export function updateEngineState(data) {
     };
 }
 
-
 export function checkFetchStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response;
@@ -73,26 +73,6 @@ export function getEngineData() {
         /* eslint-enable no-console */
     };
 }
-
-const initialWarningsState = {
-    warnings: [
-        "Band of Crystalline Bone needs an enchantment"
-    ]
-};
-
-const warningsReducer = function (state = initialWarningsState, action) {
-    switch (action.type) {
-        case 'CLEAR_WARNINGS':
-            var newState = state;
-            newState.warnings = [];
-            return Object.assign({}, state, newState);
-
-        case 'ADD_WARNING':
-            return state;
-    }
-
-    return state;
-};
 
 const initialHistoryState = {
     dps: [],
