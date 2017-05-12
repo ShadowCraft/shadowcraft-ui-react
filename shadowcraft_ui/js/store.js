@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { characterReducer } from './reducers/characterReducer';
 import { settingsReducer } from './reducers/settingsReducer';
+import { engineReducer } from './reducers/engineReducer';
 import thunk from 'redux-thunk';
 import 'whatwg-fetch';
 
@@ -23,54 +24,6 @@ export function changeSetting(setting) {
         dispatch(getEngineData());
     };
 }
-
-const initialEngineState = {
-
-    ui_build: "7.2.0-UI-Test",
-    build: "7.2.0-Test",
-
-    // TODO: I'm not a huge fan of hard-coding the layout of the data we get back
-    // from the engine here like this, but I don't know if requesting it from the
-    // backend or engine is any better.
-    ep: {
-        agi: 0,
-        crit: 0,
-        haste: 0,
-        mastery: 0,
-        versatility: 0
-    },
-    mh_ep: {
-        mh_dps: 0
-    },
-    oh_ep: {
-        oh_dps: 0
-    },
-    stats: {
-        agility: 0,
-        crit: 0,
-        haste: 0,
-        mastery: 0,
-        versatility: 0
-    },
-    engine_info: {
-        wow_build_target: ''
-    },
-
-    talentRanking: {},
-    traitRanking: {},
-    dps_breakdown: [],
-    totalDps: 0.0
-};
-
-const engineReducer = function (state = initialEngineState, action) {
-
-    switch (action.type) {
-        case 'SET_ENGINE_STATE':
-            return Object.assign({}, state, action.response);
-    }
-
-    return state;
-};
 
 // Thunk for handling incoming engine state. It updates the engine state, plus passes
 // the current character and settings state to the history reducer.
@@ -117,7 +70,7 @@ export function getEngineData() {
             .then(r => dispatch(updateEngineState(r)))
             /* eslint-disable no-console */
             .catch(ex => console.log(ex));
-            /* eslint-enable no-console */
+        /* eslint-enable no-console */
     };
 }
 
