@@ -1,4 +1,4 @@
-import { characterReducer } from './reducers/characterReducer';
+import { characterReducer } from './characterReducer';
 
 describe('characterReducer', () => {
     it('should return initial state', () => {
