@@ -1,4 +1,4 @@
-export const settingsActionType = {
+export const settingsActionTypes = {
     CHANGE_SETTING: 'CHANGE_SETTING',
     SETTINGS_LAYOUT: 'SETTINGS_LAYOUT',
     RESET_SETTINGS: 'RESET_SETTINGS'
@@ -8,7 +8,7 @@ export const settingsReducer = function (state = {}, action) {
 
     switch (action.type) {
         //TODO: figure out how to properly merge a nested property, this is nasty
-        case settingsActionType.CHANGE_SETTING: {
+        case settingsActionTypes.CHANGE_SETTING: {
             let newcurrent = Object.assign({}, state.current);
             newcurrent[action.setting] = action.value;
             let newstate = Object.assign({}, state);
@@ -16,7 +16,7 @@ export const settingsReducer = function (state = {}, action) {
             return newstate;
         }
 
-        case settingsActionType.SETTINGS_LAYOUT: {
+        case settingsActionTypes.SETTINGS_LAYOUT: {
             // Go through the defaults for the settings and add them to the value
             // state if it's not set yet.
             let current = state.current;
@@ -41,7 +41,7 @@ export const settingsReducer = function (state = {}, action) {
             });
         }
 
-        case settingsActionType.RESET_SETTINGS: {
+        case settingsActionTypes.RESET_SETTINGS: {
             return Object.assign({}, state, action.data);
         }
     }
