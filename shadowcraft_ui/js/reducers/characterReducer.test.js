@@ -7,22 +7,22 @@ describe('characterReducer', () => {
 
     it('should handle RESET_CHARACTER_DATA', () => {
 
-        let init = { test: 'initial' };
-        let action = {
+        const init = { test: 'initial' };
+        const action = {
             type: 'RESET_CHARACTER_DATA', data: { test: 'test' }
         };
-        let expected = { test: 'test' };
+        const expected = { test: 'test' };
         expect(characterReducer(init, action)).toEqual(expected);
     });
 
     it('should handle UPDATE_ARTIFACT_TRAITS', () => {
 
-        let init = { artifact: { traits: {} } };
-        let action = {
+        const init = { artifact: { traits: {} } };
+        const action = {
             type: 'UPDATE_ARTIFACT_TRAITS',
             data: 'test'
         };
-        let expected = {
+        const expected = {
             artifact: {
                 traits: 'test'
             }
@@ -31,7 +31,7 @@ describe('characterReducer', () => {
     });
 
     it('should handle UPDATE_ARTIFACT_RELIC', () => {
-        let init = {
+        const init = {
             gear: {
                 mainHand: {
                     item_level: 850,
@@ -53,7 +53,7 @@ describe('characterReducer', () => {
                 traits: { 1: 3, 2: 0 }
             }
         };
-        let action = {
+        const action = {
             type: 'UPDATE_ARTIFACT_RELIC',
             data: {
                 slot: 0,
@@ -63,7 +63,7 @@ describe('characterReducer', () => {
                 weaponStats: {}
             }
         };
-        let expected = {
+        const expected = {
             gear: {
                 mainHand: {
                     item_level: 865,
@@ -91,24 +91,24 @@ describe('characterReducer', () => {
 
     it('should handle UPDATE_SPEC', () => {
 
-        let init = { active: 'anything' };
-        let action = { type: 'UPDATE_SPEC', data: 'example' };
-        let expected = { active: 'example' };
+        const init = { active: 'anything' };
+        const action = { type: 'UPDATE_SPEC', data: 'example' };
+        const expected = { active: 'example' };
 
         expect(characterReducer(init, action)).toEqual(expected);
     });
 
     it('should handle UPDATE_TALENTS', () => {
 
-        let init = { talents: { current: 'initial' } };
-        let action = { type: 'UPDATE_TALENTS', data: 'result' };
-        let expected = { talents: { current: 'result' } };
+        const init = { talents: { current: 'initial' } };
+        const action = { type: 'UPDATE_TALENTS', data: 'result' };
+        const expected = { talents: { current: 'result' } };
 
         expect(characterReducer(init, action)).toEqual(expected);
     });
 
     it('should handle CHANGE_ITEM', () => {
-        let init = {
+        const init = {
             gear: {
                 slot: {
                     bonuses: ['nobonuses'],
@@ -124,7 +124,7 @@ describe('characterReducer', () => {
                 }
             }
         };
-        let action = {
+        const action = {
             type: 'CHANGE_ITEM',
             data: {
                 slot: 'slot',
@@ -142,7 +142,7 @@ describe('characterReducer', () => {
                 }
             }
         };
-        let expected = {
+        const expected = {
             gear: {
                 slot: {
                     bonuses: [],
@@ -163,7 +163,7 @@ describe('characterReducer', () => {
 
     it('should handle CHANGE_BONUSES', () => {
 
-        let init = {
+        const init = {
             gear: {
                 slot: {
                     bonuses: [],
@@ -176,7 +176,7 @@ describe('characterReducer', () => {
                 }
             }
         };
-        let action = {
+        const action = {
             type: 'CHANGE_BONUSES', data: {
                 slot: 'slot',
                 bonuses: [],
@@ -186,7 +186,7 @@ describe('characterReducer', () => {
                 canHaveBonusSocket: true
             }
         };
-        let expected = {
+        const expected = {
             gear: {
                 slot: {
                     bonuses: [],
