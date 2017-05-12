@@ -3,6 +3,7 @@ import { characterReducer } from './reducers/characterReducer';
 import { settingsReducer } from './reducers/settingsReducer';
 import { engineReducer } from './reducers/engineReducer';
 import { warningsReducer } from './reducers/warningsReducer';
+import { historyReducer } from './reducers/historyReducer';
 import thunk from 'redux-thunk';
 import 'whatwg-fetch';
 
@@ -73,34 +74,6 @@ export function getEngineData() {
         /* eslint-enable no-console */
     };
 }
-
-const initialHistoryState = {
-    dps: [],
-    data: []
-};
-
-const historyReducer = function (state = initialHistoryState, action) {
-    switch (action.type) {
-        case 'CLEAR_HISTORY': {
-            let newState = state;
-            newState.dps = [];
-            newState.data = [];
-            return Object.assign({}, state, newState);
-        }
-
-        case 'ADD_HISTORY': {
-            let newState = state;
-            newState.dps.push(Math.round(action.dps * 10.0) / 10.0);
-            newState.data.push({
-                character: JSON.parse(JSON.stringify(action.character)),
-                settings: Object.create(action.settings)
-            });
-            return Object.assign({}, state, newState);
-        }
-    }
-
-    return state;
-};
 
 export function historyTimeMachine(character, settings) {
     return function (dispatch) {
