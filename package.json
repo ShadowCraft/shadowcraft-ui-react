@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "build": "webpack",
     "start": "python app.py",
     "watch": "webpack --watch --progress",

@@ -1,12 +1,16 @@
-import { settingsReducer } from './settingsReducer';
+import {settingsActionTypes, settingsReducer } from './settingsReducer';
 
 describe('settingsReducer', () => {
+
+    it('should return initial state', () => {
+        expect(settingsReducer(undefined, {})).toEqual({});
+    });
 
     it('should handle CHANGE_SETTING', () => {
 
         const init = { current: { testsetting: 'init' } };
         const action = {
-            type: 'CHANGE_SETTING',
+            type: settingsActionTypes.CHANGE_SETTING,
             setting: 'testsetting',
             value: 'test'
         };
@@ -18,7 +22,7 @@ describe('settingsReducer', () => {
     it('should handle SETTINGS_LAYOUT', () => {
         const init = { layout: {} };
         const action = {
-            type: 'SETTINGS_LAYOUT',
+            type: settingsActionTypes.SETTINGS_LAYOUT,
             data: [{ items: [{ name: 'testname', default: 'testdefault' }] }]
         };
         const expected = {
@@ -31,7 +35,7 @@ describe('settingsReducer', () => {
 
     it('should handle RESET_SETTINGS', () => {
         const init = { old: 'data' };
-        const action = { type: 'RESET_SETTINGS', data: { new: 'data' } };
+        const action = { type: settingsActionTypes.RESET_SETTINGS, data: { new: 'data' } };
         const expected = {old: 'data', new: 'data' };
         expect(settingsReducer(init, action)).toEqual(expected);
     });
