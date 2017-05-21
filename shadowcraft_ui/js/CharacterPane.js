@@ -101,9 +101,9 @@ class CharacterPane extends React.Component {
                                             <a className="dropdown">
                                                 <img src='/static/images/cog.png'/>
                                                 {this.state.dropdown && <ul className="dropdownMenu">
-                                                    <li onClick={this.refreshCharacter()}>Refresh from armory</li>
-                                                    <li onClick={this.clearSavedData()}>Clear all saved data</li>
-                                                    <li onClick={this.getDebugURL()}>Get Debug URL</li>
+                                                    <li onClick={this.refreshCharacter}>Refresh from armory</li>
+                                                    <li onClick={this.clearSavedData}>Clear all saved data</li>
+                                                    <li onClick={this.getDebugURL}>Get Debug URL</li>
                                                 </ul>}
                                             </a>
                                         </li>
