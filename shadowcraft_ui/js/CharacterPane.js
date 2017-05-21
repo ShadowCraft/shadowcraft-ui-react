@@ -31,8 +31,14 @@ class CharacterPane extends React.Component {
     constructor() {
         super();
         this.state = {
-            currentTab: 'gear'
+            currentTab: 'gear',
+            dropdown: false
         };
+
+        this.onDropdownClick = this.onDropdownClick.bind(this);
+        this.refreshCharacter = this.refreshCharacter.bind(this);
+        this.clearSavedData = this.clearSavedData.bind(this);
+        this.getDebugURL = this.getDebugURL.bind(this);
     }
 
     componentWillMount() {
@@ -46,8 +52,25 @@ class CharacterPane extends React.Component {
             case 'artifact': return <ArtifactPane />;
             case 'advanced': return <AdvancedPane />;
             case 'documentation': return <DocsPane />;
-            default: return (<div>unreconized string passed to CharacterPane.renderTab</div>);
+            default: return (<div>unrecognized string passed to CharacterPane.renderTab</div>);
         }
+    }
+
+    onDropdownClick(e) {
+        console.log("dropdown");
+        this.setState({dropdown: !this.state.dropdown});
+    }
+
+    refreshCharacter() {
+        console.log("refresh character");
+    }
+
+    clearSavedData() {
+        console.log("clear saved data");
+    }
+
+    getDebugURL() {
+        console.log("get debug url");
     }
 
     render() {
@@ -56,31 +79,39 @@ class CharacterPane extends React.Component {
                 <div style={{ marginBottom: '25px', display: 'flex' }}>
                     <div id="container" style={{ flex: 4 }}>
                         <div id="curtain">
-                            <div id='tabs'>
-                                <div className="tabs">
-                                    <nav className="tabs-navigation">
-                                        <ul className="tabs-menu">
-                                            <li className={`tabs-menu-item ${this.state.currentTab === 'gear' ? 'is-active' : ''}`}
-                                                onClick={() => this.setState({ currentTab: 'gear' })}
-                                            ><a>Gear</a></li>
-                                            <li className={`tabs-menu-item ${this.state.currentTab === 'talents' ? 'is-active' : ''}`}
-                                                onClick={() => this.setState({ currentTab: 'talents' })}
-                                            ><a>Talents</a></li>
-                                            <li className={`tabs-menu-item ${this.state.currentTab === 'artifact' ? 'is-active' : ''}`}
+                            <div className="tabs" id="tabs">
+                                <nav className="tabs-navigation">
+                                    <ul className="tabs-menu">
+                                        <li className={`tabs-menu-item ${this.state.currentTab === 'gear' ? 'is-active' : ''}`}
+                                            onClick={() => this.setState({ currentTab: 'gear' })}
+                                        ><a>Gear</a></li>
+                                        <li className={`tabs-menu-item ${this.state.currentTab === 'talents' ? 'is-active' : ''}`}
+                                            onClick={() => this.setState({ currentTab: 'talents' })}
+                                        ><a>Talents</a></li>
+                                        <li className={`tabs-menu-item ${this.state.currentTab === 'artifact' ? 'is-active' : ''}`}
                                                 onClick={() => this.setState({ currentTab: 'artifact' })}
-                                            ><a>Artifact</a></li>
-                                            <li className={`tabs-menu-item ${this.state.currentTab === 'advanced' ? 'is-active' : ''}`}
-                                                onClick={() => this.setState({ currentTab: 'advanced' })}
-                                            ><a>Advanced</a></li>
-                                            <li className={`tabs-menu-item ${this.state.currentTab === 'documenation' ? 'is-active' : ''}`}
-                                                onClick={() => this.setState({ currentTab: 'documentation' })}
-                                            ><a>Documentation</a></li>
-                                        </ul>
-                                    </nav>
-                                    <article className="tab-panel">
-                                        {this.renderTab(this.state.currentTab)}
-                                    </article>
-                                </div>
+                                        ><a>Artifact</a></li>
+                                        <li className={`tabs-menu-item ${this.state.currentTab === 'advanced' ? 'is-active' : ''}`}
+                                            onClick={() => this.setState({ currentTab: 'advanced' })}
+                                        ><a>Advanced</a></li>
+                                        <li className={`tabs-menu-item ${this.state.currentTab === 'documenation' ? 'is-active' : ''}`}
+                                            onClick={() => this.setState({ currentTab: 'documentation' })}
+                                        ><a>Documentation</a></li>
+                                        <li className="tabs-menu-item" onClick={this.onDropdownClick}>
+                                            <a className="dropdown">
+                                                <img src='/static/images/cog.png'/>
+                                                {this.state.dropdown && <ul className="dropdownMenu">
+                                                    <li onClick={this.refreshCharacter()}>Refresh from armory</li>
+                                                    <li onClick={this.clearSavedData()}>Clear all saved data</li>
+                                                    <li onClick={this.getDebugURL()}>Get Debug URL</li>
+                                                </ul>}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <article className="tab-panel">
+                                    {this.renderTab(this.state.currentTab)}
+                                </article>
                             </div>
                         </div>
                     </div >
