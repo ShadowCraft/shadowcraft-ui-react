@@ -214,7 +214,6 @@ def __get_from_armory(db, character, realm, region):
             results = db.items.find(query)
 
         if results.count() != 0:
-            print(results[0])
             if 1808 in info['bonuses']:
                 info['socket_count'] = 1
             else:

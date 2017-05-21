@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import 'whatwg-fetch';
 
 import store from './store';
-import { getEngineData } from './store';
+import { checkFetchStatus, updateCharacterState, getEngineData } from './store';
 
 import GearPane from './gear/GearPane';
 import TalentPane from './talents/TalentPane';
@@ -57,12 +57,16 @@ class CharacterPane extends React.Component {
     }
 
     onDropdownClick(e) {
-        console.log("dropdown");
         this.setState({dropdown: !this.state.dropdown});
     }
 
     refreshCharacter() {
-        console.log("refresh character");
+        let url=`/get_character_data?region=${this.props.character.region}&realm=${this.props.character.realm}&name=${this.props.character.name}`
+        fetch(url)
+            .then(checkFetchStatus)
+            .then(r => r.json())
+            .then(function (json) {
+                store.dispatch(updateCharacterState('RESET_CHARACTER_DATA', json)); });
     }
 
     clearSavedData() {
@@ -134,7 +138,7 @@ class CharacterPane extends React.Component {
 
 const mapStateToProps = function (store) {
     return {
-        store_data: store.character
+        character: store.character
     };
 };
 

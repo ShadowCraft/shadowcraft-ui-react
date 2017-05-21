@@ -121,6 +121,14 @@ def get_item_by_context():
     else:
         return results
 
+@APP.route('/get_character_data')
+def get_character_data():
+    region = request.args.get('region')
+    realm = request.args.get('realm')
+    name = request.args.get('name')
+    data = shadowcraft_ui.refresh_character(mongo, region, realm, name)
+    return json_util.dumps(data)
+
 # TODO: we probably need other endpoints here for gems, relics, and other
 # types of data. Theoretically the event above might be able to handle those
 # if we add another argument. Basically I'm trying to get rid of items-rogue.js
