@@ -67,6 +67,15 @@ class EquippedItem extends React.Component {
         }
     }
 
+    buildTooltipURL(item)
+    {
+        let url = `http://wowdb.com/items/${item.id}`;
+        if (item.bonuses.length > 0) {
+            url += `?bonusIDs=${item.bonuses.toString()}`;
+        }
+        return url;
+    }
+
     render() {
         let item = this.props.items[this.props.slot];
         //console.log(item);
@@ -84,7 +93,7 @@ class EquippedItem extends React.Component {
                         className={`name quality-${item.quality} tt`}
                         onClick={item.slotid !== 16 ? this.onClick.bind(this) : ''}
                     >
-                        {item.name}
+                        <span data-tooltip-href={this.buildTooltipURL(item)}>{item.name}</span>
                         <a className="wowhead" href={`http://legion.wowhead.com/item=${item.id}`} target="_blank">Wowhead</a>
                     </div>
                     <div className="bonuses" onClick={this.onBonusClick} >

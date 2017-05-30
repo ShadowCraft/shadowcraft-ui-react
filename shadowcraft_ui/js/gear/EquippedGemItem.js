@@ -61,7 +61,7 @@ export default class EquippedGemItem extends React.Component {
                     />
                 </span>
                 {/*className="gem_name"*/}
-                <span >{this.props.gem.name}</span>
+                <span data-tooltip-href={`http://wowdb.com/items/${this.props.gem.id}`}>{this.props.gem.name}</span>
             </div >
         );
     }
