@@ -1,4 +1,5 @@
 import { getArtifactIlvlChange } from '../common';
+import deepClone from 'deep-clone';
 
 export const characterActionTypes = {
     RESET_CHARACTER_DATA: 'RESET_CHARACTER_DATA',
@@ -19,7 +20,7 @@ export const characterReducer = function (state = {}, action) {
         }
 
         case characterActionTypes.UPDATE_ARTIFACT_TRAITS: {
-            let newState = Object.assign({}, state);
+            let newState = deepClone(state);
             newState.artifact.traits = action.data;
             return Object.assign({}, state, newState);
         }
@@ -61,7 +62,7 @@ export const characterReducer = function (state = {}, action) {
         }
 
         case characterActionTypes.UPDATE_TALENTS: {
-            let newState = state;
+            let newState = deepClone(state);
             newState.talents.current = action.data;
             return Object.assign({}, state, newState);
         }

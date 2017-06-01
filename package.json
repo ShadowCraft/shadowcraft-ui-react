@@ -37,11 +37,13 @@
   },
   "dependencies": {
     "chart.js": "^2.5.0",
+    "deep-clone": "^3.0.2",
     "react": "^15.4.2",
     "react-chartjs-2": "^2.0.5",
     "react-dom": "^15.4.2",
     "react-google-ad": "^1.0.2",
     "react-redux": "^5.0.3",
+    "react-tooltip": "^3.3.0",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "whatwg-fetch": "^2.0.3"
