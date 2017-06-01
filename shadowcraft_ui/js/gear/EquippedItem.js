@@ -6,7 +6,6 @@ import EquippedEnchant from './EquippedEnchant';
 import ItemSelectPopup from './ItemSelectPopup';
 import BonusIDPopup from './BonusIDPopup';
 
-
 class EquippedItem extends React.Component {
 
     constructor() {
@@ -90,7 +89,7 @@ class EquippedItem extends React.Component {
                         <img src="/static/images/lock_off.png" />
                     </div>
                     <div
-                        className={`name quality-${item.quality} tt`}
+                        className={`name quality-${item.quality}`}
                         onClick={item.slotid !== 16 ? this.onClick.bind(this) : ''}
                     >
                         <span data-tooltip-href={this.buildTooltipURL(item)}>{item.name}</span>

@@ -28,7 +28,7 @@ class ItemSelectElement extends React.Component {
                     <img src={`http://us.media.blizzard.com/wow/icons/56/${this.props.item.properties.icon}.jpg`} />
                     <span className="ilvl">{this.props.item.item_level}</span>
                 </div>
-                <div className={`name quality-${this.props.item.properties.quality} tt ${active ? 'active' : ''}`}>
+                <div className={`name quality-${this.props.item.properties.quality} ${active ? 'active' : ''}`}>
                     {this.props.item.properties.name}
                     <a className="wowhead" href={`http://legion.wowhead.com/item=${this.props.item.remote_id}`} target="_blank">Wowhead</a>
                 </div>

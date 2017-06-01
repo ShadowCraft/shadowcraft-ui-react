@@ -22,9 +22,9 @@ export default class ArtifactTrait extends React.Component {
 
     render() {
         return (
-            <div className="trait tt" id={this.props.id} data-tooltip-id={this.props.tooltip_id} data-tooltip-type="spell" data-max-rank={this.props.max_rank} style={{left: this.props.left, top: this.props.top}} onClick={this.handleClick} onContextMenu={this.handleRightClick}>
+            <div className="trait" id={this.props.id} data-max-rank={this.props.max_rank} style={{left: this.props.left, top: this.props.top}} onClick={this.handleClick} onContextMenu={this.handleRightClick} data-tooltip-href={`http://www.wowdb.com/spells/${this.props.tooltip_id}`}>
                 <img className="relic inactive" src="/static/images/artifacts/relic-blood.png" />
-                <img className={'icon' + (this.props.enabled ? '' : ' inactive') } src={'http://wow.zamimg.com/images/wow/icons/large/'+this.props.icon+'.jpg'} />
+                <img className={'icon' + (this.props.enabled ? '' : ' inactive') } src={'http://wow.zamimg.com/images/wow/icons/large/'+this.props.icon+'.jpg'} data-tooltip-href={`http://www.wowdb.com/spells/${this.props.id}`}/>
                 <img className="ring" src={'/static/images/artifacts/ring-'+this.props.ring+'.png'} />
                 <span className={'level' + (this.props.enabled ? '' : ' inactive') }>{this.props.cur_rank}/{this.props.max_rank}</span>
             </div>
