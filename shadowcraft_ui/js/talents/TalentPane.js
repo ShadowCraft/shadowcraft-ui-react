@@ -22,6 +22,13 @@ class TalentPane extends React.Component {
         this.clickButton = this.clickButton.bind(this);
     }
 
+    componentDidMount() {
+        // This is a bit of a hack and is probably a bit fragile depending on if wowdb ever
+        // changes any of this, but it rescans the DOM for elements that should display a
+        // tooltip.
+        CurseTips['wowdb-tooltip'].watchElligibleElements();
+    }
+
     clickButton(e) {
         e.preventDefault();
         store.dispatch(updateCharacterState('UPDATE_TALENTS', e.currentTarget.dataset['talents']));

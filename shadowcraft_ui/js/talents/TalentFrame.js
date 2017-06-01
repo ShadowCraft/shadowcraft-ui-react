@@ -5,7 +5,7 @@ import { updateCharacterState } from '../store';
 
 function Talent(props) {
     return (
-        <div className={'col-'+props.col+' row-'+props.row+' talent tt'+(props.active && ' active')} data-tooltip-id={props.id} data-tooltip-type="spell" data-row={props.row} data-col={props.col} style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/'+props.icon+'.jpg)' }} onClick={props.handleClick} >
+        <div className={`col-${props.col} row-${props.row} talent ${props.active ? 'active' : ''}`} data-row={props.row} data-col={props.col} style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/'+props.icon+'.jpg)' }} onClick={props.handleClick} data-tooltip-href={`http://wowdb.com/spells/${props.id}`} >
             <div className="grey"></div>
         </div>
     );
