@@ -32,7 +32,8 @@ class CharacterPane extends React.Component {
         super();
         this.state = {
             currentTab: 'gear',
-            dropdown: false
+            dropdown: false,
+            waitDisplayed: false
         };
 
         this.onDropdownClick = this.onDropdownClick.bind(this);
@@ -61,12 +62,16 @@ class CharacterPane extends React.Component {
     }
 
     refreshCharacter() {
+        this.setState({waitDisplayed: true});
+
         let url=`/get_character_data?region=${this.props.character.region}&realm=${this.props.character.realm}&name=${this.props.character.name}`;
         fetch(url)
             .then(checkFetchStatus)
             .then(r => r.json())
             .then(function (json) {
-                store.dispatch(updateCharacterState('RESET_CHARACTER_DATA', json)); });
+                store.dispatch(updateCharacterState('RESET_CHARACTER_DATA', json));
+                this.setState({waitDisplayed: false});
+            }.bind(this));
     }
 
     clearSavedData() {
@@ -122,10 +127,10 @@ class CharacterPane extends React.Component {
                     <RightPane />
                 </div>
 
-                <div id="wait" style={{ display: 'none' }}>
+                {this.state.waitDisplayed && <div id="wait">
                     <div id="waitMsg" />
-                </div>
-                <div id="modal" style={{ display: 'none' }} />
+                </div>}
+
                 <div id="footer">
                     <div className='padding'>
                         Questions to <a href="mailto:shadowcraft@ravenholdt.net">Ravenholdt</a> &bull; UI source at <a href="http://github.com/cheald/shadowcraft-ui">GitHub</a>      &bull; discussion at <a href="https://discord.gg/DdPahJ9">Ravenholdt</a> &bull; DPS/EP engine source at <a href="https://github.com/Fierydemise/ShadowCraft-Engine">GitHub</a>      &bull; Hosting provided by <a href="http://mmo-mumble.com">MMO-Mumble.com</a>
