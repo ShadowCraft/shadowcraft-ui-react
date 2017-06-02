@@ -1,7 +1,7 @@
 import React from 'react';
 
 function round1(val) {
-    var newVal = Math.round(val * 10.0) / 10.0;
+    let newVal = Math.round(val * 10.0) / 10.0;
     if (isNaN(newVal)) {
         newVal = 0;
     }
@@ -31,17 +31,17 @@ export default class RankingSection extends React.Component {
             sections: []
         };
 
-        for (var s in this.props.layout) {
-            var section_data = this.props.layout[s];
-            var section_layout = {
+        for (let s in this.props.layout) {
+            let section_data = this.props.layout[s];
+            let section_layout = {
                 name: section_data.name,
                 items: []
             };
 
             // loop through the values and find the maximum so we can calculate percentages
-            var max = 0;
-            for (var i in section_data.items) {
-                var section_item = section_data.items[i];
+            let max = 0;
+            for (let i in section_data.items) {
+                let section_item = section_data.items[i];
                 if (this.props.values && section_item.id in this.props.values) {
                     if (max < this.props.values[section_item.id]) {
                         max = this.props.values[section_item.id];
@@ -49,10 +49,10 @@ export default class RankingSection extends React.Component {
                 }
             }
 
-            for (var i in section_data.items) {
-                var section_item = section_data.items[i];
+            for (let i in section_data.items) {
+                let section_item = section_data.items[i];
 
-                var layout_item = {
+                let layout_item = {
                     name: section_item.name,
                     id: section_item.id,
                     label: 0,
@@ -61,7 +61,7 @@ export default class RankingSection extends React.Component {
 
                 if (this.props.values && section_item.id in this.props.values)
                 {
-                    var percentage = (this.props.values[section_item.id] / max) * 100.0;
+                    let percentage = (this.props.values[section_item.id] / max) * 100.0;
                     layout_item.label = this.props.values[section_item.id];
                     layout_item.pct = ""+percentage+"%";
                 }

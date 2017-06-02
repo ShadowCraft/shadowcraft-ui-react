@@ -17,9 +17,9 @@ class ArtifactFrame extends React.Component {
         super(props);
 
         this.connected_traits = {};
-        for (var line of this.props.layout.lines) {
-            var trait1 = this.props.layout.traits[line.trait1].id;
-            var trait2 = this.props.layout.traits[line.trait2].id;
+        for (let line of this.props.layout.lines) {
+            let trait1 = this.props.layout.traits[line.trait1].id;
+            let trait2 = this.props.layout.traits[line.trait2].id;
 
             if (!(trait1 in this.connected_traits)) {
                 this.connected_traits[trait1] = [];
@@ -38,9 +38,9 @@ class ArtifactFrame extends React.Component {
         };
 
         this.relics = [];
-        for (var idx in this.props.layout.traits) {
-            var trait = this.props.layout.traits[idx];
-            var trait_id = trait.id;
+        for (let idx in this.props.layout.traits) {
+            let trait = this.props.layout.traits[idx];
+            let trait_id = trait.id;
             this.trait_state.traits[trait_id] = {
                 max_rank: trait.max_rank,
                 default_max_rank: trait.max_rank,
@@ -75,7 +75,7 @@ class ArtifactFrame extends React.Component {
         if (this.trait_state.traits[trait_id].enabled &&
             this.props.artifact.traits[trait_id] < this.trait_state.traits[trait_id].max_rank)
         {
-            var data = this.props.artifact;
+            let data = this.props.artifact;
             data.traits[trait_id] += 1;
             this.update_state(data, true);
         }
@@ -83,7 +83,7 @@ class ArtifactFrame extends React.Component {
 
     decrease_rank(trait_id)
     {
-        var data = this.props.artifact;
+        let data = this.props.artifact;
         if (this.trait_state.traits[trait_id].enabled && data.traits[trait_id] != 0) {
             data.traits[trait_id] -= 1;
             this.update_state(data, true);
@@ -108,9 +108,9 @@ class ArtifactFrame extends React.Component {
     {
         // starting at the top of the tree, walk down it to find all of the traits that should
         // actually be enabled.
-        var traits_to_check = [this.props.layout.primary_trait];
-        var traits_checked = [];
-        var trait;
+        let traits_to_check = [this.props.layout.primary_trait];
+        let traits_checked = [];
+        let trait;
 
         // Force the primary trait to always be enabled. It always will be in-game, and it
         // doesn't get sent in the data from the armory. Setting it up here means that it will
@@ -119,7 +119,7 @@ class ArtifactFrame extends React.Component {
 
         // Get a quick count of the number of relics we have. We do more with relics later, but
         // need the count right now so the paragon trait doesn't get enabled too early.
-        for (var relic in artifact_data.relics) {
+        for (let relic in artifact_data.relics) {
             if (artifact_data.relics[relic].id != 0) {
                 artifact_data.traits[artifact_data.relics[relic].id] -= 1;
             }
@@ -134,7 +134,7 @@ class ArtifactFrame extends React.Component {
 
         // Do some setup of the trait state. Disable all of the traits and set all of their
         // max ranks depending on the total count of traits.
-        for (var t in this.trait_state.traits) {
+        for (let t in this.trait_state.traits) {
             this.trait_state.traits[t].enabled = false;
             this.trait_state.traits[t].max_rank = this.trait_state.traits[t].default_max_rank;
 
@@ -206,9 +206,9 @@ class ArtifactFrame extends React.Component {
         this.trait_state.total_traits -= 1;
 
         // Fix the max ranks for traits that have relics attached
-        for (var relic in artifact_data.relics)
+        for (let relic in artifact_data.relics)
         {
-            var relic_trait = artifact_data.relics[relic].id;
+            let relic_trait = artifact_data.relics[relic].id;
 
             if (relic_trait != 0) {
                 artifact_data.traits[artifact_data.relics[relic].id] += 1;
@@ -224,37 +224,37 @@ class ArtifactFrame extends React.Component {
 
     render()
     {
-        var trait_elements = [];
-        var line_elements = [];
+        let trait_elements = [];
+        let line_elements = [];
 
         this.update_state(Object.assign({}, this.props.artifact), false);
 
-        for (var idx in this.props.layout.traits) {
-            var trait = this.props.layout.traits[idx];
-            var trait_rank = this.props.artifact.traits[trait.id];
-            var trait_state = this.trait_state.traits[trait.id];
+        for (let idx in this.props.layout.traits) {
+            let trait = this.props.layout.traits[idx];
+            let trait_rank = this.props.artifact.traits[trait.id];
+            let trait_state = this.trait_state.traits[trait.id];
 
             // The position that we grab from wowhead is translated to match the center
             // of where the div is. This makes calculating the lines below easier.
             // Translate it back to where the corner of the div actually should be.
-            var left = (trait.x-45) / FRAME_WIDTH * 100.0;
-            var top = (trait.y-45) / FRAME_HEIGHT * 100.0;
+            let left = (trait.x-45) / FRAME_WIDTH * 100.0;
+            let top = (trait.y-45) / FRAME_HEIGHT * 100.0;
 
             trait_elements.push(<ArtifactTrait key={idx} id={idx} tooltip_id={trait.id} left={left+'%'} top={top+'%'} cur_rank={trait_rank} max_rank={trait_state.max_rank} icon={trait.icon} ring={trait.ring} enabled={trait_state.enabled} parent={this} />);
         }
 
-        for (var line of this.props.layout.lines) {
-            var trait1 = this.props.layout.traits[line.trait1];
-            var trait2 = this.props.layout.traits[line.trait2];
-            var x1 = trait1.x / FRAME_WIDTH * 100.0;
-            var y1 = trait1.y / FRAME_HEIGHT * 100.0;
-            var x2 = trait2.x / FRAME_WIDTH * 100.0;
-            var y2 = trait2.y / FRAME_HEIGHT * 100.0;
+        for (let line of this.props.layout.lines) {
+            let trait1 = this.props.layout.traits[line.trait1];
+            let trait2 = this.props.layout.traits[line.trait2];
+            let x1 = trait1.x / FRAME_WIDTH * 100.0;
+            let y1 = trait1.y / FRAME_HEIGHT * 100.0;
+            let x2 = trait2.x / FRAME_WIDTH * 100.0;
+            let y2 = trait2.y / FRAME_HEIGHT * 100.0;
 
-            var tdata = this.props.artifact.traits;
-            var tstate = this.trait_state.traits;
+            let tdata = this.props.artifact.traits;
+            let tstate = this.trait_state.traits;
 
-            var color = 'grey';
+            let color = 'grey';
             if (tstate[trait1.id].enabled &&
                 tstate[trait2.id].enabled &&
                 (((tdata[trait1.id] == tstate[trait1.id].max_rank) || (tdata[trait1.id] == tstate[trait1.id].max_rank-1 && tdata[this.props.layout.paragon_trait] > 0)) ||

@@ -56,12 +56,12 @@ class CharacterPane extends React.Component {
         }
     }
 
-    onDropdownClick(e) {
+    onDropdownClick() {
         this.setState({dropdown: !this.state.dropdown});
     }
 
     refreshCharacter() {
-        let url=`/get_character_data?region=${this.props.character.region}&realm=${this.props.character.realm}&name=${this.props.character.name}`
+        let url=`/get_character_data?region=${this.props.character.region}&realm=${this.props.character.realm}&name=${this.props.character.name}`;
         fetch(url)
             .then(checkFetchStatus)
             .then(r => r.json())

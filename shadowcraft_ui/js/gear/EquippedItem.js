@@ -30,7 +30,7 @@ class EquippedItem extends React.Component {
         }
     }
 
-    onClick() {
+    onClick(e) {
         // console.log(this.props.items[this.props.slot]);
         if (!this.state.items[this.props.slot]) {
             //TODO: fix filtering here and in character.py
