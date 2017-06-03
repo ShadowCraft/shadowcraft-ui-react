@@ -28,8 +28,8 @@ function setInitialCharacterData(chardata) {
 
 class CharacterPane extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             currentTab: 'gear',
             dropdown: false,
@@ -43,7 +43,15 @@ class CharacterPane extends React.Component {
     }
 
     componentWillMount() {
-        store.dispatch(setInitialCharacterData(this.props.data));
+        // TODO: check for data in the local browser cache here before trying to load it
+        // from Flask
+        let url=`/get_character_data?region=${this.props.pathinfo.region}&realm=${this.props.pathinfo.realm}&name=${this.props.pathinfo.name}`;
+        fetch(url)
+            .then(checkFetchStatus)
+            .then(r => r.json())
+            .then(function (json) {
+                store.dispatch(setInitialCharacterData(json));
+            });
     }
 
     renderTab(tab) {
@@ -64,7 +72,7 @@ class CharacterPane extends React.Component {
     refreshCharacter() {
         this.setState({waitDisplayed: true});
 
-        let url=`/get_character_data?region=${this.props.character.region}&realm=${this.props.character.realm}&name=${this.props.character.name}`;
+        let url=`/get_character_data?region=${this.props.character.region}&realm=${this.props.character.realm}&name=${this.props.character.name}&refresh=1`;
         fetch(url)
             .then(checkFetchStatus)
             .then(r => r.json())
@@ -83,6 +91,13 @@ class CharacterPane extends React.Component {
     }
 
     render() {
+        if (Object.keys(this.props.character).length === 0) {
+            return (
+                <div id="wait">
+                    <div id="waitMsg" />
+                </div>
+            );
+        } else {
         return (
             <div>
                 <div style={{ marginBottom: '25px', display: 'flex' }}>
@@ -138,6 +153,7 @@ class CharacterPane extends React.Component {
                 </div>
             </div >
         );
+        }
     }
 }
 

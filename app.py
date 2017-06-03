@@ -25,59 +25,22 @@ class RegexConverter(BaseConverter):
         self.regex = items[0]
 APP.url_map.converters['regex'] = RegexConverter
 
+# Main route for the application. This will call into react and let Router handle
+# the actual render of either the front page or a character page depending on the
+# path.
 
-@APP.route('/')
-def main():
+@APP.route('/', defaults={'path': ''})
+@APP.route('/<path:path>')
+def main(path):
     return render_template('index.html')
 
-# Main route for the application. Loads a character.
-
-
-@APP.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>')
-def character_show(region, realm, name):
-    data = shadowcraft_ui.get_character_data(mongo, region, realm, name)
-    character_json = json.dumps(data, indent=4, default=json_util.default)
-    return render_template('index.html', character_json=character_json)
-
-# Refreshes a character from the armory and redirects to the main route.
-# TODO: Flask adds a "redirecting" page before redirecting. Is there a way
-# to keep it from doing that?
-
-
-@APP.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>/refresh')
-def character_refresh(region, realm, name):
-    shadowcraft_ui.refresh_character(mongo, region, realm, name)
-    url = url_for('character_show', region=region, realm=realm, name=name)
-    return redirect(url)
-
-# Requests a character page based on a saved sha value.
-
-
-@APP.route('/<regex("(us|eu|kr|tw|cn|sea)"):region>/<realm>/<name>/#!/<sha>')
-def character_sha(region, realm, name, sha):
-    shadowcraft_ui.get_character_data(mongo, region, realm, name, sha=sha)
-    url = url_for('character_show', region=region, realm=realm, name=name)
-    return redirect(url)
-
-# TODO: are these really necessary? Can't we just return 400/500 errors when
-# necessary and configure flask to handle them as such?
-
-
-@APP.route('/error')
-def error():
-    return render_template('500.html')
-
-
-@APP.route('/missing')
-def missing():
-    return render_template('404.html')
-
+# Engine endpoints. /engine is a call to get DPS data. /settings gives back the
+# default settings configuration.
 
 @APP.route('/engine', methods=['POST'])
 def engine():
     output = backend.get_engine_output(mongo.db, request.get_json())
     return jsonify(output)
-
 
 @APP.route('/settings')
 def settings():
@@ -126,7 +89,13 @@ def get_character_data():
     region = request.args.get('region')
     realm = request.args.get('realm')
     name = request.args.get('name')
-    data = shadowcraft_ui.refresh_character(mongo, region, realm, name)
+    refresh = request.args.get('refresh', '0')
+
+    if refresh == '1':
+        data = shadowcraft_ui.refresh_character(mongo, region, realm, name)
+    else:
+        data = shadowcraft_ui.get_character_data(mongo, region, realm, name)
+
     return json_util.dumps(data)
 
 # TODO: we probably need other endpoints here for gems, relics, and other
