@@ -133,8 +133,13 @@ html.websockets, html.history, html.canvas
   bottom: 0
   top: 0
 
-  &.characters-new, &.characters-create, &.characters-refresh
-    background: #050505 url(/static/images/splash-l.jpg) bottom left no-repeat
+.characters-new
+  position: absolute
+  left: 0
+  right: 0
+  bottom: 0
+  top: 0
+  background: #050505 url(/static/images/splash-l.jpg) bottom left no-repeat
 
 #footer
   position: fixed
@@ -1329,7 +1334,7 @@ img.upgrade
 
 @media screen and (max-width: 1281px)
   #container
-    &.characters-new, &.characters-create, &.characters-refresh
+    &.characters-new
       background: #050505 url(/static/images/splash-s.jpg) bottom left no-repeat
 
   #create_character

@@ -32,14 +32,11 @@ export default class CharacterInput extends React.Component {
     }
 
     render() {
-        // console.log(this.state)
         return (
-            // i don't know why this isn't working
-            // <div id='container' className='characters-new'>
-            <div>
+            <div className='characters-new'>
                 <div id='create_character'>
                     <div className='form'>
-                        <form action={`/${this.state.region.toLowerCase()}/${this.state.realm.toLowerCase()}/${this.state.characterName.toLocaleLowerCase()}`} className="new_character" id="new_character" method="GET">
+                        <form action={`/${this.state.region.toLowerCase()}/${this.state.realm.toLowerCase().replace("'", "-").replace(" ", "-")}/${this.state.characterName.toLocaleLowerCase()}`} className="new_character" id="new_character" method="GET">
                             <span>
                                 <label htmlFor='character_name'>Character Name</label>
                                 <input id="character_name" value={this.state.characterName} onChange={this.handleCharacterNameOnChange} size="30" type="text" />
