@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">13.33% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/15</span>
+        <span class='fraction'>15/15</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/8</span>
+        <span class='fraction'>8/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/2</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">13.33% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/15</span>
+        <span class='fraction'>15/15</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -144,7 +144,7 @@
 99
 100
 101
-102</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+102</td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -212,37 +212,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">let RELIC_ILVL_MAPPING = {
@@ -317,33 +317,33 @@ export function getArtifactIlvlChange(oldRelic, newRelic)
 }
 &nbsp;
 // Recalculates a stat block based on a change in item level.
-export function <span class="fstat-no" title="function not covered" >recalculateStats(</span>baseStats, ilvlChange) {
+export function recalculateStats(baseStats, ilvlChange) {
     let newStats;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (ilvlChange != 0) {</span>
-<span class="cstat-no" title="statement not covered" >        newStats = {};</span>
-        let ilvlMultiplier = <span class="cstat-no" title="statement not covered" >1.0 / Math.pow(1.15, (ilvlChange / -15.0));</span>
-        let secondaryMultiplier = <span class="cstat-no" title="statement not covered" >Math.pow(1.0037444020662509239443726693104, ilvlChange);</span>
+    if (ilvlChange != 0) {
+        newStats = {};
+        let ilvlMultiplier = 1.0 / Math.pow(1.15, (ilvlChange / -15.0));
+        let secondaryMultiplier = Math.pow(1.0037444020662509239443726693104, ilvlChange);
         
-<span class="cstat-no" title="statement not covered" >        for (let stat in baseStats) {</span>
-<span class="cstat-no" title="statement not covered" >            newStats[stat] = baseStats[stat];</span>
-<span class="cstat-no" title="statement not covered" >            if (stat == 'speed') {</span>
-<span class="cstat-no" title="statement not covered" >                continue;</span>
+        for (let stat in baseStats) {
+            newStats[stat] = baseStats[stat];
+            if (stat == 'speed') {
+                continue;
             }
             
-<span class="cstat-no" title="statement not covered" >            if (stat != 'agility' &amp;&amp; stat != 'stamina') {</span>
-<span class="cstat-no" title="statement not covered" >                newStats[stat] *= secondaryMultiplier;</span>
+            if (stat != 'agility' &amp;&amp; stat != 'stamina') {
+                newStats[stat] *= secondaryMultiplier;
             }
             
-<span class="cstat-no" title="statement not covered" >            newStats[stat] = Math.round(newStats[stat] * ilvlMultiplier);</span>
+            newStats[stat] = Math.round(newStats[stat] * ilvlMultiplier);
         }
     }
     else
     {
-<span class="cstat-no" title="statement not covered" >        newStats = Object.assign({}, baseStats);</span>
+        newStats = Object.assign({}, baseStats);
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return newStats;</span>
+    return newStats;
 }
 &nbsp;
 &nbsp;</pre></td></tr>
@@ -352,7 +352,7 @@ export function <span class="fstat-no" title="function not covered" >recalculate
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Jun 07 2017 08:26:54 GMT-0500 (Central Daylight Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Jun 07 2017 08:56:03 GMT-0500 (Central Daylight Time)
 </div>
 </div>
 <script src="..\prettify.js"></script>
