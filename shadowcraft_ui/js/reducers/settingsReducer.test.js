@@ -1,4 +1,4 @@
-import {settingsActionTypes, settingsReducer } from './settingsReducer';
+import { settingsActionTypes, settingsReducer } from './settingsReducer';
 
 describe('settingsReducer', () => {
 
@@ -33,10 +33,38 @@ describe('settingsReducer', () => {
         expect(settingsReducer(init, action)).toEqual(expected);
     });
 
+    it('should handle SETTINGS_LAYOUT when current exists', () => {
+        const init = { layout: {}, current: { testinit: 'testinit' } };
+        const action = {
+            type: settingsActionTypes.SETTINGS_LAYOUT,
+            data: [{ items: [{ name: 'testname', default: 'testdefault' }] }]
+        };
+        const expected = {
+            layout: [{ items: [{ name: 'testname', default: 'testdefault' }] }],
+            current: {testinit: 'testinit', testname: 'testdefault' }
+        };
+
+        expect(settingsReducer(init, action)).toEqual(expected);
+    });
+
+    it('should handle SETTINGS_LAYOUT when key in current exists', () => {
+        const init = { layout: {}, current: { testname: 'testdefault' } };
+        const action = {
+            type: settingsActionTypes.SETTINGS_LAYOUT,
+            data: [{ items: [{ name: 'testname', default: 'testdefault' }] }]
+        };
+        const expected = {
+            layout: [{ items: [{ name: 'testname', default: 'testdefault' }] }],
+            current: { testname: 'testdefault' }
+        };
+
+        expect(settingsReducer(init, action)).toEqual(expected);
+    });
+
     it('should handle RESET_SETTINGS', () => {
         const init = { old: 'data' };
         const action = { type: settingsActionTypes.RESET_SETTINGS, data: { new: 'data' } };
-        const expected = {old: 'data', new: 'data' };
+        const expected = { old: 'data', new: 'data' };
         expect(settingsReducer(init, action)).toEqual(expected);
     });
 
