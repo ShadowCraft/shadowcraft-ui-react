@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for js/reducers/characterReducer.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(..\..\sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="..\..\index.html">All files</a> / <a href="index.html">js/reducers</a> characterReducer.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>53/53</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>18/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/1</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>53/53</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { getArtifactIlvlChange } from '../common';
+import deepClone from 'deep-clone';
+&nbsp;
+export const characterActionTypes = {
+    RESET_CHARACTER_DATA: 'RESET_CHARACTER_DATA',
+    UPDATE_ARTIFACT_TRAITS: 'UPDATE_ARTIFACT_TRAITS',
+    UPDATE_ARTIFACT_RELIC: 'UPDATE_ARTIFACT_RELIC',
+    UPDATE_SPEC: 'UPDATE_SPEC',
+    UPDATE_TALENTS: 'UPDATE_TALENTS',
+    CHANGE_ITEM: 'CHANGE_ITEM',
+    CHANGE_BONUSES: 'CHANGE_BONUSES'
+};
+&nbsp;
+export const characterReducer = function (state = {}, action) {
+&nbsp;
+    switch (action.type) {
+&nbsp;
+        case characterActionTypes.RESET_CHARACTER_DATA: {
+            return Object.assign({}, state, action.data);
+        }
+&nbsp;
+        case characterActionTypes.UPDATE_ARTIFACT_TRAITS: {
+            let newState = deepClone(state);
+            newState.artifact.traits = action.data;
+            return Object.assign({}, state, newState);
+        }
+&nbsp;
+        case characterActionTypes.UPDATE_ARTIFACT_RELIC: {
+            let newState = Object.assign({}, state);
+            if (newState.artifact.relics[action.data.slot].id != 0) {
+                newState.artifact.traits[newState.artifact.relics[action.data.slot].id] -= 1;
+            }
+&nbsp;
+            // Determine what the artifact's ilvl should be based on any relic changes
+            if (newState.artifact.relics[action.data.slot].ilvl != action.data.ilvl) {
+&nbsp;
+                let change = getArtifactIlvlChange(newState.artifact.relics[action.data.slot].ilvl, action.data.ilvl);
+&nbsp;
+                newState.artifact.relics[action.data.slot].ilvl = action.data.ilvl;
+&nbsp;
+                newState.gear['mainHand'].item_level += change;
+                newState.gear['mainHand'].stats = action.data.stats;
+                newState.gear['mainHand'].weaponStats = action.data.weaponStats;
+&nbsp;
+                newState.gear['offHand'].item_level += change;
+                newState.gear['offHand'].stats = action.data.stats;
+                newState.gear['offHand'].weaponStats = action.data.weaponStats;
+            }
+&nbsp;
+            newState.artifact.relics[action.data.slot].id = action.data.trait;
+&nbsp;
+            // Update the new trait
+            newState.artifact.traits[action.data.trait] += 1;
+&nbsp;
+            return Object.assign({}, state, newState);
+        }
+&nbsp;
+        case characterActionTypes.UPDATE_SPEC: {
+            return Object.assign({}, state, {
+                active: action.data
+            });
+        }
+&nbsp;
+        case characterActionTypes.UPDATE_TALENTS: {
+            let newState = deepClone(state);
+            newState.talents.current = action.data;
+            return Object.assign({}, state, newState);
+        }
+&nbsp;
+        case characterActionTypes.CHANGE_ITEM: {
+&nbsp;
+            // look away now, lest ye dispair
+&nbsp;
+            //TODO: clean up the data models so this mapping isn't required.
+            //not clearing bonuses and gems because idk the right mapping right now
+            //not change base ilvl, since I do not know how that works and it is not in item db entry
+            //context may not be mapped correctly, I'm just pulling the first entry and calling it good for now
+&nbsp;
+            let item = Object.assign({}, state.gear[action.data.slot]);
+            item.context = action.data.item.contexts[0];
+            item.bonuses = [];
+            item.icon = action.data.item.properties.icon;
+            item.id = action.data.item.remote_id;
+            item.item_level = action.data.item.item_level;
+            item.name = action.data.item.properties.name;
+            item.quality = action.data.item.properties.quality;
+            item.stats = action.data.item.properties.stats;
+            item.socket_count = action.data.item.properties.socket_count;
+&nbsp;
+            // Generate a number of gem entries based on the number of sockets on the item
+            item.gems = new Array(item.socket_count);
+            item.gems.fill(0);
+&nbsp;
+            let gear = Object.assign({}, state.gear, { [action.data.slot]: item });
+            return Object.assign({}, state, { gear: gear });
+        }
+&nbsp;
+        case characterActionTypes.CHANGE_BONUSES: {
+            let newGear = Object.assign({}, state.gear);
+            newGear[action.data.slot].bonuses = action.data.bonuses;
+            newGear[action.data.slot].itemLevel = action.data.ilvl;
+            newGear[action.data.slot].stats = action.data.newStats;
+&nbsp;
+            // If this item can have a bonus socket but doesn't have one assigned, nuke
+            // the equipped gems out of it so they don't show back up when if a socket
+            // gets added back in.
+            if (action.data.canHaveBonusSocket) {
+                if (!action.data.hasBonusSocket) {
+                    newGear[action.data.slot].gems = [0];
+                    newGear[action.data.slot].socket_count = 0;
+                }
+                else if (newGear[action.data.slot].socket_count == 0) {
+                    newGear[action.data.slot].gems = [0];
+                    newGear[action.data.slot].socket_count = 1;
+                }
+            }
+&nbsp;
+            return Object.assign({}, state, { gear: newGear });
+        }
+    }
+&nbsp;
+    return state;
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Jun 07 2017 08:09:47 GMT-0500 (Central Daylight Time)
+</div>
+</div>
+<script src="..\..\prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="..\..\sorter.js"></script>
+</body>
+</html>

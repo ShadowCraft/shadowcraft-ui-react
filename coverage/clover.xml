@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1496840987799" clover="3.2.0">
+  <project timestamp="1496840987800" name="All files">
+    <metrics statements="117" coveredstatements="104" conditionals="42" coveredconditionals="32" methods="7" coveredmethods="6" elements="166" coveredelements="142" complexity="0" loc="117" ncloc="117" packages="2" files="6" classes="6">
+      <package name="js">
+        <metrics statements="15" coveredstatements="2" conditionals="8" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <file name="common.js" path="C:\Users\mcore\Source\Repos\shadowcraft-ui-react\shadowcraft_ui\js\common.js">
+          <metrics statements="15" coveredstatements="2" conditionals="8" coveredconditionals="0" methods="2" coveredmethods="1"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="69" count="2" type="stmt"/>
+          <line num="76" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="77" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="83" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="84" count="0" type="stmt"/>
+          <line num="87" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="88" count="0" type="stmt"/>
+          <line num="91" count="0" type="stmt"/>
+          <line num="96" count="0" type="stmt"/>
+          <line num="99" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="js.reducers">
+        <metrics statements="102" coveredstatements="102" conditionals="34" coveredconditionals="32" methods="5" coveredmethods="5"/>
+        <file name="characterReducer.js" path="C:\Users\mcore\Source\Repos\shadowcraft-ui-react\shadowcraft_ui\js\reducers\characterReducer.js">
+          <metrics statements="53" coveredstatements="53" conditionals="18" coveredconditionals="18" methods="1" coveredmethods="1"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="14" count="1" type="cond" truecount="1" falsecount="0"/>
+          <line num="16" count="13" type="cond" truecount="7" falsecount="0"/>
+          <line num="19" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="25" count="1" type="stmt"/>
+          <line num="29" count="3" type="stmt"/>
+          <line num="30" count="3" type="cond" truecount="2" falsecount="0"/>
+          <line num="31" count="2" type="stmt"/>
+          <line num="35" count="3" type="cond" truecount="2" falsecount="0"/>
+          <line num="37" count="2" type="stmt"/>
+          <line num="39" count="2" type="stmt"/>
+          <line num="41" count="2" type="stmt"/>
+          <line num="42" count="2" type="stmt"/>
+          <line num="43" count="2" type="stmt"/>
+          <line num="45" count="2" type="stmt"/>
+          <line num="46" count="2" type="stmt"/>
+          <line num="47" count="2" type="stmt"/>
+          <line num="50" count="3" type="stmt"/>
+          <line num="53" count="3" type="stmt"/>
+          <line num="55" count="3" type="stmt"/>
+          <line num="59" count="1" type="stmt"/>
+          <line num="65" count="1" type="stmt"/>
+          <line num="66" count="1" type="stmt"/>
+          <line num="67" count="1" type="stmt"/>
+          <line num="79" count="1" type="stmt"/>
+          <line num="80" count="1" type="stmt"/>
+          <line num="81" count="1" type="stmt"/>
+          <line num="82" count="1" type="stmt"/>
+          <line num="83" count="1" type="stmt"/>
+          <line num="84" count="1" type="stmt"/>
+          <line num="85" count="1" type="stmt"/>
+          <line num="86" count="1" type="stmt"/>
+          <line num="87" count="1" type="stmt"/>
+          <line num="88" count="1" type="stmt"/>
+          <line num="91" count="1" type="stmt"/>
+          <line num="92" count="1" type="stmt"/>
+          <line num="94" count="1" type="stmt"/>
+          <line num="95" count="1" type="stmt"/>
+          <line num="99" count="4" type="stmt"/>
+          <line num="100" count="4" type="stmt"/>
+          <line num="101" count="4" type="stmt"/>
+          <line num="102" count="4" type="stmt"/>
+          <line num="107" count="4" type="cond" truecount="2" falsecount="0"/>
+          <line num="108" count="3" type="cond" truecount="2" falsecount="0"/>
+          <line num="109" count="1" type="stmt"/>
+          <line num="110" count="1" type="stmt"/>
+          <line num="112" count="2" type="cond" truecount="2" falsecount="0"/>
+          <line num="113" count="1" type="stmt"/>
+          <line num="114" count="1" type="stmt"/>
+          <line num="118" count="4" type="stmt"/>
+          <line num="122" count="1" type="stmt"/>
+        </file>
+        <file name="engineReducer.js" path="C:\Users\mcore\Source\Repos\shadowcraft-ui-react\shadowcraft_ui\js\reducers\engineReducer.js">
+          <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="39" count="1" type="stmt"/>
+          <line num="43" count="1" type="cond" truecount="1" falsecount="0"/>
+          <line num="45" count="2" type="cond" truecount="1" falsecount="0"/>
+          <line num="47" count="1" type="stmt"/>
+          <line num="50" count="1" type="stmt"/>
+        </file>
+        <file name="historyReducer.js" path="C:\Users\mcore\Source\Repos\shadowcraft-ui-react\shadowcraft_ui\js\reducers\historyReducer.js">
+          <metrics statements="13" coveredstatements="13" conditionals="3" coveredconditionals="3" methods="1" coveredmethods="1"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="11" count="1" type="cond" truecount="1" falsecount="0"/>
+          <line num="12" count="3" type="cond" truecount="2" falsecount="0"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="15" count="1" type="stmt"/>
+          <line num="16" count="1" type="stmt"/>
+          <line num="17" count="1" type="stmt"/>
+          <line num="21" count="1" type="stmt"/>
+          <line num="22" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="27" count="1" type="stmt"/>
+          <line num="31" count="1" type="stmt"/>
+        </file>
+        <file name="settingsReducer.js" path="C:\Users\mcore\Source\Repos\shadowcraft-ui-react\shadowcraft_ui\js\reducers\settingsReducer.js">
+          <metrics statements="21" coveredstatements="21" conditionals="8" coveredconditionals="6" methods="1" coveredmethods="1"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
+          <line num="9" count="4" type="cond" truecount="3" falsecount="0"/>
+          <line num="12" count="1" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="15" count="1" type="stmt"/>
+          <line num="16" count="1" type="stmt"/>
+          <line num="22" count="1" type="stmt"/>
+          <line num="23" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="27" count="1" type="stmt"/>
+          <line num="28" count="1" type="stmt"/>
+          <line num="29" count="1" type="stmt"/>
+          <line num="30" count="1" type="stmt"/>
+          <line num="31" count="1" type="stmt"/>
+          <line num="32" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="33" count="1" type="stmt"/>
+          <line num="38" count="1" type="stmt"/>
+          <line num="45" count="1" type="stmt"/>
+          <line num="49" count="1" type="stmt"/>
+        </file>
+        <file name="warningsReducer.js" path="C:\Users\mcore\Source\Repos\shadowcraft-ui-react\shadowcraft_ui\js\reducers\warningsReducer.js">
+          <metrics statements="9" coveredstatements="9" conditionals="3" coveredconditionals="3" methods="1" coveredmethods="1"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="12" count="1" type="cond" truecount="1" falsecount="0"/>
+          <line num="13" count="3" type="cond" truecount="2" falsecount="0"/>
+          <line num="15" count="1" type="stmt"/>
+          <line num="16" count="1" type="stmt"/>
+          <line num="17" count="1" type="stmt"/>
+          <line num="20" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+        </file>
+      </package>
+    </metrics>
+  </project>
+</coverage>
