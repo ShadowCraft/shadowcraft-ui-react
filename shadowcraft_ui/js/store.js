@@ -4,6 +4,7 @@ import { settingsReducer } from './reducers/settingsReducer';
 import { engineReducer } from './reducers/engineReducer';
 import { warningsReducer } from './reducers/warningsReducer';
 import { historyReducer } from './reducers/historyReducer';
+import { storageAvailable, storageSet } from './common';
 import thunk from 'redux-thunk';
 import 'whatwg-fetch';
 
@@ -38,6 +39,11 @@ export function updateEngineState(data) {
             character: state.character,
             settings: state.settings.current
         });
+
+        if (storageAvailable()) {
+            storageSet('settings', state.settings.current);
+            storageSet('character', state.character);
+        }
     };
 }
 

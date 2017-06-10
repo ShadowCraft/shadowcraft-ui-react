@@ -4,6 +4,7 @@ import 'whatwg-fetch';
 
 import store from './store';
 import { checkFetchStatus, updateCharacterState, getEngineData } from './store';
+import { storageAvailable, storageGet, storageClear } from './common';
 
 import GearPane from './gear/GearPane';
 import TalentPane from './talents/TalentPane';
@@ -12,9 +13,13 @@ import AdvancedPane from './advanced/AdvancedPane';
 import DocsPane from './DocsPane';
 import RightPane from './RightPane';
 
-function setInitialCharacterData(chardata) {
+function setInitialCharacterData(chardata, settings = null) {
     return function (dispatch) {
         dispatch({ type: 'RESET_CHARACTER_DATA', data: chardata });
+
+        if (settings != null) {
+            dispatch({ type: 'RESET_SETTINGS', data: settings });
+        }
 
         fetch('/settings')
             .then(function (response) {
@@ -43,15 +48,27 @@ class CharacterPane extends React.Component {
     }
 
     componentWillMount() {
-        // TODO: check for data in the local browser cache here before trying to load it
-        // from Flask
-        let url=`/get_character_data?region=${this.props.pathinfo.region}&realm=${this.props.pathinfo.realm}&name=${this.props.pathinfo.name}`;
-        fetch(url)
-            .then(checkFetchStatus)
-            .then(r => r.json())
-            .then(function (json) {
-                store.dispatch(setInitialCharacterData(json));
-            });
+        // Check to see if there's data in local storage before loading it from the database
+        let characterData = null;
+        let settingsData = null;
+
+        if (storageAvailable()) {
+            characterData = storageGet('character');
+            settingsData = storageGet('settings');
+        }
+
+        if (characterData != null && settingsData != null) {
+            store.dispatch(setInitialCharacterData(characterData, settingsData));
+        }
+        else {
+            let url=`/get_character_data?region=${this.props.pathinfo.region}&realm=${this.props.pathinfo.realm}&name=${this.props.pathinfo.name}`;
+            fetch(url)
+                .then(checkFetchStatus)
+                .then(r => r.json())
+                .then(function (json) {
+                    store.dispatch(setInitialCharacterData(json));
+                });
+        }
     }
 
     renderTab(tab) {
@@ -83,7 +100,11 @@ class CharacterPane extends React.Component {
     }
 
     clearSavedData() {
-        console.log("clear saved data");
+        if (storageAvailable()) {
+            storageClear();
+        }
+
+        this.refreshCharacter();
     }
 
     getDebugURL() {
