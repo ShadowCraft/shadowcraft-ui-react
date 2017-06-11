@@ -23,6 +23,7 @@ ReactDOM.render(
     <Router>
         <Switch>
             <Route path="/" exact component={CharacterInput} />
+            <Route path="/:region(us|eu|kr|tw|cn|sea)/:realm/:name/:sha" render={(props) => <Provider store={store}><CharacterPane pathinfo={props.match.params} /></Provider>} />
             <Route path="/:region(us|eu|kr|tw|cn|sea)/:realm/:name" render={(props) => <Provider store={store}><CharacterPane pathinfo={props.match.params} /></Provider>} />
             <Route component={FourOhFour} />
         </Switch>

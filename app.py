@@ -52,8 +52,7 @@ def settings():
 
 @APP.route('/get_sha', methods=['POST'])
 def get_sha():
-    # TODO: this should probably validate the JSON
-    return shadowcraft_ui.get_debug_sha(mongo, request.form['data'])
+    return jsonify(shadowcraft_ui.get_debug_sha(mongo, request.get_json()))
 
 # Endpoint for requesting item data by slot. Also able to filter by ilvl.
 
@@ -89,8 +88,9 @@ def get_character_data():
     region = request.args.get('region')
     realm = request.args.get('realm')
     name = request.args.get('name')
+    sha = request.args.get('sha')
 
-    data = shadowcraft_ui.get_character_data(mongo, region, realm, name)
+    data = shadowcraft_ui.get_character_data(mongo, region, realm, name, sha)
 
     return json_util.dumps(data)
 

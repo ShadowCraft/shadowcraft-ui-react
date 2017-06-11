@@ -58,7 +58,9 @@ def get_sha(db, char_data):
     }
 
     try:
-        jsonschema.validate(char_data, schema)
+        #jsonschema.validate(char_data, schema)
+        print('getting sha')
+        print(char_data)
     except jsonschema.ValidationError as error:
         print("Character data failed validation: %s" % error)
     except jsonschema.SchemaError as error:

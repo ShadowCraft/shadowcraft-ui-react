@@ -66,12 +66,20 @@ class CharacterPane extends React.Component {
         }
         else {
             let url=`/get_character_data?region=${this.props.pathinfo.region}&realm=${this.props.pathinfo.realm}&name=${this.props.pathinfo.name}`;
+            if (this.props.pathinfo.sha != undefined) {
+                url += `&sha=${this.props.pathinfo.sha}`;
+            }
+
             fetch(url)
                 .then(checkFetchStatus)
                 .then(r => r.json())
                 .then(function (json) {
-                    store.dispatch(setInitialCharacterData(json));
-                });
+                    if (this.props.pathinfo.sha == undefined) {
+                        store.dispatch(setInitialCharacterData(json));
+                    } else {
+                        store.dispatch(setInitialCharacterData(json['character'], json['settings']));
+                    }
+                }.bind(this));
         }
     }
 
@@ -113,6 +121,19 @@ class CharacterPane extends React.Component {
 
     getDebugURL() {
         console.log("get debug url");
+        fetch("/get_sha", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                character: this.props.character,
+                settings: this.props.settings.current
+            })})
+            .then(checkFetchStatus)
+            .then(r => r.json())
+            .then(function(json) {
+
+            }.bind(this));
+
     }
 
     render() {

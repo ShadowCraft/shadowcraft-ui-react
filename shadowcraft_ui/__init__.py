@@ -10,7 +10,7 @@ def get_character_data(mongo, region, realm, name, sha=None):
 
 
 def get_debug_sha(mongo, character_json):
-    """tamen knows what this does"""
+    """generates and returns a sha for a set of character/settings data. used for debugging peoples' problems"""
     print("get debug sha: %s" % character_json)
     return character.get_sha(mongo.db, character_json)
 
