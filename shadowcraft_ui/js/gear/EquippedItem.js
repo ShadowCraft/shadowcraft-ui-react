@@ -33,9 +33,19 @@ class EquippedItem extends React.Component {
     onClick(e) {
         // console.log(this.props.items[this.props.slot]);
         if (!this.state.items[this.props.slot]) {
-            //TODO: fix filtering here and in character.py
+            let min_ilvl = -1;
+            let max_ilvl = -1;
+            if (this.props.settings.dynamic_ilvl) {
+                min_ilvl = this.state.items[this.props.slot].item_level - 50;
+                max_ilvl = this.state.items[this.props.slot].item_level + 50;
+            }
+            else {
+                min_ilvl = this.props.settings.min_ilvl;
+                max_ilvl = this.props.settings.max_ilvl;
+            }
+
             //TODO: what happens here if the user changes the filtering between requests?
-            fetch(`/get_items_by_slot?slot=${this.slotIDtoEquipIDMap(this.props.items[this.props.slot].slotid)}&min_ilvl=${700}&max_ilvl=${700}`)
+            fetch(`/get_items_by_slot?slot=${this.slotIDtoEquipIDMap(this.props.items[this.props.slot].slotid)}&min_ilvl=${min_ilvl}&max_ilvl=${max_ilvl}`)
                 .then(function (response) {
                     return response.json();
                 })
@@ -116,7 +126,8 @@ class EquippedItem extends React.Component {
 
 const mapStateToProps = function (store) {
     return {
-        items: store.character.gear
+        items: store.character.gear,
+        settings: store.settings.current
     };
 };
 
