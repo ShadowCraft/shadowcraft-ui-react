@@ -9,12 +9,6 @@ def get_character_data(mongo, region, realm, name, sha=None):
     return character.load(mongo.db, region, realm, name, sha=sha)
 
 
-def refresh_character(mongo, region, realm, name):
-    """this will force an update from bnet and update the db"""
-    print("refresh: %s %s %s" % (region, realm, name))
-    return character.load(mongo.db, region, realm, name, refresh=True)
-
-
 def get_debug_sha(mongo, character_json):
     """tamen knows what this does"""
     print("get debug sha: %s" % character_json)

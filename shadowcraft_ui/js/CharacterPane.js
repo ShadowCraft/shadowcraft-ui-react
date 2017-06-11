@@ -89,7 +89,7 @@ class CharacterPane extends React.Component {
     refreshCharacter() {
         this.setState({waitDisplayed: true});
 
-        let url=`/get_character_data?region=${this.props.character.region}&realm=${this.props.character.realm}&name=${this.props.character.name}&refresh=1`;
+        let url=`/get_character_data?region=${this.props.character.region}&realm=${this.props.character.realm}&name=${this.props.character.name}`;
         fetch(url)
             .then(checkFetchStatus)
             .then(r => r.json())

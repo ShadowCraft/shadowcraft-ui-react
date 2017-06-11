@@ -89,12 +89,8 @@ def get_character_data():
     region = request.args.get('region')
     realm = request.args.get('realm')
     name = request.args.get('name')
-    refresh = request.args.get('refresh', '0')
 
-    if refresh == '1':
-        data = shadowcraft_ui.refresh_character(mongo, region, realm, name)
-    else:
-        data = shadowcraft_ui.get_character_data(mongo, region, realm, name)
+    data = shadowcraft_ui.get_character_data(mongo, region, realm, name)
 
     return json_util.dumps(data)
 
