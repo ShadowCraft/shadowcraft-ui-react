@@ -10,7 +10,7 @@ export default class GearPane extends React.Component {
 
         // For this one we have to check if CurseTips exists because this might get called
         // before it gets loaded when the page first loads.
-        if (CurseTips) {
+        if (CurseTips != undefined) {
             CurseTips['wowdb-tooltip'].watchElligibleElements();
         }
     }
