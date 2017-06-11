@@ -41,8 +41,8 @@ export function updateEngineState(data) {
         });
 
         if (storageAvailable()) {
-            storageSet('settings', state.settings.current);
-            storageSet('character', state.character);
+            let key = `${state.character.region}-${state.character.realm}-${state.character.name}`
+            storageSet(key, {'settings': state.settings.current, 'character': state.character});
         }
     };
 }

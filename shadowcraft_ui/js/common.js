@@ -129,8 +129,7 @@ export function storageSet(name, value) {
     try {
         window['localStorage'].setItem(name, JSON.stringify(value));
     }
-    catch(e)
-    {
+    catch(e) {
         console.log(e);
     }
 }
@@ -139,7 +138,6 @@ export function storageGet(name) {
     let value = window.localStorage.getItem(name);
     if (value != null) {
         value = JSON.parse(value);
-        console.log(value);
     }
     return value;
 }

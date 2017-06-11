@@ -52,9 +52,13 @@ class CharacterPane extends React.Component {
         let characterData = null;
         let settingsData = null;
 
-        if (storageAvailable()) {
-            characterData = storageGet('character');
-            settingsData = storageGet('settings');
+        if (this.props.pathinfo.sha == undefined && storageAvailable()) {
+            let key = `${this.props.pathinfo.region}-${this.props.pathinfo.realm}-${this.props.pathinfo.name}`
+            let data = storageGet(key);
+            if (data != null) {
+                characterData = data['character'];
+                settingsData = data['settings'];
+            }
         }
 
         if (characterData != null && settingsData != null) {
@@ -180,7 +184,8 @@ class CharacterPane extends React.Component {
 
 const mapStateToProps = function (store) {
     return {
-        character: store.character
+        character: store.character,
+        settings: store.settings
     };
 };
 
