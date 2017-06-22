@@ -175,7 +175,7 @@ def import_item(dbase, item_id, is_gem=False):
     try:
         base_json = ArmoryDocument.get('us', '/wow/item/%d' % item_id)
         json_data.append(base_json)
-    except ArmoryDocument.MissingDocument as err:
+    except ArmoryDocument.ArmoryError as err:
         print("import_item failed to fetch %d: %s" % (item_id, err))
         return
 
@@ -206,10 +206,8 @@ def import_item(dbase, item_id, is_gem=False):
             params = {"bl": ','.join(map(str, bonuses))}
             json = ArmoryDocument.get('us', '/wow/item/%d' % item_id, params)
             json_data.append(json)
-        except ArmoryDocument.MissingDocument as err:
-            print("import_item failed to fetch %d with extra bonuses: %s" %
-                  (item_id, err))
-            return
+        except ArmoryDocument.ArmoryArror as err:
+            print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
 
     world_quests = [x for x in contexts if x.startswith('world-quest-')]
     world_quests.sort()
@@ -229,10 +227,9 @@ def import_item(dbase, item_id, is_gem=False):
             json = ArmoryDocument.get(
                 'us', '/wow/item/%d/%s' % (item_id, context))
             json_data.append(json)
-        except ArmoryDocument.MissingDocument as err:
-            print("import_item failed to fetch %d with extra bonuses: %s" %
-                  (item_id, err))
-            return
+        except ArmoryDocument.ArmoryArror as err:
+            print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
+            continue
 
         # Same thing with the bonus IDs. Gotta load all of those too.
         item_chance_bonuses = get_bonus_ids_to_load(
@@ -250,10 +247,8 @@ def import_item(dbase, item_id, is_gem=False):
                 json = ArmoryDocument.get(
                     'us', '/wow/item/%d' % item_id, params)
                 json_data.append(json)
-            except ArmoryDocument.MissingDocument as err:
-                print("import_item failed to fetch %d with extra bonuses: %s" %
-                      (item_id, err))
-                return
+            except ArmoryDocument.ArmoryArror as err:
+                print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
 
     current_total = len(json_data)
     if not is_gem:

@@ -6,16 +6,7 @@ import requests
 
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'
 
-class ArmoryException(Exception):
-    error_msg = ''
-    def __init(self, msg):
-        self.error_msg = msg
-    def __str__(self):
-        return str(self.error_msg)
-
-class ArmoryError(ArmoryException):
-    pass
-class MissingDocument(ArmoryException):
+class ArmoryError(Exception):
     pass
 
 def get(region, path, params=None):
@@ -38,9 +29,8 @@ def get(region, path, params=None):
     while tries < 3:
         try:
             resp = requests.get(url, params=params, timeout=7, headers=headers)
-            if resp.status_code >= 400 and resp.status_code < 500:
-                raise MissingDocument('Armory returned %d' % resp.status_code)
-            elif resp.status_code >= 500:
+            resp.status_code = 404
+            if resp.status_code >= 400:
                 raise ArmoryError('Armory returned %d' % resp.status_code)
 
             json = resp.json()
