@@ -39,8 +39,7 @@ WOD_TRADESKILL_BONUS_IDS = [525, 526, 527,
 TRADESKILL_BONUS_IDS = [596, 597, 598, 599, 666, 667, 668, 669, 670, 671, 672]
 
 ARTIFACT_WEAPONS = [128476, 128479, 128870, 128869, 128872, 134552]
-ORDER_HALL_SET = [139739, 139740, 139741,
-                  139742, 139743, 139744, 139745, 139746]
+ORDER_HALL_SET = [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746]
 MIN_ILVL = 800
 
 # This is the set of bonus IDs that should be on basically every legion item, but the API
@@ -124,9 +123,13 @@ def populate_db(dbase):
     for item_type in ['rings', 'amulets', 'trinkets']:
         print("Requesting %s from wowhead" % item_type)
         wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:800/class:3' % item_type))
+            'http://www.wowhead.com/items/armor/%s/min-level:800/max-level:875/class:3' % item_type))
         wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:800/class:4' % item_type))
+            'http://www.wowhead.com/items/armor/%s/min-level:876/class:3' % item_type))
+        wowhead_ids.extend(get_ids_from_wowhead(
+            'http://www.wowhead.com/items/armor/%s/min-level:800/max-level:875/class:4' % item_type))
+        wowhead_ids.extend(get_ids_from_wowhead(
+            'http://www.wowhead.com/items/armor/%s/min-level:876/class:4' % item_type))
 
     print("Requesting legendaries from wowhead")
     wowhead_ids.extend(get_ids_from_wowhead(
@@ -137,7 +140,6 @@ def populate_db(dbase):
 
     item_ids = set(wowhead_ids)
     print("Have %d items to load" % len(item_ids))
-    print(wowhead_ids)
 
     pos = 0
     for item_id in item_ids:
@@ -170,7 +172,8 @@ def import_item(dbase, item_id, is_gem=False):
     # continue doing this?
 
     # Request the initial json data from the armory and insert it into an array of
-    # json to be further processed.
+    # json to be further processed. If we get an exception here, we can't continue
+    # because we can't generate any of the remaining urls anyways.
     json_data = []
     try:
         base_json = ArmoryDocument.get('us', '/wow/item/%d' % item_id)
@@ -186,9 +189,6 @@ def import_item(dbase, item_id, is_gem=False):
     contexts = copy.copy(base_json['availableContexts'])
     contexts = contexts[1:]
 
-    # NOTE: removed bit about world-quest contexts here because it looks like the data
-    # is actually fixed finally.
-
     # Next, look at the chance bonus lists that accompany the item. This bonus list is
     # the things that can be applied to an item, such as extra titles (warforged, crafting
     # stages), tertiary stats, sockets, etc.
@@ -196,8 +196,7 @@ def import_item(dbase, item_id, is_gem=False):
         base_json['bonusSummary']['chanceBonusLists'], base_json['context'], base_json['itemLevel'])
 
     # Loop through the now-modified list of bonus IDs and load an additional item for
-    # each of those IDs from teh armory, and store it in the list to be
-    # processed.
+    # each of those IDs from the armory, and store it in the list to be processed.
     for bonus_id in item_chance_bonuses:
         try:
             print('Loading extra item for bonus ID %d' % bonus_id)
@@ -209,15 +208,20 @@ def import_item(dbase, item_id, is_gem=False):
         except ArmoryDocument.ArmoryArror as err:
             print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
 
+    # Don't load all of the world quest or pvp contexts. Only load a single context
+    # for each of them, at the highest ilvl possible.
     world_quests = [x for x in contexts if x.startswith('world-quest-')]
     world_quests.sort()
     world_quests = world_quests[:-1]
     pvp_unranked = [x for x in contexts if x.startswith('pvp-unranked')]
     pvp_unranked.sort()
     pvp_unranked = pvp_unranked[:-1]
+    pvp_ranked = [x for x in contexts if x.startswith('pvp-ranked')]
+    pvp_ranked.sort()
+    pvp_ranked = pvp_ranked[:-1]
+    context_blacklist = world_quests + pvp_unranked + pvp_ranked
 
-    contexts = [
-        x for x in contexts if x not in world_quests and x not in pvp_unranked]
+    contexts = [x for x in contexts if x not in context_blacklist]
 
     # For each of the extra contexts, load the document for each one of them and store
     # it in the list of json to deal with.
@@ -240,7 +244,7 @@ def import_item(dbase, item_id, is_gem=False):
         # processed.
         for bonus_id in item_chance_bonuses:
             try:
-                print('Loading extra item for bonus ID %d' % bonus_id)
+                print('Loading extra item for bonus ID %d with context %s' % (bonus_id, context))
                 bonuses = copy.copy(json['bonusLists'])
                 bonuses.append(bonus_id)
                 params = {"bl": ','.join(map(str, bonuses))}
@@ -263,50 +267,41 @@ def import_item(dbase, item_id, is_gem=False):
     print('Loading data from a total of %d json entries for this item' %
           len(json_data))
 
+    # Create a basic item to store in the database. The properties will get populated
+    # as we loop through the json below.
+    db_item = {'remote_id': item_id, 'is_gem': is_gem}
+
     # Loop through the json data tha twas retrieved and process each in turn
     for json in json_data:
 
         item = ArmoryItem(json)
+        item_props = item.as_json()
 
-        # check to see if there is an item in the database with this ID and base item
-        # level yet. We combine duplicate items together based on those two
-        # values.
-        results = dbase.items.find(
-            {'remote_id': item.item_id, 'item_level': item.ilevel})
-        if results.count() != 0:
-            db_item = results[0]
-        else:
-            db_item = None
-
-        item = ArmoryItem(json)
-
-        if db_item is None:
-            db_item = {'remote_id': item.item_id,
-                       'item_level': item.ilevel,
-                       'properties': item.as_json()}
-            db_item['is_gem'] = 'gem_slot' in db_item['properties']
-
-            if not is_gem:
-                db_item['contexts'] = []
-                db_item['context_map'] = {}
+        if 'name' not in db_item:
+            db_item.update(item_props)
 
         if not is_gem:
-            name = json['context']
-            context = {'tag': item.tag, 'defaultBonuses': item.bonus_tree}
-            if json['context'].startswith('world-quest'):
-                context['tag'] = 'World Quest'
-                name = 'world-quest'
-            elif json['context'].startswith('dungeon-level-up'):
-                context['tag'] = 'dungeon-level-up'
-                name = 'Level-up Dungeon'
+            # Join all of the chance bonus lists into one list for all of the item levels.
+            # This is mostly safe. It might be weird for items at very low ilvls where they
+            # might not support sockets, but that rarely happens.
+            db_item['chance_bonus_lists'] += item_props['chance_bonus_lists']
+            db_item['chance_bonus_lists'] = list(set(db_item['chance_bonus_lists']))
 
-            if name not in db_item['contexts']:
-                db_item['context_map'][name] = context
-                db_item['contexts'].append(name)
+            if 'stats' in db_item:
+                del db_item['stats']
 
-        dbase.items.replace_one({'remote_id': item.item_id, 'item_level': item.ilevel},
-                                db_item, upsert=True)
+            if 'item_stats' not in db_item:
+                db_item['item_stats'] = {}
 
+            if str(item.ilevel) not in db_item:
+                db_item['item_stats'][str(item.ilevel)] = item_props['stats']
+
+            if 'speed' in item_props:
+                db_item['item_stats'][str(item.ilevel)]['speed'] = item_props['speed']
+            if 'dps' in item_props:
+                db_item['item_stats'][str(item.ilevel)]['dps'] = item_props['dps']
+
+    dbase.items.replace_one({'remote_id': item_id}, db_item, upsert=True)
 
 def get_bonus_ids_to_load(possible_ids, context, item_level):
     """Trims a list of bonus IDs down to the set of IDs that we actually care about, like
@@ -346,7 +341,7 @@ def get_ids_from_wowhead(url):
     ids = []
     resp = requests.get(
         url,
-        timeout=7,
+        timeout=10,
         headers={'user-agent': ArmoryDocument.USER_AGENT}
     )
     if resp.status_code == 200:
