@@ -464,7 +464,7 @@ class ShadowcraftComputation:
                         # Look up this gem from the database and add the stat
                         results = db.items.find({'remote_id': gem['id']})
                         if results.count() != 0:
-                            for stat, value in results[0]['properties']['stats'].items():
+                            for stat, value in results[0]['stats'].items():
                                 if stat not in gear_stats:
                                     gear_stats[stat] = 0
                                 gear_stats[stat] += value
