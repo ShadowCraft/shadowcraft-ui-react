@@ -196,7 +196,7 @@ def __get_from_armory(db, character, realm, region):
             if 1808 in info['bonuses']:
                 info['socket_count'] = 1
             else:
-                info['socket_count'] = results[0]['properties']['socket_count']
+                info['socket_count'] = results[0]['socket_count']
 
         if info['socket_count'] > 0:
             info['gems'] = [0] * info['socket_count']

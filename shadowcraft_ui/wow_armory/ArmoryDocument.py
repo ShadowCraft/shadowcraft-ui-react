@@ -29,9 +29,8 @@ def get(region, path, params=None):
     while tries < 3:
         try:
             resp = requests.get(url, params=params, timeout=7, headers=headers)
-            resp.status_code = 404
             if resp.status_code >= 400:
-                raise ArmoryError('Armory returned %d' % resp.status_code)
+                raise ArmoryError('Armory returned %d requesting %s' % (resp.status_code, url))
 
             json = resp.json()
             if len(json) == 0:
