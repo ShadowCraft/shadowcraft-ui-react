@@ -12,6 +12,7 @@ import ArtifactPane from './artifact/ArtifactPane';
 import AdvancedPane from './advanced/AdvancedPane';
 import DocsPane from './DocsPane';
 import RightPane from './RightPane';
+import ModalConductor from './modals/ModalConductor';
 
 function setInitialCharacterData(chardata, settings = null) {
     return function (dispatch) {
@@ -45,6 +46,7 @@ class CharacterPane extends React.Component {
         this.refreshCharacter = this.refreshCharacter.bind(this);
         this.clearSavedData = this.clearSavedData.bind(this);
         this.getDebugURL = this.getDebugURL.bind(this);
+        this.onOuterDivClick = this.onOuterDivClick.bind(this);
     }
 
     componentWillMount() {
@@ -91,6 +93,30 @@ class CharacterPane extends React.Component {
             case 'advanced': return <AdvancedPane />;
             case 'documentation': return <DocsPane />;
             default: return (<div>unrecognized string passed to CharacterPane.renderTab</div>);
+        }
+    }
+
+    onOuterDivClick(e) {
+        // TODO: this is stupid, but it works. there has to be a better way.
+        // At least it's only enabled if the modal is open.
+
+        // Search upwards through the tree of DOM elements to see if the base
+        // modal element is somewhere in tree, which means they clicked the
+        // modal and not the background. if they clicked the background, hide
+        // the modal.
+        let found = false;
+        let target = e.target;
+
+        while (!found && target) {
+            if (target.className === "modal") {
+                found = true;
+            } else {
+                target = target.parentElement;
+            }
+        }
+
+        if (!found) {
+            store.dispatch({type: "CLOSE_MODAL"});
         }
     }
 
@@ -144,61 +170,64 @@ class CharacterPane extends React.Component {
                 </div>
             );
         } else {
-        return (
-            <div>
-                <div style={{ marginBottom: '25px', display: 'flex' }}>
-                    <div id="container" style={{ flex: 4 }}>
-                        <div id="curtain">
-                            <div className="tabs" id="tabs">
-                                <nav className="tabs-navigation">
-                                    <ul className="tabs-menu">
-                                        <li className={`tabs-menu-item ${this.state.currentTab === 'gear' ? 'is-active' : ''}`}
-                                            onClick={() => this.setState({ currentTab: 'gear' })}
-                                        ><a>Gear</a></li>
-                                        <li className={`tabs-menu-item ${this.state.currentTab === 'talents' ? 'is-active' : ''}`}
-                                            onClick={() => this.setState({ currentTab: 'talents' })}
-                                        ><a>Talents</a></li>
-                                        <li className={`tabs-menu-item ${this.state.currentTab === 'artifact' ? 'is-active' : ''}`}
+            return (
+                <div onClick={this.props.modal.open ? this.onOuterDivClick : null}>
+
+                    <ModalConductor />
+
+                    <div style={{ marginBottom: '25px', display: 'flex', filter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null, WebkitFilter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null }}>
+                        <div id="container" style={{ flex: 4 }}>
+                            <div id="curtain">
+                                <div className="tabs" id="tabs">
+                                    <nav className="tabs-navigation">
+                                        <ul className="tabs-menu">
+                                            <li className={`tabs-menu-item ${this.state.currentTab === 'gear' ? 'is-active' : ''}`}
+                                                onClick={() => this.setState({ currentTab: 'gear' })}
+                                            ><a>Gear</a></li>
+                                            <li className={`tabs-menu-item ${this.state.currentTab === 'talents' ? 'is-active' : ''}`}
+                                                onClick={() => this.setState({ currentTab: 'talents' })}
+                                            ><a>Talents</a></li>
+                                            <li className={`tabs-menu-item ${this.state.currentTab === 'artifact' ? 'is-active' : ''}`}
                                                 onClick={() => this.setState({ currentTab: 'artifact' })}
-                                        ><a>Artifact</a></li>
-                                        <li className={`tabs-menu-item ${this.state.currentTab === 'advanced' ? 'is-active' : ''}`}
-                                            onClick={() => this.setState({ currentTab: 'advanced' })}
-                                        ><a>Advanced</a></li>
-                                        <li className={`tabs-menu-item ${this.state.currentTab === 'documenation' ? 'is-active' : ''}`}
-                                            onClick={() => this.setState({ currentTab: 'documentation' })}
-                                        ><a>Documentation</a></li>
-                                        <li className="tabs-menu-item" onClick={this.onDropdownClick}>
-                                            <a className="dropdown">
-                                                <img src='/static/images/cog.png'/>
-                                                {this.state.dropdown && <ul className="dropdownMenu">
-                                                    <li onClick={this.refreshCharacter}>Refresh from armory</li>
-                                                    <li onClick={this.clearSavedData}>Clear all saved data</li>
-                                                    <li onClick={this.getDebugURL}>Get Debug URL</li>
-                                                </ul>}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <article className="tab-panel">
-                                    {this.renderTab(this.state.currentTab)}
-                                </article>
+                                            ><a>Artifact</a></li>
+                                            <li className={`tabs-menu-item ${this.state.currentTab === 'advanced' ? 'is-active' : ''}`}
+                                                onClick={() => this.setState({ currentTab: 'advanced' })}
+                                            ><a>Advanced</a></li>
+                                            <li className={`tabs-menu-item ${this.state.currentTab === 'documenation' ? 'is-active' : ''}`}
+                                                onClick={() => this.setState({ currentTab: 'documentation' })}
+                                            ><a>Documentation</a></li>
+                                            <li className="tabs-menu-item" onClick={this.onDropdownClick}>
+                                                <a className="dropdown">
+                                                    <img src='/static/images/cog.png'/>
+                                                    {this.state.dropdown && <ul className="dropdownMenu">
+                                                        <li onClick={this.refreshCharacter}>Refresh from armory</li>
+                                                        <li onClick={this.clearSavedData}>Clear all saved data</li>
+                                                        <li onClick={this.getDebugURL}>Get Debug URL</li>
+                                                    </ul>}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    <article className="tab-panel">
+                                        {this.renderTab(this.state.currentTab)}
+                                    </article>
+                                </div>
+                            </div>
+                        </div >
+                        <RightPane />
+                        <div id="footer">
+                            <div className='padding'>
+                                Questions to <a href="mailto:shadowcraft@ravenholdt.net">Ravenholdt</a> &bull; UI source at <a href="http://github.com/cheald/shadowcraft-ui">GitHub</a>      &bull; discussion at <a href="https://discord.gg/DdPahJ9">Ravenholdt</a> &bull; DPS/EP engine source at <a href="https://github.com/Fierydemise/ShadowCraft-Engine">GitHub</a>      &bull; Hosting provided by <a href="http://mmo-mumble.com">MMO-Mumble.com</a>
                             </div>
                         </div>
-                    </div >
-                    <RightPane />
-                </div>
-
-                {this.state.waitDisplayed && <div id="wait">
-                    <div id="waitMsg" />
-                </div>}
-
-                <div id="footer">
-                    <div className='padding'>
-                        Questions to <a href="mailto:shadowcraft@ravenholdt.net">Ravenholdt</a> &bull; UI source at <a href="http://github.com/cheald/shadowcraft-ui">GitHub</a>      &bull; discussion at <a href="https://discord.gg/DdPahJ9">Ravenholdt</a> &bull; DPS/EP engine source at <a href="https://github.com/Fierydemise/ShadowCraft-Engine">GitHub</a>      &bull; Hosting provided by <a href="http://mmo-mumble.com">MMO-Mumble.com</a>
                     </div>
-                </div>
-            </div >
-        );
+
+                    {this.state.waitDisplayed && <div id="wait">
+                        <div id="waitMsg" />
+                    </div>}
+
+                </div >
+            );
         }
     }
 }
@@ -206,7 +235,8 @@ class CharacterPane extends React.Component {
 const mapStateToProps = function (store) {
     return {
         character: store.character,
-        settings: store.settings
+        settings: store.settings,
+        modal: store.modal
     };
 };
 

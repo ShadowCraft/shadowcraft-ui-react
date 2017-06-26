@@ -29,9 +29,11 @@ class TalentFrame extends React.Component {
         store.dispatch(updateCharacterState('UPDATE_TALENTS', newSetup));
     }
 
-    resetTalents()
+    resetTalents(e)
     {
-        store.dispatch(updateCharacterState('UPDATE_TALENTS', '0000000'));
+        e.preventDefault();
+        store.dispatch({type: "OPEN_MODAL"});
+//        store.dispatch(updateCharacterState('UPDATE_TALENTS', '0000000'));
     }
 
     render()

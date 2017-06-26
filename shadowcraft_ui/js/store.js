@@ -4,6 +4,7 @@ import { settingsReducer } from './reducers/settingsReducer';
 import { engineReducer } from './reducers/engineReducer';
 import { warningsReducer } from './reducers/warningsReducer';
 import { historyReducer } from './reducers/historyReducer';
+import { modalReducer } from './reducers/modalReducer';
 import { storageAvailable, storageSet } from './common';
 import thunk from 'redux-thunk';
 import 'whatwg-fetch';
@@ -96,6 +97,7 @@ const reducers = combineReducers({
     engine: engineReducer,
     warnings: warningsReducer,
     history: historyReducer,
+    modal: modalReducer,
 });
 
 // Build the store
