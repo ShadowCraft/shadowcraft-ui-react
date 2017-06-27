@@ -1,26 +1,33 @@
 export const EnchantMap = {
-    5432 : {
+    0: {
+        stats: {},
+        icon: 'inv_enchant_formulagood_01',
+        itemName: 'Enchant Missing.',
+        EquipmentSlot: 0,
+        SpellId: 0
+    },
+    5432: {
         stats: { agility: 150 },
         icon: 'inv_enchant_formulagood_01',
         itemName: 'Enchant Cloak - Word of Agility',
         EquipmentSlot: 16,
         SpellId: 128546
     },
-    5435 : {
+    5435: {
         stats: { agility: 200 },
         icon: 'inv_enchant_formulasuperior_01',
         itemName: 'Enchant Cloak - Binding of Agility',
         EquipmentSlot: 16,
         SpellId: 128549
     },
-    5423 : {
+    5423: {
         stats: { crit: 150 },
         icon: 'inv_enchant_formulagood_01',
         itemName: 'Enchant Ring - Word of Critical Strike',
         EquipmentSlot: 11,
         SpellId: 128537
     },
-    5424 : {
+    5424: {
         stats: { haste: 150 },
         icon: 'inv_enchant_formulagood_01',
         itemName: 'Enchant Ring - Word of Haste',
@@ -82,14 +89,14 @@ export const EnchantMap = {
         EquipmentSlot: 2,
         SpellId: 128552
     },
-    5439 : {
+    5439: {
         stats: {},
         icon: 'inv_enchant_formulasuperior_01',
         itemName: 'Enchant Neck - Mark of the Hidden Satyr',
         EquipmentSlot: 2,
         SpellId: 128553
     },
-    5890 : {
+    5890: {
         stats: { mastery: 300 },
         icon: 'inv_enchant_formulasuperior_01',
         itemName: 'Enchant Neck - Mark of the Trained Soldier',
