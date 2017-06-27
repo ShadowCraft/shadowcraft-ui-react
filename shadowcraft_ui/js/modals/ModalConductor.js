@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import store from '../store';
 import SignInModal from './SignInModal.js';
 
+import { modalTypes } from '../reducers/modalReducer';
+
 class ModalConductor extends React.Component {
     constructor(props) {
         super(props);
@@ -17,8 +19,11 @@ class ModalConductor extends React.Component {
     render() {
         switch (this.props.current) {
 
-            case 'SOCIAL_SIGN_IN':
+            case modalTypes.ITEM_SELECT:
                 return <SignInModal hideModal={this.hideModal} {...this.props}/>;
+
+            case modalTypes.ITEM_BONUSES:
+                return null;
 
             default:
                 return null;

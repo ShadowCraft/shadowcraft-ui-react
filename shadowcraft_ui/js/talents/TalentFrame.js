@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import store from '../store';
 import { updateCharacterState } from '../store';
+import { modalTypes } from '../reducers/modalReducer';
 
 function Talent(props) {
     return (
@@ -32,7 +33,7 @@ class TalentFrame extends React.Component {
     resetTalents(e)
     {
         e.preventDefault();
-        store.dispatch({type: "OPEN_MODAL"});
+        store.dispatch({type: "OPEN_MODAL", data: {popupType: modalTypes.ITEM_SELECT}});
 //        store.dispatch(updateCharacterState('UPDATE_TALENTS', '0000000'));
     }
 

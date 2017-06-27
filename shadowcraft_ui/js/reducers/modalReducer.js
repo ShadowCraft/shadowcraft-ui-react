@@ -9,14 +9,15 @@ export const modalActionTypes = {
 };
 
 export const modalTypes = {
-    SOCIAL_SIGN_IN: 'SOCIAL_SIGN_IN',
+    ITEM_SELECT: 'ITEM_SELECT',
+    ITEM_BONUSES: 'ITEM_BONUSES',
 };
 
 export const modalReducer = function (state = initialModalState, action) {
     switch (action.type) {
         case modalActionTypes.OPEN_MODAL:
             var newState = state;
-            newState.current = modalTypes.SOCIAL_SIGN_IN;
+            newState.current = action.data.popupType,
             newState.open = true;
             return Object.assign({}, state, newState);
 
