@@ -260,7 +260,7 @@ class ShadowcraftComputation:
         dmg = float(gear_data[slot]['weaponStats']['dps']) * speed
         return stats.Weapon(dmg, speed, None, None)
 
-    def setup(self, db, input_data, gear_data, gear_stats, gear_ids):
+    def setup(self, input_data, gear_data, gear_stats, gear_ids):
 
         i18n.set_language('local')
 
@@ -474,7 +474,7 @@ class ShadowcraftComputation:
             gear_ids = frozenset(gear_ids)
 
             calculator = self.setup(
-                db, input_data, gear_data, gear_stats, gear_ids)
+                input_data, gear_data, gear_stats, gear_ids)
 
             # Compute DPS Breakdown.
             out["breakdown"] = calculator.get_dps_breakdown()
