@@ -2,48 +2,15 @@ import React from 'react';
 const {PropTypes} = React;
 
 const ModalWrapper = props => {
-    const handleBackgroundClick = e => {
-        /* if (e.target != e.currentTarget) {
-         *     props.hideModal();
-         * }*/
-    };
-
-    const onOk = () => {
-        props.onOk();
-        props.hideModal();
-    };
-
-    const okButton = props.showOk
-                   ? (
-                       <button
-                           onClick={onOk}
-                           disabled={props.okDisabled}
-                       >
-                           {props.okText}
-                       </button>
-                   ) : null;
-
     return (
-        <div onClick={handleBackgroundClick} className="modal">
-            <header>
-                <h1>{props.title}</h1>
-
-                <button onClick={props.hideModal}>Close</button>
-            </header>
-
+        <div className="modal ui-dialog">
             {props.children}
-
-            {okButton}
         </div>
     );
 };
 
 ModalWrapper.propTypes = {
     // props
-    title: PropTypes.string,
-    showOk: PropTypes.bool,
-    okText: PropTypes.string,
-    okDisabled: PropTypes.bool,
     width: PropTypes.number,
     style: PropTypes.object,
     children: PropTypes.oneOfType([
@@ -58,10 +25,6 @@ ModalWrapper.propTypes = {
 };
 
 ModalWrapper.defaultProps = {
-    title: '',
-    showOk: true,
-    okText: 'OK',
-    okDisabled: false,
     width: 400,
     onOk: () => {}
 };

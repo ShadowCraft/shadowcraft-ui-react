@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import store from '../store';
+import { modalTypes } from '../reducers/modalReducer';
 import EquippedGemList from './EquippedGemsList';
 import EquippedEnchant from './EquippedEnchant';
 import ItemSelectPopup from './ItemSelectPopup';
@@ -58,8 +60,13 @@ class EquippedItem extends React.Component {
         this.setState({ itemModal: !this.state.itemModal });
     }
 
-    onBonusClick() {
-        this.setState({ bonusModal: true });
+    onBonusClick(e) {
+        e.preventDefault();
+
+        let item = this.props.items[this.props.slot];
+        store.dispatch({type: "OPEN_MODAL",
+                        data: {popupType: modalTypes.ITEM_BONUSES,
+                               props:{ item: item, onApply: this.onBonusApply}}});
     }
 
     onBonusApply() {
@@ -118,7 +125,6 @@ class EquippedItem extends React.Component {
                 plus we still have plans to do the stacked bars rankings layout
                 no need to put the cart before the horse, so this will do for now until we get to the layout refactor*/}
                 {this.state.itemModal ? <ItemSelectPopup slot={item.slot} items={this.state.items[item.slot]} onClick={this.onClick.bind(this)} /> : <div />}
-                {this.state.bonusModal ? <BonusIDPopup item={item} onApply={this.onBonusApply} /> : <div />}
             </div>
         );
     }

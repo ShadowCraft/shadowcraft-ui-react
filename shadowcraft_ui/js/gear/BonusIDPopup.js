@@ -1,6 +1,7 @@
 import React from 'react';
 
 import store from '../store';
+import ModalWrapper from '../modals/ModalWrapper';
 import { checkFetchStatus, updateCharacterState } from '../store';
 import { recalculateStats } from '../common';
 
@@ -141,7 +142,7 @@ export default class BonusIDPopup extends React.Component {
         wfOptions.push(<option value="0" key="0">Item Level {this.state.baseItem.item_level} / None</option>);
 
         return (
-            <div className="popup ui-dialog visible" id="bonuses" style={{ top: "355px", left: "440px" }}>
+            <ModalWrapper style={{ top: "355px", left: "440px" }}>
                 <h1>Item Bonuses</h1>
                 <form id="bonuses">
                     {this.state.baseItem.properties.chance_bonus_lists.indexOf(1808) != -1 &&
@@ -162,7 +163,7 @@ export default class BonusIDPopup extends React.Component {
                 <a href="#" className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button">
                     <span className="ui-icon ui-icon-closethick" />
                 </a>
-            </div>
+            </ModalWrapper>
         );
     }
 }
