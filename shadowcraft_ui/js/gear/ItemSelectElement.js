@@ -20,16 +20,16 @@ class ItemSelectElement extends React.Component {
 
     render() {
         let activeGear = this.props.gear[this.props.slot];
-        let active = (activeGear.id == this.props.item.remote_id) && (this.props.item.contexts.indexOf(activeGear.context) != -1);
+        let active = (activeGear.id == this.props.item.remote_id);
         
         return (
             <div className={`slot ${active ? 'active' : ''}`} onClick={() => this.changeItem(this.props.slot, this.props.item)}>
                 <div className="image">
-                    <img src={`http://us.media.blizzard.com/wow/icons/56/${this.props.item.properties.icon}.jpg`} />
+                    <img src={`http://us.media.blizzard.com/wow/icons/56/${this.props.item.icon}.jpg`} />
                     <span className="ilvl">{this.props.item.item_level}</span>
                 </div>
-                <div className={`name quality-${this.props.item.properties.quality} ${active ? 'active' : ''}`}>
-                    {this.props.item.properties.name}
+                <div className={`name quality-${this.props.item.quality} ${active ? 'active' : ''}`} data-href-tooltip={`http://wowdb.com/items/${this.props.item.remote_id}`}>
+                    {this.props.item.name}
                     <a className="wowhead" href={`http://legion.wowhead.com/item=${this.props.item.remote_id}`} target="_blank">Wowhead</a>
                 </div>
                 <span className="desc">{this.props.value.toFixed(0)} EP</span>

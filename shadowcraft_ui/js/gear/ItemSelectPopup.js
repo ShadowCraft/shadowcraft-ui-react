@@ -1,5 +1,6 @@
 import React from 'react';
 import ItemSelectElement from './ItemSelectElement';
+import ModalWrapper from '../modals/ModalWrapper';
 import { connect } from 'react-redux';
 
 class ItemSelectPopup extends React.Component {
@@ -16,8 +17,20 @@ class ItemSelectPopup extends React.Component {
         return value;
     }
 
+    componentDidMount() {
+        // This is a bit of a hack and is probably a bit fragile depending on if wowdb ever
+        // changes any of this, but it rescans the DOM for elements that should display a
+        // tooltip.
+        console.log("popup mounted");
+        CurseTips['wowdb-tooltip'].watchElligibleElements();
+    }
+
     sortItems(items, weights) {
-        return items.sort((a, b) => this.getItemValue(b.properties.stats, weights) - this.getItemValue(a.properties.stats, weights));
+        return items.sort((a, b) => {
+            let a_ilvl = Object.keys(a.item_stats)[0];
+            let b_ilvl = Object.keys(b.item_stats)[0];
+            return this.getItemValue(b.item_stats[b_ilvl], weights) - this.getItemValue(a.item_stats[a_ilvl], weights);
+        });
     }
 
     getItemSelectElements(items, weights) {
@@ -28,8 +41,8 @@ class ItemSelectPopup extends React.Component {
                 key={index}
                 slot={this.props.slot}
                 item={item}
-                value={this.getItemValue(item.properties.stats, weights)}
-                max={this.getItemValue(sortedItems[0].properties.stats, weights)}
+                value={this.getItemValue(item.item_stats[Object.keys(item.item_stats)[0]], weights)}
+                max={this.getItemValue(sortedItems[0].item_stats[Object.keys(sortedItems[0].item_stats)[0]], weights)}
                 onClick={this.props.onClick}
             />
         ));
@@ -39,14 +52,14 @@ class ItemSelectPopup extends React.Component {
         // console.log(this.props.items);
         //TODO: fix the popup dialog placement
         return (
-            <div className="alternatives popup ui-dialog visible" id="gearpopup" style={{ top: '0px', left: '0px' }}>
+            <ModalWrapper style={{ top: '100px', left: '100px' }}>
                 <div id="filter">
                     <input className="search" placeholder="Filter..." type="search" />
                 </div>
                 <div className="body" >
                     {this.props.items ? this.getItemSelectElements(this.props.items, this.props.weights) : <div />}
                 </div>
-            </div>
+            </ModalWrapper>
         );
     }
 }

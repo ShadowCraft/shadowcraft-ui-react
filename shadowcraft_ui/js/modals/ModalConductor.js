@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import store from '../store';
-import SignInModal from './SignInModal.js';
+import ItemSelectPopup from '../gear/ItemSelectPopup';
 import BonusIDPopup from '../gear/BonusIDPopup';
 
 import { modalTypes } from '../reducers/modalReducer';
@@ -21,7 +21,7 @@ class ModalConductor extends React.Component {
         switch (this.props.current) {
 
             case modalTypes.ITEM_SELECT:
-                return <SignInModal hideModal={this.hideModal} {...this.props}/>;
+                return <ItemSelectPopup hideModal={this.hideModal} {...this.props.modalProps}/>;
 
             case modalTypes.ITEM_BONUSES:
                 return <BonusIDPopup hideModal={this.hideModal} {...this.props.modalProps}/>;

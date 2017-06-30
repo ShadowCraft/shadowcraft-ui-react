@@ -53,10 +53,17 @@ class EquippedItem extends React.Component {
                 .then(function (json) {
                     //just setting local state for now, not sure if a larger will be needed.
                     this.setState({ items: { [this.props.slot]: json } });
+                    store.dispatch({type: "OPEN_MODAL",
+                                    data: {popupType: modalTypes.ITEM_SELECT,
+                                           props:{ slot: this.props.slot,
+                                                   items: json }}});
                 }.bind(this));
         }
 
-        this.setState({ itemModal: !this.state.itemModal });
+        store.dispatch({type: "OPEN_MODAL",
+                        data: {popupType: modalTypes.ITEM_SELECT,
+                               props:{ slot: this.props.slot,
+                                       items: this.state.items[this.props.slot]}}});
     }
 
     onBonusClick(e) {
@@ -115,11 +122,6 @@ class EquippedItem extends React.Component {
                     {/*javascript trickery to only show enchants for neck, ring and back*/}
                     {this.IsEnchantable(item.slot) && <EquippedEnchant enchantID={item.enchant} />}
                 </div >
-                {/*probably want to do a full screen modal with fade and click away later
-                would work better on mobile and is snazzier
-                plus we still have plans to do the stacked bars rankings layout
-                no need to put the cart before the horse, so this will do for now until we get to the layout refactor*/}
-                {this.state.itemModal ? <ItemSelectPopup slot={item.slot} items={this.state.items[item.slot]} onClick={this.onClick.bind(this)} /> : <div />}
             </div>
         );
     }
