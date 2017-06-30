@@ -108,7 +108,7 @@ class CharacterPane extends React.Component {
         let target = e.target;
 
         while (!found && target) {
-            if (target.className === "modal") {
+            if (target.className === "modal ui-dialog") {
                 found = true;
             } else {
                 target = target.parentElement;
