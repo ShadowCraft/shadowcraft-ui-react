@@ -3,7 +3,7 @@ const {PropTypes} = React;
 
 const ModalWrapper = props => {
     return (
-        <div className="modal ui-dialog">
+        <div className="modal ui-dialog" style={props.style}>
             {props.children}
         </div>
     );
@@ -11,7 +11,6 @@ const ModalWrapper = props => {
 
 ModalWrapper.propTypes = {
     // props
-    width: PropTypes.number,
     style: PropTypes.object,
     children: PropTypes.oneOfType([
         PropTypes.array,
@@ -21,12 +20,10 @@ ModalWrapper.propTypes = {
 
     // methods
     hideModal: PropTypes.func,
-    onOk: PropTypes.func,
 };
 
 ModalWrapper.defaultProps = {
-    width: 400,
-    onOk: () => {}
+    style: {},
 };
 
 export default ModalWrapper;

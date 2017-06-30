@@ -18,7 +18,6 @@ class ModalConductor extends React.Component {
     }
 
     render() {
-        console.log(this.props.modalProps);
         switch (this.props.current) {
 
             case modalTypes.ITEM_SELECT:
