@@ -94,6 +94,8 @@ export default class BonusIDPopup extends React.Component {
                     itemdata['stats'] = json['item_stats'][itemdata['item_level']];
                 }
 
+                itemdata['item_level'] = parseInt(itemdata['item_level']);
+
                 this.setState({ baseItem: itemdata });
             }.bind(this));
     }
@@ -157,13 +159,16 @@ export default class BonusIDPopup extends React.Component {
 
         let wfOptions = [];
         let selectedWFBonus = 0;
-        for (let i = 955; i >= this.state.baseItem.item_level + 5; i -= 5) {
-            let bonus = i - this.state.baseItem.item_level + 1472;
-            if (this.state.active.indexOf(bonus) != -1) {
-                selectedWFBonus = bonus;
+        if (this.state.baseItem.item_level != 0)
+        {
+            for (let i = 955; i >= this.state.baseItem.item_level + 5; i -= 5) {
+                let bonus = i - this.state.baseItem.item_level + 1472;
+                if (this.state.active.indexOf(bonus) != -1) {
+                    selectedWFBonus = bonus;
+                }
+                
+                wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i - this.state.baseItem.item_level}</option>);
             }
-
-            wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i - this.state.baseItem.item_level}</option>);
         }
 
         wfOptions.push(<option value="0" key="0">Item Level {this.state.baseItem.item_level} / None</option>);
