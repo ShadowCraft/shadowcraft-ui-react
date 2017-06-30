@@ -45,8 +45,9 @@ export default class BonusIDPopup extends React.Component {
             active: props.item.bonuses,
             wfBonus: -1,
             baseItem: {
-                item_level: 0,
-                properties: { chance_bonus_lists: [] }
+                chance_bonus_lists: [],
+                stats: {},
+                item_level: 0
             }
         };
 
@@ -67,8 +68,34 @@ export default class BonusIDPopup extends React.Component {
         fetch(url)
             .then(checkFetchStatus)
             .then(r => r.json())
-            .then(function (json) { this.setState({ baseItem: json }); }
-                .bind(this));
+            .then(function (json) {
+                let itemdata = { chance_bonus_lists: json['chance_bonus_lists'],
+                                 stats: null, item_level: 0 };
+
+                // Find the stats for the ilvl at or just below the current item's ilvl.
+                let itemlevels = Object.keys(json['item_stats']).sort();
+                for (let i = 0; i < itemlevels.length; i++) {
+                    if (this.props.item.item_level == itemlevels[i]) {
+                        itemdata['item_level'] = itemlevels[i];
+                        itemdata['stats'] = json['item_stats'][itemlevels[i]];
+                    } else if (this.props.item.item_level < itemlevels[i]) {
+                        if (i == 0) {
+                            itemdata['item_level'] = itemlevels[0];
+                            itemdata['stats'] = json['item_stats'][itemlevels[0]];
+                        } else {
+                            itemdata['item_level'] = itemlevels[i-1];
+                            itemdata['stats'] = json['item_stats'][itemlevels[i-1]];
+                        }
+                    }
+                }
+
+                if (itemdata['stats'] === null) {
+                    itemdata['item_level'] = itemlevels[itemlevels[itemlevels.length-1]];
+                    itemdata['stats'] = json['item_stats'][itemdata['item_level']];
+                }
+
+                this.setState({ baseItem: itemdata });
+            }.bind(this));
     }
 
     onChange(e) {
@@ -106,9 +133,9 @@ export default class BonusIDPopup extends React.Component {
             slot: this.props.item.slot,
             bonuses: this.state.active,
             newIlvl: this.state.baseItem.item_level,
-            canHaveBonusSocket: this.state.baseItem.properties.chance_bonus_lists.indexOf(1808) != -1,
+            canHaveBonusSocket: this.state.baseItem.chance_bonus_lists.indexOf(1808) != -1,
             hasBonusSocket: this.state.active.indexOf(1808) != -1,
-            newStats: this.state.baseItem.properties.stats
+            newStats: this.state.baseItem.stats
         };
 
         if (this.state.wfBonus != 0) {
@@ -117,7 +144,7 @@ export default class BonusIDPopup extends React.Component {
 
         if (eventData['newIlvl'] != this.state.baseItem.item_level) {
             eventData['newStats'] = recalculateStats(
-                this.state.baseItem.properties.stats,
+                this.state.baseItem.stats,
                 (eventData['newIlvl'] - this.state.baseItem.item_level).toFixed(2));
         }
 
@@ -145,7 +172,7 @@ export default class BonusIDPopup extends React.Component {
             <ModalWrapper style={{ top: "355px", left: "440px" }}>
                 <h1>Item Bonuses</h1>
                 <form id="bonuses">
-                    {this.state.baseItem.properties.chance_bonus_lists.indexOf(1808) != -1 &&
+                    {this.state.baseItem.chance_bonus_lists.indexOf(1808) != -1 &&
                         <fieldset className="bonus_line">
                             <legend>Extra Sockets</legend>
                             <BonusIDCheckBox bonusId="1808" handleCheckbox={this.onChange} checked={this.state.active.indexOf(1808) != -1} />
