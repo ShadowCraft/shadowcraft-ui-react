@@ -19,7 +19,6 @@ class EquippedItem extends React.Component {
         };
 
         this.onBonusClick = this.onBonusClick.bind(this);
-        this.onBonusApply = this.onBonusApply.bind(this);
     }
 
     IsEnchantable(slot) {
@@ -66,11 +65,7 @@ class EquippedItem extends React.Component {
         let item = this.props.items[this.props.slot];
         store.dispatch({type: "OPEN_MODAL",
                         data: {popupType: modalTypes.ITEM_BONUSES,
-                               props:{ item: item, onApply: this.onBonusApply}}});
-    }
-
-    onBonusApply() {
-        this.setState({ bonusModal: false });
+                               props:{ item: item}}});
     }
 
     slotIDtoEquipIDMap(slotid) {

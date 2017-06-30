@@ -151,8 +151,7 @@ export default class BonusIDPopup extends React.Component {
         }
 
         store.dispatch(updateCharacterState('CHANGE_BONUSES', eventData));
-
-        this.props.onApply();
+        store.dispatch({type: "CLOSE_MODAL"});
     }
 
     render() {
