@@ -61,6 +61,9 @@ class ItemSelectPopup extends React.Component {
                 <div className="body" >
                     {this.props.items ? this.getItemSelectElements(this.props.items, this.props.weights) : <div />}
                 </div>
+                <a href="#" className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button">
+                    <span className="ui-icon ui-icon-closethick" />
+                </a>
             </ModalWrapper>
         );
     }
