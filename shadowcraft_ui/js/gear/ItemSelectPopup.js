@@ -1,4 +1,5 @@
 import React from 'react';
+import store from '../store';
 import ItemSelectElement from './ItemSelectElement';
 import ModalWrapper from '../modals/ModalWrapper';
 import { connect } from 'react-redux';
@@ -61,7 +62,7 @@ class ItemSelectPopup extends React.Component {
                 <div className="body" >
                     {this.props.items ? this.getItemSelectElements(this.props.items, this.props.weights) : <div />}
                 </div>
-                <a href="#" className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button">
+                <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={() => {store.dispatch({type: "CLOSE_MODAL"})}}>
                     <span className="ui-icon ui-icon-closethick" />
                 </a>
             </ModalWrapper>

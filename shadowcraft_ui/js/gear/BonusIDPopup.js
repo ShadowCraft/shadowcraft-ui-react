@@ -191,7 +191,7 @@ export default class BonusIDPopup extends React.Component {
                     </fieldset>
                     <input className="ui-button ui-widget ui-state-default ui-corner-all" role="button" value="Apply" readOnly onClick={this.onApply} />
                 </form>
-                <a href="#" className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button">
+                <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={() => {store.dispatch({type: "CLOSE_MODAL"})}}>
                     <span className="ui-icon ui-icon-closethick" />
                 </a>
             </ModalWrapper>
