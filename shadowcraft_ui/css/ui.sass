@@ -1,0 +1,182 @@
+// These rules originally came out of a custom jquery-ui configuration in the live site.
+// We reuse them here for simplicity.
+// TODO: some of these rules may be unused and we may be able to prune heavily.
+
+.ui-button
+  display: inline-block
+  position: relative
+  padding: 0
+  margin-right: .1em
+  text-decoration: none !important
+  cursor: pointer
+  text-align: center
+  zoom: 1
+  overflow: visible
+
+.ui-button-icon-only
+  width: 2.2em
+
+button.ui-button-icon-only
+  width: 2.4em
+
+.ui-button-icons-only
+  width: 3.4em
+
+button.ui-button-icons-only
+  width: 3.7em
+
+
+/*button text element */
+.ui-button .ui-button-text
+  display: block
+  line-height: 1.4
+
+.ui-button-text-only .ui-button-text
+  padding: .4em 1em
+
+.ui-button-text
+  text-shadow: #111111 -1px -1px 0px
+
+.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text
+  padding: .4em
+  text-indent: -9999999px
+
+.ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text
+  padding: .4em 1em .4em 2.1em
+
+.ui-button-text-icon-secondary .ui-button-text, .ui-button-text-icons .ui-button-text
+  padding: .4em 2.1em .4em 1em
+
+.ui-button-text-icons .ui-button-text
+  padding-left: 2.1em
+  padding-right: 2.1em
+
+input.ui-button
+  padding: .4em 1em
+
+
+/*button icon element(s) */
+.ui-button-icon-only .ui-icon, .ui-button-text-icon-primary .ui-icon, .ui-button-text-icon-secondary .ui-icon, .ui-button-text-icons .ui-icon, .ui-button-icons-only .ui-icon
+  position: absolute
+  top: 50%
+  margin-top: -8px
+
+.ui-button-icon-only .ui-icon
+  left: 50%
+  margin-left: -8px
+
+.ui-button-text-icon-primary .ui-button-icon-primary, .ui-button-text-icons .ui-button-icon-primary, .ui-button-icons-only .ui-button-icon-primary
+  left: .5em
+
+.ui-button-text-icon-secondary .ui-button-icon-secondary, .ui-button-text-icons .ui-button-icon-secondary, .ui-button-icons-only .ui-button-icon-secondary
+  right: .5em
+
+.ui-button-text-icons .ui-button-icon-secondary, .ui-button-icons-only .ui-button-icon-secondary
+  right: .5em
+
+.ui-corner-all
+  -moz-border-radius: 2px
+  -webkit-border-radius: 2px
+  border-radius: 2px
+
+.ui-dialog
+  position: absolute
+  padding: .2em
+  width: 300px
+  overflow: hidden
+
+.ui-dialog .ui-dialog-titlebar
+  padding: .5em 1em .3em
+  position: relative
+
+.ui-dialog .ui-dialog-title
+  float: left
+  margin: .1em 16px .2em 0
+
+.ui-dialog .ui-dialog-titlebar-close
+  position: absolute
+  right: .3em
+  top: 50%
+  width: 19px
+  margin: -10px 0 0 0
+  padding: 1px
+  height: 18px
+
+.ui-dialog .ui-dialog-titlebar-close span
+  display: block
+  margin: 1px
+
+.ui-dialog .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus
+  padding: 0
+
+.ui-dialog .ui-dialog-content
+  position: relative
+  border: 0
+  padding: .5em 1em
+  background: none
+  overflow: auto
+  zoom: 1
+
+.ui-dialog .ui-dialog-buttonpane
+  text-align: left
+  border-width: 1px 0 0 0
+  background-image: none
+  margin: .5em 0 0 0
+  padding: .3em 1em .5em .4em
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset
+  float: right
+
+.ui-dialog .ui-dialog-buttonpane button
+  margin: .5em .4em .5em 0
+  cursor: pointer
+
+.ui-dialog .ui-resizable-se
+  width: 14px
+  height: 14px
+  right: 3px
+  bottom: 3px
+
+.ui-draggable .ui-dialog-titlebar
+  cursor: move
+
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default
+  border: 1px solid #444444
+  background: #222222
+  font-weight: normal
+  color: #eeeeee
+
+.ui-widget
+  font-family: Verdana, Arial, sans-serif
+  font-size: 1em
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
+  font-family: Verdana, Arial, sans-serif
+  font-size: 1em
+
+.ui-widget-overlay
+  background: rgba(0, 0, 0, 0.8)
+
+.ui-widget-content
+  border: 1px solid #555555
+  color: #ffffff
+  a
+    color: #ffffff
+
+.ui-widget-header
+  border-bottom: 1px solid #333
+  font-weight: bold
+  a
+    color: #ffffff
+
+.ui-dialog
+  background: rgba(10, 15, 20, 0.9)
+  border: 2px solid #065175
+  border-radius: 5px
+
+.ui-widget-content.ui-dialog-buttonpane
+  border-color: #222222
+
+.ui-tabs-panel
+  +clearfix

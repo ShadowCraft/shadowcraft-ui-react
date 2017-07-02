@@ -272,6 +272,7 @@ html.websockets, html.history, html.canvas
   bottom: 0
   left: 0
   right: 0
+  border: 0
 
   #settingsDropdown
     position: absolute
@@ -299,6 +300,7 @@ html.websockets, html.history, html.canvas
 
     position: relative
     height: $top-pane-height - 1
+    
   .ui-tabs-nav
     border: 0
     position: absolute
@@ -321,6 +323,125 @@ html.websockets, html.history, html.canvas
       a
         outline: none
         text-shadow: #050505 -1px -1px 0px
+
+  #settings, #buffs, #target, #docs
+    padding: 2em
+
+  .ui-tabs-panel
+    border: 1px solid #333333
+    label
+      white-space: nowrap
+      vertical-align: middle
+      +inline-block
+      margin: 0.5em
+      padding-top: 4px
+      padding-bottom: 4px
+      cursor: pointer
+      color: #777777
+      &:hover
+        color: white
+
+#tabs, #create_character
+  .label_check, .label_radio
+    +inline-block
+    line-height: 2em
+    padding-left: 30px
+    margin-right: 20px
+    background: url(/static/images/controls.png) top left no-repeat
+    -webkit-user-select: none
+    -moz-user-select: none
+
+  .label_radio
+    background-position: left -311px
+    &:hover
+      background-position: left -522px
+
+  .c_on
+    background-position: left -99px !important
+  .r_on
+    background-position: left -418px !important
+
+  .c_on, .r_on
+    color: white !important
+
+  .label_check input, .label_radio input
+    position: absolute
+    left: -9999px
+
+  #settings, #advanced .panel-content, #bonuses, #docs
+    h3
+      font-size: 1.3em
+      font-weight: bold
+      margin: 0 0.5em 1em
+    h5
+      font-size: 1em
+      font-weight: bold
+      margin: 0 1.5em 1em
+    .option-list
+      float: left
+      +inline-block
+      vertical-align: top
+      margin-bottom: 2em
+    section.cluster
+      +clearfix
+      background: #0c0c0c
+      padding: 1em
+      margin-bottom: 1em
+      border: 1px solid #222222
+      // border-radius: 5px
+
+    select
+      background: #222222
+      color: white
+      border-color: black
+      padding: 5px
+      option
+        padding: 2px 0
+
+    .label_check, .input, .select
+      display: block
+      width: 500px
+      background-color: #080808
+      min-height: 22px
+      font-weight: bold
+      font-size: 0.9em
+      border-radius: 5px
+      &:hover
+        background-color: rgba(0, 0, 0, 0.4)
+
+    .input, .select
+      padding-left: 10px
+      width: 520px
+      .select-container
+        +inline-block
+      span.label
+        +inline-block
+        width: 170px
+        text-align: right
+        margin-right: 10px
+
+    .select, .input
+      span.desc
+        display: block
+        clear: left
+        margin-top: 0.25em
+        font-size: 0.8em
+        color: #666666
+        font-weight: normal
+        margin-left: 190px
+        white-space: normal
+    .label_check
+      background-position: 3px 2px
+      span
+        font-weight: normal
+        display: block
+        font-size: 0.9em
+        color: #777777
+        margin-top: -0.5em
+
+  #bonuses
+    .label_check, .input, .select
+      width: inherit
 
 #console-footer
   right: 0px
@@ -435,9 +556,6 @@ h1
 a
   color: #3aaaf9
 
-.ui-tabs-panel
-  +clearfix
-
 input[type='text'] //, input[type='search']
   background-color: rgba(80, 80, 80, 0.2)
   border: 0px
@@ -465,39 +583,6 @@ input[type='text'] //, input[type='search']
     padding: 4px 10px
     font-weight: bold
     margin: 0 0 0.5em
-
-.floater
-  .inner
-    padding: 1em
-  +inline-block
-  clear: none
-  vertical-align: top
-  border: 1px solid rgba(80, 80, 80, 0.3)
-  border-width: 1px
-  margin: 10px
-  box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.3)
-  font-size: 0.8em
-  h3
-    cursor: pointer
-    background: rgba(0, 0, 0, 0.2)
-    border-bottom: 1px solid #111111
-    padding: 4px 10px
-    font-size: 1.3em
-    font-weight: bold
-    margin: 0 0 0.5em
-
-.flash
-  position: fixed
-  top: 20px
-  right: 20px
-  max-width: 600px
-  border: 2px solid rgba(255, 255, 255, 0.2)
-  cursor: pointer
-  border-radius: 10px
-  background: rgba(0, 20, 40, 0.9)
-  font-size: 1.5em
-  z-index: 1000
-  padding: 10px 20px
 
 #header
   padding: 10px 0px 10px 25px
@@ -534,108 +619,6 @@ img.upgrade
   vertical-align: top
   padding: 0px
   margin: 0px
-
-#tabs, #create_character
-  .label_check, .label_radio
-    +inline-block
-    line-height: 2em
-    padding-left: 30px
-    margin-right: 20px
-    background: url(/static/images/controls.png) top left no-repeat
-    -webkit-user-select: none
-    -moz-user-select: none
-
-  .label_radio
-    background-position: left -311px
-    &:hover
-      background-position: left -522px
-
-  .c_on
-    background-position: left -99px !important
-  .r_on
-    background-position: left -418px !important
-
-  .c_on, .r_on
-    color: white !important
-
-  .label_check input, .label_radio input
-    position: absolute
-    left: -9999px
-
-  #settings, #advanced .panel-content, #bonuses, #docs
-    h3
-      font-size: 1.3em
-      font-weight: bold
-      margin: 0 0.5em 1em
-    h5
-      font-size: 1em
-      font-weight: bold
-      margin: 0 1.5em 1em
-    .option-list
-      float: left
-      +inline-block
-      vertical-align: top
-      margin-bottom: 2em
-    section.cluster
-      +clearfix
-      background: #0c0c0c
-      padding: 1em
-      margin-bottom: 1em
-      border: 1px solid #222222
-      // border-radius: 5px
-
-    select
-      background: #222222
-      color: white
-      border-color: black
-      padding: 5px
-      option
-        padding: 2px 0
-
-    .label_check, .input, .select
-      display: block
-      width: 500px
-      background-color: #080808
-      min-height: 22px
-      font-weight: bold
-      font-size: 0.9em
-      border-radius: 5px
-      &:hover
-        background-color: rgba(0, 0, 0, 0.4)
-
-    .input, .select
-      padding-left: 10px
-      width: 520px
-      .select-container
-        +inline-block
-      span.label
-        +inline-block
-        width: 170px
-        text-align: right
-        margin-right: 10px
-
-    .select, .input
-      span.desc
-        display: block
-        clear: left
-        margin-top: 0.25em
-        font-size: 0.8em
-        color: #666666
-        font-weight: normal
-        margin-left: 190px
-        white-space: normal
-    .label_check
-      background-position: 3px 2px
-      span
-        font-weight: normal
-        display: block
-        font-size: 0.9em
-        color: #777777
-        margin-top: -0.5em
-
-  #bonuses
-    .label_check, .input, .select
-      width: inherit
 
 #errorExplanation
   background: rgba(0, 0, 0, 0.3)
@@ -726,7 +709,7 @@ img.upgrade
   box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3)
   background: rgba(20, 20, 20, 0.95)
   z-index: 1000
-
+  overflow: hidden
   .close-popup
     top: 15px
   h1
@@ -759,50 +742,6 @@ img.upgrade
       top: 5px
       background: #333333
       color: #aaaaaa
-
-.ui-button-text-only .ui-button-text
-  padding: .4em 1em
-
-.ui-button .ui-button-text
-  display: block;
-  line-height: 1.4;
-
-.ui-button-text
-  text-shadow: #111111 -1px -1px 0px
-
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default
-  border: 1px solid #444444;
-  background: #222222;
-  font-weight: normal;
-  color: #eeeeee;
-
-.ui-widget .ui-widget 
-  font-size: 1em;
-
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button 
-  font-family: Verdana, Arial, sans-serif;
-  font-size: 1em;
-
-.ui-button
-  display: inline-block;
-  position: relative;
-  padding: 0;
-  margin-right: .1em;
-  text-decoration: none !important;
-  cursor: pointer;
-  text-align: center;
-  zoom: 1;
-  overflow: visible;
-
-.ui-corner-all 
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-
-.ui-widget 
-  font-family: Verdana, Arial, sans-serif;
-  font-size: 1em;
-
 
 #bonuses
   padding: 1em
@@ -1128,25 +1067,6 @@ img.upgrade
 #artifact_button_div
   padding: 10px
 
-#tabs
-  border: 0
-  #settings, #buffs, #target, #docs
-    padding: 2em
-
-  .ui-tabs-panel
-    border: 1px solid #333333
-    label
-      white-space: nowrap
-      vertical-align: middle
-      +inline-block
-      margin: 0.5em
-      padding-top: 4px
-      padding-bottom: 4px
-      cursor: pointer
-      color: #777777
-      &:hover
-        color: white
-
 .slots
   width: 49%
   min-width: 340px
@@ -1357,22 +1277,6 @@ img.upgrade
 .quality-7
   color: #E5CC80
 
-#impex
-  padding: 1em
-  h3
-    font-size: 1.3em
-    font-weight: bold
-    margin: 0.7em 0
-  textarea
-    font-family: 'liberation mono', 'courier new', monospace
-    font-size: 0.8em
-    padding: 1em
-    border: 1px solid #333333
-    background: #111111
-    color: #aaaaaa
-    width: 80%
-    height: 100px
-
 @media screen and (max-width: 1281px)
   #container
     &.characters-new
@@ -1385,20 +1289,6 @@ img.upgrade
   .popup
     .body
       max-height: 400px
-
-#dialogs
-  display: none
-
-.ui-widget-overlay
-  background: rgba(0, 0, 0, 0.8)
-
-.ui-dialog
-  background: rgba(10, 15, 20, 0.9)
-  border: 2px solid #065175
-  border-radius: 5px
-
-.ui-widget-content.ui-dialog-buttonpane
-  border-color: #222222
 
 #saveSnapshot
   label
