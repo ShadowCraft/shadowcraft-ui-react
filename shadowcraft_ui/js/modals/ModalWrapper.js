@@ -3,7 +3,7 @@ const {PropTypes} = React;
 
 const ModalWrapper = props => {
     return (
-        <div className="modal ui-dialog" style={props.style}>
+        <div className="modal ui-dialog" id={props.modalId} style={props.style}>
             {props.children}
         </div>
     );

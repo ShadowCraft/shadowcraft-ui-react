@@ -173,7 +173,7 @@ export default class BonusIDPopup extends React.Component {
         wfOptions.push(<option value="0" key="0">Item Level {this.state.baseItem.item_level} / None</option>);
 
         return (
-            <ModalWrapper style={{ top: "355px", left: "440px" }}>
+            <ModalWrapper style={{ top: "355px", left: "440px" }} modalId="bonuses">
                 <h1>Item Bonuses</h1>
                 <form id="bonuses">
                     {this.state.baseItem.chance_bonus_lists.indexOf(1808) != -1 &&

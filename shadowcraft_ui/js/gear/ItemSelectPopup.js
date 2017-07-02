@@ -27,6 +27,8 @@ class ItemSelectPopup extends React.Component {
 
     sortItems(items, weights) {
         return items.sort((a, b) => {
+            // TODO: temporarily only include the first version for every item. This needs to be expanded
+            // so that it includes every base-item-level version for each of them.
             let a_ilvl = Object.keys(a.item_stats)[0];
             let b_ilvl = Object.keys(b.item_stats)[0];
             return this.getItemValue(b.item_stats[b_ilvl], weights) - this.getItemValue(a.item_stats[a_ilvl], weights);
@@ -52,7 +54,7 @@ class ItemSelectPopup extends React.Component {
         // console.log(this.props.items);
         //TODO: fix the popup dialog placement
         return (
-            <ModalWrapper style={{ top: '100px', left: '100px' }}>
+            <ModalWrapper style={{ top: '100px', left: '100px' }} modalId="alternatives">
                 <div id="filter">
                     <input className="search" placeholder="Filter..." type="search" />
                 </div>
