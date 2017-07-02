@@ -165,7 +165,7 @@ export default class BonusIDPopup extends React.Component {
                 if (this.state.active.indexOf(bonus) != -1) {
                     selectedWFBonus = bonus;
                 }
-                
+
                 wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i - this.state.baseItem.item_level}</option>);
             }
         }
@@ -177,19 +177,19 @@ export default class BonusIDPopup extends React.Component {
                 <h1>Item Bonuses</h1>
                 <form id="bonuses">
                     {this.state.baseItem.chance_bonus_lists.indexOf(1808) != -1 &&
-                        <fieldset className="bonus_line">
+                        <fieldset>
                             <legend>Extra Sockets</legend>
                             <BonusIDCheckBox bonusId="1808" handleCheckbox={this.onChange} checked={this.state.active.indexOf(1808) != -1} />
                         </fieldset>
                     }
 
-                    <fieldset className="bonus_line">
+                    <fieldset>
                         <legend>Titanforged Upgrades</legend>
                         <select className="optionSelect" value={selectedWFBonus} readOnly onChange={this.onWFChange}>
                             {wfOptions}
                         </select>
                     </fieldset>
-                    <input className="ui-button ui-widget ui-state-default ui-corner-all applyBonuses" role="button" value="Apply" readOnly onClick={this.onApply} />
+                    <input className="ui-button ui-widget ui-state-default ui-corner-all" role="button" value="Apply" readOnly onClick={this.onApply} />
                 </form>
                 <a href="#" className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button">
                     <span className="ui-icon ui-icon-closethick" />

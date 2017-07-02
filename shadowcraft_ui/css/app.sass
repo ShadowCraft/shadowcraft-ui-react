@@ -265,6 +265,11 @@ html.websockets, html.history, html.canvas
       +linear-gradient(top, #111111, #050505)
       color: white
 
+// This rule has to live here because if it's in the ui.sass file, clearfix isn't defined
+// prior to this rule being included and webpack complains.
+.ui-tabs-panel
+  +clearfix
+
 #tabs
   position: absolute
   top: 0px
@@ -300,7 +305,7 @@ html.websockets, html.history, html.canvas
 
     position: relative
     height: $top-pane-height - 1
-    
+
   .ui-tabs-nav
     border: 0
     position: absolute
@@ -659,49 +664,6 @@ img.upgrade
     width: 77%
     background: #666666
 
-.popup
-  min-width: 500px
-  position: absolute
-  top: 60px
-  box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3)
-  background: rgba(20, 20, 20, 0.95)
-  visibility: hidden
-  z-index: 1000
-  .close-popup
-    top: 15px
-  &.visible
-    visibility: visible
-  h1
-    margin: -1em -1em 1em
-    font-size: 1em
-    color: white
-    background: rgba(0, 0, 0, 0.3)
-    padding: 0.5em 1em
-    border-bottom: 1px solid #333333
-  .body
-    overflow-y: auto
-    overflow-x: hidden
-    max-height: 600px
-    border-top: 1px solid rgba(1, 1, 1, 0.1)
-    min-width: 250px
-
-  #filter
-    height: 40px
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3)
-    position: absolute
-    top: 0
-    left: 0
-    right: 0
-    input
-      outline: none
-      position: absolute
-      padding: 5px
-      left: 5px
-      right: 25px
-      top: 5px
-      background: #333333
-      color: #aaaaaa
-
 .modal
   min-width: 500px
   position: fixed
@@ -747,6 +709,7 @@ img.upgrade
   padding: 1em
   fieldset
     margin: 2em 0
+    border: 0
     border-top: 1px solid darken(#065175, 5%)
     legend
       font-weight: bold
@@ -1286,7 +1249,7 @@ img.upgrade
     bottom: 200px
     left: 250px
 
-  .popup
+  .modal
     .body
       max-height: 400px
 
