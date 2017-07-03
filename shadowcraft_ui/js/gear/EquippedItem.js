@@ -114,9 +114,9 @@ class EquippedItem extends React.Component {
                         <span data-tooltip-href={this.buildTooltipURL(item)}>{item.name}</span>
                         <a className="wowhead" href={`http://legion.wowhead.com/item=${item.id}`} target="_blank">Wowhead</a>
                     </div>
-                    <div className="bonuses" onClick={this.onBonusClick} >
+                    {item.quality != 6 && <div className="bonuses" onClick={this.onBonusClick} >
                         {/*this probably doesn't need a huge full length div, maybe a gear under the item icon instead?'*/}
-                        <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>
+                        <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>}
                     {/*need to pass whole item because we need to check item quality to filter out relics*/}
                     {item.socket_count > 0 && <EquippedGemList gems={item.gems} />}
                     {/*javascript trickery to only show enchants for neck, ring and back*/}
