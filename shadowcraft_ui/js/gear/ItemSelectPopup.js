@@ -6,6 +6,13 @@ import { connect } from 'react-redux';
 
 class ItemSelectPopup extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.onFilterInput = this.onFilterInput.bind(this);
+
+        this.state = { filter: '' };
+    }
+
     getItemValue(stats, weights) {
         let value = 0;
         //explicit to mind possible mismatched/missing property names
@@ -37,8 +44,20 @@ class ItemSelectPopup extends React.Component {
     }
 
     getItemSelectElements(items, weights) {
+        // short-circuit if there's no filter yet
+        let filteredItems;
+        if (this.state.filter.length == 0) {
+            filteredItems = items;
+        }
+        else {
+            filteredItems = items.filter(function(item) {
+                return item.name.toLowerCase().includes(this.state.filter);
+            }.bind(this));
+        }
+
         //presort needed to use first element later for max value prop, don't want to sort twice per render.
-        let sortedItems = this.sortItems(items, weights);
+        let sortedItems = this.sortItems(filteredItems, weights);
+
         return sortedItems.map((item, index) => (
             <ItemSelectElement
                 key={index}
@@ -51,13 +70,17 @@ class ItemSelectPopup extends React.Component {
         ));
     }
 
+    onFilterInput(e) {
+        this.setState({filter: e.target.value.toLowerCase()});
+    }
+
     render() {
         // console.log(this.props.items);
         //TODO: fix the popup dialog placement
         return (
             <ModalWrapper style={{ top: '100px', left: '100px' }} modalId="alternatives">
                 <div id="filter">
-                    <input className="search" placeholder="Filter..." type="search" />
+                    <input className="search" placeholder="Filter..." type="search" onInput={this.onFilterInput}/>
                 </div>
                 <div className="body" >
                     {this.props.items ? this.getItemSelectElements(this.props.items, this.props.weights) : <div />}
