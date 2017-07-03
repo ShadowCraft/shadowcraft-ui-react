@@ -72,26 +72,43 @@ export default class BonusIDPopup extends React.Component {
                 let itemdata = { chance_bonus_lists: json['chance_bonus_lists'],
                                  stats: null, item_level: 0 };
 
-                // Find the stats for the ilvl at or just below the current item's ilvl.
                 let itemlevels = Object.keys(json['item_stats']).sort();
-                for (let i = 0; i < itemlevels.length; i++) {
-                    if (this.props.item.item_level == itemlevels[i]) {
-                        itemdata['item_level'] = itemlevels[i];
-                        itemdata['stats'] = json['item_stats'][itemlevels[i]];
-                    } else if (this.props.item.item_level < itemlevels[i]) {
-                        if (i == 0) {
-                            itemdata['item_level'] = itemlevels[0];
-                            itemdata['stats'] = json['item_stats'][itemlevels[0]];
-                        } else {
-                            itemdata['item_level'] = itemlevels[i-1];
-                            itemdata['stats'] = json['item_stats'][itemlevels[i-1]];
+
+                // Quickly loop through the bonus IDs on the equipped item and see if there's one that's
+                // an item level increase. If there is, see if there's a perfect match for the item's
+                // actual base item level.
+                for (let i = 0; i < this.state.active.length; i++) {
+                    if (this.state.active[i] >= 1472 && this.state.active[i] <= 1672) {
+                        let actualBase = this.props.item.item_level - (this.state.active[i] - 1472);
+                        let index = itemlevels.indexOf(actualBase.toString());
+                        if (index != -1) {
+                            itemdata['item_level'] = actualBase;
+                            itemdata['stats'] = json['item_stats'][actualBase];
                         }
                     }
                 }
 
-                if (!itemdata['stats'] || itemdata['stats'] == null) {
-                    itemdata['item_level'] = itemlevels[itemlevels.length-1];
-                    itemdata['stats'] = json['item_stats'][itemdata['item_level']];
+                // Find the stats for the ilvl at or just below the current item's ilvl.
+                if (itemdata['item_level'] == 0) {
+                    for (let i = 0; i < itemlevels.length; i++) {
+                        if (this.props.item.item_level == itemlevels[i]) {
+                            itemdata['item_level'] = itemlevels[i];
+                            itemdata['stats'] = json['item_stats'][itemlevels[i]];
+                        } else if (this.props.item.item_level < itemlevels[i]) {
+                            if (i == 0) {
+                                itemdata['item_level'] = itemlevels[0];
+                                itemdata['stats'] = json['item_stats'][itemlevels[0]];
+                            } else {
+                                itemdata['item_level'] = itemlevels[i-1];
+                                itemdata['stats'] = json['item_stats'][itemlevels[i-1]];
+                            }
+                        }
+                    }
+
+                    if (itemdata['item_level'] == 0) {
+                        itemdata['item_level'] = itemlevels[itemlevels.length-1];
+                        itemdata['stats'] = json['item_stats'][itemdata['item_level']];
+                    }
                 }
 
                 itemdata['item_level'] = parseInt(itemdata['item_level']);
@@ -164,7 +181,7 @@ export default class BonusIDPopup extends React.Component {
                 if (this.state.active.indexOf(bonus) != -1) {
                     selectedWFBonus = bonus;
                 }
-
+                
                 wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i - this.state.baseItem.item_level}</option>);
             }
         }
