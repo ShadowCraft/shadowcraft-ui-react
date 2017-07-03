@@ -89,13 +89,12 @@ export default class BonusIDPopup extends React.Component {
                     }
                 }
 
-                if (itemdata['stats'] === null) {
-                    itemdata['item_level'] = itemlevels[itemlevels[itemlevels.length-1]];
+                if (!itemdata['stats'] || itemdata['stats'] == null) {
+                    itemdata['item_level'] = itemlevels[itemlevels.length-1];
                     itemdata['stats'] = json['item_stats'][itemdata['item_level']];
                 }
 
                 itemdata['item_level'] = parseInt(itemdata['item_level']);
-
                 this.setState({ baseItem: itemdata });
             }.bind(this));
     }
