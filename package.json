@@ -12,7 +12,8 @@
     "watch": "webpack --watch --progress",
     "install:python": "pip install -r requirements.txt",
     "mongo": "mongod",
-    "dev": "npm-run-all --parallel watch start mongo"
+    "dev": "npm-run-all --parallel watch start mongo",
+    "generate": "node utils/generate_static_items.js"
   },
   "author": "",
   "license": "ISC",
@@ -29,6 +30,7 @@
     "eslint-plugin-react": "^6.10.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "jest-cli": "^20.0.0",
+    "mongodb": "^2.2.29",
     "node-sass": "^4.0.0",
     "npm-run-all": "^4.0.2",
     "sass-loader": "^4.1.1",
