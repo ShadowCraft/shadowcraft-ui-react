@@ -176,13 +176,25 @@ export default class BonusIDPopup extends React.Component {
         let selectedWFBonus = 0;
         if (this.state.baseItem.item_level != 0)
         {
-            for (let i = 955; i >= this.state.baseItem.item_level + 5; i -= 5) {
-                let bonus = i - this.state.baseItem.item_level + 1472;
-                if (this.state.active.indexOf(bonus) != -1) {
-                    selectedWFBonus = bonus;
+            if (this.props.item.quality == 5) {
+                wfOptions.push(<option value="3570" key="3570">Item Level 970 / +60</option>);
+                wfOptions.push(<option value="3530" key="3530">Item Level 940 / +30</option>);
+                if (this.state.active.indexOf(3570) != -11) {
+                    selectedWFBonus = 3570;
                 }
-                
-                wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i - this.state.baseItem.item_level}</option>);
+                else if (this.state.active.indexOf(3530) != -1) {
+                    selectedWFBonus = 3530;
+                }
+            }
+            else {
+                for (let i = 955; i >= this.state.baseItem.item_level + 5; i -= 5) {
+                    let bonus = i - this.state.baseItem.item_level + 1472;
+                    if (this.state.active.indexOf(bonus) != -1) {
+                        selectedWFBonus = bonus;
+                    }
+
+                    wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i - this.state.baseItem.item_level}</option>);
+                }
             }
         }
 
