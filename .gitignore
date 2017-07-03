@@ -1,6 +1,7 @@
 **/*~
 shadowcraft_ui/static/css/main.css
 shadowcraft_ui/static/bundle.js
+shadowcraft_ui/static/item_data.js
 venv
 node_modules
 __pycache__

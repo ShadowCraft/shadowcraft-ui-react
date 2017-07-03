@@ -32,38 +32,28 @@ class EquippedItem extends React.Component {
     }
 
     onClick(e) {
-        // console.log(this.props.items[this.props.slot]);
-        if (!this.state.items[this.props.slot]) {
-            let min_ilvl = -1;
-            let max_ilvl = -1;
-            if (this.props.settings.dynamic_ilvl) {
-                min_ilvl = this.state.items[this.props.slot].item_level - 50;
-                max_ilvl = this.state.items[this.props.slot].item_level + 50;
-            }
-            else {
-                min_ilvl = this.props.settings.min_ilvl;
-                max_ilvl = this.props.settings.max_ilvl;
-            }
 
-            //TODO: what happens here if the user changes the filtering between requests?
-            fetch(`/get_items_by_slot?slot=${this.slotIDtoEquipIDMap(this.props.items[this.props.slot].slotid)}&min_ilvl=${min_ilvl}&max_ilvl=${max_ilvl}`)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (json) {
-                    //just setting local state for now, not sure if a larger will be needed.
-                    this.setState({ items: { [this.props.slot]: json } });
-                    store.dispatch({type: "OPEN_MODAL",
-                                    data: {popupType: modalTypes.ITEM_SELECT,
-                                           props:{ slot: this.props.slot,
-                                                   items: json }}});
-                }.bind(this));
-        }
+        // TODO: move this to the popup itself
+        /* let min_ilvl = -1;
+         * let max_ilvl = -1;
+         * if (this.props.settings.dynamic_ilvl) {
+         *     min_ilvl = this.state.items[this.props.slot].item_level - 50;
+         *     max_ilvl = this.state.items[this.props.slot].item_level + 50;
+         * }
+         * else {
+         *     min_ilvl = this.props.settings.min_ilvl;
+         *     max_ilvl = this.props.settings.max_ilvl;
+         * }
+         */
+        let itemData = ITEM_DATA.filter(function(item) {
+            // TODO: this is ridiculous. see issue #23.
+            return item.equip_location == this.slotIDtoEquipIDMap(this.props.items[this.props.slot].slotid);
+        }.bind(this));
 
         store.dispatch({type: "OPEN_MODAL",
                         data: {popupType: modalTypes.ITEM_SELECT,
                                props:{ slot: this.props.slot,
-                                       items: this.state.items[this.props.slot]}}});
+                                       items: itemData }}});
     }
 
     onBonusClick(e) {

@@ -64,56 +64,61 @@ export default class BonusIDPopup extends React.Component {
     }
 
     componentWillMount() {
-        let url = '/get_item_by_context?id=' + this.props.item.id + '&context=' + this.props.item.context;
-        fetch(url)
-            .then(checkFetchStatus)
-            .then(r => r.json())
-            .then(function (json) {
-                let itemdata = { chance_bonus_lists: json['chance_bonus_lists'],
-                                 stats: null, item_level: 0 };
+        let staticItem = ITEM_DATA.filter(function(item) {
+            // TODO: this is ridiculous. see issue #23.
+            return item.remote_id == this.props.item.id;
+        }.bind(this))
 
-                let itemlevels = Object.keys(json['item_stats']).sort();
+        if (staticItem.length == 0) {
+            console.log("Couldn't find item ${this.props.item.id} in the static data");
+            this.setState({baseItem: null});
+        }
+        else {
+            let itemdata = { chance_bonus_lists: staticItem['chance_bonus_lists'],
+                             stats: null, item_level: 0 };
 
-                // Quickly loop through the bonus IDs on the equipped item and see if there's one that's
-                // an item level increase. If there is, see if there's a perfect match for the item's
-                // actual base item level.
-                for (let i = 0; i < this.state.active.length; i++) {
-                    if (this.state.active[i] >= 1472 && this.state.active[i] <= 1672) {
-                        let actualBase = this.props.item.item_level - (this.state.active[i] - 1472);
-                        let index = itemlevels.indexOf(actualBase.toString());
-                        if (index != -1) {
-                            itemdata['item_level'] = actualBase;
-                            itemdata['stats'] = json['item_stats'][actualBase];
+            let itemlevels = Object.keys(staticItem['item_stats']).sort();
+
+            // Quickly loop through the bonus IDs on the equipped item and see if there's one that's
+            // an item level increase. If there is, see if there's a perfect match for the item's
+            // actual base item level.
+            for (let i = 0; i < this.state.active.length; i++) {
+                if (this.state.active[i] >= 1472 && this.state.active[i] <= 1672) {
+                    let actualBase = this.props.item.item_level - (this.state.active[i] - 1472);
+                    let index = itemlevels.indexOf(actualBase.toString());
+                    if (index != -1) {
+                        itemdata['item_level'] = actualBase;
+                        itemdata['stats'] = staticItem['item_stats'][actualBase];
+                    }
+                }
+            }
+
+            // Find the stats for the ilvl at or just below the current item's ilvl.
+            if (itemdata['item_level'] == 0) {
+                for (let i = 0; i < itemlevels.length; i++) {
+                    if (this.props.item.item_level == itemlevels[i]) {
+                        itemdata['item_level'] = itemlevels[i];
+                        itemdata['stats'] = staticItem['item_stats'][itemlevels[i]];
+                    } else if (this.props.item.item_level < itemlevels[i]) {
+                        if (i == 0) {
+                            itemdata['item_level'] = itemlevels[0];
+                            itemdata['stats'] = staticItem['item_stats'][itemlevels[0]];
+                        } else {
+                            itemdata['item_level'] = itemlevels[i-1];
+                            itemdata['stats'] = staticItem['item_stats'][itemlevels[i-1]];
                         }
                     }
                 }
 
-                // Find the stats for the ilvl at or just below the current item's ilvl.
                 if (itemdata['item_level'] == 0) {
-                    for (let i = 0; i < itemlevels.length; i++) {
-                        if (this.props.item.item_level == itemlevels[i]) {
-                            itemdata['item_level'] = itemlevels[i];
-                            itemdata['stats'] = json['item_stats'][itemlevels[i]];
-                        } else if (this.props.item.item_level < itemlevels[i]) {
-                            if (i == 0) {
-                                itemdata['item_level'] = itemlevels[0];
-                                itemdata['stats'] = json['item_stats'][itemlevels[0]];
-                            } else {
-                                itemdata['item_level'] = itemlevels[i-1];
-                                itemdata['stats'] = json['item_stats'][itemlevels[i-1]];
-                            }
-                        }
-                    }
-
-                    if (itemdata['item_level'] == 0) {
-                        itemdata['item_level'] = itemlevels[itemlevels.length-1];
-                        itemdata['stats'] = json['item_stats'][itemdata['item_level']];
-                    }
+                    itemdata['item_level'] = itemlevels[itemlevels.length-1];
+                    itemdata['stats'] = staticItem['item_stats'][itemdata['item_level']];
                 }
+            }
 
-                itemdata['item_level'] = parseInt(itemdata['item_level']);
-                this.setState({ baseItem: itemdata });
-            }.bind(this));
+            itemdata['item_level'] = parseInt(itemdata['item_level']);
+            this.setState({ baseItem: itemdata });
+        }
     }
 
     onChange(e) {
@@ -172,57 +177,62 @@ export default class BonusIDPopup extends React.Component {
 
     render() {
 
-        let wfOptions = [];
-        let selectedWFBonus = 0;
-        if (this.state.baseItem.item_level != 0)
-        {
-            if (this.props.item.quality == 5) {
-                wfOptions.push(<option value="3570" key="3570">Item Level 970 / +60</option>);
-                wfOptions.push(<option value="3530" key="3530">Item Level 940 / +30</option>);
-                if (this.state.active.indexOf(3570) != -11) {
-                    selectedWFBonus = 3570;
-                }
-                else if (this.state.active.indexOf(3530) != -1) {
-                    selectedWFBonus = 3530;
-                }
-            }
-            else {
-                for (let i = 955; i >= this.state.baseItem.item_level + 5; i -= 5) {
-                    let bonus = i - this.state.baseItem.item_level + 1472;
-                    if (this.state.active.indexOf(bonus) != -1) {
-                        selectedWFBonus = bonus;
+        if (this.state.baseItem) {
+            let wfOptions = [];
+            let selectedWFBonus = 0;
+            if (this.state.baseItem.item_level != 0)
+            {
+                if (this.props.item.quality == 5) {
+                    wfOptions.push(<option value="3570" key="3570">Item Level 970 / +60</option>);
+                    wfOptions.push(<option value="3530" key="3530">Item Level 940 / +30</option>);
+                    if (this.state.active.indexOf(3570) != -11) {
+                        selectedWFBonus = 3570;
                     }
+                    else if (this.state.active.indexOf(3530) != -1) {
+                        selectedWFBonus = 3530;
+                    }
+                }
+                else {
+                    for (let i = 955; i >= this.state.baseItem.item_level + 5; i -= 5) {
+                        let bonus = i - this.state.baseItem.item_level + 1472;
+                        if (this.state.active.indexOf(bonus) != -1) {
+                            selectedWFBonus = bonus;
+                        }
 
-                    wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i - this.state.baseItem.item_level}</option>);
+                        wfOptions.push(<option value={bonus} key={bonus}>Item Level {i} / +{i - this.state.baseItem.item_level}</option>);
+                    }
                 }
             }
+
+            wfOptions.push(<option value="0" key="0">Item Level {this.state.baseItem.item_level} / None</option>);
+
+            return (
+                <ModalWrapper style={{ top: "355px", left: "440px" }} modalId="bonuses">
+                    <h1>Item Bonuses</h1>
+                    <form id="bonuses">
+                        {this.state.baseItem.chance_bonus_lists.indexOf(1808) != -1 &&
+                         <fieldset>
+                             <legend>Extra Sockets</legend>
+                             <BonusIDCheckBox bonusId="1808" handleCheckbox={this.onChange} checked={this.state.active.indexOf(1808) != -1} />
+                         </fieldset>
+                        }
+
+                         <fieldset>
+                             <legend>Titanforged Upgrades</legend>
+                             <select className="optionSelect" value={selectedWFBonus} readOnly onChange={this.onWFChange}>
+                                 {wfOptions}
+                             </select>
+                         </fieldset>
+                         <input className="ui-button ui-widget ui-state-default ui-corner-all" role="button" value="Apply" readOnly onClick={this.onApply} />
+                    </form>
+                    <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={() => {store.dispatch({type: "CLOSE_MODAL"})}}>
+                        <span className="ui-icon ui-icon-closethick" />
+                    </a>
+                </ModalWrapper>
+            );
         }
-
-        wfOptions.push(<option value="0" key="0">Item Level {this.state.baseItem.item_level} / None</option>);
-
-        return (
-            <ModalWrapper style={{ top: "355px", left: "440px" }} modalId="bonuses">
-                <h1>Item Bonuses</h1>
-                <form id="bonuses">
-                    {this.state.baseItem.chance_bonus_lists.indexOf(1808) != -1 &&
-                        <fieldset>
-                            <legend>Extra Sockets</legend>
-                            <BonusIDCheckBox bonusId="1808" handleCheckbox={this.onChange} checked={this.state.active.indexOf(1808) != -1} />
-                        </fieldset>
-                    }
-
-                    <fieldset>
-                        <legend>Titanforged Upgrades</legend>
-                        <select className="optionSelect" value={selectedWFBonus} readOnly onChange={this.onWFChange}>
-                            {wfOptions}
-                        </select>
-                    </fieldset>
-                    <input className="ui-button ui-widget ui-state-default ui-corner-all" role="button" value="Apply" readOnly onClick={this.onApply} />
-                </form>
-                <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={() => {store.dispatch({type: "CLOSE_MODAL"})}}>
-                    <span className="ui-icon ui-icon-closethick" />
-                </a>
-            </ModalWrapper>
-        );
+        else {
+            return null;
+        }
     }
 }
