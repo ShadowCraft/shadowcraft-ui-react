@@ -47,7 +47,7 @@ class EquippedItem extends React.Component {
          */
         let itemData = ITEM_DATA.filter(function(item) {
             // TODO: this is ridiculous. see issue #23.
-            return item.equip_location == this.slotIDtoEquipIDMap(this.props.items[this.props.slot].slotid);
+            return item.equip_location == this.adjustSlotName(this.props.slot);
         }.bind(this));
 
         store.dispatch({type: "OPEN_MODAL",
@@ -72,6 +72,19 @@ class EquippedItem extends React.Component {
             case 14: return 12;
             case 15: return 16;
             default: return slotid;
+        }
+    }
+
+    adjustSlotName(slot) {
+        switch (slot) {
+            case 'trinket1':
+            case 'trinket2':
+                return 'trinket';
+            case 'finger1':
+            case 'finger2':
+                return 'finger';
+            default:
+                return slot;
         }
     }
 

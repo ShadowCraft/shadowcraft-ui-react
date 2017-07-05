@@ -22,8 +22,8 @@ class ArmoryItem(object):
 
     def populate_data(self, json_data):
         self.quality = json_data['quality']
-        self.equip_location = json_data['inventoryType']
         self.icon = json_data.get('icon','')
+        self.equip_location = self.convertInventoryType(json_data['inventoryType'])
         if self.icon == '':
             print('##### Item %d/%s has a blank icon' % (self.item_id, json_data['context']))
 
@@ -262,6 +262,31 @@ class ArmoryItem(object):
                         text = text[:-1]
                     ArmoryItem.item_name_descriptions[int(row[0])] = text
         return ArmoryItem.item_name_descriptions[desc_id]
+
+    def convertInventoryType(self, inventory_type):
+        mapping = {
+            1: 'head',
+            2: 'neck',
+            3: 'shoulder',
+            4: 'shirt',
+            5: 'chest',
+            6: 'waist',
+            7: 'legs',
+            8: 'feet',
+            9: 'wrist',
+            10: 'hands',
+            11: 'finger',
+            12: 'trinket',
+            16: 'back',
+            17: 'mainHand',
+            21: 'mainHand',
+            22: 'offHand'
+        }
+
+        if inventory_type in mapping:
+            return mapping[inventory_type]
+        else:
+            return ''
 
 def test_item():
     print(ArmoryItem.item_enchant(44))

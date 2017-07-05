@@ -51,13 +51,6 @@ CHANCE_BONUSES = [40, 41, 42, 43, 1808, -1]
 def get_items_by_slot(dbase: MongoClient, slot: int, min_ilvl: int=-1, max_ilvl: int=-1):
     """provides item lists for the drop downs in the ui"""
     query = {'equip_location': slot}
-
-    # TODO: killing this bit temporarily because it doesn't work with the new item layout
-#    if min_ilvl != -1:
-#        query['item_level'] = {'$gte': min_ilvl}
-#    if max_ilvl != -1:
-#        query['item_level'] = {'$lte': max_ilvl}
-
     results = dbase.items.find(query)
     return dumps([x for x in results])
 
@@ -79,13 +72,6 @@ def get_item_by_context(dbase: MongoClient, item_id: int, context: str):
 
 def init_db(dbase):
     """create indexes"""
-    dbase.items.create_index(
-        [
-            ('remote_id', pymongo.ASCENDING),
-            ('contexts', pymongo.ASCENDING)
-        ],
-        unique=True
-    )
     dbase.items.create_index(
         [
             ('remote_id', pymongo.ASCENDING),
@@ -265,7 +251,7 @@ def import_item(dbase, item_id, is_gem=False):
             item_id not in ORDER_HALL_SET
         )]
 
-    print('Rejected %d json entries due to to item level filter' %
+    print('Rejected %d json entries due to item level filter' %
           (current_total - len(json_data)))
     print('Loading data from a total of %d json entries for this item' %
           len(json_data))
