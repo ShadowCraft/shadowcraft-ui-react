@@ -5,7 +5,6 @@ import re
 import requests
 import pymongo
 from pymongo import MongoClient
-from bson.json_util import dumps
 from ..wow_armory import ArmoryDocument
 from ..wow_armory.ArmoryItem import ArmoryItem
 
@@ -47,28 +46,6 @@ MIN_ILVL = 800
 # socket.
 # TODO: this isn't used anywhere
 CHANCE_BONUSES = [40, 41, 42, 43, 1808, -1]
-
-def get_items_by_slot(dbase: MongoClient, slot: int, min_ilvl: int=-1, max_ilvl: int=-1):
-    """provides item lists for the drop downs in the ui"""
-    query = {'equip_location': slot}
-    results = dbase.items.find(query)
-    return dumps([x for x in results])
-
-
-def get_item_by_context(dbase: MongoClient, item_id: int, context: str):
-    """provides data for a single item by id and context"""
-    # Try to look it up by context first, then if that fails, look it up by just the id.
-    query = {'remote_id': item_id, 'contexts': context}
-    results = dbase.items.find(query)
-    if results.count() == 0:
-        query = {'remote_id': item_id}
-        results = dbase.items.find(query)
-
-    if results.count() == 0:
-        return None
-    else:
-        return dumps(results[0])
-
 
 def init_db(dbase):
     """create indexes"""
