@@ -64,20 +64,20 @@ export default class BonusIDPopup extends React.Component {
     }
 
     componentWillMount() {
-        let staticItem = ITEM_DATA.filter(function(item) {
+        let staticItems = ITEM_DATA.filter(function(item) {
             // TODO: this is ridiculous. see issue #23.
             return item.remote_id == this.props.item.id;
-        }.bind(this))
+        }.bind(this));
 
-        if (staticItem.length == 0) {
+        if (staticItems.length == 0) {
             console.log("Couldn't find item ${this.props.item.id} in the static data");
             this.setState({baseItem: null});
         }
         else {
-            let itemdata = { chance_bonus_lists: staticItem['chance_bonus_lists'],
+            let itemdata = { chance_bonus_lists: staticItems[0]['chance_bonus_lists'],
                              stats: null, item_level: 0 };
 
-            let itemlevels = Object.keys(staticItem['item_stats']).sort();
+            let itemlevels = Object.keys(staticItems[0]['item_stats']).sort();
 
             // Quickly loop through the bonus IDs on the equipped item and see if there's one that's
             // an item level increase. If there is, see if there's a perfect match for the item's
@@ -88,7 +88,7 @@ export default class BonusIDPopup extends React.Component {
                     let index = itemlevels.indexOf(actualBase.toString());
                     if (index != -1) {
                         itemdata['item_level'] = actualBase;
-                        itemdata['stats'] = staticItem['item_stats'][actualBase];
+                        itemdata['stats'] = staticItems[0]['item_stats'][actualBase];
                     }
                 }
             }
@@ -98,21 +98,21 @@ export default class BonusIDPopup extends React.Component {
                 for (let i = 0; i < itemlevels.length; i++) {
                     if (this.props.item.item_level == itemlevels[i]) {
                         itemdata['item_level'] = itemlevels[i];
-                        itemdata['stats'] = staticItem['item_stats'][itemlevels[i]];
+                        itemdata['stats'] = staticItems[0]['item_stats'][itemlevels[i]];
                     } else if (this.props.item.item_level < itemlevels[i]) {
                         if (i == 0) {
                             itemdata['item_level'] = itemlevels[0];
-                            itemdata['stats'] = staticItem['item_stats'][itemlevels[0]];
+                            itemdata['stats'] = staticItems[0]['item_stats'][itemlevels[0]];
                         } else {
                             itemdata['item_level'] = itemlevels[i-1];
-                            itemdata['stats'] = staticItem['item_stats'][itemlevels[i-1]];
+                            itemdata['stats'] = staticItems[0]['item_stats'][itemlevels[i-1]];
                         }
                     }
                 }
 
                 if (itemdata['item_level'] == 0) {
                     itemdata['item_level'] = itemlevels[itemlevels.length-1];
-                    itemdata['stats'] = staticItem['item_stats'][itemdata['item_level']];
+                    itemdata['stats'] = staticItems[0]['item_stats'][itemdata['item_level']];
                 }
             }
 
