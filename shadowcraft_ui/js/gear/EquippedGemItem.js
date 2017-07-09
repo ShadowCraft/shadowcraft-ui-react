@@ -1,67 +1,35 @@
 import React from 'react';
+import store from '../store';
+import { modalTypes } from '../reducers/modalReducer';
 
 export default class EquippedGemItem extends React.Component {
-    constructor() {
-        super();
-        this.state = { hovered: false };
-        this.imgspan = {
-            background: 'url(/static/images/empty.png)',
-            width: '13px',
-            height: '13px',
-            marginRight: '12px',
-            overflow: 'hidden',
-            position: 'relative',
-            border: '1px solid #333333',
-            verticalAlign: 'middle',
-            display: 'inline-block'
-        };
-    }
 
-    // TODO: this isn't the only place we style with hover so a more general solution may be wise
+    onClick(e) {
 
-    toggleHover() {
-        this.setState({ hovered: !this.state.hovered });
-    }
+        let itemData = ITEM_DATA.filter(function(item) {
+            return item.is_gem;
+        });
 
-    gemStyle() {
-        return {
-            position: 'relative',
-            backgroundColor: this.state.hovered ? 'rgba(0, 128, 255, 0.15)' : '#0e0e0e',
-            backgroundImage: 'url(/static/images/texture.png)',
-            marginBottom: '2px',
-            borderRadius: '2px',
-            padding: '5px',
-            fontSize: '0.9em',
-            minHeight: '14px',
-            transition: 'background 0.2s',
-            // &:hover,
-            // &.active',
-            // backgroundColor: 'rgba(0, 128, 255, 0.15)'
-        };
+        store.dispatch({type: "OPEN_MODAL",
+                        data: {popupType: modalTypes.ITEM_SELECT,
+                               props:{ slot: this.props.item.slot,
+                                       items: itemData,
+                                       isGem: true,
+                                       gemSlot: this.props.gemSlot}}});
     }
 
     // comments here indicate what classes were inlined while testing inline css
     render() {
+        let gemItem = this.props.item.gems[this.props.gemSlot];
         return (
-            // className="gem tt"
-            <div
-                style={this.gemStyle()}
-                onMouseEnter={this.toggleHover.bind(this)}
-                onMouseLeave={this.toggleHover.bind(this)}
-            >
-                {/*className="socket"*/}
-                <span style={{ position: 'absolute', top: '9px', left: '13px' }}>
-                    {/*TODO: properly handle colored sockets*/}
-                    <img src="/static/images/icons/Socket_Prismatic.png" /> </span>
-                <span style={this.imgspan}>
-                    {/*className="img"*/}
-                    <img
-                        style={{ width: '17px', marginLeft: '-2px', marginTop: '-2px' }}
-                        src={`http://media.blizzard.com/wow/icons/56/${this.props.gem.icon}.jpg`}
-                    />
+            <div className="gem" onClick={this.onClick.bind(this)}>
+                <span className="socket">
+                    <img src="/static/images/icons/Socket_Prismatic.png" />
                 </span>
-                {/*className="gem_name"*/}
-                <span data-tooltip-href={`http://wowdb.com/items/${this.props.gem.id}`}>{this.props.gem.name}</span>
+                <span className="img">
+                    <img src={`http://media.blizzard.com/wow/icons/56/${gemItem.icon}.jpg`} />
+                </span>
+                <span data-tooltip-href={`http://wowdb.com/items/${gemItem.id}`}>{gemItem.name}</span>
             </div >
         );
     }

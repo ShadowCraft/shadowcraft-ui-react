@@ -13,15 +13,24 @@ class ItemSelectPopup extends React.Component {
         this.state = { filter: '' };
     }
 
-    getItemValue(stats, weights) {
+    getItemValue(stats) {
         let value = 0;
         //explicit to mind possible mismatched/missing property names
-        value += (stats.agility || 0) * weights.agi;
-        value += (stats.crit || 0) * weights.crit;
-        value += (stats.haste || 0) * weights.haste;
-        value += (stats.mastery || 0) * weights.mastery;
-        value += (stats.versatility || 0) * weights.versatility;
+        value += (stats.agility || 0) * this.props.weights.agi;
+        value += (stats.crit || 0) * this.props.weights.crit;
+        value += (stats.haste || 0) * this.props.weights.haste;
+        value += (stats.mastery || 0) * this.props.weights.mastery;
+        value += (stats.versatility || 0) * this.props.weights.versatility;
 
+        return value;
+    }
+
+    getEnchantValue(item)
+    {
+        let value = this.getItemValue(item.stats);
+        if (item.ep_id) {
+            value += this.props.enchant_ep[item.ep_id];
+        }
         return value;
     }
 
@@ -33,17 +42,29 @@ class ItemSelectPopup extends React.Component {
         CurseTips['wowdb-tooltip'].watchElligibleElements();
     }
 
-    sortItems(items, weights) {
-        return items.sort((a, b) => {
-            // TODO: temporarily only include the first version for every item. This needs to be expanded
-            // so that it includes every base-item-level version for each of them.
-            let a_ilvl = Object.keys(a.item_stats)[0];
-            let b_ilvl = Object.keys(b.item_stats)[0];
-            return this.getItemValue(b.item_stats[b_ilvl], weights) - this.getItemValue(a.item_stats[a_ilvl], weights);
-        });
+    sortItems(items) {
+        if (this.props.isGem) {
+            return items.sort((a, b) => {
+                return this.getItemValue(b.stats) - this.getItemValue(a.stats);
+            });
+        }
+        else if (this.props.isEnchant) {
+            return items.sort((a, b) => {
+                return this.getEnchantValue(b) - this.getEnchantValue(a);
+            });
+        }
+        else {
+            return items.sort((a, b) => {
+                // TODO: temporarily only include the first version for every item. This needs to be expanded
+                // so that it includes every base-item-level version for each of them.
+                let a_ilvl = Object.keys(a.item_stats)[0];
+                let b_ilvl = Object.keys(b.item_stats)[0];
+                return this.getItemValue(b.item_stats[b_ilvl]) - this.getItemValue(a.item_stats[a_ilvl]);
+            });
+        }
     }
 
-    getItemSelectElements(items, weights) {
+    getItemSelectElements(items) {
         // short-circuit if there's no filter yet
         let filteredItems;
         if (this.state.filter.length == 0) {
@@ -55,19 +76,43 @@ class ItemSelectPopup extends React.Component {
             }.bind(this));
         }
 
-        //presort needed to use first element later for max value prop, don't want to sort twice per render.
-        let sortedItems = this.sortItems(filteredItems, weights);
+        // presort needed to use first element later for max value prop, don't want to sort twice per render.
+        let sortedItems = this.sortItems(filteredItems);
+        let maxValue = 0;
+        if (this.props.isGem) {
+            maxValue = this.getItemValue(sortedItems[0].stats);
+        }
+        else if (this.props.isEnchant) {
+            maxValue = this.getEnchantValue(sortedItems[0]);
+        }
+        else {
+            let firstIlvl = Object.keys(sortedItems[0].item_stats)[0];
+            maxValue = this.getItemValue(sortedItems[0].item_stats[firstIlvl]);
+        }
 
-        return sortedItems.map((item, index) => (
-            <ItemSelectElement
-                key={index}
-                slot={this.props.slot}
-                item={item}
-                value={this.getItemValue(item.item_stats[Object.keys(item.item_stats)[0]], weights)}
-                max={this.getItemValue(sortedItems[0].item_stats[Object.keys(sortedItems[0].item_stats)[0]], weights)}
-                onClick={this.props.onClick}
-            />
-        ));
+        return sortedItems.map(function(item, index) {
+            let value = 0;
+            if (this.props.isGem) {
+                value = this.getItemValue(item.stats);
+            }
+            else if (this.props.isEnchant) {
+                value = this.getEnchantValue(item);
+            }
+            else {
+                let firstIlvl = Object.keys(item.item_stats)[0];
+                value = this.getItemValue(item.item_stats[firstIlvl]);
+            }
+
+            return <ItemSelectElement
+                       key={index}
+                       slot={this.props.slot}
+                       item={item}
+                       value={value}
+                       max={maxValue}
+                       onClick={this.props.onClick}
+                       gemSlot={this.props.isGem ? this.props.gemSlot : null}
+                   />;
+        }.bind(this));
     }
 
     onFilterInput(e) {
@@ -83,7 +128,7 @@ class ItemSelectPopup extends React.Component {
                     <input className="search" placeholder="Filter..." type="search" onInput={this.onFilterInput}/>
                 </div>
                 <div className="body" >
-                    {this.props.items ? this.getItemSelectElements(this.props.items, this.props.weights) : <div />}
+                    {this.props.items ? this.getItemSelectElements(this.props.items) : <div />}
                 </div>
                 <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={() => {store.dispatch({type: "CLOSE_MODAL"})}}>
                     <span className="ui-icon ui-icon-closethick" />
@@ -95,7 +140,8 @@ class ItemSelectPopup extends React.Component {
 
 const mapStateToProps = function (store) {
     return {
-        weights: store.engine.ep
+        weights: store.engine.ep,
+        enchant_ep: store.engine.other_ep
     };
 };
 

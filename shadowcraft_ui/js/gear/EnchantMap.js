@@ -1,107 +1,126 @@
-export const EnchantMap = {
-    0: {
+export const EnchantMap = [
+    {
+        id: 0,
         stats: {},
         icon: 'inv_enchant_formulagood_01',
-        itemName: 'Enchant Missing.',
-        EquipmentSlot: 0,
-        SpellId: 0
+        name: 'None',
+        slot: '',
+        remote_id: 0
     },
-    5432: {
+    {
+        id: 5432,
         stats: { agility: 150 },
         icon: 'inv_enchant_formulagood_01',
-        itemName: 'Enchant Cloak - Word of Agility',
-        EquipmentSlot: 16,
-        SpellId: 128546
+        name: 'Enchant Cloak - Word of Agility',
+        slot: 'back',
+        remote_id: 128546
     },
-    5435: {
+    {
+        id: 5435,
         stats: { agility: 200 },
         icon: 'inv_enchant_formulasuperior_01',
-        itemName: 'Enchant Cloak - Binding of Agility',
-        EquipmentSlot: 16,
-        SpellId: 128549
+        name: 'Enchant Cloak - Binding of Agility',
+        slot: 'back',
+        remote_id: 128549
     },
-    5423: {
+    {
+        id: 5423,
         stats: { crit: 150 },
         icon: 'inv_enchant_formulagood_01',
-        itemName: 'Enchant Ring - Word of Critical Strike',
-        EquipmentSlot: 11,
-        SpellId: 128537
+        name: 'Enchant Ring - Word of Critical Strike',
+        slot: 'finger',
+        remote_id: 128537
     },
-    5424: {
+    {
+        id: 5424,
         stats: { haste: 150 },
         icon: 'inv_enchant_formulagood_01',
-        itemName: 'Enchant Ring - Word of Haste',
-        EquipmentSlot: 11,
-        SpellId: 128538
+        name: 'Enchant Ring - Word of Haste',
+        slot: 'finger',
+        remote_id: 128538
     },
-    5425: {
+    {
+        id: 5425,
         stats: { mastery: 150 },
         icon: 'inv_enchant_formulagood_01',
-        itemName: 'Enchant Ring - Word of Mastery',
-        EquipmentSlot: 11,
-        SpellId: 128539
+        name: 'Enchant Ring - Word of Mastery',
+        slot: 'finger',
+        remote_id: 128539
     },
-    5426: {
+    {
+        id: 5426,
         stats: { versatility: 150 },
         icon: 'inv_enchant_formulagood_01',
-        itemName: 'Enchant Ring - Word of Versatility',
-        EquipmentSlot: 11,
-        SpellId: 128540
+        name: 'Enchant Ring - Word of Versatility',
+        slot: 'finger',
+        remote_id: 128540
     },
-    5427: {
+    {
+        id: 5427,
         stats: { crit: 200 },
         icon: 'inv_enchant_formulasuperior_01',
-        itemName: 'Enchant Ring - Binding of Critical Strike',
-        EquipmentSlot: 11,
-        SpellId: 128541
+        name: 'Enchant Ring - Binding of Critical Strike',
+        slot: 'finger',
+        remote_id: 128541
     },
-    5428: {
+    {
+        id: 5428,
         stats: { haste: 200 },
         icon: 'inv_enchant_formulasuperior_01',
-        itemName: 'Enchant Ring - Binding of Haste',
-        EquipmentSlot: 11,
-        SpellId: 128542
+        name: 'Enchant Ring - Binding of Haste',
+        slot: 'finger',
+        remote_id: 128542
     },
-    5429: {
+    {
+        id: 5429,
         stats: { mastery: 200 },
         icon: 'inv_enchant_formulasuperior_01',
-        itemName: 'Enchant Ring - Binding of Mastery',
-        EquipmentSlot: 11,
-        SpellId: 128543
+        name: 'Enchant Ring - Binding of Mastery',
+        slot: 'finger',
+        remote_id: 128543
     },
-    5430: {
+    {
+        id: 5430,
         stats: { versatility: 200 },
         icon: 'inv_enchant_formulasuperior_01',
-        itemName: 'Enchant Ring - Binding of Versatility',
-        EquipmentSlot: 128544
+        name: 'Enchant Ring - Binding of Versatility',
+        slot: 'finger',
+        remote_id: 128544
     },
-    5437: {
+    {
+        id: 5437,
         stats: {},
+        ep_id: 'mark_of_the_claw',
         icon: 'inv_enchant_formulasuperior_01',
-        itemName: 'Enchant Neck - Mark of the Claw',
-        EquipmentSlot: 2,
-        SpellId: 128551
+        name: 'Enchant Neck - Mark of the Claw',
+        slot: 'neck',
+        remote_id: 128551
     },
-    5438: {
+    {
+        id: 5438,
         stats: {},
+        ep_id: 'mark_of_the_distant_army',
         icon: 'inv_enchant_formulasuperior_01',
-        itemName: 'Enchant Neck - Mark of the Distant Army',
-        EquipmentSlot: 2,
-        SpellId: 128552
+        name: 'Enchant Neck - Mark of the Distant Army',
+        slot: 'neck',
+        remote_id: 128552
     },
-    5439: {
+    {
+        id: 5439,
         stats: {},
+        ep_id: 'mark_of_the_hidden_satyr',
         icon: 'inv_enchant_formulasuperior_01',
-        itemName: 'Enchant Neck - Mark of the Hidden Satyr',
-        EquipmentSlot: 2,
-        SpellId: 128553
+        name: 'Enchant Neck - Mark of the Hidden Satyr',
+        slot: 'neck',
+        remote_id: 128553
     },
-    5890: {
+    {
+        id: 5890,
         stats: { mastery: 300 },
         icon: 'inv_enchant_formulasuperior_01',
-        itemName: 'Enchant Neck - Mark of the Trained Soldier',
-        EquipmentSlot: 2,
-        SpellId: 141909
+        name: 'Enchant Neck - Mark of the Trained Soldier',
+        slot: 'neck',
+        remote_id: 141909
     }
-};
+];
 export default EnchantMap;

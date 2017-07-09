@@ -33,27 +33,14 @@ class EquippedItem extends React.Component {
 
     onClick(e) {
 
-        // TODO: move this to the popup itself
-        /* let min_ilvl = -1;
-         * let max_ilvl = -1;
-         * if (this.props.settings.dynamic_ilvl) {
-         *     min_ilvl = this.state.items[this.props.slot].item_level - 50;
-         *     max_ilvl = this.state.items[this.props.slot].item_level + 50;
-         * }
-         * else {
-         *     min_ilvl = this.props.settings.min_ilvl;
-         *     max_ilvl = this.props.settings.max_ilvl;
-         * }
-         */
         let itemData = ITEM_DATA.filter(function(item) {
-            // TODO: this is ridiculous. see issue #23.
             return item.equip_location == this.adjustSlotName(this.props.slot);
         }.bind(this));
 
         store.dispatch({type: "OPEN_MODAL",
                         data: {popupType: modalTypes.ITEM_SELECT,
                                props:{ slot: this.props.slot,
-                                       items: itemData }}});
+                                       items: itemData, isGem: false }}});
     }
 
     onBonusClick(e) {
@@ -110,10 +97,7 @@ class EquippedItem extends React.Component {
                     <div className="lock lock_off">
                         <img src="/static/images/lock_off.png" />
                     </div>
-                    <div
-                        className={`name quality-${item.quality}`}
-                        onClick={item.slotid !== 16 ? this.onClick.bind(this) : ''}
-                    >
+                    <div className={`name quality-${item.quality}`} onClick={item.slotid !== 16 ? this.onClick.bind(this) : null} >
                         <span data-tooltip-href={this.buildTooltipURL(item)}>{item.name}</span>
                         <a className="wowhead" href={`http://legion.wowhead.com/item=${item.id}`} target="_blank">Wowhead</a>
                     </div>
@@ -121,9 +105,8 @@ class EquippedItem extends React.Component {
                         {/*this probably doesn't need a huge full length div, maybe a gear under the item icon instead?'*/}
                         <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>}
                     {/*need to pass whole item because we need to check item quality to filter out relics*/}
-                    {item.socket_count > 0 && <EquippedGemList gems={item.gems} />}
-                    {/*javascript trickery to only show enchants for neck, ring and back*/}
-                    {this.IsEnchantable(item.slot) && <EquippedEnchant enchantID={item.enchant} />}
+                    { item.socket_count > 0 && <EquippedGemList item={item} /> }
+                    { this.IsEnchantable(item.slot) && <EquippedEnchant item={item} /> }
                 </div >
             </div>
         );

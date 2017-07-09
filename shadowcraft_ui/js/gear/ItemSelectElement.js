@@ -7,21 +7,27 @@ import { updateCharacterState } from '../store';
 class ItemSelectElement extends React.Component {
 
     changeItem(slot, item) {
-        store.dispatch(
-            updateCharacterState(
-                'CHANGE_ITEM',
-                {
-                    slot: slot,
-                    item: item
-                }
-            ));
-        this.props.onClick();
+        if (this.props.item.is_gem) {
+        }
+        else
+        {
+            store.dispatch(updateCharacterState('CHANGE_ITEM', {slot: slot, item: item}));
+            this.props.onClick();
+        }
     }
 
     render() {
-        let activeGear = this.props.gear[this.props.slot];
-        let active = (activeGear.id == this.props.item.remote_id);
-        
+        let active = false;
+
+        if (this.props.item.is_gem) {
+            let activeGear = this.props.gear[this.props.slot];
+            active = activeGear.gems[this.props.gemSlot].id == this.props.item.remote_id;
+        }
+        else {
+            let activeGear = this.props.gear[this.props.slot];
+            active = (activeGear.id == this.props.item.remote_id);
+        }
+
         return (
             <div className={`slot ${active ? 'active' : ''}`} onClick={() => this.changeItem(this.props.slot, this.props.item)}>
                 <div className="image">

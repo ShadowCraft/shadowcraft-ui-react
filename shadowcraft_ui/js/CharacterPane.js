@@ -133,6 +133,7 @@ class CharacterPane extends React.Component {
             .then(r => r.json())
             .then(function (json) {
                 store.dispatch(updateCharacterState('RESET_CHARACTER_DATA', json));
+                store.dispatch({type: 'CLEAR_HISTORY'});
                 this.setState({waitDisplayed: false});
             }.bind(this));
     }

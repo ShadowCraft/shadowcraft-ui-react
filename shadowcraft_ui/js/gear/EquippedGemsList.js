@@ -9,9 +9,9 @@ export default class EquippedGemList extends React.Component {
 
     render() {
 
-        let gemlist = this.props.gems
+        let gemlist = this.props.item.gems
             .filter((g => g.bonus !== 'Relic Enhancement')) // hide relics
-            .map((g, i) => <EquippedGemItem gem={g} key={i} />);
+            .map((g, i) => <EquippedGemItem item={this.props.item} gemSlot={i} key={i} />);
 
         // console.log(this.props.gems)
         return (
