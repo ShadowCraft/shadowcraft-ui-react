@@ -10,7 +10,9 @@
   <link href="{{ url_for('static', filename='images/favicon.png') }}" rel="shortcut icon" type="image/png" />
   <link href="http://shadowcraft.mmo-mumble.com/humans.txt" rel="author" type="text/plain">
   <link href="{{ url_for('static', filename='css/main.css') }}" media="screen" rel="stylesheet" type="text/css" />
-  <script async src="//static-azeroth.cursecdn.com/current/js/syndication/tt.js"></script>
+  <!-- This one can't load async because it has to be loaded before the gear tab
+       loads or we end up with an error that it's not ready yet -->
+  <script src="//static-azeroth.cursecdn.com/current/js/syndication/tt.js"></script>
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
