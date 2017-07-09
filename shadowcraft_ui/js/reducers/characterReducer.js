@@ -79,15 +79,30 @@ export const characterReducer = function (state = {}, action) {
             //context may not be mapped correctly, I'm just pulling the first entry and calling it good for now
 
             let item = Object.assign({}, state.gear[action.data.slot]);
-            item.context = action.data.item.contexts[0];
-            item.bonuses = [];
-            item.icon = action.data.item.properties.icon;
+            item.icon = action.data.item.icon;
             item.id = action.data.item.remote_id;
-            item.item_level = action.data.item.item_level;
-            item.name = action.data.item.properties.name;
-            item.quality = action.data.item.properties.quality;
-            item.stats = action.data.item.properties.stats;
-            item.socket_count = action.data.item.properties.socket_count;
+            item.name = action.data.item.name;
+            item.socket_count = action.data.item.socket_count;
+
+            // TODO: we need to pass back the item level of the item chosen on the list
+            // in order to set both the item level and the stats here. it'll also be needed
+            // to set the bonuses, once that data is back (see below). For now, just use
+            // the first item in the stats map, since that's all we're showing on the panel
+            // anyways for the time being.
+            let lowestKey = Object.keys(action.data.item.item_stats)[0];
+            item.item_level = parseInt(lowestKey);
+            item.stats = action.data.item.item_stats[lowestKey];
+
+            // TODO: should we store quality per item level as well? For example the normal
+            // version of a piece of dungeon gear is going to be blue, but the mythic+
+            // version is going to be purple.
+            item.quality = action.data.item.quality;
+
+            // TODO: these two don't work anymore because we took them out of the item
+            // data when it's loaded. i think the context can go away, but without the
+            // bonuses, the tooltips don't work.
+            //            item.context = action.data.item.contexts[0];
+            //            item.bonuses = [];
 
             // Generate a number of gem entries based on the number of sockets on the item
             item.gems = new Array(item.socket_count);
