@@ -8,11 +8,16 @@ class ItemSelectElement extends React.Component {
 
     changeItem(slot, item) {
         if (this.props.item.is_gem) {
+            store.dispatch(updateCharacterState('CHANGE_GEM', {slot: slot, gemSlot: this.props.gemSlot, gem: item}));
+            store.dispatch({type: "CLOSE_MODAL"});
         }
-        else
-        {
+        else if (this.props.isEnchant) {
+            store.dispatch(updateCharacterState('CHANGE_ENCHANT', {slot: slot, enchant: item.id}));
+            store.dispatch({type: "CLOSE_MODAL"});
+        }
+        else {
             store.dispatch(updateCharacterState('CHANGE_ITEM', {slot: slot, item: item}));
-            this.props.onClick();
+            store.dispatch({type: "CLOSE_MODAL"});
         }
     }
 

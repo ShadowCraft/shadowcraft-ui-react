@@ -5,8 +5,6 @@ import store from '../store';
 import { modalTypes } from '../reducers/modalReducer';
 import EquippedGemList from './EquippedGemsList';
 import EquippedEnchant from './EquippedEnchant';
-import ItemSelectPopup from './ItemSelectPopup';
-import BonusIDPopup from './BonusIDPopup';
 
 class EquippedItem extends React.Component {
 

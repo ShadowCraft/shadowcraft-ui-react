@@ -111,6 +111,7 @@ class ItemSelectPopup extends React.Component {
                        max={maxValue}
                        onClick={this.props.onClick}
                        gemSlot={this.props.isGem ? this.props.gemSlot : null}
+                       isEnchant={this.props.isEnchant}
                    />;
         }.bind(this));
     }
