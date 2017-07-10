@@ -255,16 +255,21 @@ def import_item(dbase, item_id, is_gem=False):
             if 'stats' in db_item:
                 del db_item['stats']
 
-            if 'item_stats' not in db_item:
-                db_item['item_stats'] = {}
+            if 'ilvls' not in db_item:
+                db_item['ilvls'] = {}
 
-            if str(item.ilevel) not in db_item:
-                db_item['item_stats'][str(item.ilevel)] = item_props['stats']
+            ilvl = str(item.ilevel)
+            if str(item.ilevel) not in db_item['ilvls']:
+                db_item['ilvls'][ilvl] = {
+                    'stats': item_props['stats'],
+                    'quality': item_props['quality'],
+                    'bonus_tree': item.bonus_tree
+                }
 
             if 'speed' in item_props:
-                db_item['item_stats'][str(item.ilevel)]['speed'] = item_props['speed']
+                db_item['ilvls'][ilvl]['stats']['speed'] = item_props['speed']
             if 'dps' in item_props:
-                db_item['item_stats'][str(item.ilevel)]['dps'] = item_props['dps']
+                db_item['ilvls'][ilvl]['stats']['dps'] = item_props['dps']
 
     dbase.items.replace_one({'remote_id': item_id}, db_item, upsert=True)
 
