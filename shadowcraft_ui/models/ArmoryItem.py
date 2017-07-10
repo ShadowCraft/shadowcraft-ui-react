@@ -1,8 +1,8 @@
 import csv
 import re
 import copy
-from . import ArmoryConstants
-from . import ArmoryDocument
+import ArmoryConstants
+import ArmoryDocument
 
 class ArmoryItem(object):
 

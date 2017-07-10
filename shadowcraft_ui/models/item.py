@@ -5,8 +5,8 @@ import re
 import requests
 import pymongo
 from pymongo import MongoClient
-from ..wow_armory import ArmoryDocument
-from ..wow_armory.ArmoryItem import ArmoryItem
+import ArmoryDocument
+from ArmoryItem import ArmoryItem
 
 # These are the only bonus IDs we care about displaying on the gear popouts.  They're
 # mostly just the different difficulty levels that can be on gear.  Anything not listed
@@ -63,7 +63,6 @@ def init_db(dbase):
         ],
         unique=True
     )
-
 
 def populate_db(dbase):
     """get item data to put into mongo"""
