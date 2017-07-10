@@ -83,7 +83,7 @@ class ArmoryItem(object):
         else:
             self.socket_count = 0
 
-    IGNORE_FIELDS = ['item_id', 'ilevel', 'context', 'bonus_tree', 'tag']
+    IGNORE_FIELDS = ['item_id', 'ilevel', 'context', 'bonus_tree', 'tag', 'quality']
     IGNORE_FOR_GEMS = ['speed', 'dps', 'subclass', 'armor_class', 'upgradable',
                        'chance_bonus_lists', 'equip_location', 'socket_count']
 

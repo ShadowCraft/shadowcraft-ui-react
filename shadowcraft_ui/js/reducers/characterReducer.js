@@ -89,20 +89,11 @@ export const characterReducer = function (state = {}, action) {
             // to set the bonuses, once that data is back (see below). For now, just use
             // the first item in the stats map, since that's all we're showing on the panel
             // anyways for the time being.
-            let lowestKey = Object.keys(action.data.item.item_stats)[0];
+            let lowestKey = Object.keys(action.data.item.ilvls)[0];
             item.item_level = parseInt(lowestKey);
-            item.stats = action.data.item.item_stats[lowestKey];
-
-            // TODO: should we store quality per item level as well? For example the normal
-            // version of a piece of dungeon gear is going to be blue, but the mythic+
-            // version is going to be purple.
-            item.quality = action.data.item.quality;
-
-            // TODO: these two don't work anymore because we took them out of the item
-            // data when it's loaded. i think the context can go away, but without the
-            // bonuses, the tooltips don't work.
-            //            item.context = action.data.item.contexts[0];
-            //            item.bonuses = [];
+            item.stats = action.data.item.ilvls[lowestKey].stats;
+            item.quality = action.data.item.ilvls[lowestKey].quality;
+            item.bonuses = action.data.item.ilvls[lowestKey].bonus;
 
             // Generate a number of gem entries based on the number of sockets on the item
             item.gems = new Array(item.socket_count);

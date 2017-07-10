@@ -262,8 +262,8 @@ def import_item(dbase, item_id, is_gem=False):
             if str(item.ilevel) not in db_item['ilvls']:
                 db_item['ilvls'][ilvl] = {
                     'stats': item_props['stats'],
-                    'quality': item_props['quality'],
-                    'bonus_tree': item.bonus_tree
+                    'quality': item.quality,
+                    'bonus': item.bonus_tree
                 }
 
             if 'speed' in item_props:

@@ -57,9 +57,9 @@ class ItemSelectPopup extends React.Component {
             return items.sort((a, b) => {
                 // TODO: temporarily only include the first version for every item. This needs to be expanded
                 // so that it includes every base-item-level version for each of them.
-                let a_ilvl = Object.keys(a.item_stats)[0];
-                let b_ilvl = Object.keys(b.item_stats)[0];
-                return this.getItemValue(b.item_stats[b_ilvl]) - this.getItemValue(a.item_stats[a_ilvl]);
+                let a_ilvl = Object.keys(a.ilvls)[0];
+                let b_ilvl = Object.keys(b.ilvls)[0];
+                return this.getItemValue(b.ilvls[b_ilvl].stats) - this.getItemValue(a.ilvls[a_ilvl].stats);
             });
         }
     }
@@ -86,8 +86,8 @@ class ItemSelectPopup extends React.Component {
             maxValue = this.getEnchantValue(sortedItems[0]);
         }
         else {
-            let firstIlvl = Object.keys(sortedItems[0].item_stats)[0];
-            maxValue = this.getItemValue(sortedItems[0].item_stats[firstIlvl]);
+            let firstIlvl = Object.keys(sortedItems[0].ilvls)[0];
+            maxValue = this.getItemValue(sortedItems[0].ilvls[firstIlvl].stats);
         }
 
         return sortedItems.map(function(item, index) {
@@ -99,8 +99,8 @@ class ItemSelectPopup extends React.Component {
                 value = this.getEnchantValue(item);
             }
             else {
-                let firstIlvl = Object.keys(item.item_stats)[0];
-                value = this.getItemValue(item.item_stats[firstIlvl]);
+                let firstIlvl = Object.keys(item.ilvls)[0];
+                value = this.getItemValue(item.ilvls[firstIlvl].stats);
             }
 
             return <ItemSelectElement
