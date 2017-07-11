@@ -231,7 +231,6 @@ describe('characterReducer', () => {
             gear: {
                 slot: {
                     bonuses: ['nobonuses'],
-                    context: "nocontexts",
                     gems: [0],
                     icon: "noicon",
                     id: "noremote_id",
@@ -249,14 +248,20 @@ describe('characterReducer', () => {
                 slot: 'slot',
                 item: {
                     remote_id: 'remote_id',
-                    item_level: 'item_level',
-                    contexts: ['contexts'],
-                    properties: {
-                        icon: 'icon',
-                        name: 'name',
-                        quality: 'quality',
-                        stats: 'stats',
-                        socket_count: 'socket_count'
+                    icon: 'icon',
+                    name: 'name',
+                    socket_count: 'socket_count',
+                    ilvls: {
+                        10: {
+                            stats: {agi: 10},
+                            quality: 3,
+                            bonus: [10]
+                        },
+                        20: {
+                            stats: {agi: 20},
+                            quality: 4,
+                            bonus: [20]
+                        }
                     }
                 }
             }
@@ -264,16 +269,15 @@ describe('characterReducer', () => {
         const expected = {
             gear: {
                 slot: {
-                    bonuses: [],
-                    context: "contexts",
+                    bonuses: [10],
                     gems: [0],
                     icon: "icon",
                     id: "remote_id",
-                    item_level: "item_level",
+                    item_level: 10,
                     name: "name",
-                    quality: "quality",
+                    quality: 3,
                     socket_count: "socket_count",
-                    stats: "stats"
+                    stats: {agi: 10}
                 }
             }
         };
