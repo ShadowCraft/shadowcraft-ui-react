@@ -92,8 +92,11 @@ class ItemSelectPopup extends React.Component {
 
         return sortedItems.map(function(item, index) {
             let value = 0;
+            let quality = 0;
+            
             if (this.props.isGem) {
                 value = this.getItemValue(item.stats);
+                quality = item.quality;
             }
             else if (this.props.isEnchant) {
                 value = this.getEnchantValue(item);
@@ -101,12 +104,14 @@ class ItemSelectPopup extends React.Component {
             else {
                 let firstIlvl = Object.keys(item.ilvls)[0];
                 value = this.getItemValue(item.ilvls[firstIlvl].stats);
+                quality = item.ilvls[firstIlvl].quality;
             }
 
             return <ItemSelectElement
                        key={index}
                        slot={this.props.slot}
                        item={item}
+                       quality={quality}
                        value={value}
                        max={maxValue}
                        onClick={this.props.onClick}
