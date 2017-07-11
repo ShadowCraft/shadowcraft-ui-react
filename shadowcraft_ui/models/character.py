@@ -7,9 +7,9 @@ import traceback
 import jsonschema
 import pymongo
 
-import ArmoryDocument
-import ArmoryConstants
-from ArmoryCharacter import ArmoryCharacter
+from . import ArmoryDocument
+from . import ArmoryConstants
+from .ArmoryCharacter import ArmoryCharacter
 
 # re-version data when ArmoryCharacter.py changes (file size)
 CHARACTER_DATA_VERSION = os.path.getsize('shadowcraft_ui/models/character.py')
@@ -167,29 +167,22 @@ def __get_from_armory(db, character, realm, region):
         info = {
             'id': slot_item['id'],
             'slot': key,
-            'slotid': ArmoryConstants.SLOT_MAP[key] + 1,
             'name': slot_item['name'],
             'icon': slot_item['icon'],
             'item_level': slot_item['itemLevel'],
             'gems': [],
             'stats': {},
             'bonuses': slot_item['bonusLists'],
-            'context': slot_item['context'],
             'quality': slot_item['quality'],
             'socket_count': 0
         }
 
         info['enchant'] = tooltip['enchant'] if 'enchant' in tooltip else 0
 
-
-        # Look up this item/context in the database and set the base item level.
-        # This saves us from having to make extra requests later if the user
-        # opens the dialog to set tertiaries, etc.
-        query = {'remote_id': info['id'], 'contexts': info['context']}
+        # Look up this item in the database and check whether it has any fixed sockets
+        # associated with it. Also create the gems array based on those sockets.
+        query = {'remote_id': info['id']}
         results = db.items.find(query)
-        if results.count() == 0:
-            query = {'remote_id': info['id']}
-            results = db.items.find(query)
 
         if results.count() != 0:
             if 1808 in info['bonuses']:
@@ -235,12 +228,6 @@ def __get_from_armory(db, character, realm, region):
             info['weaponStats']['speed'] = slot_item[
                 'weaponInfo']['weaponSpeed']
             info['weaponStats']['dps'] = slot_item['weaponInfo']['dps']
-
-        # We squash all of the world quest contexts down into one.
-        # TODO: why are we doing this again? something about the data being the
-        # same between all of those contexts?
-        if info['context'].startswith('world-quest'):
-            info['context'] = 'world-quest'
 
         output['gear'][key] = info
 

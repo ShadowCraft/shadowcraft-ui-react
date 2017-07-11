@@ -50,16 +50,6 @@ class EquippedItem extends React.Component {
                                props:{ item: item}}});
     }
 
-    slotIDtoEquipIDMap(slotid) {
-        switch (slotid) {
-            case 12: return 11;
-            case 13: return 12;
-            case 14: return 12;
-            case 15: return 16;
-            default: return slotid;
-        }
-    }
-
     adjustSlotName(slot) {
         switch (slot) {
             case 'trinket1':
@@ -95,7 +85,7 @@ class EquippedItem extends React.Component {
                     <div className="lock lock_off">
                         <img src="/static/images/lock_off.png" />
                     </div>
-                    <div className={`name quality-${item.quality}`} onClick={item.slotid !== 16 ? this.onClick.bind(this) : null} >
+                    <div className={`name quality-${item.quality}`} onClick={item.slot !== "mainHand" ? this.onClick.bind(this) : null} >
                         <span data-tooltip-href={this.buildTooltipURL(item)}>{item.name}</span>
                         <a className="wowhead" href={`http://legion.wowhead.com/item=${item.id}`} target="_blank">Wowhead</a>
                     </div>

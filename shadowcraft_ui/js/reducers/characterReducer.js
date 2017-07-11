@@ -74,10 +74,6 @@ export const characterReducer = function (state = {}, action) {
             // look away now, lest ye dispair
 
             //TODO: clean up the data models so this mapping isn't required.
-            //not clearing bonuses and gems because idk the right mapping right now
-            //not change base ilvl, since I do not know how that works and it is not in item db entry
-            //context may not be mapped correctly, I'm just pulling the first entry and calling it good for now
-
             let item = Object.assign({}, state.gear[action.data.slot]);
             item.icon = action.data.item.icon;
             item.id = action.data.item.remote_id;
