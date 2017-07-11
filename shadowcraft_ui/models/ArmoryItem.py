@@ -81,7 +81,7 @@ class ArmoryItem(object):
         else:
             self.socket_count = 0
 
-    IGNORE_FIELDS = ['item_id', 'ilevel', 'context', 'bonus_tree', 'tag', 'quality']
+    IGNORE_FIELDS = ['item_id', 'ilevel', 'context', 'bonus_tree', 'tag']
     IGNORE_FOR_GEMS = ['speed', 'dps', 'subclass', 'armor_class', 'upgradable',
                        'chance_bonus_lists', 'equip_location', 'socket_count']
 
@@ -95,6 +95,9 @@ class ArmoryItem(object):
             for i in ArmoryItem.IGNORE_FOR_GEMS:
                 if i in ret:
                     ret.pop(i, None)
+        else:
+            ret.pop('quality', None)
+
         return ret
 
     def __iter__(self):

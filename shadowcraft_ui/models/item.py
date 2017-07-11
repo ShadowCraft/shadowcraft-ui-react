@@ -220,18 +220,18 @@ def import_item(dbase, item_id, is_gem=False):
             except ArmoryDocument.ArmoryArror as err:
                 print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
 
-    current_total = len(json_data)
     if not is_gem:
+        current_total = len(json_data)
         json_data = [x for x in json_data if not(
             x['itemLevel'] < MIN_ILVL and
             item_id not in ARTIFACT_WEAPONS and
             item_id not in ORDER_HALL_SET
         )]
 
-    print('Rejected %d json entries due to item level filter' %
-          (current_total - len(json_data)))
-    print('Loading data from a total of %d json entries for this item' %
-          len(json_data))
+        print('Rejected %d json entries due to item level filter' %
+              (current_total - len(json_data)))
+        print('Loading data from a total of %d json entries for this item' %
+              len(json_data))
 
     # Create a basic item to store in the database. The properties will get populated
     # as we loop through the json below.
@@ -268,9 +268,11 @@ def import_item(dbase, item_id, is_gem=False):
                 }
 
             if 'speed' in item_props:
-                db_item['ilvls'][ilvl]['stats']['speed'] = item_props['speed']
-            if 'dps' in item_props:
-                db_item['ilvls'][ilvl]['stats']['dps'] = item_props['dps']
+                db_item['ilvls'][ilvl]['weaponStats'] = {
+                    'speed': item_props['speed'],
+                    'dps': item_props['dps']
+                }
+
 
     dbase.items.replace_one({'remote_id': item_id}, db_item, upsert=True)
 
