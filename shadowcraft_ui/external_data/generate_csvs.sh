@@ -25,7 +25,7 @@ CASC_DATA_DIR="${PWD}/casc_data/${CDN_VERSION}/DBFilesClient"
 
 mkdir -p csvs
 cd dbc_extract3
-for i in ItemBonus ItemNameDescription SpellItemEnchantment RandPropPoints ItemUpgrade RulesetItemUpgrade ArtifactPowerRank; do
+for i in ItemUpgrade RulesetItemUpgrade ArtifactPowerRank; do
     echo "Generating CSV for $i..."
     ./dbc_extract.py -b ${BUILD_NUMBER} -p ${CASC_DATA_DIR} -t csv --delim=, $i > ../csvs/${i}.dbc.csv
 done

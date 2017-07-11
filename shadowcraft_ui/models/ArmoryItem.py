@@ -7,11 +7,8 @@ import ArmoryDocument
 class ArmoryItem(object):
 
     # Some static data that used by the item loader code
-    item_enchants = None
     item_upgrades = None
     upgrade_rulesets = None
-    item_bonuses = None
-    item_name_descriptions = None
 
     def __init__(self, json_data):
         self.name = json_data['name']
@@ -148,17 +145,6 @@ class ArmoryItem(object):
                 return True
         return False
 
-    @staticmethod
-    def item_enchant(enchant_id):
-        if ArmoryItem.item_enchants is None:
-            ArmoryItem.item_enchants = {}
-            with open('../external_data/SpellItemEnchantment.dbc.csv', mode='r') as infile:
-                reader = csv.reader(infile)
-                next(reader) # Skip the first row with the header
-                for row in reader:
-                    ArmoryItem.item_enchants[int(row[0])] = row
-        return ArmoryItem.item_enchants[enchant_id]
-
     # item_upgrades and upgrade_rulesets are used to determine if a piece of gear is
     # eligible for a valor upgrade. They are used in the check_upgradable method.
     @staticmethod
@@ -196,73 +182,6 @@ class ArmoryItem(object):
         else:
             return None
 
-    @staticmethod
-    def item_bonus(bonus_id):
-        if ArmoryItem.item_bonuses is None:
-            ArmoryItem.item_bonuses = {}
-            with open('../external_data/ItemBonus.dbc.csv', mode='r') as infile:
-                reader = csv.reader(infile)
-                next(reader) # Skip the first row with the header
-                for row in reader:
-                    id_node = int(row[3])
-                    if id_node not in ArmoryItem.item_bonuses:
-                        ArmoryItem.item_bonuses[id_node] = []
-
-                    entry = {
-                        "type": int(row[4]),
-                        "val1": int(row[1]),
-                        "val2": int(row[2]),
-                    }
-
-                    # Bonus Types (value of column 4):
-                    # 1 = Item level increase.
-                    # 2 = Stat.  This is for items with random stats.  Take the value of column 4 and
-                    #     replace it with the stat from the STAT_LOOKUP array in WowArmory::Constants
-                    # 5 = Name (heroic, stages, etc).  Take the value of column 4 and replace it with
-                    #     the name from the item from the item_name_description lookup.  This pulls
-                    #     data from the WoD_ItemNameDescription.csv file.  These entries are used to
-                    #     display the green text next to items in the list.
-                    # 6 = Socket.  Take the value of column 4 and replace it with the socket type from
-                    #     the SOCKET_MAP array in WowArmory::Constants.
-                    if entry['type'] == ArmoryConstants.ITEM_BONUS_TYPES['random_stat'] and \
-                       entry['val1'] in ArmoryConstants.STAT_LOOKUP:
-                        entry["val1"] = ArmoryConstants.STAT_LOOKUP[entry["val1"]]
-                    elif entry['type'] == ArmoryConstants.ITEM_BONUS_TYPES['name']:
-                        entry['val1'] = ArmoryItem.item_name_description(entry["val1"])
-                    elif entry['type'] == ArmoryConstants.ITEM_BONUS_TYPES['socket'] and \
-                         entry['val2'] in ArmoryConstants.SOCKET_MAP:
-                        entry['val2'] = ArmoryConstants.SOCKET_MAP[entry['val2']]
-                    elif entry['type'] == ArmoryConstants.ITEM_BONUS_TYPES['ilvl_increase']:
-                        entry.pop('val2', None)
-                    elif entry['type'] == ArmoryConstants.ITEM_BONUS_TYPES['base_ilvl']:
-                        entry.pop('val2', None)
-
-                    ArmoryItem.item_bonuses[id_node].append(entry)
-
-        return ArmoryItem.item_bonuses[bonus_id]
-
-    @staticmethod
-    def item_name_description(desc_id):
-        if ArmoryItem.item_name_descriptions is None:
-            ArmoryItem.item_name_descriptions = {}
-            with open('../external_data/ItemNameDescription.dbc.csv', mode='r') as infile:
-                reader = csv.reader(infile)
-                next(reader) # Skip the first row with the header
-                for row in reader:
-                    text = row[1]
-                    if len(text) == 0:
-                        continue
-
-                    # For some reason all of the values in this table have single-quotes around
-                    # every string. Remove those and just store the strings themselves.
-                    text = row[1]
-                    if text[0] == '\'':
-                        text = text[1:]
-                    if text[-1] == '\'':
-                        text = text[:-1]
-                    ArmoryItem.item_name_descriptions[int(row[0])] = text
-        return ArmoryItem.item_name_descriptions[desc_id]
-
     def convertInventoryType(self, inventory_type):
         mapping = {
             1: 'head',
@@ -289,8 +208,6 @@ class ArmoryItem(object):
             return ''
 
 def test_item():
-    print(ArmoryItem.item_enchant(44))
-    print(ArmoryItem.item_bonus(1572))
     print(ArmoryItem.check_upgradable(142512))
     print(ArmoryItem.check_upgradable(124367))
     print(ArmoryItem.scan_str("+4 Critical Strike"))
