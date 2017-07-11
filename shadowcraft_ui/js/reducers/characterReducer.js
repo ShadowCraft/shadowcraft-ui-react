@@ -80,16 +80,11 @@ export const characterReducer = function (state = {}, action) {
             item.name = action.data.item.name;
             item.socket_count = action.data.item.socket_count;
 
-            // TODO: we need to pass back the item level of the item chosen on the list
-            // in order to set both the item level and the stats here. it'll also be needed
-            // to set the bonuses, once that data is back (see below). For now, just use
-            // the first item in the stats map, since that's all we're showing on the panel
-            // anyways for the time being.
-            let lowestKey = Object.keys(action.data.item.ilvls)[0];
-            item.item_level = parseInt(lowestKey);
-            item.stats = action.data.item.ilvls[lowestKey].stats;
-            item.quality = action.data.item.ilvls[lowestKey].quality;
-            item.bonuses = action.data.item.ilvls[lowestKey].bonus;
+            let ilvlKey = parseInt(action.data.ilvl);
+            item.item_level = ilvlKey;
+            item.stats = action.data.item.ilvls[ilvlKey].stats;
+            item.quality = action.data.item.ilvls[ilvlKey].quality;
+            item.bonuses = action.data.item.ilvls[ilvlKey].bonus;
 
             // Generate a number of gem entries based on the number of sockets on the item
             item.gems = new Array(item.socket_count);
@@ -140,9 +135,10 @@ export const characterReducer = function (state = {}, action) {
 
             for (let stat in action.data.gem.stats) {
                 let capStat = stat.charAt(0).toUpperCase() + stat.slice(1);
-                newGem.bonus.concat(`+${action.data.gem.stats[stat]}+${capStat} / `);
+                newGem.bonus = newGem.bonus.concat(`+${action.data.gem.stats[stat]} ${capStat} / `);
             }
-            newGem.bonus.slice(0, -3);
+
+            newGem.bonus = newGem.bonus.slice(0, -3);
             newGear[action.data.slot].gems[action.data.gemSlot] = newGem;
 
             return Object.assign({}, state, { gear: newGear });

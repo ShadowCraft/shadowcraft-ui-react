@@ -246,6 +246,7 @@ describe('characterReducer', () => {
             type: characterActionTypes.CHANGE_ITEM,
             data: {
                 slot: 'slot',
+                ilvl: 10,
                 item: {
                     remote_id: 'remote_id',
                     icon: 'icon',
@@ -451,6 +452,109 @@ describe('characterReducer', () => {
                     itemLevel: 1,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false
+                }
+            }
+        };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+
+    });
+
+    it('should handle CHANGE_ENCHANT', () => {
+
+        const init = {
+            gear: {
+                slot: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                }
+            }
+        };
+        const action = {
+            type: characterActionTypes.CHANGE_ENCHANT,
+            data: {
+                slot: "slot",
+                enchant: 12345
+            }
+        };
+        const expected = {
+            gear: {
+                slot: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 12345
+                }
+            }
+        };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+
+    });
+
+    it('should handle CHANGE_GEM', () => {
+
+        const init = {
+            gear: {
+                slot: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "gem1",
+                            id: 1,
+                            icon: "icon1",
+                            quality: 3,
+                            bonus: "+150 Mastery",
+                            gemslot: 1
+                        }],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                }
+            }
+        };
+        const action = {
+            type: characterActionTypes.CHANGE_GEM,
+            data: {
+                slot: "slot",
+                gemSlot: 0,
+                gem: {
+                    remote_id: 130222,
+                    is_gem: true,
+                    name: "Masterful Shadowruby",
+                    icon: "inv_jewelcrafting_70_cutgem03_purple",
+                    gem_slot: "Prismatic",
+                    quality: 3,
+                    stats: {
+                        haste: 200
+                    }
+                }
+            }
+        };
+        const expected = {
+            gear: {
+                slot: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "Masterful Shadowruby",
+                            id: 130222,
+                            icon: "inv_jewelcrafting_70_cutgem03_purple",
+                            quality: 3,
+                            bonus: "+200 Haste",
+                            gemslot: 130222
+                        }],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
                 }
             }
         };
