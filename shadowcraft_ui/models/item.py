@@ -115,9 +115,10 @@ def populate_db(dbase):
 
 def populate_gems(dbase):
     """get gem data to put into mongo"""
+
+    # Load the gems from wowhead that we were added in Legion and don't have intellect or strength on them.
     wowhead_ids = []
-    wowhead_ids.extend(get_ids_from_wowhead("http://www.wowhead.com/items/gems/prismatic?filter=166;6;0"))
-    wowhead_ids.extend(get_ids_from_wowhead("http://www.wowhead.com/items/gems/prismatic?filter=166;7;0"))
+    wowhead_ids.extend(get_ids_from_wowhead("http://www.wowhead.com/items/gems/prismatic?filter=166:23:20;7:3:3;0:0:0"))
 
     item_ids = set(wowhead_ids)
     print("Have %d gems to load" % len(item_ids))
