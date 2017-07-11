@@ -1,6 +1,7 @@
 import csv
 import re
 import copy
+import os
 import ArmoryConstants
 import ArmoryDocument
 
@@ -154,7 +155,8 @@ class ArmoryItem(object):
         # We only care about the prev_id and id_currency_type ones
         if ArmoryItem.item_upgrades is None:
             ArmoryItem.item_upgrades = {}
-            with open('../external_data/ItemUpgrade.dbc.csv', mode='r') as infile:
+            filepath = os.path.dirname(os.path.abspath(__file__))
+            with open(os.path.join(filepath, '..', 'external_data', 'ItemUpgrade.dbc.csv'), mode='r') as infile:
                 reader = csv.reader(infile)
                 next(reader) # Skip the first row with the header
                 for row in reader:
@@ -171,7 +173,8 @@ class ArmoryItem(object):
         # We only care about the last two of these.
         if ArmoryItem.upgrade_rulesets is None:
             ArmoryItem.upgrade_rulesets = {}
-            with open('../external_data/RulesetItemUpgrade.dbc.csv', mode='r') as infile:
+            filepath = os.path.dirname(os.path.abspath(__file__))
+            with open(os.path.join(filepath, '..', 'external_data', 'RulesetItemUpgrade.dbc.csv'), mode='r') as infile:
                 reader = csv.reader(infile)
                 next(reader) # Skip the first row with the header
                 for row in reader:
