@@ -31,6 +31,22 @@ class EquippedItem extends React.Component {
             return item.equip_location == this.adjustSlotName(this.props.slot);
         }.bind(this));
 
+        // Don't pass over any item outside of the item level filtering.
+        let min_ilvl = -1;
+        let max_ilvl = -1;
+        if (this.props.settings.dynamic_ilvl) {
+            min_ilvl = this.state.items[this.props.slot].item_level - 50;
+            max_ilvl = this.state.items[this.props.slot].item_level + 50;
+        }
+        else {
+            console.log("not dynamic");
+            min_ilvl = this.props.settings.min_ilvl;
+            max_ilvl = this.props.settings.max_ilvl;
+        }
+
+        console.log(min_ilvl);
+        console.log(max_ilvl);
+
         // TODO: would a map() be faster here? Can I do this transformation in a
         // map()?
         let allItems = [];
@@ -39,8 +55,14 @@ class EquippedItem extends React.Component {
             let item = itemData[idx];
             let foundMatch = false;
             for (let ilvl in item.ilvls) {
+
+                let ilvlInt = parseInt(ilvl);
+                if (ilvlInt < min_ilvl || ilvlInt > max_ilvl) {
+                    continue;
+                }
+
                 let copy = deepClone(item);
-                copy['item_level'] = parseInt(ilvl);
+                copy['item_level'] = ilvlInt;
                 for (let key in item.ilvls[ilvl]) {
                     copy[key] = item.ilvls[ilvl][key];
                 }
