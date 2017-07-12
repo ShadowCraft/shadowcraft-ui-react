@@ -79,12 +79,10 @@ export const characterReducer = function (state = {}, action) {
             item.id = action.data.item.remote_id;
             item.name = action.data.item.name;
             item.socket_count = action.data.item.socket_count;
-
-            let ilvlKey = parseInt(action.data.ilvl);
-            item.item_level = ilvlKey;
-            item.stats = action.data.item.ilvls[ilvlKey].stats;
-            item.quality = action.data.item.ilvls[ilvlKey].quality;
-            item.bonuses = action.data.item.ilvls[ilvlKey].bonus;
+            item.item_level = action.data.item.item_level;
+            item.stats = action.data.item.stats;
+            item.quality = action.data.item.quality;
+            item.bonuses = action.data.item.bonus;
 
             // Generate a number of gem entries based on the number of sockets on the item
             item.gems = new Array(item.socket_count);
