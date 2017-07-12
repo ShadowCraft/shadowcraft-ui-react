@@ -30,14 +30,14 @@ class ItemSelectElement extends React.Component {
         }
         else {
             let activeGear = this.props.gear[this.props.slot];
-            active = (activeGear.id == this.props.item.remote_id);
+            active = (activeGear.id == this.props.item.remote_id && activeGear.item_level == this.props.item.item_level);
         }
 
         return (
             <div className={`slot ${active ? 'active' : ''}`} onClick={() => this.changeItem(this.props.slot, this.props.item)}>
                 <div className="image">
                     <img src={`http://us.media.blizzard.com/wow/icons/56/${this.props.item.icon}.jpg`} />
-                    <span className="ilvl">{this.props.item.itemLevel}</span>
+                    <span className="ilvl">{this.props.item.item_level}</span>
                 </div>
                 <div className={`name quality-${this.props.quality} ${active ? 'active' : ''}`} data-href-tooltip={`http://wowdb.com/items/${this.props.item.remote_id}`}>
                     {this.props.item.name}

@@ -11,11 +11,6 @@ class EquippedItem extends React.Component {
 
     constructor() {
         super();
-        this.state = {
-            itemModal: false,
-            bonusModal: false,
-            items: {}
-        };
 
         this.onBonusClick = this.onBonusClick.bind(this);
     }
@@ -44,10 +39,20 @@ class EquippedItem extends React.Component {
             let item = itemData[idx];
             for (let ilvl in item.ilvls) {
                 let copy = deepClone(item);
-                copy['itemLevel'] = ilvl;
+                copy['item_level'] = parseInt(ilvl);
                 for (let key in item.ilvls[ilvl]) {
                     copy[key] = item.ilvls[ilvl][key];
                 }
+                allItems.push(copy);
+            }
+
+            if (item.remote_id == this.props.items[this.props.slot].id) {
+                let copy = deepClone(item);
+                let equipped = this.props.items[this.props.slot];
+                copy['item_level'] = equipped.item_level;
+                copy['bonus'] = equipped.bonuses;
+                copy['stats'] = equipped.stats;
+                copy['quality'] = equipped.quality;
                 allItems.push(copy);
             }
         }
