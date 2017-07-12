@@ -43,23 +43,14 @@ class ItemSelectPopup extends React.Component {
     }
 
     sortItems(items) {
-        if (this.props.isGem) {
-            return items.sort((a, b) => {
-                return this.getItemValue(b.stats) - this.getItemValue(a.stats);
-            });
-        }
-        else if (this.props.isEnchant) {
+        if (this.props.isEnchant) {
             return items.sort((a, b) => {
                 return this.getEnchantValue(b) - this.getEnchantValue(a);
             });
         }
         else {
             return items.sort((a, b) => {
-                // TODO: temporarily only include the first version for every item. This needs to be expanded
-                // so that it includes every base-item-level version for each of them.
-                let a_ilvl = Object.keys(a.ilvls)[0];
-                let b_ilvl = Object.keys(b.ilvls)[0];
-                return this.getItemValue(b.ilvls[b_ilvl].stats) - this.getItemValue(a.ilvls[a_ilvl].stats);
+                return this.getItemValue(b.stats) - this.getItemValue(a.stats);
             });
         }
     }
@@ -79,32 +70,23 @@ class ItemSelectPopup extends React.Component {
         // presort needed to use first element later for max value prop, don't want to sort twice per render.
         let sortedItems = this.sortItems(filteredItems);
         let maxValue = 0;
-        if (this.props.isGem) {
-            maxValue = this.getItemValue(sortedItems[0].stats);
-        }
-        else if (this.props.isEnchant) {
+        if (this.props.isEnchant) {
             maxValue = this.getEnchantValue(sortedItems[0]);
         }
         else {
-            let firstIlvl = Object.keys(sortedItems[0].ilvls)[0];
-            maxValue = this.getItemValue(sortedItems[0].ilvls[firstIlvl].stats);
+            maxValue = this.getItemValue(sortedItems[0].stats);
         }
 
         return sortedItems.map(function(item, index) {
             let value = 0;
             let quality = 0;
-            
-            if (this.props.isGem) {
-                value = this.getItemValue(item.stats);
-                quality = item.quality;
-            }
-            else if (this.props.isEnchant) {
+
+            if (this.props.isEnchant) {
                 value = this.getEnchantValue(item);
             }
             else {
-                let firstIlvl = Object.keys(item.ilvls)[0];
-                value = this.getItemValue(item.ilvls[firstIlvl].stats);
-                quality = item.ilvls[firstIlvl].quality;
+                value = this.getItemValue(item.stats);
+                quality = item.quality;
             }
 
             return <ItemSelectElement

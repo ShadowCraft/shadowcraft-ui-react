@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import deepClone from 'deep-clone';
 
 import store from '../store';
 import { modalTypes } from '../reducers/modalReducer';
@@ -35,10 +36,26 @@ class EquippedItem extends React.Component {
             return item.equip_location == this.adjustSlotName(this.props.slot);
         }.bind(this));
 
+        // TODO: would a map() be faster here? Can I do this transformation in a
+        // map()?
+        let allItems = [];
+        let numItems = itemData.length;
+        for (let idx = 0; idx < numItems; idx++) {
+            let item = itemData[idx];
+            for (let ilvl in item.ilvls) {
+                let copy = deepClone(item);
+                copy['itemLevel'] = ilvl;
+                for (let key in item.ilvls[ilvl]) {
+                    copy[key] = item.ilvls[ilvl][key];
+                }
+                allItems.push(copy);
+            }
+        }
+
         store.dispatch({type: "OPEN_MODAL",
                         data: {popupType: modalTypes.ITEM_SELECT,
                                props:{ slot: this.props.slot,
-                                       items: itemData, isGem: false }}});
+                                       items: allItems, isGem: false }}});
     }
 
     onBonusClick(e) {
