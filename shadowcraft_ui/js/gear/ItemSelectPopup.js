@@ -38,7 +38,6 @@ class ItemSelectPopup extends React.Component {
         // This is a bit of a hack and is probably a bit fragile depending on if wowdb ever
         // changes any of this, but it rescans the DOM for elements that should display a
         // tooltip.
-        console.log("popup mounted");
         CurseTips['wowdb-tooltip'].watchElligibleElements();
     }
 

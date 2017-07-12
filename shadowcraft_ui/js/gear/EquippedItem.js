@@ -39,13 +39,9 @@ class EquippedItem extends React.Component {
             max_ilvl = this.state.items[this.props.slot].item_level + 50;
         }
         else {
-            console.log("not dynamic");
             min_ilvl = this.props.settings.min_ilvl;
             max_ilvl = this.props.settings.max_ilvl;
         }
-
-        console.log(min_ilvl);
-        console.log(max_ilvl);
 
         // TODO: would a map() be faster here? Can I do this transformation in a
         // map()?
