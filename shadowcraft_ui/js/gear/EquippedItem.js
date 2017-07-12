@@ -64,6 +64,18 @@ class EquippedItem extends React.Component {
             }
         }
 
+        // Add a "None" item to the end of the array that will always have a zero EP.
+        allItems.push({
+            remote_id: 0,
+            name: "None",
+            icon: "inv_misc_questionmark",
+            quality: 0,
+            item_level: 0,
+            stats: {},
+            socket_count: 0,
+            bonus: []
+        });
+
         store.dispatch({type: "OPEN_MODAL",
                         data: {popupType: modalTypes.ITEM_SELECT,
                                props:{ slot: this.props.slot,
