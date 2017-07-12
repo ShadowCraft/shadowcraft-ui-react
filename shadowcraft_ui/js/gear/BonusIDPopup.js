@@ -77,7 +77,7 @@ export default class BonusIDPopup extends React.Component {
             let itemdata = { chance_bonus_lists: staticItems[0]['chance_bonus_lists'],
                              stats: null, item_level: 0 };
 
-            let itemlevels = Object.keys(staticItems[0]['item_stats']).sort();
+            let itemlevels = Object.keys(staticItems[0]['ilvls']).sort();
 
             // Quickly loop through the bonus IDs on the equipped item and see if there's one that's
             // an item level increase. If there is, see if there's a perfect match for the item's
@@ -88,7 +88,7 @@ export default class BonusIDPopup extends React.Component {
                     let index = itemlevels.indexOf(actualBase.toString());
                     if (index != -1) {
                         itemdata['item_level'] = actualBase;
-                        itemdata['stats'] = staticItems[0]['item_stats'][actualBase];
+                        itemdata['stats'] = staticItems[0]['ilvls'][actualBase]['stats'];
                     }
                 }
             }
@@ -98,21 +98,21 @@ export default class BonusIDPopup extends React.Component {
                 for (let i = 0; i < itemlevels.length; i++) {
                     if (this.props.item.item_level == itemlevels[i]) {
                         itemdata['item_level'] = itemlevels[i];
-                        itemdata['stats'] = staticItems[0]['item_stats'][itemlevels[i]];
+                        itemdata['stats'] = staticItems[0]['ilvls'][itemlevels[i]]['stats'];
                     } else if (this.props.item.item_level < itemlevels[i]) {
                         if (i == 0) {
                             itemdata['item_level'] = itemlevels[0];
-                            itemdata['stats'] = staticItems[0]['item_stats'][itemlevels[0]];
+                            itemdata['stats'] = staticItems[0]['ilvls'][itemlevels[0]]['stats'];
                         } else {
                             itemdata['item_level'] = itemlevels[i-1];
-                            itemdata['stats'] = staticItems[0]['item_stats'][itemlevels[i-1]];
+                            itemdata['stats'] = staticItems[0]['ilvls'][itemlevels[i-1]]['stats'];
                         }
                     }
                 }
 
                 if (itemdata['item_level'] == 0) {
                     itemdata['item_level'] = itemlevels[itemlevels.length-1];
-                    itemdata['stats'] = staticItems[0]['item_stats'][itemdata['item_level']];
+                    itemdata['stats'] = staticItems[0]['ilvls'][itemdata['item_level']]['stats'];
                 }
             }
 
