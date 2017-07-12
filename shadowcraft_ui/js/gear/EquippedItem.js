@@ -37,6 +37,7 @@ class EquippedItem extends React.Component {
         let numItems = itemData.length;
         for (let idx = 0; idx < numItems; idx++) {
             let item = itemData[idx];
+            let foundMatch = false;
             for (let ilvl in item.ilvls) {
                 let copy = deepClone(item);
                 copy['item_level'] = parseInt(ilvl);
@@ -44,9 +45,15 @@ class EquippedItem extends React.Component {
                     copy[key] = item.ilvls[ilvl][key];
                 }
                 allItems.push(copy);
+
+                if (copy.remote_id == this.props.items[this.props.slot].id &&
+                    copy.item_level == this.props.items[this.props.slot].item_level)
+                {
+                    foundMatch = true;
+                }
             }
 
-            if (item.remote_id == this.props.items[this.props.slot].id) {
+            if (!foundMatch && item.remote_id == this.props.items[this.props.slot].id) {
                 let copy = deepClone(item);
                 let equipped = this.props.items[this.props.slot];
                 copy['item_level'] = equipped.item_level;
