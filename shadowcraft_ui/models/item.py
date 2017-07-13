@@ -51,7 +51,7 @@ def init_db(dbase):
     """create indexes"""
     dbase.items.create_index(
         [
-            ('remote_id', pymongo.ASCENDING),
+            ('id', pymongo.ASCENDING),
             ('item_level', pymongo.ASCENDING),
             ('is_gem', pymongo.ASCENDING)
         ],
@@ -235,7 +235,7 @@ def import_item(dbase, item_id, is_gem=False):
 
     # Create a basic item to store in the database. The properties will get populated
     # as we loop through the json below.
-    db_item = {'remote_id': item_id, 'is_gem': is_gem}
+    db_item = {'id': item_id, 'is_gem': is_gem}
 
     # Loop through the json data tha twas retrieved and process each in turn
     for json in json_data:
@@ -264,7 +264,7 @@ def import_item(dbase, item_id, is_gem=False):
                 db_item['ilvls'][ilvl] = {
                     'stats': item_props['stats'],
                     'quality': item.quality,
-                    'bonus': item.bonus_tree
+                    'bonuses': item.bonus_tree
                 }
 
             if 'speed' in item_props:
@@ -274,7 +274,7 @@ def import_item(dbase, item_id, is_gem=False):
                 }
 
 
-    dbase.items.replace_one({'remote_id': item_id}, db_item, upsert=True)
+    dbase.items.replace_one({'id': item_id}, db_item, upsert=True)
 
 def get_bonus_ids_to_load(possible_ids, context, item_level):
     """Trims a list of bonus IDs down to the set of IDs that we actually care about, like

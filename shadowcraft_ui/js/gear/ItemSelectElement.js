@@ -26,11 +26,11 @@ class ItemSelectElement extends React.Component {
 
         if (this.props.item.is_gem) {
             let activeGear = this.props.gear[this.props.slot];
-            active = activeGear.gems[this.props.gemSlot].id == this.props.item.remote_id;
+            active = activeGear.gems[this.props.gemSlot].id == this.props.item.id;
         }
         else {
             let activeGear = this.props.gear[this.props.slot];
-            active = (activeGear.id == this.props.item.remote_id && activeGear.item_level == this.props.item.item_level);
+            active = (activeGear.id == this.props.item.id && activeGear.item_level == this.props.item.item_level);
         }
 
         return (
@@ -39,9 +39,9 @@ class ItemSelectElement extends React.Component {
                     <img src={`http://us.media.blizzard.com/wow/icons/56/${this.props.item.icon}.jpg`} />
                     <span className="ilvl">{this.props.item.item_level}</span>
                 </div>
-                <div className={`name quality-${this.props.quality} ${active ? 'active' : ''}`} data-href-tooltip={`http://wowdb.com/items/${this.props.item.remote_id}`}>
+                <div className={`name quality-${this.props.quality} ${active ? 'active' : ''}`} data-href-tooltip={`http://wowdb.com/items/${this.props.item.id}`}>
                     {this.props.item.name}
-                    <a className="wowhead" href={`http://legion.wowhead.com/item=${this.props.item.remote_id}`} target="_blank">Wowhead</a>
+                    <a className="wowhead" href={`http://legion.wowhead.com/item=${this.props.item.id}`} target="_blank">Wowhead</a>
                 </div>
                 <span className="desc">{this.props.value.toFixed(0)} EP</span>
                 <span className="pct">

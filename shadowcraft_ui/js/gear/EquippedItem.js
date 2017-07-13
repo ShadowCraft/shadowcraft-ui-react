@@ -64,18 +64,18 @@ class EquippedItem extends React.Component {
                 }
                 allItems.push(copy);
 
-                if (copy.remote_id == this.props.items[this.props.slot].id &&
+                if (copy.id == this.props.items[this.props.slot].id &&
                     copy.item_level == this.props.items[this.props.slot].item_level)
                 {
                     foundMatch = true;
                 }
             }
 
-            if (!foundMatch && item.remote_id == this.props.items[this.props.slot].id) {
+            if (!foundMatch && item.id == this.props.items[this.props.slot].id) {
                 let copy = deepClone(item);
                 let equipped = this.props.items[this.props.slot];
                 copy['item_level'] = equipped.item_level;
-                copy['bonus'] = equipped.bonuses;
+                copy['bonuses'] = equipped.bonuses;
                 copy['stats'] = equipped.stats;
                 copy['quality'] = equipped.quality;
                 allItems.push(copy);
@@ -84,7 +84,7 @@ class EquippedItem extends React.Component {
 
         // Add a "None" item to the end of the array that will always have a zero EP.
         allItems.push({
-            remote_id: 0,
+            id: 0,
             name: "None",
             icon: "inv_misc_questionmark",
             quality: 0,

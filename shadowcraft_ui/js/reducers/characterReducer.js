@@ -76,13 +76,13 @@ export const characterReducer = function (state = {}, action) {
             //TODO: clean up the data models so this mapping isn't required.
             let item = Object.assign({}, state.gear[action.data.slot]);
             item.icon = action.data.item.icon;
-            item.id = action.data.item.remote_id;
+            item.id = action.data.item.id;
             item.name = action.data.item.name;
             item.socket_count = action.data.item.socket_count;
             item.item_level = action.data.item.item_level;
             item.stats = action.data.item.stats;
             item.quality = action.data.item.quality;
-            item.bonuses = action.data.item.bonus;
+            item.bonuses = action.data.item.bonuses;
 
             // Generate a number of gem entries based on the number of sockets on the item
             item.gems = new Array(item.socket_count);
