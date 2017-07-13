@@ -7,6 +7,7 @@ import pymongo
 from pymongo import MongoClient
 import ArmoryDocument
 from ArmoryItem import ArmoryItem
+from time import sleep
 
 # These are the only bonus IDs we care about displaying on the gear popouts.  They're
 # mostly just the different difficulty levels that can be on gear.  Anything not listed
@@ -88,13 +89,17 @@ def populate_db(dbase):
     for item_type in ['rings', 'amulets', 'trinkets']:
         print("Requesting %s from wowhead" % item_type)
         wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:800/max-level:875/class:3' % item_type))
+            'http://www.wowhead.com/items/armor/%s/min-level:800/max-level:850/class:3' % item_type))
         wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:876/class:3' % item_type))
+            'http://www.wowhead.com/items/armor/%s/min-level:850/max-level:900/class:3' % item_type))
         wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:800/max-level:875/class:4' % item_type))
+            'http://www.wowhead.com/items/armor/%s/min-level:900/class:3' % item_type))
         wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:876/class:4' % item_type))
+            'http://www.wowhead.com/items/armor/%s/min-level:800/max-level:850/class:4' % item_type))
+        wowhead_ids.extend(get_ids_from_wowhead(
+            'http://www.wowhead.com/items/armor/%s/min-level:850/max-level:900/class:4' % item_type))
+        wowhead_ids.extend(get_ids_from_wowhead(
+            'http://www.wowhead.com/items/armor/%s/min-level:900/class:4' % item_type))
 
     print("Requesting legendaries from wowhead")
     wowhead_ids.extend(get_ids_from_wowhead(
@@ -171,7 +176,7 @@ def import_item(dbase, item_id, is_gem=False):
             params = {"bl": ','.join(map(str, bonuses))}
             json = ArmoryDocument.get('us', '/wow/item/%d' % item_id, params)
             json_data.append(json)
-        except ArmoryDocument.ArmoryArror as err:
+        except ArmoryDocument.ArmoryError as err:
             print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
 
     # Don't load all of the world quest or pvp contexts. Only load a single context
@@ -197,7 +202,7 @@ def import_item(dbase, item_id, is_gem=False):
             json = ArmoryDocument.get(
                 'us', '/wow/item/%d/%s' % (item_id, context))
             json_data.append(json)
-        except ArmoryDocument.ArmoryArror as err:
+        except ArmoryDocument.ArmoryError as err:
             print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
             continue
 
@@ -217,7 +222,7 @@ def import_item(dbase, item_id, is_gem=False):
                 json = ArmoryDocument.get(
                     'us', '/wow/item/%d' % item_id, params)
                 json_data.append(json)
-            except ArmoryDocument.ArmoryArror as err:
+            except ArmoryDocument.ArmoryError as err:
                 print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
 
     if not is_gem:
@@ -314,7 +319,7 @@ def get_ids_from_wowhead(url):
     ids = []
     resp = requests.get(
         url,
-        timeout=10,
+        timeout=30,
         headers={'user-agent': ArmoryDocument.USER_AGENT}
     )
     if resp.status_code == 200:
@@ -323,6 +328,7 @@ def get_ids_from_wowhead(url):
             ids.append(int(match.groups(1)[0]))
 
     print("Found %d new items from wowhead" % len(ids))
+    sleep(5)
     return ids
 
 
