@@ -166,6 +166,10 @@ def import_item(dbase, item_id, is_gem=False):
     item_chance_bonuses = get_bonus_ids_to_load(
         base_json['bonusSummary']['chanceBonusLists'], base_json['context'], base_json['itemLevel'])
 
+    # For legendaries, add the bonus IDs for the two item level upgrades
+    if base_json['quality'] == 5:
+        item_chance_bonuses += [3530, 3570]
+
     # Loop through the now-modified list of bonus IDs and load an additional item for
     # each of those IDs from the armory, and store it in the list to be processed.
     for bonus_id in item_chance_bonuses:
