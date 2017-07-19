@@ -156,63 +156,52 @@ class ShadowcraftComputation:
     gearProcs = trinkets.copy()
     gearProcs.update(otherProcs)
 
-    # Creates a group of items based on the base ilvls passed in.  For each entry in the
-    # base_ilvls array, it will create additional entries stepping by step_size up to
-    # num_steps times.
-    def createGroup(base_ilvls, num_steps, step_size):
-        trinketGroup = []
-        subgroup = ()
-        for base_ilvl in base_ilvls:
-            for i in range(base_ilvl, base_ilvl + (num_steps + 1) * step_size, step_size):
-                subgroup += (i,)
-        trinketGroup.extend(list(subgroup))
-        return trinketGroup
-
-    def createGroupMax(base_ilvl, max_ilvl, step_size):
-        group = range(base_ilvl, max_ilvl, step_size)
+    # This is the maximum ilvl + 5, because python range method doesn't include
+    # the max value passed in as one of the steps.
+    RANGE_MAX = 960
 
     # used for rankings
     trinketGroups = {
         # Alchemist trinket
-        'infernal_alchemist_stone': range(815, 865, 5),
+        'infernal_alchemist_stone': range(815, 885, 5),
 
         # Dungeon trinkets
-        'chaos_talisman': range(820, 955, 5),
-        'chrono_shard': range(820, 955, 5),
-        'darkmoon_deck_dominion': range(815, 955, 5),
-        'faulty_countermeasure': range(820, 955, 5),
-        'giant_ornamental_pearl': range(820, 955, 5),
-        'horn_of_valor': range(820, 955, 5),
-        'mark_of_dargrul': range(820, 955, 5),
-        'memento_of_angerboda': range(820, 955, 5),
-        'nightmare_egg_shell': range(820, 955, 5),
-        'spiked_counterweight': range(820, 955, 5),
-        'tempered_egg_of_serpentrix': range(820, 955, 5),
-        'terrorbound_nexus': range(820, 955, 5),
-        'tiny_oozeling_in_a_jar': range(820, 955, 5),
-        'tirathons_betrayal': range(820, 955, 5),
-        'windscar_whetstone': range(820, 955, 5),
+        'chaos_talisman': range(820, RANGE_MAX, 5),
+        'chrono_shard': range(820, RANGE_MAX, 5),
+        'darkmoon_deck_dominion': range(815, RANGE_MAX, 5),
+        'faulty_countermeasure': range(820, RANGE_MAX, 5),
+        'giant_ornamental_pearl': range(820, RANGE_MAX, 5),
+        'horn_of_valor': range(820, RANGE_MAX, 5),
+        'mark_of_dargrul': range(820, RANGE_MAX, 5),
+        'memento_of_angerboda': range(820, RANGE_MAX, 5),
+        'nightmare_egg_shell': range(820, RANGE_MAX, 5),
+        'spiked_counterweight': range(820, RANGE_MAX, 5),
+        'tempered_egg_of_serpentrix': range(820, RANGE_MAX, 5),
+        'terrorbound_nexus': range(820, RANGE_MAX, 5),
+        'tiny_oozeling_in_a_jar': range(820, RANGE_MAX, 5),
+        'tirathons_betrayal': range(820, RANGE_MAX, 5),
+        'windscar_whetstone': range(820, RANGE_MAX, 5),
 
         # Emerald Nightmare
-        'ravaged_seed_pod': range(850, 955, 5),
-        'spontaneous_appendages': range(850, 955, 5),
-        'natures_call': range(850, 955, 5),
-        'bloodthirsty_instinct': range(850, 955, 5),
+        'ravaged_seed_pod': range(850, RANGE_MAX, 5),
+        'spontaneous_appendages': range(850, RANGE_MAX, 5),
+        'natures_call': range(850, RANGE_MAX, 5),
+        'bloodthirsty_instinct': range(850, RANGE_MAX, 5),
 
         # Return to Karazhan
-        'bloodstained_handkerchief': range(855, 955, 5),
-        'eye_of_command': range(860, 955, 5),
-        'toe_knees_promise': range(855, 955, 5),
+        'bloodstained_handkerchief': range(855, RANGE_MAX, 5),
+        'eye_of_command': range(860, RANGE_MAX, 5),
+        'toe_knees_promise': range(855, RANGE_MAX, 5),
 
         # Nighthold trinkets
-        'arcanogolem_digit': range(855, 955, 5),
-        'convergence_of_fates': range(860, 955, 5),
-        'entwined_elemental_foci': range(860, 955, 5),
-        'nightblooming_frond': range(860, 955, 5),
-        'draught_of_souls': range(865, 955, 5),
+        'arcanogolem_digit': range(855, RANGE_MAX, 5),
+        'convergence_of_fates': range(860, RANGE_MAX, 5),
+        'entwined_elemental_foci': range(860, RANGE_MAX, 5),
+        'nightblooming_frond': range(860, RANGE_MAX, 5),
+        'draught_of_souls': range(865, RANGE_MAX, 5),
 
         # Legendary trinkets
-        'kiljaedens_burning_wish': [910, 940],
+        'kiljaedens_burning_wish': [910, 940, 970],
     }
 
     gearBoosts = {
@@ -230,6 +219,10 @@ class ShadowcraftComputation:
         132452: 'sephuzs_secret',
         134542: 'jeweled_signet_of_melandrus',
         134526: 'gnawed_thumb_ring',
+        150936: 'soul_of_the_shadowblade',
+        151817: 'the_curse_of_restlessness',
+        151815: 'the_empty_crown',
+        151818: 'the_first_of_the_dead',
     }
 
     # combines gearProcs and gearBoosts

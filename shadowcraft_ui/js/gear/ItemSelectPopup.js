@@ -13,7 +13,7 @@ class ItemSelectPopup extends React.Component {
         this.state = { filter: '' };
     }
 
-    getItemValue(stats) {
+    getStatValue(stats) {
         let value = 0;
         //explicit to mind possible mismatched/missing property names
         value += (stats.agility || 0) * this.props.weights.agi;
@@ -25,11 +25,27 @@ class ItemSelectPopup extends React.Component {
         return value;
     }
 
-    getEnchantValue(item)
+    getItemValue(item) {
+        let value = this.getStatValue(item.stats);
+        if (item.id.toString() in this.props.trinket_map) {
+            let idString = this.props.trinket_map[item.id.toString()];
+
+            if (idString in this.props.other_ep) {
+                value += this.props.other_ep[idString];
+            }
+
+            if (idString in this.props.proc_ep) {
+                value += this.props.proc_ep[idString][item.item_level.toString()];
+            }
+        }
+        return value;
+    }
+
+    getEnchantValue(enchant)
     {
-        let value = this.getItemValue(item.stats);
-        if (item.ep_id) {
-            value += this.props.enchant_ep[item.ep_id];
+        let value = this.getStatValue(enchant.stats);
+        if (enchant.ep_id) {
+            value += this.props.other_ep[enchant.ep_id];
         }
         return value;
     }
@@ -49,7 +65,7 @@ class ItemSelectPopup extends React.Component {
         }
         else {
             return items.sort((a, b) => {
-                return this.getItemValue(b.stats) - this.getItemValue(a.stats);
+                return this.getItemValue(b) - this.getItemValue(a);
             });
         }
     }
@@ -73,7 +89,7 @@ class ItemSelectPopup extends React.Component {
             maxValue = this.getEnchantValue(sortedItems[0]);
         }
         else {
-            maxValue = this.getItemValue(sortedItems[0].stats);
+            maxValue = this.getItemValue(sortedItems[0]);
         }
 
         return sortedItems.map(function(item, index) {
@@ -84,7 +100,7 @@ class ItemSelectPopup extends React.Component {
                 value = this.getEnchantValue(item);
             }
             else {
-                value = this.getItemValue(item.stats);
+                value = this.getItemValue(item);
                 quality = item.quality;
             }
 
@@ -128,7 +144,9 @@ class ItemSelectPopup extends React.Component {
 const mapStateToProps = function (store) {
     return {
         weights: store.engine.ep,
-        enchant_ep: store.engine.other_ep
+        other_ep: store.engine.other_ep,
+        proc_ep: store.engine.proc_ep,
+        trinket_map: store.engine.trinket_map
     };
 };
 
