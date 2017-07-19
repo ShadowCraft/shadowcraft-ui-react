@@ -42,7 +42,9 @@ export const settingsReducer = function (state = {}, action) {
         }
 
         case settingsActionTypes.RESET_SETTINGS: {
-            return Object.assign({}, state, action.data);
+            let newState = state;
+            newState.current = action.data;
+            return Object.assign({}, state, newState);
         }
     }
 
