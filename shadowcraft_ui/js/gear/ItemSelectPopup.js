@@ -11,6 +11,7 @@ class ItemSelectPopup extends React.Component {
         this.onFilterInput = this.onFilterInput.bind(this);
 
         this.state = { filter: '' };
+        this.itemValueCache = {};
     }
 
     getStatValue(stats) {
@@ -26,19 +27,28 @@ class ItemSelectPopup extends React.Component {
     }
 
     getItemValue(item) {
-        let value = this.getStatValue(item.stats);
-        if (item.id.toString() in this.props.trinket_map) {
-            let idString = this.props.trinket_map[item.id.toString()];
-
-            if (idString in this.props.other_ep) {
-                value += this.props.other_ep[idString];
+        if (!(item.id in this.itemValueCache && item.item_level in this.itemValueCache[item.id])) {
+            let value = this.getStatValue(item.stats);
+            if (item.id.toString() in this.props.trinket_map) {
+                let idString = this.props.trinket_map[item.id.toString()];
+                
+                if (idString in this.props.other_ep) {
+                    value += this.props.other_ep[idString];
+                }
+                
+                if (idString in this.props.proc_ep) {
+                    value += this.props.proc_ep[idString][item.item_level.toString()];
+                }
             }
-
-            if (idString in this.props.proc_ep) {
-                value += this.props.proc_ep[idString][item.item_level.toString()];
+            
+            if (!(item.id in this.itemValueCache)) {
+                this.itemValueCache[item.id] = {}
             }
+            
+            this.itemValueCache[item.id][item.item_level] = value;
         }
-        return value;
+
+        return this.itemValueCache[item.id][item.item_level];
     }
 
     getEnchantValue(enchant)
