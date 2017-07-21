@@ -306,6 +306,8 @@ def __get_from_armory(db, character, realm, region):
                 output['artifact']['relics'][relic['socket']] = entry
             except ArmoryDocument.MissingDocument:
                 print("Failed to retrieve extra relic data")
+        else:
+            print("Failed to find relic %d in the database" % relic['itemId'])
 
     # Make sure there's something in each of the relic data slots so that the UI doesn't
     # freak out about it.
