@@ -21,6 +21,15 @@ class ItemSelectElement extends React.Component {
         }
     }
 
+    buildTooltipURL(item)
+    {
+        let url = `http://wowdb.com/items/${item.id}`;
+        if (item.bonuses && item.bonuses.length > 0) {
+            url += `?bonusIDs=${item.bonuses.toString()}`;
+        }
+        return url;
+    }
+
     render() {
         let active = false;
 
@@ -39,7 +48,7 @@ class ItemSelectElement extends React.Component {
                     <img src={`http://us.media.blizzard.com/wow/icons/56/${this.props.item.icon}.jpg`} />
                     <span className="ilvl">{this.props.item.item_level}</span>
                 </div>
-                <div className={`name quality-${this.props.quality} ${active ? 'active' : ''}`} data-href-tooltip={`http://wowdb.com/items/${this.props.item.id}`}>
+                <div className={`name quality-${this.props.quality} ${active ? 'active' : ''}`} data-tooltip-href={this.props.item.id != 0 && this.buildTooltipURL(this.props.item)}>
                     {this.props.item.name}
                     <a className="wowhead" href={`http://legion.wowhead.com/item=${this.props.item.id}`} target="_blank">Wowhead</a>
                 </div>
