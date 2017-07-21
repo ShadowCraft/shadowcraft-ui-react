@@ -67,8 +67,6 @@ class StatPane extends React.Component {
                     <div className="inner">
                         <StatPanelButton id='optimizeGems' name='Optimize Gems' />
                         <StatPanelButton id='optimizeEnchants' name='Optimize Enchants' />
-                        <StatPanelButton id='lockAll' name='Lock All' />
-                        <StatPanelButton id='unlockAll' name='Unlock All' />
                     </div>
                 </section>
             </div >

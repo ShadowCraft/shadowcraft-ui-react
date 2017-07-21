@@ -141,9 +141,6 @@ class EquippedItem extends React.Component {
                         <img src={`http://media.blizzard.com/wow/icons/56/${item.icon}.jpg`} />
                         <span className="ilvl">{item.item_level}</span>
                     </div>
-                    <div className="lock lock_off">
-                        <img src="/static/images/lock_off.png" />
-                    </div>
                     <div className={`name quality-${item.quality}`} onClick={item.slot !== "mainHand" ? this.onClick.bind(this) : null} >
                         <span data-tooltip-href={this.buildTooltipURL(item)}>{item.name}</span>
                         <a className="wowhead" href={`http://legion.wowhead.com/item=${item.id}`} target="_blank">Wowhead</a>
