@@ -120,12 +120,11 @@ export const characterReducer = function (state = {}, action) {
             // here instead of copying/setting the entire gear object.
             let newGear = Object.assign({}, state.gear);
 
-            // TODO: clean up the data models so we don't have to do this conversion
             // TODO: why is gemslot and id the same thing?
             let newGem = {
-                gemslot: action.data.gem.remote_id,
+                gemslot: action.data.gem.id,
                 icon: action.data.gem.icon,
-                id: action.data.gem.remote_id,
+                id: action.data.gem.id,
                 name: action.data.gem.name,
                 quality: action.data.gem.quality,
                 bonus: ""

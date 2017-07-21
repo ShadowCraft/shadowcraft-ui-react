@@ -65,7 +65,6 @@ export default class BonusIDPopup extends React.Component {
 
     componentWillMount() {
         let staticItems = ITEM_DATA.filter(function(item) {
-            // TODO: this is ridiculous. see issue #23.
             return item.id == this.props.item.id;
         }.bind(this));
 
