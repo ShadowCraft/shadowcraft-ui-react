@@ -12,7 +12,10 @@ import ArtifactPane from './artifact/ArtifactPane';
 import AdvancedPane from './advanced/AdvancedPane';
 import DocsPane from './DocsPane';
 import RightPane from './RightPane';
+
 import ModalConductor from './modals/ModalConductor';
+import { modalTypes } from './reducers/modalReducer';
+import DebugURLPopup from './modals/DebugURLPopup';
 
 function setInitialCharacterData(chardata, settings = null) {
     return function (dispatch) {
@@ -158,9 +161,13 @@ class CharacterPane extends React.Component {
             .then(checkFetchStatus)
             .then(r => r.json())
             .then(function(json) {
-
+                store.dispatch({type: "OPEN_MODAL",
+                                data: {popupType: modalTypes.DEBUG_URL,
+                                       props:{ sha: json['sha'],
+                                               region: this.props.character.region,
+                                               realm: this.props.character.realm,
+                                               name: this.props.character.name }}});
             }.bind(this));
-
     }
 
     render() {

@@ -11,6 +11,7 @@ export const modalActionTypes = {
 export const modalTypes = {
     ITEM_SELECT: 'ITEM_SELECT',
     ITEM_BONUSES: 'ITEM_BONUSES',
+    DEBUG_URL: 'DEBUG_URL',
 };
 
 export const modalReducer = function (state = initialModalState, action) {

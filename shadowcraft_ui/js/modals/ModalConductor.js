@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import store from '../store';
 import ItemSelectPopup from '../gear/ItemSelectPopup';
 import BonusIDPopup from '../gear/BonusIDPopup';
+import DebugURLPopup from './DebugURLPopup';
 
 import { modalTypes } from '../reducers/modalReducer';
 
@@ -25,6 +26,9 @@ class ModalConductor extends React.Component {
 
             case modalTypes.ITEM_BONUSES:
                 return <BonusIDPopup hideModal={this.hideModal} {...this.props.modalProps}/>;
+
+            case modalTypes.DEBUG_URL:
+                return <DebugURLPopup hideModal={this.hideModal} {...this.props.modalProps}/>;
 
             default:
                 return null;
