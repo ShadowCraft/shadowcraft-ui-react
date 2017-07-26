@@ -64,16 +64,16 @@ class EquippedItem extends React.Component {
                 }
                 allItems.push(copy);
 
-                if (copy.id == this.props.items[this.props.slot].id &&
-                    copy.item_level == this.props.items[this.props.slot].item_level)
+                if (copy.id == this.props.item.id &&
+                    copy.item_level == this.props.item.item_level)
                 {
                     foundMatch = true;
                 }
             }
 
-            if (!foundMatch && item.id == this.props.items[this.props.slot].id) {
+            if (!foundMatch && item.id == this.props.item.id) {
                 let copy = deepClone(item);
-                let equipped = this.props.items[this.props.slot];
+                let equipped = this.props.item;
                 copy['item_level'] = equipped.item_level;
                 copy['bonuses'] = equipped.bonuses;
                 copy['stats'] = equipped.stats;
@@ -103,10 +103,9 @@ class EquippedItem extends React.Component {
     onBonusClick(e) {
         e.preventDefault();
 
-        let item = this.props.items[this.props.slot];
         store.dispatch({type: "OPEN_MODAL",
                         data: {popupType: modalTypes.ITEM_BONUSES,
-                               props:{ item: item}}});
+                               props:{ item: this.props.item}}});
     }
 
     adjustSlotName(slot) {
@@ -132,34 +131,34 @@ class EquippedItem extends React.Component {
     }
 
     render() {
-        let item = this.props.items[this.props.slot];
-        //console.log(item);
+        console.log(`rendering ${this.props.slot}`);
+        console.log(this.props.item);
         return (
             <div>
                 <div className="slot">
                     <div className="image">
-                        <img src={`http://media.blizzard.com/wow/icons/56/${item.icon}.jpg`} />
-                        <span className="ilvl">{item.item_level}</span>
+                        <img src={`http://media.blizzard.com/wow/icons/56/${this.props.item.icon}.jpg`} />
+                        <span className="ilvl">{this.props.item.item_level}</span>
                     </div>
-                    <div className={`name quality-${item.quality}`} onClick={item.slot !== "mainHand" ? this.onClick.bind(this) : null} >
-                        <span data-tooltip-href={this.buildTooltipURL(item)}>{item.name}</span>
-                        <a className="wowhead" href={`http://legion.wowhead.com/item=${item.id}`} target="_blank">Wowhead</a>
+                    <div className={`name quality-${this.props.item.quality}`} onClick={this.props.item.slot !== "mainHand" ? this.onClick.bind(this) : null} >
+                        <span data-tooltip-href={this.buildTooltipURL(this.props.item)}>{this.props.item.name}</span>
+                        <a className="wowhead" href={`http://legion.wowhead.com/item=${this.props.item.id}`} target="_blank">Wowhead</a>
                     </div>
-                    {item.quality != 6 && <div className="bonuses" onClick={this.onBonusClick} >
+                    {this.props.item.quality != 6 && <div className="bonuses" onClick={this.onBonusClick} >
                         {/*this probably doesn't need a huge full length div, maybe a gear under the item icon instead?'*/}
                         <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>}
                     {/*need to pass whole item because we need to check item quality to filter out relics*/}
-                    { item.socket_count > 0 && <EquippedGemList item={item} /> }
-                    { this.IsEnchantable(item.slot) && <EquippedEnchant item={item} /> }
+                    { this.props.item.socket_count > 0 && <EquippedGemList item={this.props.item} /> }
+                    { this.IsEnchantable(this.props.item.slot) && <EquippedEnchant item={this.props.item} /> }
                 </div >
             </div>
         );
     }
 }
 
-const mapStateToProps = function (store) {
+const mapStateToProps = function (store, ownProps) {
     return {
-        items: store.character.gear,
+        item: store.character.gear[ownProps.slot],
         settings: store.settings.current
     };
 };
