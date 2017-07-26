@@ -1,3 +1,5 @@
+import deepClone from 'deep-clone';
+
 export const initialWarningsState = {
     warnings: [
         "Band of Crystalline Bone needs an enchantment"
@@ -17,7 +19,9 @@ export const warningsReducer = function (state = initialWarningsState, action) {
             return Object.assign({}, state, newState);
 
         case warningsActionTypes.ADD_WARNING:
-            return state;
+            var newState = deepClone(state);
+            newState.warnings.push(action.text);
+            return Object.assign({}, state, newState);
     }
 
     return state;

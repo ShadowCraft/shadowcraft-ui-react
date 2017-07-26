@@ -75,10 +75,16 @@ export function getEngineData() {
         })
             .then(checkFetchStatus)
             .then(r => r.json())
-            .then(r => dispatch(updateEngineState(r)))
+            .then(r => {
+                if ('error' in r) {
+                    dispatch({ type: 'ADD_WARNING', text: r['error']});
+                }
+                else {
+                    dispatch(updateEngineState(r))
+                }})
             /* eslint-disable no-console */
             .catch(ex => console.log(ex));
-        /* eslint-enable no-console */
+            /* eslint-enable no-console */
     };
 }
 
