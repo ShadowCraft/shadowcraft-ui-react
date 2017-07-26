@@ -30,6 +30,10 @@ function setInitialCharacterData(chardata, settings = null) {
                 return response.json();
             }).then(function (json) {
                 dispatch({ type: 'SETTINGS_LAYOUT', data: json });
+                if (settings == null) {
+                    dispatch({ type: 'CHANGE_SETTING', setting: 'race',
+                               value: chardata['race'].toLowerCase()});
+                }
                 dispatch(getEngineData());
             });
     };
