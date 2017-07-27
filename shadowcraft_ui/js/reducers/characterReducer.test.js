@@ -248,22 +248,15 @@ describe('characterReducer', () => {
                 slot: 'slot',
                 ilvl: 10,
                 item: {
-                    remote_id: 'remote_id',
+                    id: 'remote_id',
                     icon: 'icon',
                     name: 'name',
                     socket_count: 'socket_count',
-                    ilvls: {
-                        10: {
-                            stats: {agi: 10},
-                            quality: 3,
-                            bonus: [10]
-                        },
-                        20: {
-                            stats: {agi: 20},
-                            quality: 4,
-                            bonus: [20]
-                        }
-                    }
+                    quality: 3,
+                    item_level: 10,
+                    bonuses: [10],
+                    gems: [0],
+                    stats: {agi: 10}
                 }
             }
         };
@@ -526,7 +519,7 @@ describe('characterReducer', () => {
                 slot: "slot",
                 gemSlot: 0,
                 gem: {
-                    remote_id: 130222,
+                    id: 130222,
                     is_gem: true,
                     name: "Masterful Shadowruby",
                     icon: "inv_jewelcrafting_70_cutgem03_purple",

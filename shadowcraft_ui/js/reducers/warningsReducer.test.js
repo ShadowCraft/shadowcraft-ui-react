@@ -16,8 +16,8 @@ describe('warningsReducer', () => {
 
     it('should handle ADD_WARNING', () => {
         const init = { warnings: ["test"] };
-        const action = { type: warningsActionTypes.ADD_WARNING };
-        const expected = { warnings: ["test"] };
+        const action = { type: warningsActionTypes.ADD_WARNING, text: "warning!" };
+        const expected = { warnings: ["test", "warning!"] };
         expect(warningsReducer(init, action)).toEqual(expected);
     });
 });

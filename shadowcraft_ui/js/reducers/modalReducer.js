@@ -1,3 +1,5 @@
+import dotProp from 'dot-prop-immutable';
+
 export const initialModalState = {
     current: null,
     open: false
@@ -17,18 +19,14 @@ export const modalTypes = {
 export const modalReducer = function (state = initialModalState, action) {
     switch (action.type) {
         case modalActionTypes.OPEN_MODAL:
-            var newState = state;
-            newState.current = action.data.popupType;
-            newState.open = true;
-            newState.props = action.data.props;
-            return Object.assign({}, state, newState);
+            return {current: action.data.popupType,
+                    open: true,
+                    props: action.data.props};
 
         case modalActionTypes.CLOSE_MODAL:
-            var newState = state;
-            newState.current = null;
-            newState.open = false;
-            newState.props = null;
-            return Object.assign({}, state, newState);
+            return {current: null,
+                    open: false,
+                    props: null};
     }
 
     return state;

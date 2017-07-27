@@ -1,4 +1,5 @@
 import deepClone from 'deep-clone';
+import dotProp from 'dot-prop-immutable';
 
 export const initialWarningsState = {
     warnings: [
@@ -14,14 +15,10 @@ export const warningsActionTypes = {
 export const warningsReducer = function (state = initialWarningsState, action) {
     switch (action.type) {
         case warningsActionTypes.CLEAR_WARNINGS:
-            var newState = state;
-            newState.warnings = [];
-            return Object.assign({}, state, newState);
+            return dotProp.set(state, 'warnings', []);
 
         case warningsActionTypes.ADD_WARNING:
-            var newState = deepClone(state);
-            newState.warnings.push(action.text);
-            return Object.assign({}, state, newState);
+            return dotProp.merge(state, 'warnings', [action.text]);
     }
 
     return state;

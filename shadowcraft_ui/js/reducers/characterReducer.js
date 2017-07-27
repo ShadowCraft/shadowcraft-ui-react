@@ -1,5 +1,5 @@
 import { getArtifactIlvlChange } from '../common';
-import deepClone from 'deep-clone';
+import dotProp from 'dot-prop-immutable';
 
 export const characterActionTypes = {
     RESET_CHARACTER_DATA: 'RESET_CHARACTER_DATA',
@@ -22,12 +22,12 @@ export const characterReducer = function (state = {}, action) {
         }
 
         case characterActionTypes.UPDATE_ARTIFACT_TRAITS: {
-            let newState = deepClone(state);
-            newState.artifact.traits = action.data;
-            return Object.assign({}, state, newState);
+            return dotProp.set(state, 'artifact.traits', action.data);
         }
 
         case characterActionTypes.UPDATE_ARTIFACT_RELIC: {
+
+            // TODO: dotProp-ify
             let newState = Object.assign({}, state);
             if (newState.artifact.relics[action.data.slot].id != 0) {
                 newState.artifact.traits[newState.artifact.relics[action.data.slot].id] -= 1;
@@ -58,23 +58,17 @@ export const characterReducer = function (state = {}, action) {
         }
 
         case characterActionTypes.UPDATE_SPEC: {
-            return Object.assign({}, state, {
-                active: action.data
-            });
+            return dotProp.set(state, "active", action.data);
         }
 
         case characterActionTypes.UPDATE_TALENTS: {
-            let newState = deepClone(state);
-            newState.talents.current = action.data;
-            return Object.assign({}, state, newState);
+            return dotProp.set(state, "talents.current", action.data);
         }
 
         case characterActionTypes.CHANGE_ITEM: {
 
-            // look away now, lest ye dispair
-
-            //TODO: clean up the data models so this mapping isn't required.
-            let item = Object.assign({}, state.gear[action.data.slot]);
+            let item = dotProp.get(state, `gear.${action.data.slot}`);
+            
             item.icon = action.data.item.icon;
             item.id = action.data.item.id;
             item.name = action.data.item.name;
@@ -88,37 +82,36 @@ export const characterReducer = function (state = {}, action) {
             item.gems = new Array(item.socket_count);
             item.gems.fill(0);
 
-            let gear = Object.assign({}, state.gear, { [action.data.slot]: item });
-            return Object.assign({}, state, { gear: gear });
+            let newData = dotProp.merge(state, `gear.${action.data.slot}`, item);
+            console.log(state);
+            console.log(newData);
+            return newData;
         }
 
         case characterActionTypes.CHANGE_BONUSES: {
-            let newGear = Object.assign({}, state.gear);
-            newGear[action.data.slot].bonuses = action.data.bonuses;
-            newGear[action.data.slot].itemLevel = action.data.ilvl;
-            newGear[action.data.slot].stats = action.data.newStats;
 
+            let newData = {bonuses: action.data.bonuses,
+                           itemLevel: action.data.ilvl,
+                           stats: action.data.newStats};
+            
             // If this item can have a bonus socket but doesn't have one assigned, nuke
             // the equipped gems out of it so they don't show back up when if a socket
             // gets added back in.
             if (action.data.canHaveBonusSocket) {
                 if (!action.data.hasBonusSocket) {
-                    newGear[action.data.slot].gems = [0];
-                    newGear[action.data.slot].socket_count = 0;
+                    newData.gems = [0];
+                    newData.socket_count = 0;
                 }
-                else if (newGear[action.data.slot].socket_count == 0) {
-                    newGear[action.data.slot].gems = [0];
-                    newGear[action.data.slot].socket_count = 1;
+                else if (state.gear[action.data.slot].socket_count == 0) {
+                    newData.gems = [0];
+                    newData.socket_count = 1;
                 }
             }
 
-            return Object.assign({}, state, { gear: newGear });
+            return dotProp.merge(state, `gear.${action.data.slot}`, newData);
         }
 
         case characterActionTypes.CHANGE_GEM: {
-            // TODO: it seems like I should be able to set just part of the state
-            // here instead of copying/setting the entire gear object.
-            let newGear = Object.assign({}, state.gear);
 
             // TODO: why is gemslot and id the same thing?
             let newGem = {
@@ -136,15 +129,11 @@ export const characterReducer = function (state = {}, action) {
             }
 
             newGem.bonus = newGem.bonus.slice(0, -3);
-            newGear[action.data.slot].gems[action.data.gemSlot] = newGem;
-
-            return Object.assign({}, state, { gear: newGear });
+            return dotProp.set(state, `gear.${action.data.slot}.gems.${action.data.gemSlot}`, newGem);
         }
 
         case characterActionTypes.CHANGE_ENCHANT: {
-            let newGear = Object.assign({}, state.gear);
-            newGear[action.data.slot].enchant = action.data.enchant;
-            return Object.assign({}, state, { gear: newGear });
+            return dotProp.set(state, `gear.${action.data.slot}.enchant`, action.data.enchant);
         }
     }
 
