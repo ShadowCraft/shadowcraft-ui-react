@@ -181,13 +181,12 @@ def __get_from_armory(db, character, realm, region):
 
         # Look up this item in the database and check whether it has any fixed sockets
         # associated with it. Also create the gems array based on those sockets.
-        query = {'remote_id': info['id']}
-        results = db.items.find(query)
-
-        if results.count() != 0:
-            if 1808 in info['bonuses']:
-                info['socket_count'] = 1
-            else:
+        if 1808 in info['bonuses']:
+            info['socket_count'] = 1
+        else:
+            query = {'remote_id': info['id']}
+            results = db.items.find(query)
+            if results.count() != 0:
                 info['socket_count'] = results[0]['socket_count']
 
         if info['socket_count'] > 0:
