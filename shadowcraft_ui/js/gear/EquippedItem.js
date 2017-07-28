@@ -15,6 +15,14 @@ class EquippedItem extends React.Component {
         this.onBonusClick = this.onBonusClick.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.IsEnchantable(nextProps.slot)) {
+            if (this.props.item.enchant == 0) {
+                store.dispatch({type: 'ADD_WARNING', text: `${this.props.item.name} is missing an enchant`});
+            }
+        }
+    }
+
     IsEnchantable(slot) {
         switch (slot) {
             case 'neck': return true;
