@@ -36,6 +36,9 @@ class ItemSelectElement extends React.Component {
         if (this.props.item.is_gem) {
             active = this.props.gear.gems[this.props.gemSlot].id == this.props.item.id;
         }
+        else if (this.props.isEnchant) {
+            active = this.props.gear.enchant == this.props.item.id;
+        }
         else {
             active = (this.props.gear.id == this.props.item.id && this.props.gear.item_level == this.props.item.item_level);
         }
