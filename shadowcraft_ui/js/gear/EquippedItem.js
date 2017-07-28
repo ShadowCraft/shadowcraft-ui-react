@@ -9,16 +9,22 @@ import EquippedEnchant from './EquippedEnchant';
 
 class EquippedItem extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onBonusClick = this.onBonusClick.bind(this);
+        this.checkForWarnings(props);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.IsEnchantable(nextProps.slot)) {
-            if (this.props.item.enchant == 0) {
-                store.dispatch({type: 'ADD_WARNING', text: `${this.props.item.name} is missing an enchant`});
+        this.checkForWarnings(nextProps);
+    }
+
+    checkForWarnings(props) {
+        if (this.IsEnchantable(props.slot)) {
+            if (this.props.equippedItem.enchant == 0) {
+                let quality = `quality-${this.props.equippedItem.quality}`;
+                store.dispatch({type: 'ADD_WARNING', text: <div><span className={quality}>{this.props.equippedItem.name}</span> is missing an enchant</div>});
             }
         }
 
@@ -32,7 +38,8 @@ class EquippedItem extends React.Component {
         }
 
         if (missingGem) {
-            store.dispatch({type: 'ADD_WARNING', text: `${this.props.item.name} is missing one or more gems`});
+            let quality = `quality-${this.props.equippedItem.quality}`;
+            store.dispatch({type: 'ADD_WARNING', text: <div><span className={quality}>{this.props.equippedItem.name}</span> is missing one or more gems</div>});
         }
     }
 

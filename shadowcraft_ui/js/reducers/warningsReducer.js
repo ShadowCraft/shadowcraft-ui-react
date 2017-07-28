@@ -2,9 +2,7 @@ import deepClone from 'deep-clone';
 import dotProp from 'dot-prop-immutable';
 
 export const initialWarningsState = {
-    warnings: [
-        "Band of Crystalline Bone needs an enchantment"
-    ]
+    warnings: []
 };
 
 export const warningsActionTypes = {
