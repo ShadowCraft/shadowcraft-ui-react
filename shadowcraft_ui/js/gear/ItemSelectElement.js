@@ -23,9 +23,15 @@ class ItemSelectElement extends React.Component {
 
     buildTooltipURL(item)
     {
-        let url = `http://wowdb.com/items/${item.id}`;
-        if (item.bonuses && item.bonuses.length > 0) {
-            url += `?bonusIDs=${item.bonuses.toString()}`;
+        let url = "";
+        if (this.props.isEnchant) {
+            url = `http://wowdb.com/items/${item.remote_id}`;
+        }
+        else {
+            url = `http://wowdb.com/items/${item.id}`;
+            if (item.bonuses && item.bonuses.length > 0) {
+                url += `?bonusIDs=${item.bonuses.toString()}`;
+            }
         }
         return url;
     }
