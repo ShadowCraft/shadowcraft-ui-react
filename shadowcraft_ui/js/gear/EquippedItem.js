@@ -21,6 +21,19 @@ class EquippedItem extends React.Component {
                 store.dispatch({type: 'ADD_WARNING', text: `${this.props.item.name} is missing an enchant`});
             }
         }
+
+        let missingGem = false;
+        if (this.props.item.socket_count > 0) {
+            for (let idx in this.props.item.gems) {
+                if (this.props.item.gems[idx] == 0) {
+                    missingGem = true;
+                }
+            }
+        }
+
+        if (missingGem) {
+            store.dispatch({type: 'ADD_WARNING', text: `${this.props.item.name} is missing one or more gems`});
+        }
     }
 
     IsEnchantable(slot) {
