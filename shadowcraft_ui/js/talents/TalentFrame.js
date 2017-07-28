@@ -24,7 +24,7 @@ class TalentFrame extends React.Component {
     {
         var row = parseInt(e.currentTarget.dataset['row']);
         var col = parseInt(e.currentTarget.dataset['col']);
-        var current = this.props.setup;
+        var current = this.props.currentTalents;
         var newSetup = current.substr(0, row) + col + current.substr(row+1);
         
         store.dispatch(updateCharacterState('UPDATE_TALENTS', newSetup));
@@ -32,9 +32,7 @@ class TalentFrame extends React.Component {
 
     resetTalents(e)
     {
-        e.preventDefault();
-        store.dispatch({type: "OPEN_MODAL", data: {popupType: modalTypes.ITEM_SELECT}});
-//        store.dispatch(updateCharacterState('UPDATE_TALENTS', '0000000'));
+        store.dispatch(updateCharacterState('UPDATE_TALENTS', '0000000'));
     }
 
     render()
@@ -43,7 +41,7 @@ class TalentFrame extends React.Component {
         for (var index in this.props.layout.talents) {
             var talent = this.props.layout.talents[index];
             var active = false;
-            if (this.props.setup[talent.row] == talent.col || this.props.setup[talent.row] == 0) {
+            if (this.props.currentTalents[talent.row] == talent.col || this.props.currentTalents[talent.row] == 0) {
                 active = true;
             }
 
@@ -79,7 +77,7 @@ class TalentFrame extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-        setup: store.character.talents.current
+        currentTalents: store.character.talents.current
     };
 };
 

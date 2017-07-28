@@ -39,15 +39,15 @@ class TalentPane extends React.Component {
         var frame = null;
         var ranking_frame = null;
 
-        if (this.props.active == 'a') {
+        if (this.props.activeSpec == 'a') {
             frame = <TalentFrame layout={layouts.assassination_layout} />;
             ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.assassination_ranking} values={this.props.rankings}/>;
         }
-        else if (this.props.active == 'Z') {
+        else if (this.props.activeSpec == 'Z') {
             frame = <TalentFrame layout={layouts.outlaw_layout} />;
             ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.outlaw_ranking} values={this.props.rankings}/>;
         }
-        else if (this.props.active == 'b') {
+        else if (this.props.activeSpec == 'b') {
             frame = <TalentFrame layout={layouts.subtlety_layout} />;
             ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.subtlety_ranking} values={this.props.rankings}/>;
         }
@@ -77,7 +77,7 @@ class TalentPane extends React.Component {
 const mapStateToProps = function(store) {
     return {
         rankings: store.engine.talentRanking,
-        active: store.character.active,
+        activeSpec: store.character.active,
         talents: store.character.talents,
     };
 };

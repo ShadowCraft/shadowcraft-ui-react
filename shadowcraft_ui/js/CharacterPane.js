@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import 'whatwg-fetch';
 
 import store from './store';
 import { checkFetchStatus, updateCharacterState, getEngineData } from './store';

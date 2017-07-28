@@ -12,13 +12,13 @@ class StatPane extends React.Component {
     render() {
 
         var spec;
-        if (this.props.spec == 'a') {
+        if (this.props.activeSpec == 'a') {
             spec = 'Assassination';
         }
-        else if (this.props.spec == 'Z') {
+        else if (this.props.activeSpec == 'Z') {
             spec = 'Outlaw';
         }
-        else if (this.props.spec == 'b') {
+        else if (this.props.activeSpec == 'b') {
             spec = 'Subtlety';
         }
 
@@ -35,7 +35,7 @@ class StatPane extends React.Component {
                 <section id="summary">
                     <h3>Summary</h3>
                     <div className="inner">
-                        <StatPanelElement name="Engine" value={this.props.engine_target} />
+                        <StatPanelElement name="Engine" value={this.props.engineTarget} />
                         <StatPanelElement name="Spec" value={spec} />
                         <StatPanelElement name="Boss Adds" value={numAdds} />
                     </div>
@@ -58,8 +58,8 @@ class StatPane extends React.Component {
                         <StatPanelElement name="Crit" value={round3(this.props.weights.crit)} />
                         <StatPanelElement name="Mastery" value={round3(this.props.weights.mastery)} />
                         <StatPanelElement name="Haste" value={round3(this.props.weights.haste)} />
-                        <StatPanelElement name="Mainhand DPS" value={round3(this.props.mh_ep)} />
-                        <StatPanelElement name="Offhand DPS" value={round3(this.props.oh_ep)} />
+                        <StatPanelElement name="Mainhand DPS" value={round3(this.props.mhEP)} />
+                        <StatPanelElement name="Offhand DPS" value={round3(this.props.ohEP)} />
                     </div>
                 </section>
                 <section>
@@ -78,10 +78,10 @@ const mapStateToProps = function(store) {
     return {
         stats: store.engine.stats,
         weights: store.engine.ep,
-        mh_ep: store.engine.mh_ep.mh_dps,
-        oh_ep: store.engine.oh_ep.oh_dps,
-        engine_target: store.engine.engine_info.wow_build_target,
-        spec: store.character.active,
+        mhEP: store.engine.mh_ep.mh_dps,
+        ohEP: store.engine.oh_ep.oh_dps,
+        engineTarget: store.engine.engine_info.wow_build_target,
+        activeSpec: store.character.active,
         settings: store.settings
     };
 };

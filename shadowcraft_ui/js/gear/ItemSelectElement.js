@@ -40,13 +40,13 @@ class ItemSelectElement extends React.Component {
         let active = false;
 
         if (this.props.item.is_gem) {
-            active = this.props.gear.gems[this.props.gemSlot].id == this.props.item.id;
+            active = this.props.equippedItem.gems[this.props.gemSlot].id == this.props.item.id;
         }
         else if (this.props.isEnchant) {
-            active = this.props.gear.enchant == this.props.item.id;
+            active = this.props.equippedItem.enchant == this.props.item.id;
         }
         else {
-            active = (this.props.gear.id == this.props.item.id && this.props.gear.item_level == this.props.item.item_level);
+            active = (this.props.equippedItem.id == this.props.item.id && this.props.equippedItem.item_level == this.props.item.item_level);
         }
 
         return (
@@ -71,7 +71,7 @@ class ItemSelectElement extends React.Component {
 
 const mapStateToProps = function (store, ownProps) {
     return {
-        gear: store.character.gear[ownProps.slot]
+        equippedItem: store.character.gear[ownProps.slot]
     };
 };
 

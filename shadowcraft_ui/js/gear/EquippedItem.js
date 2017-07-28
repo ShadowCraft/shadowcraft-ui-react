@@ -29,9 +29,9 @@ class EquippedItem extends React.Component {
         }
 
         let missingGem = false;
-        if (this.props.item.socket_count > 0) {
-            for (let idx in this.props.item.gems) {
-                if (this.props.item.gems[idx] == 0) {
+        if (this.props.equippedItem.socket_count > 0) {
+            for (let idx in this.props.equippedItem.gems) {
+                if (this.props.equippedItem.gems[idx] == 0) {
                     missingGem = true;
                 }
             }
@@ -63,8 +63,8 @@ class EquippedItem extends React.Component {
         let min_ilvl = -1;
         let max_ilvl = -1;
         if (this.props.settings.dynamic_ilvl) {
-            min_ilvl = this.state.items[this.props.slot].item_level - 50;
-            max_ilvl = this.state.items[this.props.slot].item_level + 50;
+            min_ilvl = this.equippedItem.item_level - 50;
+            max_ilvl = this.equippedItem.item_level + 50;
         }
         else {
             min_ilvl = this.props.settings.min_ilvl;
@@ -92,16 +92,16 @@ class EquippedItem extends React.Component {
                 }
                 allItems.push(copy);
 
-                if (copy.id == this.props.item.id &&
-                    copy.item_level == this.props.item.item_level)
+                if (copy.id == this.props.equippedItem.id &&
+                    copy.item_level == this.props.equippedItem.item_level)
                 {
                     foundMatch = true;
                 }
             }
 
-            if (!foundMatch && item.id == this.props.item.id) {
+            if (!foundMatch && item.id == this.props.equippedItem.id) {
                 let copy = deepClone(item);
-                let equipped = this.props.item;
+                let equipped = this.props.equippedItem;
                 copy['item_level'] = equipped.item_level;
                 copy['bonuses'] = equipped.bonuses;
                 copy['stats'] = equipped.stats;
@@ -133,7 +133,7 @@ class EquippedItem extends React.Component {
 
         store.dispatch({type: "OPEN_MODAL",
                         data: {popupType: modalTypes.ITEM_BONUSES,
-                               props:{ item: this.props.item}}});
+                               props:{ item: this.props.equippedItem}}});
     }
 
     adjustSlotName(slot) {
@@ -164,19 +164,19 @@ class EquippedItem extends React.Component {
             <div>
                 <div className="slot">
                     <div className="image">
-                        <img src={`http://media.blizzard.com/wow/icons/56/${this.props.item.icon}.jpg`} />
-                        <span className="ilvl">{this.props.item.item_level}</span>
+                        <img src={`http://media.blizzard.com/wow/icons/56/${this.props.equippedItem.icon}.jpg`} />
+                        <span className="ilvl">{this.props.equippedItem.item_level}</span>
                     </div>
-                    <div className={`name quality-${this.props.item.quality}`} onClick={this.props.item.slot !== "mainHand" ? this.onClick.bind(this) : null} >
-                        <span data-tooltip-href={this.buildTooltipURL(this.props.item)}>{this.props.item.name}</span>
-                        <a className="wowhead" href={`http://legion.wowhead.com/item=${this.props.item.id}`} target="_blank">Wowhead</a>
+                    <div className={`name quality-${this.props.equippedItem.quality}`} onClick={this.props.equippedItem.slot !== "mainHand" ? this.onClick.bind(this) : null} >
+                        <span data-tooltip-href={this.buildTooltipURL(this.props.equippedItem)}>{this.props.equippedItem.name}</span>
+                        <a className="wowhead" href={`http://legion.wowhead.com/item=${this.props.equippedItem.id}`} target="_blank">Wowhead</a>
                     </div>
-                    {this.props.item.quality != 6 && <div className="bonuses" onClick={this.onBonusClick} >
+                    {this.props.equippedItem.quality != 6 && <div className="bonuses" onClick={this.onBonusClick} >
                         {/*this probably doesn't need a huge full length div, maybe a gear under the item icon instead?'*/}
                         <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>}
                     {/*need to pass whole item because we need to check item quality to filter out relics*/}
-                    { this.props.item.socket_count > 0 && <EquippedGemList item={this.props.item} /> }
-                    { this.IsEnchantable(this.props.item.slot) && <EquippedEnchant item={this.props.item} /> }
+                    { this.props.equippedItem.socket_count > 0 && <EquippedGemList item={this.props.equippedItem} /> }
+                    { this.IsEnchantable(this.props.equippedItem.slot) && <EquippedEnchant item={this.props.equippedItem} /> }
                 </div >
             </div>
         );
@@ -185,7 +185,7 @@ class EquippedItem extends React.Component {
 
 const mapStateToProps = function (store, ownProps) {
     return {
-        item: store.character.gear[ownProps.slot],
+        equippedItem: store.character.gear[ownProps.slot],
         settings: store.settings.current
     };
 };

@@ -29,15 +29,15 @@ class ItemSelectPopup extends React.Component {
     getItemValue(item) {
         if (!(item.id in this.itemValueCache && item.item_level in this.itemValueCache[item.id])) {
             let value = this.getStatValue(item.stats);
-            if (item.id in this.props.trinket_map) {
-                let idString = this.props.trinket_map[item.id];
+            if (item.id in this.props.trinketMap) {
+                let idString = this.props.trinketMap[item.id];
                 
-                if (idString in this.props.other_ep) {
-                    value += this.props.other_ep[idString];
+                if (idString in this.props.otherEP) {
+                    value += this.props.otherEP[idString];
                 }
                 
-                if (idString in this.props.proc_ep) {
-                    value += this.props.proc_ep[idString][item.item_level.toString()];
+                if (idString in this.props.procEP) {
+                    value += this.props.procEP[idString][item.item_level.toString()];
                 }
             }
             
@@ -55,7 +55,7 @@ class ItemSelectPopup extends React.Component {
     {
         let value = this.getStatValue(enchant.stats);
         if (enchant.ep_id) {
-            value += this.props.other_ep[enchant.ep_id];
+            value += this.props.otherEP[enchant.ep_id];
         }
         return value;
     }
@@ -92,13 +92,13 @@ class ItemSelectPopup extends React.Component {
                     return true;
                 }
                 else if (this.props.isEnchant) {
-                    return item.id == this.props.equipped_item.enchant;
+                    return item.id == this.props.equippedItem.enchant;
                 }
                 else if (this.props.isGem) {
-                    return item.id == this.props.equipped_item.gems[this.props.gemSlot].id;
+                    return item.id == this.props.equippedItem.gems[this.props.gemSlot].id;
                 }
                 else {
-                    return item.id == this.props.equipped_item.id && item.item_level == this.props.equipped_item.item_level;
+                    return item.id == this.props.equippedItem.id && item.item_level == this.props.equippedItem.item_level;
                 }
             }.bind(this));
         }
@@ -164,10 +164,10 @@ class ItemSelectPopup extends React.Component {
 const mapStateToProps = function(store, ownProps) {
     return {
         weights: store.engine.ep,
-        other_ep: store.engine.other_ep,
-        proc_ep: store.engine.proc_ep,
-        trinket_map: store.engine.trinket_map,
-        equipped_item: store.character.gear[ownProps.slot]
+        otherEP: store.engine.otherEP,
+        procEP: store.engine.proc_ep,
+        trinketMap: store.engine.trinketMap,
+        equippedItem: store.character.gear[ownProps.slot]
     };
 };
 
