@@ -34,12 +34,10 @@ class ItemSelectElement extends React.Component {
         let active = false;
 
         if (this.props.item.is_gem) {
-            let activeGear = this.props.gear[this.props.slot];
-            active = activeGear.gems[this.props.gemSlot].id == this.props.item.id;
+            active = this.props.gear.gems[this.props.gemSlot].id == this.props.item.id;
         }
         else {
-            let activeGear = this.props.gear[this.props.slot];
-            active = (activeGear.id == this.props.item.id && activeGear.item_level == this.props.item.item_level);
+            active = (this.props.gear.id == this.props.item.id && this.props.gear.item_level == this.props.item.item_level);
         }
 
         return (

@@ -88,7 +88,18 @@ class ItemSelectPopup extends React.Component {
         }
         else {
             filteredItems = items.filter(function(item) {
-                return item.name.toLowerCase().includes(this.state.filter);
+                if (item.name.toLowerCase().includes(this.state.filter)) {
+                    return true;
+                }
+                else if (this.props.isEnchant) {
+                    return item.id == this.props.equipped_item.enchant;
+                }
+                else if (this.props.isGem) {
+                    return item.id == this.props.equipped_item.gems[this.props.gemSlot].id;
+                }
+                else {
+                    return item.id == this.props.equipped_item.id && item.item_level == this.props.equipped_item.item_level;
+                }
             }.bind(this));
         }
 
@@ -133,7 +144,6 @@ class ItemSelectPopup extends React.Component {
     }
 
     render() {
-        // console.log(this.props.items);
         //TODO: fix the popup dialog placement
         return (
             <ModalWrapper style={{ top: '100px', left: '100px' }} modalId="alternatives">
