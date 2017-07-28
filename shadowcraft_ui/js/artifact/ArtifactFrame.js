@@ -95,8 +95,8 @@ class ArtifactFrame extends React.Component {
         // Recalculate the stats on the artifact based on the change in ilevel because of
         // the relic change.
         let ilvlChange = getArtifactIlvlChange(this.props.artifact.relics[slot].ilvl, ilvl);
-        let stats = recalculateStats(this.props.gear['mainHand'].stats, ilvlChange);
-        let weaponStats = recalculateStats(this.props.gear['mainHand'].weaponStats, ilvlChange);
+        let stats = recalculateStats(this.props.mainHand.stats, ilvlChange);
+        let weaponStats = recalculateStats(this.props.mainHand.weaponStats, ilvlChange);
 
         // TODO: this needs validation to make sure that the values are coming out correct
         store.dispatch(updateCharacterState(
@@ -294,7 +294,7 @@ class ArtifactFrame extends React.Component {
 const mapStateToProps = function(store) {
     return {
         artifact: store.character.artifact,
-        gear: store.character.gear
+        mainHand: store.character.gear['mainHand']
     };
 };
 

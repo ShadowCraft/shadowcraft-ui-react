@@ -62,9 +62,9 @@ class ItemSelectElement extends React.Component {
     }
 }
 
-const mapStateToProps = function (store) {
+const mapStateToProps = function (store, ownProps) {
     return {
-        gear: store.character.gear
+        gear: store.character.gear[ownProps.slot]
     };
 };
 
