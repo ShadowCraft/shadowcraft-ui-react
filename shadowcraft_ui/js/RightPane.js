@@ -78,9 +78,11 @@ class RightPane extends React.Component {
         graphTestData['labels'] = Array(graphTestData['datasets'][0]['data'].length).fill('');
 
         let dpsChange = 0.0;
+        let dpsChangePct = 0.0;
         let historyLength = this.props.history.dps.length;
         if (historyLength > 1) {
             dpsChange = Math.round((this.props.history.dps[historyLength-1] - this.props.history.dps[historyLength-2]) * 100.0) / 100.0;
+            dpsChangePct = Math.round(((dpsChange / this.props.history.dps[historyLength-1]) * 100.0) * 100.0) / 100.0;
         }
 
         let warnings = this.props.warnings.map((g, i) =>
@@ -103,7 +105,7 @@ class RightPane extends React.Component {
                         </span>
                     </a>
                     <div id="dps">
-                        <div className="inner">{Math.round(this.props.dps*10)/10.0} {dpsChange < 0.0 ? (<em className="n">({dpsChange})</em>):(<em className="p">(+{dpsChange})</em>)}</div>
+                        <div className="inner">{Math.round(this.props.dps*10)/10.0} {dpsChange < 0.0 ? (<em className="n">({dpsChange} / {dpsChangePct}%)</em>):(<em className="p">(+{dpsChange} / +{dpsChangePct}%)</em>)}</div>
                     </div>
                     <Line data={graphTestData} options={graphOptions} getElementsAtEvent={this.graphClick} />
                 </div>

@@ -164,9 +164,9 @@ class ItemSelectPopup extends React.Component {
 const mapStateToProps = function(store, ownProps) {
     return {
         weights: store.engine.ep,
-        otherEP: store.engine.otherEP,
+        otherEP: store.engine.other_ep,
         procEP: store.engine.proc_ep,
-        trinketMap: store.engine.trinketMap,
+        trinketMap: store.engine.trinket_map,
         equippedItem: store.character.gear[ownProps.slot]
     };
 };
