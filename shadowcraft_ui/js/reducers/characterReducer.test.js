@@ -555,5 +555,61 @@ describe('characterReducer', () => {
         expect(characterReducer(init, action)).toEqual(expected);
 
     });
+
+    it('should handle OPTIMIZE_GEMS', () => {
+
+        const init = {
+            gear: {
+                slot: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "gem1",
+                            id: 1,
+                            icon: "icon1",
+                            quality: 3,
+                            bonus: "+150 Mastery",
+                            gemslot: 1
+                        }],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                }
+            }
+        };
+
+        const action = {
+            type: characterActionTypes.OPTIMIZE_GEMS,
+            data: {
+                weights: {},
+                procEP: {},
+                gems: {}
+            }
+        };
+
+        const expected = {
+            gear: {
+                slot: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "gem1",
+                            id: 1,
+                            icon: "icon1",
+                            quality: 3,
+                            bonus: "+150 Mastery",
+                            gemslot: 1
+                        }],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                }
+            }
+        };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+    });
 }
 );

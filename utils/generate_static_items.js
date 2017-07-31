@@ -22,7 +22,7 @@ MongoClient.connect(url, function(err, db) {
             }
         }
 
-        wstream.write(']');
+        wstream.write('];');
         wstream.end();
         
         db.close();

@@ -1,14 +1,74 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import store from '../store';
+import { updateCharacterState } from '../store';
 
 import StatPanelElement from './StatPanelElement';
 import StatPanelButton from './StatPanelButton';
+import EnchantMap from './EnchantMap';
+import { getStatValue } from '../common';
 
 function round3(val) {
     return Math.round(val * 1000.0) / 1000.0;
 }
 
 class StatPane extends React.Component {
+
+    optimizeGems() {
+        // We only care about the blue gems, and we'll send over the one agility purple
+        // gem too so that one is equipped somewhere.
+        let gems = ITEM_DATA.filter(function(item) {
+            return item.is_gem && item.quality == 3;
+        });
+
+        let bestVal = -1.0;
+        let best = null;
+        for (let idx in gems) {
+            let value = getStatValue(gems[idx].stats, this.props.weights);
+            if (value > bestVal) {
+                bestVal = value;
+                best = gems[idx];
+            }
+        }
+
+        gems = ITEM_DATA.filter(function(item) {
+            return item.is_gem && item.quality == 4 && item['stats'].hasOwnProperty('agility');
+        });
+
+
+        store.dispatch(updateCharacterState('OPTIMIZE_GEMS', {rare: best, epic: gems[0]}));
+    }
+
+    optimizeEnchants() {
+        // Need the best neck, back, and ring enchants to send to the reducer.
+        let actionData = {}
+        let slots = ['back', 'neck', 'finger'];
+        for (let slot in slots) {
+            let enchants = EnchantMap.filter(function(e) {
+                return e.slot == slots[slot]});
+
+            let bestVal = -1.0;
+            let best = 0;
+            for (let idx in enchants) {
+                // TODO: this is a copy of ItemSelectPopup.getEnchantValue. That could
+                // probably be moved to common.js.
+                let value = getStatValue(enchants[idx].stats, this.props.weights);
+                if (enchants[idx].ep_id) {
+                    value += this.props.otherEP[enchants[idx].ep_id];
+                }
+
+                if (value > bestVal) {
+                    bestVal = value;
+                    best = enchants[idx].id;
+                }
+            }
+
+            actionData[slots[slot]] = best;
+        }
+
+        store.dispatch(updateCharacterState('OPTIMIZE_ENCHANTS', actionData));
+    }
+
     render() {
 
         var spec;
@@ -29,7 +89,7 @@ class StatPane extends React.Component {
         if ('current' in this.props.settings) {
             numAdds = this.props.settings.current['general.settings.num_boss_adds'];
         }
-        
+
         return (
             <div className="panel-tools">
                 <section id="summary">
@@ -65,8 +125,8 @@ class StatPane extends React.Component {
                 <section>
                     <h3>Toolbox</h3>
                     <div className="inner">
-                        <StatPanelButton id='optimizeGems' name='Optimize Gems' />
-                        <StatPanelButton id='optimizeEnchants' name='Optimize Enchants' />
+                        <StatPanelButton id='optimizeGems' name='Optimize Gems' onClick={this.optimizeGems.bind(this)} />
+                        <StatPanelButton id='optimizeEnchants' name='Optimize Enchants' onClick={this.optimizeEnchants.bind(this)} />
                     </div>
                 </section>
             </div >
@@ -80,6 +140,7 @@ const mapStateToProps = function(store) {
         weights: store.engine.ep,
         mhEP: store.engine.mh_ep.mh_dps,
         ohEP: store.engine.oh_ep.oh_dps,
+        otherEP: store.engine.other_ep,
         engineTarget: store.engine.engine_info.wow_build_target,
         activeSpec: store.character.active,
         settings: store.settings

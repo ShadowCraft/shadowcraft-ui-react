@@ -69,6 +69,21 @@ export function getArtifactIlvlChange(oldRelic, newRelic)
     return RELIC_ILVL_MAPPING[newRelic] - RELIC_ILVL_MAPPING[oldRelic];
 }
 
+export const MULTI_ITEM_SETS = {
+    rogue_t19: [138326, 138329, 138332, 138335, 138338, 138371],
+    rogue_orderhall: [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746],
+
+    // Legion Dungeon sets
+    march_of_the_legion: [134529, 134533],
+    journey_through_time: [137419, 137487],
+    jacins_ruse: [137480, 137397],
+
+    // Kara trinket/chest sets
+    toe_knees: [142164, 142203],
+    bloodstained: [142159, 142203],
+    eye_of_command: [142167, 142203]
+};
+
 // Recalculates a stat block based on a change in item level.
 export function recalculateStats(baseStats, ilvlChange) {
     let newStats;
@@ -77,17 +92,17 @@ export function recalculateStats(baseStats, ilvlChange) {
         newStats = {};
         let ilvlMultiplier = 1.0 / Math.pow(1.15, (ilvlChange / -15.0));
         let secondaryMultiplier = Math.pow(1.0037444020662509239443726693104, ilvlChange);
-        
+
         for (let stat in baseStats) {
             newStats[stat] = baseStats[stat];
             if (stat == 'speed') {
                 continue;
             }
-            
+
             if (stat != 'agility' && stat != 'stamina') {
                 newStats[stat] *= secondaryMultiplier;
             }
-            
+
             newStats[stat] = Math.round(newStats[stat] * ilvlMultiplier);
         }
     }
@@ -144,4 +159,16 @@ export function storageGet(name) {
 
 export function storageClear() {
     window['localStorage'].clear();
+}
+
+export function getStatValue(stats, weights) {
+    let value = 0;
+    //explicit to mind possible mismatched/missing property names
+    value += (stats.agility || 0) * weights.agi;
+    value += (stats.crit || 0) * weights.crit;
+    value += (stats.haste || 0) * weights.haste;
+    value += (stats.mastery || 0) * weights.mastery;
+    value += (stats.versatility || 0) * weights.versatility;
+
+    return value;
 }

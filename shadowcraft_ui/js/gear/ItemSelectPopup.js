@@ -3,6 +3,7 @@ import store from '../store';
 import ItemSelectElement from './ItemSelectElement';
 import ModalWrapper from '../modals/ModalWrapper';
 import { connect } from 'react-redux';
+import { getStatValue } from '../common';
 
 class ItemSelectPopup extends React.Component {
 
@@ -14,21 +15,9 @@ class ItemSelectPopup extends React.Component {
         this.itemValueCache = {};
     }
 
-    getStatValue(stats) {
-        let value = 0;
-        //explicit to mind possible mismatched/missing property names
-        value += (stats.agility || 0) * this.props.weights.agi;
-        value += (stats.crit || 0) * this.props.weights.crit;
-        value += (stats.haste || 0) * this.props.weights.haste;
-        value += (stats.mastery || 0) * this.props.weights.mastery;
-        value += (stats.versatility || 0) * this.props.weights.versatility;
-
-        return value;
-    }
-
     getItemValue(item) {
         if (!(item.id in this.itemValueCache && item.item_level in this.itemValueCache[item.id])) {
-            let value = this.getStatValue(item.stats);
+            let value = getStatValue(item.stats, this.props.weights);
             if (item.id in this.props.trinketMap) {
                 let idString = this.props.trinketMap[item.id];
                 
@@ -53,7 +42,7 @@ class ItemSelectPopup extends React.Component {
 
     getEnchantValue(enchant)
     {
-        let value = this.getStatValue(enchant.stats);
+        let value = getStatValue(enchant.stats, this.props.weights);
         if (enchant.ep_id) {
             value += this.props.otherEP[enchant.ep_id];
         }

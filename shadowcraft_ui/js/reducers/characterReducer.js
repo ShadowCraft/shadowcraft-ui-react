@@ -10,7 +10,9 @@ export const characterActionTypes = {
     CHANGE_ITEM: 'CHANGE_ITEM',
     CHANGE_BONUSES: 'CHANGE_BONUSES',
     CHANGE_GEM: 'CHANGE_GEM',
-    CHANGE_ENCHANT: 'CHANGE_ENCHANT'
+    CHANGE_ENCHANT: 'CHANGE_ENCHANT',
+    OPTIMIZE_GEMS: 'OPTIMIZE_GEMS',
+    OPTIMIZE_ENCHANTS: 'OPTIMIZE_ENCHANTS',
 };
 
 export const characterReducer = function (state = {}, action) {
@@ -134,6 +136,69 @@ export const characterReducer = function (state = {}, action) {
 
         case characterActionTypes.CHANGE_ENCHANT: {
             return dotProp.set(state, `gear.${action.data.slot}.enchant`, action.data.enchant);
+        }
+
+        case characterActionTypes.OPTIMIZE_GEMS: {
+            
+            let newRareGem = {
+                gemslot: action.data.rare.id,
+                icon: action.data.rare.icon,
+                id: action.data.rare.id,
+                name: action.data.rare.name,
+                quality: action.data.rare.quality,
+                bonus: ""
+            }
+
+            let newState = state;
+
+            // Set all of the gems to the new rare gem, keeping track of whether or not
+            // we found an epic agi gem somewhere in there.
+            let foundAgiGem = false;
+            let firstGemSlot = null;
+            for (let slot in state.gear) {
+                for (let idx = 0; idx < state.gear[slot].socket_count; idx++) {
+                    if (firstGemSlot == null) {
+                        firstGemSlot = slot;
+                    }
+
+                    if (state.gear[slot].gems[idx].id == action.data.epic.id) {
+                        foundAgiGem = true;
+                    } else if (state.gear[slot].gems[idx].id != action.data.epic.id && state.gear[slot].gems[idx].id != action.data.rare.id) {
+                        newState = dotProp.set(state, `gear.${slot}.gems.${idx}`, newRareGem);
+                    }
+                }
+            }
+
+            // If we didn't find an epic gem, set the first available gem slot to that.
+            if (!foundAgiGem && firstGemSlot != null) {
+                let newEpicGem = {
+                    gemslot: action.data.epic.id,
+                    icon: action.data.epic.icon,
+                    id: action.data.epic.id,
+                    name: action.data.epic.name,
+                    quality: action.data.epic.quality,
+                    bonus: ""
+                }
+
+                newState = dotProp.set(newState, `gear.${firstGemSlot}.gems.0`,newEpicGem);
+            }
+
+            if (newState != null) {
+                return newState;
+            }
+            else {
+                return state;
+            }
+        }
+
+        case characterActionTypes.OPTIMIZE_ENCHANTS: {
+
+            let newState = dotProp.set(state, 'gear.neck.enchant', action.data.neck);
+            newState = dotProp.set(newState, 'gear.back.enchant', action.data.back);
+            newState = dotProp.set(newState, 'gear.finger1.enchant', action.data.finger);
+            newState = dotProp.set(newState, 'gear.finger2.enchant', action.data.finger);
+
+            return newState;
         }
     }
 
