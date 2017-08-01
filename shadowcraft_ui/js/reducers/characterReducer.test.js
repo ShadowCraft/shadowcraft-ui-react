@@ -869,5 +869,109 @@ describe('characterReducer', () => {
 
         expect(characterReducer(init, action)).toEqual(expected);
     });
+
+    it('should handle OPTIMIZE_ENCHANTS', () => {
+
+        const init = {
+            gear: {
+                neck: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                chest: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                back: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                finger1: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                finger2: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                }
+            }
+        };
+        const action = {
+            type: characterActionTypes.OPTIMIZE_ENCHANTS,
+            data: {
+                neck: 1234,
+                back: 2345,
+                finger: 3456,
+            }
+        };
+        const expected = {
+            gear: {
+                neck: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 1234
+                },
+                chest: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                back: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 2345
+                },
+                finger1: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 3456
+                },
+                finger2: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 3456
+                }
+            }
+        };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+
+    });
+
 }
 );
