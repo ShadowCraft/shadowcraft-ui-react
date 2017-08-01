@@ -15,6 +15,27 @@ export const characterActionTypes = {
     OPTIMIZE_ENCHANTS: 'OPTIMIZE_ENCHANTS',
 };
 
+function makeGem(actionGem) {
+    // TODO: why is gemslot and id the same thing?
+    let newGem = {
+        gemslot: actionGem.id,
+        icon: actionGem.icon,
+        id: actionGem.id,
+        name: actionGem.name,
+        quality: actionGem.quality,
+        bonus: ""
+    }
+
+    for (let stat in actionGem.stats) {
+        let capStat = stat.charAt(0).toUpperCase() + stat.slice(1);
+        newGem.bonus = newGem.bonus.concat(`+${actionGem.stats[stat]} ${capStat} / `);
+    }
+
+    newGem.bonus = newGem.bonus.slice(0, -3);
+
+    return newGem;
+}
+
 export const characterReducer = function (state = {}, action) {
 
     switch (action.type) {
@@ -85,8 +106,6 @@ export const characterReducer = function (state = {}, action) {
             item.gems.fill(0);
 
             let newData = dotProp.merge(state, `gear.${action.data.slot}`, item);
-            console.log(state);
-            console.log(newData);
             return newData;
         }
 
@@ -115,23 +134,8 @@ export const characterReducer = function (state = {}, action) {
 
         case characterActionTypes.CHANGE_GEM: {
 
-            // TODO: why is gemslot and id the same thing?
-            let newGem = {
-                gemslot: action.data.gem.id,
-                icon: action.data.gem.icon,
-                id: action.data.gem.id,
-                name: action.data.gem.name,
-                quality: action.data.gem.quality,
-                bonus: ""
-            }
-
-            for (let stat in action.data.gem.stats) {
-                let capStat = stat.charAt(0).toUpperCase() + stat.slice(1);
-                newGem.bonus = newGem.bonus.concat(`+${action.data.gem.stats[stat]} ${capStat} / `);
-            }
-
-            newGem.bonus = newGem.bonus.slice(0, -3);
-            return dotProp.set(state, `gear.${action.data.slot}.gems.${action.data.gemSlot}`, newGem);
+            return dotProp.set(state, `gear.${action.data.slot}.gems.${action.data.gemSlot}`,
+                               makeGem(action.data.gem));
         }
 
         case characterActionTypes.CHANGE_ENCHANT: {
@@ -139,16 +143,8 @@ export const characterReducer = function (state = {}, action) {
         }
 
         case characterActionTypes.OPTIMIZE_GEMS: {
-            
-            let newRareGem = {
-                gemslot: action.data.rare.id,
-                icon: action.data.rare.icon,
-                id: action.data.rare.id,
-                name: action.data.rare.name,
-                quality: action.data.rare.quality,
-                bonus: ""
-            }
 
+            let newRareGem = makeGem(action.data.rare);
             let newState = state;
 
             // Set all of the gems to the new rare gem, keeping track of whether or not
@@ -164,23 +160,15 @@ export const characterReducer = function (state = {}, action) {
                     if (state.gear[slot].gems[idx].id == action.data.epic.id) {
                         foundAgiGem = true;
                     } else if (state.gear[slot].gems[idx].id != action.data.epic.id && state.gear[slot].gems[idx].id != action.data.rare.id) {
-                        newState = dotProp.set(state, `gear.${slot}.gems.${idx}`, newRareGem);
+                        newState = dotProp.set(newState, `gear.${slot}.gems.${idx}`, newRareGem);
                     }
                 }
             }
 
             // If we didn't find an epic gem, set the first available gem slot to that.
             if (!foundAgiGem && firstGemSlot != null) {
-                let newEpicGem = {
-                    gemslot: action.data.epic.id,
-                    icon: action.data.epic.icon,
-                    id: action.data.epic.id,
-                    name: action.data.epic.name,
-                    quality: action.data.epic.quality,
-                    bonus: ""
-                }
-
-                newState = dotProp.set(newState, `gear.${firstGemSlot}.gems.0`,newEpicGem);
+                newState = dotProp.set(newState, `gear.${firstGemSlot}.gems.0`,
+                                       makeGem(action.data.epic));
             }
 
             if (newState != null) {
