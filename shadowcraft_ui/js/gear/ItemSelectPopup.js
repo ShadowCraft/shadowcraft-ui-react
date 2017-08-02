@@ -20,28 +20,33 @@ class ItemSelectPopup extends React.Component {
             let value = getStatValue(item.stats, this.props.weights);
             if (item.id in this.props.trinketMap) {
                 let idString = this.props.trinketMap[item.id];
-                
+
                 if (idString in this.props.otherEP) {
-                    value += this.props.otherEP[idString];
+                    //check for a missing spell effect values from the engine
+                    if (this.props.otherEP[idString] === 'not allowed') {
+                        store.dispatch({ type: 'ADD_WARNING', text: <div>{idString}'s spell effect is not yet implimented</div> });
+                    }
+                    else {
+                        value += this.props.otherEP[idString];
+                    }
                 }
-                
+
                 if (idString in this.props.procEP) {
                     value += this.props.procEP[idString][item.item_level.toString()];
                 }
             }
-            
+
             if (!(item.id in this.itemValueCache)) {
                 this.itemValueCache[item.id] = {}
             }
-            
+
             this.itemValueCache[item.id][item.item_level] = value;
         }
 
         return this.itemValueCache[item.id][item.item_level];
     }
 
-    getEnchantValue(enchant)
-    {
+    getEnchantValue(enchant) {
         let value = getStatValue(enchant.stats, this.props.weights);
         if (enchant.ep_id) {
             value += this.props.otherEP[enchant.ep_id];
@@ -76,7 +81,7 @@ class ItemSelectPopup extends React.Component {
             filteredItems = items;
         }
         else {
-            filteredItems = items.filter(function(item) {
+            filteredItems = items.filter(function (item) {
                 if (item.name.toLowerCase().includes(this.state.filter)) {
                     return true;
                 }
@@ -102,7 +107,7 @@ class ItemSelectPopup extends React.Component {
             maxValue = this.getItemValue(sortedItems[0]);
         }
 
-        return sortedItems.map(function(item, index) {
+        return sortedItems.map(function (item, index) {
             let value = 0;
             let quality = 0;
 
@@ -115,21 +120,21 @@ class ItemSelectPopup extends React.Component {
             }
 
             return <ItemSelectElement
-                       key={index}
-                       slot={this.props.slot}
-                       item={item}
-                       quality={quality}
-                       value={value}
-                       max={maxValue}
-                       onClick={this.props.onClick}
-                       gemSlot={this.props.isGem ? this.props.gemSlot : null}
-                       isEnchant={this.props.isEnchant}
-                   />;
+                key={index}
+                slot={this.props.slot}
+                item={item}
+                quality={quality}
+                value={value}
+                max={maxValue}
+                onClick={this.props.onClick}
+                gemSlot={this.props.isGem ? this.props.gemSlot : null}
+                isEnchant={this.props.isEnchant}
+            />;
         }.bind(this));
     }
 
     onFilterInput(e) {
-        this.setState({filter: e.target.value.toLowerCase()});
+        this.setState({ filter: e.target.value.toLowerCase() });
     }
 
     render() {
@@ -137,12 +142,12 @@ class ItemSelectPopup extends React.Component {
         return (
             <ModalWrapper style={{ top: '100px', left: '100px' }} modalId="alternatives">
                 <div id="filter">
-                    <input className="search" placeholder="Filter..." type="search" onInput={this.onFilterInput}/>
+                    <input className="search" placeholder="Filter..." type="search" onInput={this.onFilterInput} />
                 </div>
                 <div className="body" >
                     {this.props.items ? this.getItemSelectElements(this.props.items) : <div />}
                 </div>
-                <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={() => {store.dispatch({type: "CLOSE_MODAL"})}}>
+                <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={() => { store.dispatch({ type: "CLOSE_MODAL" }) }}>
                     <span className="ui-icon ui-icon-closethick" />
                 </a>
             </ModalWrapper>
@@ -150,7 +155,7 @@ class ItemSelectPopup extends React.Component {
     }
 }
 
-const mapStateToProps = function(store, ownProps) {
+const mapStateToProps = function (store, ownProps) {
     return {
         weights: store.engine.ep,
         otherEP: store.engine.other_ep,

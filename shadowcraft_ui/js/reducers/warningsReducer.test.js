@@ -20,4 +20,11 @@ describe('warningsReducer', () => {
         const expected = { warnings: ["test", "warning!"] };
         expect(warningsReducer(init, action)).toEqual(expected);
     });
+
+    it('ADD_WARNING should not allow duplicate entries', () => {
+        const init = { warnings: [{ test: { foo: 'bar' } }] };
+        const action = { type: warningsActionTypes.ADD_WARNING, text: { test: { foo: 'bar' } } };
+        const expected = { warnings: [{ test: { foo: 'bar' } }] };
+        expect(warningsReducer(init, action)).toEqual(expected);
+    });
 });

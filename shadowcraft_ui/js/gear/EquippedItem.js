@@ -159,8 +159,8 @@ class EquippedItem extends React.Component {
     }
 
     render() {
-        console.log(`rendering ${this.props.slot}`);
-        console.log(this.props.equippedItem);
+        // console.log(`rendering ${this.props.slot}`);
+        // console.log(this.props.equippedItem);
         return (
             <div>
                 <div className="slot">
