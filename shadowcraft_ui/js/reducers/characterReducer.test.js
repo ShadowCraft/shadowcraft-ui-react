@@ -556,11 +556,52 @@ describe('characterReducer', () => {
 
     });
 
-    it('should handle OPTIMIZE_GEMS', () => {
+    it('should handle OPTIMIZE_GEMS with no epic gem', () => {
 
         const init = {
             gear: {
-                slot: {
+                slot1: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "gem1",
+                            id: 1,
+                            icon: "icon1",
+                            quality: 3,
+                            bonus: "+150 Mastery",
+                            gemslot: 1
+                        }],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                slot2: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "gem1",
+                            id: 1,
+                            icon: "icon1",
+                            quality: 3,
+                            bonus: "+150 Mastery",
+                            gemslot: 1
+                        },
+                        {
+                            name: "gem1",
+                            id: 1,
+                            icon: "icon1",
+                            quality: 3,
+                            bonus: "+150 Mastery",
+                            gemslot: 2
+                        }
+                    ],
+                    socket_count: 2,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                slot3: {
                     bonuses: [],
                     gems: [
                         {
@@ -582,15 +623,142 @@ describe('characterReducer', () => {
         const action = {
             type: characterActionTypes.OPTIMIZE_GEMS,
             data: {
-                weights: {},
-                procEP: {},
-                gems: {}
+                rare: {
+                    id: 12345,
+                    is_gem: true,
+                    name: "Rare Gem of Rareness",
+                    icon: "blue_gem",
+                    gem_slot: "Prismatic",
+                    quality: 3,
+                    stats: {
+                        haste: 200
+                    }
+                },
+                epic: {
+                    id: 67890,
+                    is_gem: true,
+                    name: "Epic Gem of Epicness",
+                    icon: "purple_gem",
+                    gem_slot: "Prismatic",
+                    quality: 4,
+                    stats: {
+                        agility: 500
+                    }
+                }
             }
         };
 
         const expected = {
             gear: {
-                slot: {
+                slot1: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "Epic Gem of Epicness",
+                            id: 67890,
+                            icon: "purple_gem",
+                            quality: 4,
+                            bonus: "+500 Agility",
+                            gemslot: 67890
+                        }],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                slot2: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "Rare Gem of Rareness",
+                            id: 12345,
+                            icon: "blue_gem",
+                            quality: 3,
+                            bonus: "+200 Haste",
+                            gemslot: 12345
+                        },
+                        {
+                            name: "Rare Gem of Rareness",
+                            id: 12345,
+                            icon: "blue_gem",
+                            quality: 3,
+                            bonus: "+200 Haste",
+                            gemslot: 12345
+                        },
+                    ],
+                    socket_count: 2,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                slot3: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "Rare Gem of Rareness",
+                            id: 12345,
+                            icon: "blue_gem",
+                            quality: 3,
+                            bonus: "+200 Haste",
+                            gemslot: 12345
+                        }],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                }
+            }
+        };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+    });
+
+    it('should handle OPTIMIZE_GEMS with epic gem', () => {
+
+        const init = {
+            gear: {
+                slot1: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "gem1",
+                            id: 1,
+                            icon: "icon1",
+                            quality: 3,
+                            bonus: "+150 Mastery",
+                            gemslot: 1
+                        }],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                slot2: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "gem1",
+                            id: 1,
+                            icon: "icon1",
+                            quality: 3,
+                            bonus: "+150 Mastery",
+                            gemslot: 1
+                        },
+                        {
+                            name: "Epic Gem of Epicness",
+                            id: 67890,
+                            icon: "purple_gem",
+                            quality: 4,
+                            bonus: "+500 Agility",
+                            gemslot: 67890
+                        },
+                    ],
+                    socket_count: 2,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                slot3: {
                     bonuses: [],
                     gems: [
                         {
@@ -609,7 +777,201 @@ describe('characterReducer', () => {
             }
         };
 
+        const action = {
+            type: characterActionTypes.OPTIMIZE_GEMS,
+            data: {
+                rare: {
+                    id: 12345,
+                    is_gem: true,
+                    name: "Rare Gem of Rareness",
+                    icon: "blue_gem",
+                    gem_slot: "Prismatic",
+                    quality: 3,
+                    stats: {
+                        haste: 200
+                    }
+                },
+                epic: {
+                    id: 67890,
+                    is_gem: true,
+                    name: "Epic Gem of Epicness",
+                    icon: "purple_gem",
+                    gem_slot: "Prismatic",
+                    quality: 4,
+                    stats: {
+                        agility: 500
+                    }
+                }
+            }
+        };
+
+        const expected = {
+            gear: {
+                slot1: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "Rare Gem of Rareness",
+                            id: 12345,
+                            icon: "blue_gem",
+                            quality: 3,
+                            bonus: "+200 Haste",
+                            gemslot: 12345
+                        }],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                slot2: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "Rare Gem of Rareness",
+                            id: 12345,
+                            icon: "blue_gem",
+                            quality: 3,
+                            bonus: "+200 Haste",
+                            gemslot: 12345
+                        },
+                        {
+                            name: "Epic Gem of Epicness",
+                            id: 67890,
+                            icon: "purple_gem",
+                            quality: 4,
+                            bonus: "+500 Agility",
+                            gemslot: 67890
+                        },
+                    ],
+                    socket_count: 2,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                slot3: {
+                    bonuses: [],
+                    gems: [
+                        {
+                            name: "Rare Gem of Rareness",
+                            id: 12345,
+                            icon: "blue_gem",
+                            quality: 3,
+                            bonus: "+200 Haste",
+                            gemslot: 12345
+                        }],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                }
+            }
+        };
+
         expect(characterReducer(init, action)).toEqual(expected);
     });
+
+    it('should handle OPTIMIZE_ENCHANTS', () => {
+
+        const init = {
+            gear: {
+                neck: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                chest: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                back: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                finger1: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                finger2: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                }
+            }
+        };
+        const action = {
+            type: characterActionTypes.OPTIMIZE_ENCHANTS,
+            data: {
+                neck: 1234,
+                back: 2345,
+                finger: 3456,
+            }
+        };
+        const expected = {
+            gear: {
+                neck: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 1234
+                },
+                chest: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 0
+                },
+                back: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 2345
+                },
+                finger1: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 3456
+                },
+                finger2: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    itemLevel: 0,
+                    enchant: 3456
+                }
+            }
+        };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+
+    });
+
 }
 );
