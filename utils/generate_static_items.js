@@ -26,24 +26,24 @@ MongoClient.connect(url, function(err, db) {
         wstream.write('];\n');
         db.close();
 
-        // Get a list of the bonus IDs with type of 9 (column 5 in the table). We'll
-        // use these to map a bunch of other information.
-        let data = fs.readFileSync('shadowcraft_ui/external_data/ItemBonus.dbc.csv');
-        let allBonuses = parse(data);
-        let bonusMap = {};
-        allBonuses.filter(function(row) {
-            return row[4] == 9;
+        // Load the description data and find all of the entries where the name starts with "of the".
+        // These are the random properties. If we find that we missed one later, we can add it here.
+        let descData = fs.readFileSync('shadowcraft_ui/external_data/ItemNameDescription.dbc.csv');
+        let descriptions = {};
+        parse(descData).filter(function(row) {
+            return row[1].startsWith("of the");
         }).map(function(row) {
-            bonusMap[row[0]] = row;
+            descriptions[row[0]] = row[1];
         });
 
-        // Take the bonus data and find all of the entries that have a type of 5 and
-        // and id_node (which maps one bonus to another) that exists in the earlier
-        // list of bonuses. This is the list of bonuses that map from a bonus to a
-        // description.
+        // Get a list of bonus IDs where the val_1 column is in the list of descriptions above.
+        // This is how we find a list of bonus IDs that map to a description. Skip any that are
+        // less than 1000 since those likely don't mean anything to Legion items.
+        let data = fs.readFileSync('shadowcraft_ui/external_data/ItemBonus.dbc.csv');
+        let allBonuses = parse(data);
         let descrMap = {};
         allBonuses.filter(function(row) {
-            return row[3] in bonusMap && row[4] == 5;
+            return row[1] in descriptions && parseInt(row[3]) > 1000;
         }).map(function(row) {
             descrMap[row[3]] = row[1];
         });
@@ -55,7 +55,7 @@ MongoClient.connect(url, function(err, db) {
         // item's ilvl and slot to calculate the actual stat values.
         let propMap = {};
         allBonuses.filter(function(row) {
-            return row[3] in bonusMap && row[4] == 2;
+            return row[3] in descrMap && row[4] == 2;
         }).map(function(row) {
             if (!(row[3] in propMap)) {
                 propMap[row[3]] = {};
@@ -73,13 +73,6 @@ MongoClient.connect(url, function(err, db) {
             // easier to store (I'm guessing?). Divide by 10000 here so that we
             // don't have to do it repeatedly in the UI code.
             propMap[row[3]][stat] = parseFloat(row[2]) / 10000.0;
-        });
-
-        // Load the description data to get all of the names for the different bonuses.
-        let descData = fs.readFileSync('shadowcraft_ui/external_data/ItemNameDescription.dbc.csv');
-        let descriptions = {};
-        parse(descData).map(function(row) {
-            descriptions[row[0]] = row[1];
         });
 
         // Take the description data and the map from bonus to description and build up the output.
