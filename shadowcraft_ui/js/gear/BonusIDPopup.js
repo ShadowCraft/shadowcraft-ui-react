@@ -1,9 +1,11 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
 import store from '../store';
 import ModalWrapper from '../modals/ModalWrapper';
 import { checkFetchStatus, updateCharacterState } from '../store';
-import { recalculateStats } from '../common';
+import { recalculateStats, getStatValue } from '../common';
+import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL, TRINKET_COMBAT_RATINGS_MULT_BY_ILVL, WEAPON_COMBAT_RATINGS_MULT_BY_ILVL, ARMOR_COMBAT_RATINGS_MULT_BY_ILVL } from '../multipliers';
 
 class BonusIDCheckBox extends React.Component {
     constructor(props) {
@@ -37,13 +39,14 @@ class BonusIDCheckBox extends React.Component {
     }
 }
 
-export default class BonusIDPopup extends React.Component {
+class BonusIDPopup extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             active: props.item.bonuses,
             wfBonus: -1,
+            suffixBonus: -1,
             baseItem: {
                 chance_bonus_lists: [],
                 stats: {},
@@ -53,6 +56,7 @@ export default class BonusIDPopup extends React.Component {
 
         this.onChange = this.onChange.bind(this);
         this.onWFChange = this.onWFChange.bind(this);
+        this.onSuffixChange = this.onSuffixChange.bind(this);
         this.onApply = this.onApply.bind(this);
 
         for (let idx in props.item.bonuses) {
@@ -61,9 +65,19 @@ export default class BonusIDPopup extends React.Component {
                 break;
             }
         }
+
+        for (let idx in props.item.bonuses) {
+            if (props.item.bonuses[idx] in RANDOM_SUFFIX_MAP) {
+                this.state.suffixBonus = props.item.bonuses[idx];
+                break;
+            }
+        }
     }
 
     componentWillMount() {
+
+        // We have to find a base item in the list of items so that we can set the selected item
+        // level on that option correctly.
         let staticItems = ITEM_DATA.filter(function(item) {
             return item.id == this.props.item.id;
         }.bind(this));
@@ -125,7 +139,7 @@ export default class BonusIDPopup extends React.Component {
 
         // If the value was true, that means we're turning it off. Check to see if the
         // element is in the active list, and remove it.
-        let newActive = this.state.active;
+        let newActive = this.state.active.slice()
         let index = this.state.active.indexOf(bonusId);
 
         if (index != -1) {
@@ -139,7 +153,7 @@ export default class BonusIDPopup extends React.Component {
     }
 
     onWFChange(e) {
-        let newActive = this.state.active;
+        let newActive = this.state.active.slice();
         if (this.state.wfBonus != -1) {
             let curIndex = newActive.indexOf(this.state.wfBonus);
             newActive.splice(curIndex, 1);
@@ -147,6 +161,17 @@ export default class BonusIDPopup extends React.Component {
 
         newActive.push(parseInt(e.currentTarget.value));
         this.setState({ active: newActive, wfBonus: e.currentTarget.value });
+    }
+
+    onSuffixChange(e) {
+        let newActive = this.state.active.slice();
+        if (this.state.suffixBonus != -1) {
+            let curIndex = newActive.indexOf(this.state.suffixBonus);
+            newActive.splice(curIndex, 1);
+        }
+
+        newActive.push(parseInt(e.currentTarget.value));
+        this.setState({active: newActive, suffixBonus: e.currentTarget.value});
     }
 
     onApply() {
@@ -172,6 +197,66 @@ export default class BonusIDPopup extends React.Component {
 
         store.dispatch(updateCharacterState('CHANGE_BONUSES', eventData));
         store.dispatch({type: "CLOSE_MODAL"});
+    }
+
+    getRandPropMultiplier(item) {
+        let entry = 3;
+        switch(item.slot) {
+            case 'head':
+            case 'chest':
+            case 'legs':
+                entry = 1;
+                break;
+            case 'shoulder':
+            case 'waist':
+            case 'feet':
+            case 'hands':
+            case 'trinket1':
+            case 'trinket2':
+                entry = 2;
+                break;
+            case 'neck':
+            case 'wrist':
+            case 'finger1':
+            case 'finger2':
+            case 'back':
+                entry = 3;
+                break;
+            case 'mainHand':
+            case 'offHand':
+                entry = 4;
+                break;
+            default:
+                entry = 2;
+                break;
+        }
+
+        if (item.quality == 3)
+            entry += 6;
+        else if (item.quality == 2)
+            entry += 12;
+
+        let combatMultiplier = 0.0;
+        switch(item.slot) {
+            case 'neck':
+            case 'finger1':
+            case 'finger2':
+                combatMultiplier = JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level-1];
+                break;
+            case 'mainHand':
+            case 'offHand':
+                combatMultiplier = WEAPON_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level-1];
+                break;
+            case 'trinket1':
+            case 'trinket2':
+                combatMultiplier = TRINKET_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level-1];
+                break;
+            default:
+                combatMultiplier = ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level-1];
+                break;
+        }
+
+        return RAND_PROP_POINTS[item.item_level][entry] * combatMultiplier;
     }
 
     render() {
@@ -205,6 +290,41 @@ export default class BonusIDPopup extends React.Component {
 
             wfOptions.push(<option value="0" key="0">Item Level {this.state.baseItem.item_level} / None</option>);
 
+            let suffixOptions = [];
+            let selectedSuffix = 0;
+            if (this.state.baseItem.item_level != 0) {
+                let propMult = this.getRandPropMultiplier(this.props.item);
+                let bonusOptions = []
+
+                for(let idx in this.state.baseItem.chance_bonus_lists) {
+                    let bonus = this.state.baseItem.chance_bonus_lists[idx];
+                    if (bonus in RANDOM_SUFFIX_MAP) {
+
+                        if (this.state.active.indexOf(bonus) != -1) {
+                            selectedSuffix = bonus;
+                        }
+
+                        let stats = Object.assign({}, RANDOM_SUFFIX_MAP[bonus].stats);
+                        let statString = '';
+                        for (let stat in stats) {
+                            stats[stat] = Math.round(stats[stat] * propMult);
+                            statString += `+${stats[stat]} ${stat} / `;
+                        }
+
+                        bonusOptions.push({bonus: bonus, name: RANDOM_SUFFIX_MAP[bonus].name,
+                                           stats: stats, string: statString.slice(0, -3),
+                                           value: getStatValue(stats, this.props.weights)});
+                    }
+                }
+
+                bonusOptions.sort(function(a, b) { return b.value-a.value });
+                for (let idx in bonusOptions) {
+                    suffixOptions.push(<option value={bonusOptions[idx].bonus} key={bonusOptions[idx].bonus}>{bonusOptions[idx].string} / {bonusOptions[idx].name} ({Math.round(bonusOptions[idx].value)} EP)</option>);
+                }
+
+                suffixOptions.push(<option value="0" key="0">None / None (0.0EP)</option>);
+            }
+
             return (
                 <ModalWrapper style={{ top: "355px", left: "440px" }} modalId="bonuses">
                     <h1>Item Bonuses</h1>
@@ -222,6 +342,15 @@ export default class BonusIDPopup extends React.Component {
                                  {wfOptions}
                              </select>
                          </fieldset>
+
+                         {suffixOptions.length > 0 &&
+                          <fieldset>
+                              <legend>Random Suffixes</legend>
+                              <select className="optionSelect" value={selectedSuffix} readOnly onChange={this.onSuffixChange}>
+                                  {suffixOptions}
+                              </select>
+                          </fieldset>
+                         }
                          <input className="ui-button ui-widget ui-state-default ui-corner-all" role="button" value="Apply" readOnly onClick={this.onApply} />
                     </form>
                     <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={() => {store.dispatch({type: "CLOSE_MODAL"})}}>
@@ -235,3 +364,11 @@ export default class BonusIDPopup extends React.Component {
         }
     }
 }
+
+const mapStateToProps = function (store) {
+    return {
+        weights: store.engine.ep
+    };
+};
+
+export default connect(mapStateToProps)(BonusIDPopup);
