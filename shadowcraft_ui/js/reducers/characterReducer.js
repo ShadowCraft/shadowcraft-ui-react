@@ -129,6 +129,13 @@ export const characterReducer = function (state = {}, action) {
                 }
             }
 
+            if (action.data.suffix.length > 0) {
+                newData['name'] = `${action.data.name} ${action.data.suffix}`
+            }
+            else {
+                newData['name'] = action.data.name;
+            }
+
             return dotProp.merge(state, `gear.${action.data.slot}`, newData);
         }
 

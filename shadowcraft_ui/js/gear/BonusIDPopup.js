@@ -88,7 +88,7 @@ class BonusIDPopup extends React.Component {
         }
         else {
             let itemdata = { chance_bonus_lists: staticItems[0]['chance_bonus_lists'],
-                             stats: null, item_level: 0 };
+                             stats: null, item_level: 0, name: staticItems[0]['name'] };
 
             let itemlevels = Object.keys(staticItems[0]['ilvls']).sort();
 
@@ -182,18 +182,38 @@ class BonusIDPopup extends React.Component {
             newIlvl: this.state.baseItem.item_level,
             canHaveBonusSocket: this.state.baseItem.chance_bonus_lists.indexOf(1808) != -1,
             hasBonusSocket: this.state.active.indexOf(1808) != -1,
-            newStats: this.state.baseItem.stats
+            newStats: this.state.baseItem.stats,
+            name: this.state.baseItem.name,
+            suffix: ''
         };
 
-        if (this.state.wfBonus != 0) {
+        if (this.state.wfBonus > 0) {
             eventData['newIlvl'] += this.state.wfBonus - 1472;
         }
 
+        if (this.state.suffixBonus > 0) {
+            let propMultiplier = this.getRandPropMultiplier(this.props.item);
+            console.log(RANDOM_SUFFIX_MAP[this.state.suffixBonus].stats);
+            console.log(propMultiplier);
+            for (let stat in RANDOM_SUFFIX_MAP[this.state.suffixBonus].stats) {
+                console.log(RANDOM_SUFFIX_MAP[this.state.suffixBonus].stats[stat]);
+                eventData['newStats'][stat] = RANDOM_SUFFIX_MAP[this.state.suffixBonus].stats[stat] * propMultiplier;
+            }
+
+            eventData['suffix'] = RANDOM_SUFFIX_MAP[this.state.suffixBonus].name;
+        }
+
         if (eventData['newIlvl'] != this.state.baseItem.item_level) {
+            console.log("updating stats for ilvl");
+            console.log(eventData['newStats']);
+            console.log(eventData['newIlvl']);
+            console.log(this.state.baseItem.item_level);
             eventData['newStats'] = recalculateStats(
-                this.state.baseItem.stats,
+                Object.assign({}, eventData['newStats']),
                 (eventData['newIlvl'] - this.state.baseItem.item_level).toFixed(2));
         }
+
+        console.log(eventData['newStats']);
 
         store.dispatch(updateCharacterState('CHANGE_BONUSES', eventData));
         store.dispatch({type: "CLOSE_MODAL"});
