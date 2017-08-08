@@ -278,7 +278,7 @@ describe('characterReducer', () => {
         expect(characterReducer(init, action)).toEqual(expected);
     });
 
-    it('should handle CHANGE_BONUSES when !canHaveBonusSocket', () => {
+    it('should handle CHANGE_BONUSES suffix name addition', () => {
 
         const init = {
             gear: {
@@ -289,7 +289,8 @@ describe('characterReducer', () => {
                     stats: {},
                     itemLevel: 0,
                     hasBonusSocket: true,
-                    canHaveBonusSocket: false
+                    canHaveBonusSocket: false,
+                    name: "Meh Item"
                 }
             }
         };
@@ -300,7 +301,9 @@ describe('characterReducer', () => {
                 ilvl: 1,
                 newStats: { test: 'test' },
                 hasBonusSocket: true,
-                canHaveBonusSocket: false
+                canHaveBonusSocket: false,
+                name: "Awesome Item",
+                suffix: "of Awesomeness"
             }
         };
         const expected = {
@@ -312,7 +315,102 @@ describe('characterReducer', () => {
                     stats: { test: 'test' },
                     itemLevel: 1,
                     hasBonusSocket: true,
-                    canHaveBonusSocket: false
+                    canHaveBonusSocket: false,
+                    name: "Awesome Item of Awesomeness"
+                }
+            }
+        };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+
+    });
+
+    it('should handle CHANGE_BONUSES suffix name removal', () => {
+
+        const init = {
+            gear: {
+                slot: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 0,
+                    stats: {},
+                    itemLevel: 0,
+                    hasBonusSocket: true,
+                    canHaveBonusSocket: false,
+                    name: "Awesome Item of Awesomeness"
+                }
+            }
+        };
+        const action = {
+            type: characterActionTypes.CHANGE_BONUSES, data: {
+                slot: 'slot',
+                bonuses: ['test'],
+                ilvl: 1,
+                newStats: { test: 'test' },
+                hasBonusSocket: true,
+                canHaveBonusSocket: false,
+                name: "Awesome Item",
+                suffix: ""
+            }
+        };
+        const expected = {
+            gear: {
+                slot: {
+                    bonuses: ['test'],
+                    gems: [],
+                    socket_count: 0,
+                    stats: { test: 'test' },
+                    itemLevel: 1,
+                    hasBonusSocket: true,
+                    canHaveBonusSocket: false,
+                    name: "Awesome Item"
+                }
+            }
+        };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+
+    });
+
+    it('should handle CHANGE_BONUSES when !canHaveBonusSocket', () => {
+
+        const init = {
+            gear: {
+                slot: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 0,
+                    stats: {},
+                    itemLevel: 0,
+                    hasBonusSocket: true,
+                    canHaveBonusSocket: false,
+                    name: ""
+                }
+            }
+        };
+        const action = {
+            type: characterActionTypes.CHANGE_BONUSES, data: {
+                slot: 'slot',
+                bonuses: ['test'],
+                ilvl: 1,
+                newStats: { test: 'test' },
+                hasBonusSocket: true,
+                canHaveBonusSocket: false,
+                name: "",
+                suffix: ""
+            }
+        };
+        const expected = {
+            gear: {
+                slot: {
+                    bonuses: ['test'],
+                    gems: [],
+                    socket_count: 0,
+                    stats: { test: 'test' },
+                    itemLevel: 1,
+                    hasBonusSocket: true,
+                    canHaveBonusSocket: false,
+                    name: ""
                 }
             }
         };
@@ -332,7 +430,8 @@ describe('characterReducer', () => {
                     stats: {},
                     itemLevel: 0,
                     hasBonusSocket: true,
-                    canHaveBonusSocket: false
+                    canHaveBonusSocket: false,
+                    name: ""
                 }
             }
         };
@@ -344,7 +443,9 @@ describe('characterReducer', () => {
                 ilvl: 1,
                 newStats: { test: 'test' },
                 hasBonusSocket: false,
-                canHaveBonusSocket: true
+                canHaveBonusSocket: true,
+                name: "",
+                suffix: ""
             }
         };
         const expected = {
@@ -356,7 +457,8 @@ describe('characterReducer', () => {
                     stats: { test: 'test' },
                     itemLevel: 1,
                     hasBonusSocket: true,
-                    canHaveBonusSocket: false
+                    canHaveBonusSocket: false,
+                    name: ""
                 }
             }
         };
@@ -376,7 +478,8 @@ describe('characterReducer', () => {
                     stats: {},
                     itemLevel: 0,
                     hasBonusSocket: true,
-                    canHaveBonusSocket: false
+                    canHaveBonusSocket: false,
+                    name: ""
                 }
             }
         };
@@ -388,7 +491,9 @@ describe('characterReducer', () => {
                 ilvl: 1,
                 newStats: { test: 'test' },
                 hasBonusSocket: true,
-                canHaveBonusSocket: true
+                canHaveBonusSocket: true,
+                name: "",
+                suffix: ""
             }
         };
         const expected = {
@@ -400,7 +505,8 @@ describe('characterReducer', () => {
                     stats: { test: 'test' },
                     itemLevel: 1,
                     hasBonusSocket: true,
-                    canHaveBonusSocket: false
+                    canHaveBonusSocket: false,
+                    name: ""
                 }
             }
         };
@@ -420,7 +526,8 @@ describe('characterReducer', () => {
                     stats: {},
                     itemLevel: 0,
                     hasBonusSocket: true,
-                    canHaveBonusSocket: false
+                    canHaveBonusSocket: false,
+                    name: ""
                 }
             }
         };
@@ -432,7 +539,9 @@ describe('characterReducer', () => {
                 ilvl: 1,
                 newStats: { test: 'test' },
                 hasBonusSocket: true,
-                canHaveBonusSocket: true
+                canHaveBonusSocket: true,
+                name: "",
+                suffix: ""
             }
         };
         const expected = {
@@ -444,7 +553,8 @@ describe('characterReducer', () => {
                     stats: { test: 'test' },
                     itemLevel: 1,
                     hasBonusSocket: true,
-                    canHaveBonusSocket: false
+                    canHaveBonusSocket: false,
+                    name: ""
                 }
             }
         };
