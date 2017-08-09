@@ -89,8 +89,8 @@ class RightPane extends React.Component {
             <div className="log warning" key={i}>{this.props.warnings[i]}</div>);
 
         return (
-            <div style={{ flex: 1}}>
-                <div id="console-footer" className="awin-medium">
+            <div style={{ flex: 1, height: "100%"}}>
+                <div id="console-footer" className="awin-medium" style={{flex: "1 1"}}>
                     <a className="pandaren" href={`http://${this.props.region}.battle.net/wow/en/character/${this.props.realm}/${this.props.name}/advanced`} id="card" target="_blank">
                         <div className="img">
                             <img src={this.props.portrait}/>
@@ -109,7 +109,7 @@ class RightPane extends React.Component {
                     </div>
                     <Line data={graphTestData} options={graphOptions} getElementsAtEvent={this.graphClick} />
                 </div>
-                <div id="logs">
+                <div id="logs" style={{flex: "1 2"}}>
                     <section>
                         <div className="window" id="console">
                             <h3>Notices</h3>

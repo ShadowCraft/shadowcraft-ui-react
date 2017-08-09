@@ -4,7 +4,7 @@ import { modalTypes } from '../reducers/modalReducer';
 
 export default class EquippedGemItem extends React.Component {
 
-    onClick(e) {
+    onClick() {
 
         let itemData = ITEM_DATA.filter(function(item) {
             return item.is_gem;

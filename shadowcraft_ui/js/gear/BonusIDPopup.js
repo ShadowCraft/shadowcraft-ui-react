@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import store from '../store';
 import ModalWrapper from '../modals/ModalWrapper';
-import { checkFetchStatus, updateCharacterState } from '../store';
+import { updateCharacterState } from '../store';
 import { recalculateStats, getStatValue } from '../common';
 import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL, TRINKET_COMBAT_RATINGS_MULT_BY_ILVL, WEAPON_COMBAT_RATINGS_MULT_BY_ILVL, ARMOR_COMBAT_RATINGS_MULT_BY_ILVL } from '../multipliers';
 

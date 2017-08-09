@@ -14,7 +14,6 @@ import RightPane from './RightPane';
 
 import ModalConductor from './modals/ModalConductor';
 import { modalTypes } from './reducers/modalReducer';
-import DebugURLPopup from './modals/DebugURLPopup';
 
 function setInitialCharacterData(chardata, settings = null) {
     return function (dispatch) {
@@ -61,7 +60,7 @@ class CharacterPane extends React.Component {
         let settingsData = null;
 
         if (this.props.pathinfo.sha == undefined && storageAvailable()) {
-            let key = `${this.props.pathinfo.region}-${this.props.pathinfo.realm}-${this.props.pathinfo.name}`
+            let key = `${this.props.pathinfo.region}-${this.props.pathinfo.realm}-${this.props.pathinfo.name}`;
             let data = storageGet(key);
             if (data != null) {
                 characterData = data['character'];
@@ -154,7 +153,6 @@ class CharacterPane extends React.Component {
     }
 
     getDebugURL() {
-        console.log("get debug url");
         fetch("/get_sha", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

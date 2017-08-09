@@ -1,5 +1,3 @@
-import dotProp from 'dot-prop-immutable';
-
 export const initialModalState = {
     current: null,
     open: false

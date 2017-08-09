@@ -1,5 +1,5 @@
 import dotProp from 'dot-prop-immutable';
-import deepEqual from 'deep-equal'
+import deepEqual from 'deep-equal';
 
 export const initialWarningsState = {
     warnings: []

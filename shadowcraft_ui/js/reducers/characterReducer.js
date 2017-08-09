@@ -24,7 +24,7 @@ function makeGem(actionGem) {
         name: actionGem.name,
         quality: actionGem.quality,
         bonus: ""
-    }
+    };
 
     for (let stat in actionGem.stats) {
         let capStat = stat.charAt(0).toUpperCase() + stat.slice(1);
@@ -130,7 +130,7 @@ export const characterReducer = function (state = {}, action) {
             }
 
             if (action.data.suffix.length > 0) {
-                newData['name'] = `${action.data.name} ${action.data.suffix}`
+                newData['name'] = `${action.data.name} ${action.data.suffix}`;
             }
             else {
                 newData['name'] = action.data.name;
