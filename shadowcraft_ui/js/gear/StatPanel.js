@@ -86,10 +86,6 @@ class StatPane extends React.Component {
         // This gets called once before the settings object gets setup so we
         // need to make sure the current settings exist before trying to use
         // them.
-        // var numAdds = 0;
-        // if ('current' in this.props.settings) {
-        //     numAdds = this.props.settings.current['general.settings.num_boss_adds'];
-        // }
 
         return (
             <div className="panel-tools">
