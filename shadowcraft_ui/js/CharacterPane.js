@@ -15,7 +15,7 @@ import RightPane from './RightPane';
 import ModalConductor from './modals/ModalConductor';
 import { modalTypes } from './reducers/modalReducer';
 
-function setInitialCharacterData(chardata, settings = null) {
+function initializeWithDataFromLocalStorage(chardata, settings = null) {
     return function (dispatch) {
         dispatch({ type: 'RESET_CHARACTER_DATA', data: chardata });
 
@@ -29,8 +29,10 @@ function setInitialCharacterData(chardata, settings = null) {
             }).then(function (json) {
                 dispatch({ type: 'SETTINGS_LAYOUT', data: json });
                 if (settings == null) {
-                    dispatch({ type: 'CHANGE_SETTING', setting: 'race',
-                               value: chardata['race'].toLowerCase()});
+                    dispatch({
+                        type: 'CHANGE_SETTING', setting: 'race',
+                        value: chardata['race'].toLowerCase()
+                    });
                 }
                 dispatch(getEngineData());
             });
@@ -56,23 +58,23 @@ class CharacterPane extends React.Component {
 
     componentWillMount() {
         // Check to see if there's data in local storage before loading it from the database
-        let characterData = null;
-        let settingsData = null;
+        let characterDataFromLocalStorage = null;
+        let settingsDataFromLocalStorage = null;
 
         if (this.props.pathinfo.sha == undefined && storageAvailable()) {
             let key = `${this.props.pathinfo.region}-${this.props.pathinfo.realm}-${this.props.pathinfo.name}`;
             let data = storageGet(key);
             if (data != null) {
-                characterData = data['character'];
-                settingsData = data['settings'];
+                characterDataFromLocalStorage = data['character'];
+                settingsDataFromLocalStorage = data['settings'];
             }
         }
 
-        if (characterData != null && settingsData != null) {
-            store.dispatch(setInitialCharacterData(characterData, settingsData));
+        if (characterDataFromLocalStorage != null && settingsDataFromLocalStorage != null) {
+            store.dispatch(initializeWithDataFromLocalStorage(characterDataFromLocalStorage, settingsDataFromLocalStorage));
         }
         else {
-            let url=`/get_character_data?region=${this.props.pathinfo.region}&realm=${this.props.pathinfo.realm}&name=${this.props.pathinfo.name}`;
+            let url = `/get_character_data?region=${this.props.pathinfo.region}&realm=${this.props.pathinfo.realm}&name=${this.props.pathinfo.name}`;
             if (this.props.pathinfo.sha != undefined) {
                 url += `&sha=${this.props.pathinfo.sha}`;
             }
@@ -82,9 +84,9 @@ class CharacterPane extends React.Component {
                 .then(r => r.json())
                 .then(function (json) {
                     if (this.props.pathinfo.sha == undefined) {
-                        store.dispatch(setInitialCharacterData(json));
+                        store.dispatch(initializeWithDataFromLocalStorage(json));
                     } else {
-                        store.dispatch(setInitialCharacterData(json['character'], json['settings']));
+                        store.dispatch(initializeWithDataFromLocalStorage(json['character'], json['settings']));
                     }
                 }.bind(this));
         }
@@ -121,26 +123,26 @@ class CharacterPane extends React.Component {
         }
 
         if (!found) {
-            store.dispatch({type: "CLOSE_MODAL"});
+            store.dispatch({ type: "CLOSE_MODAL" });
         }
     }
 
     onDropdownClick() {
-        this.setState({dropdown: !this.state.dropdown});
+        this.setState({ dropdown: !this.state.dropdown });
     }
 
     refreshCharacter() {
-        this.setState({waitDisplayed: true});
+        this.setState({ waitDisplayed: true });
 
-        let url=`/get_character_data?region=${this.props.character.region}&realm=${this.props.character.realm}&name=${this.props.character.name}`;
+        let url = `/get_character_data?region=${this.props.character.region}&realm=${this.props.character.realm}&name=${this.props.character.name}`;
         fetch(url)
             .then(checkFetchStatus)
             .then(r => r.json())
             .then(function (json) {
-                store.dispatch({type: 'CLEAR_WARNINGS'});
+                store.dispatch({ type: 'CLEAR_WARNINGS' });
                 store.dispatch(updateCharacterState('RESET_CHARACTER_DATA', json));
-                store.dispatch({type: 'CLEAR_HISTORY'});
-                this.setState({waitDisplayed: false});
+                store.dispatch({ type: 'CLEAR_HISTORY' });
+                this.setState({ waitDisplayed: false });
             }.bind(this));
     }
 
@@ -149,26 +151,44 @@ class CharacterPane extends React.Component {
             storageClear();
         }
 
+        store.dispatch({ type: 'RESET_SETTINGS' });
+
+        fetch('/settings')
+            .then(function (response) {
+                return response.json();
+            }).then(function (json) {
+                store.dispatch({ type: 'SETTINGS_LAYOUT', data: json });
+                store.dispatch(getEngineData());
+            });
+
+
         this.refreshCharacter();
     }
 
     getDebugURL() {
         fetch("/get_sha", {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 character: this.props.character,
                 settings: this.props.settings.current
-            })})
+            })
+        })
             .then(checkFetchStatus)
             .then(r => r.json())
-            .then(function(json) {
-                store.dispatch({type: "OPEN_MODAL",
-                                data: {popupType: modalTypes.DEBUG_URL,
-                                       props:{ sha: json['sha'],
-                                               region: this.props.character.region,
-                                               realm: this.props.character.realm,
-                                               name: this.props.character.name }}});
+            .then(function (json) {
+                store.dispatch({
+                    type: "OPEN_MODAL",
+                    data: {
+                        popupType: modalTypes.DEBUG_URL,
+                        props: {
+                            sha: json['sha'],
+                            region: this.props.character.region,
+                            realm: this.props.character.realm,
+                            name: this.props.character.name
+                        }
+                    }
+                });
             }.bind(this));
     }
 
@@ -206,7 +226,7 @@ class CharacterPane extends React.Component {
                                     ><a>Documentation</a></li>
                                     <li className="tabs-menu-item" onClick={this.onDropdownClick}>
                                         <a className="dropdown">
-                                            <img src='/static/images/cog.png'/>
+                                            <img src='/static/images/cog.png' />
                                             {this.state.dropdown && <ul className="dropdownMenu">
                                                 <li onClick={this.refreshCharacter}>Refresh from armory</li>
                                                 <li onClick={this.clearSavedData}>Clear all saved data</li>

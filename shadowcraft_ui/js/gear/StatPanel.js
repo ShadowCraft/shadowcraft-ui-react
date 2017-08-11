@@ -17,7 +17,7 @@ class StatPane extends React.Component {
     optimizeGems() {
         // We only care about the blue gems, and we'll send over the one agility purple
         // gem too so that one is equipped somewhere.
-        let gems = ITEM_DATA.filter(function(item) {
+        let gems = ITEM_DATA.filter(function (item) {
             return item.is_gem && item.quality == 3;
         });
 
@@ -31,12 +31,12 @@ class StatPane extends React.Component {
             }
         }
 
-        gems = ITEM_DATA.filter(function(item) {
+        gems = ITEM_DATA.filter(function (item) {
             return item.is_gem && item.quality == 4 && item['stats'].hasOwnProperty('agility');
         });
 
 
-        store.dispatch(updateCharacterState('OPTIMIZE_GEMS', {rare: best, epic: gems[0]}));
+        store.dispatch(updateCharacterState('OPTIMIZE_GEMS', { rare: best, epic: gems[0] }));
     }
 
     optimizeEnchants() {
@@ -44,8 +44,9 @@ class StatPane extends React.Component {
         let actionData = {}
         let slots = ['back', 'neck', 'finger'];
         for (let slot in slots) {
-            let enchants = EnchantMap.filter(function(e) {
-                return e.slot == slots[slot]});
+            let enchants = EnchantMap.filter(function (e) {
+                return e.slot == slots[slot]
+            });
 
             let bestVal = -1.0;
             let best = 0;
@@ -85,10 +86,10 @@ class StatPane extends React.Component {
         // This gets called once before the settings object gets setup so we
         // need to make sure the current settings exist before trying to use
         // them.
-        var numAdds = 0;
-        if ('current' in this.props.settings) {
-            numAdds = this.props.settings.current['general.settings.num_boss_adds'];
-        }
+        // var numAdds = 0;
+        // if ('current' in this.props.settings) {
+        //     numAdds = this.props.settings.current['general.settings.num_boss_adds'];
+        // }
 
         return (
             <div className="panel-tools">
@@ -97,7 +98,7 @@ class StatPane extends React.Component {
                     <div className="inner">
                         <StatPanelElement name="Engine" value={this.props.engineTarget} />
                         <StatPanelElement name="Spec" value={spec} />
-                        <StatPanelElement name="Boss Adds" value={numAdds} />
+                        <StatPanelElement name="Boss Adds" value={this.props.settings.current ? this.props.settings.current.num_boss_adds : 0} />
                     </div>
                 </section>
                 <section className="clearfix" id="stats">
@@ -134,7 +135,7 @@ class StatPane extends React.Component {
     }
 }
 
-const mapStateToProps = function(store) {
+const mapStateToProps = function (store) {
     return {
         stats: store.engine.stats,
         weights: store.engine.ep,
