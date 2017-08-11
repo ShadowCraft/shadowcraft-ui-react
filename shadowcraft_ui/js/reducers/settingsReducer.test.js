@@ -41,7 +41,7 @@ describe('settingsReducer', () => {
         };
         const expected = {
             layout: [{ items: [{ name: 'testname', default: 'testdefault' }] }],
-            current: {testinit: 'testinit', testname: 'testdefault' }
+            current: { testinit: 'testinit', testname: 'testdefault' }
         };
 
         expect(settingsReducer(init, action)).toEqual(expected);
@@ -62,9 +62,9 @@ describe('settingsReducer', () => {
     });
 
     it('should handle RESET_SETTINGS', () => {
-        const init = { old: 'data' };
+        const init = { current: { old: 'data' } };
         const action = { type: settingsActionTypes.RESET_SETTINGS, data: { new: 'data' } };
-        const expected = { old: 'data', new: 'data' };
+        const expected = { current: { new: 'data' } };
         expect(settingsReducer(init, action)).toEqual(expected);
     });
 
