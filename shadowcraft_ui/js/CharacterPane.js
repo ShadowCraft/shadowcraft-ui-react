@@ -185,51 +185,45 @@ class CharacterPane extends React.Component {
 
                     <ModalConductor />
 
-                    <div style={{ marginBottom: '25px', display: 'flex', filter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null, WebkitFilter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null }}>
-                        <div id="container" style={{ flex: 4 }}>
-                            <div id="curtain">
-                                <div className="tabs" id="tabs">
-                                    <nav className="tabs-navigation">
-                                        <ul className="tabs-menu">
-                                            <li className={`tabs-menu-item ${this.state.currentTab === 'gear' ? 'is-active' : ''}`}
-                                                onClick={() => this.setState({ currentTab: 'gear' })}
-                                            ><a>Gear</a></li>
-                                            <li className={`tabs-menu-item ${this.state.currentTab === 'talents' ? 'is-active' : ''}`}
-                                                onClick={() => this.setState({ currentTab: 'talents' })}
-                                            ><a>Talents</a></li>
-                                            <li className={`tabs-menu-item ${this.state.currentTab === 'artifact' ? 'is-active' : ''}`}
-                                                onClick={() => this.setState({ currentTab: 'artifact' })}
-                                            ><a>Artifact</a></li>
-                                            <li className={`tabs-menu-item ${this.state.currentTab === 'advanced' ? 'is-active' : ''}`}
-                                                onClick={() => this.setState({ currentTab: 'advanced' })}
-                                            ><a>Advanced</a></li>
-                                            <li className={`tabs-menu-item ${this.state.currentTab === 'documenation' ? 'is-active' : ''}`}
-                                                onClick={() => this.setState({ currentTab: 'documentation' })}
-                                            ><a>Documentation</a></li>
-                                            <li className="tabs-menu-item" onClick={this.onDropdownClick}>
-                                                <a className="dropdown">
-                                                    <img src='/static/images/cog.png'/>
-                                                    {this.state.dropdown && <ul className="dropdownMenu">
-                                                        <li onClick={this.refreshCharacter}>Refresh from armory</li>
-                                                        <li onClick={this.clearSavedData}>Clear all saved data</li>
-                                                        <li onClick={this.getDebugURL}>Get Debug URL</li>
-                                                    </ul>}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                    <article className="tab-panel">
-                                        {this.renderTab(this.state.currentTab)}
-                                    </article>
-                                </div>
-                            </div>
-                        </div >
-                        <RightPane />
-                        <div id="footer">
-                            <div className='padding'>
-                                Questions to <a href="mailto:shadowcraft@ravenholdt.net">Ravenholdt</a> &bull; UI source at <a href="http://github.com/cheald/shadowcraft-ui">GitHub</a>      &bull; discussion at <a href="https://discord.gg/DdPahJ9">Ravenholdt</a> &bull; DPS/EP engine source at <a href="https://github.com/Fierydemise/ShadowCraft-Engine">GitHub</a>      &bull; Hosting provided by <a href="http://mmo-mumble.com">MMO-Mumble.com</a>
-                            </div>
+                    <div style={{ display: 'flex', filter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null, WebkitFilter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null }}>
+                        <div className="tabs" id="tabs">
+                            <nav className="tabs-navigation">
+                                <ul className="tabs-menu">
+                                    <li className={`tabs-menu-item ${this.state.currentTab === 'gear' ? 'is-active' : ''}`}
+                                        onClick={() => this.setState({ currentTab: 'gear' })}
+                                    ><a>Gear</a></li>
+                                    <li className={`tabs-menu-item ${this.state.currentTab === 'talents' ? 'is-active' : ''}`}
+                                        onClick={() => this.setState({ currentTab: 'talents' })}
+                                    ><a>Talents</a></li>
+                                    <li className={`tabs-menu-item ${this.state.currentTab === 'artifact' ? 'is-active' : ''}`}
+                                        onClick={() => this.setState({ currentTab: 'artifact' })}
+                                    ><a>Artifact</a></li>
+                                    <li className={`tabs-menu-item ${this.state.currentTab === 'advanced' ? 'is-active' : ''}`}
+                                        onClick={() => this.setState({ currentTab: 'advanced' })}
+                                    ><a>Advanced</a></li>
+                                    <li className={`tabs-menu-item ${this.state.currentTab === 'documenation' ? 'is-active' : ''}`}
+                                        onClick={() => this.setState({ currentTab: 'documentation' })}
+                                    ><a>Documentation</a></li>
+                                    <li className="tabs-menu-item" onClick={this.onDropdownClick}>
+                                        <a className="dropdown">
+                                            <img src='/static/images/cog.png'/>
+                                            {this.state.dropdown && <ul className="dropdownMenu">
+                                                <li onClick={this.refreshCharacter}>Refresh from armory</li>
+                                                <li onClick={this.clearSavedData}>Clear all saved data</li>
+                                                <li onClick={this.getDebugURL}>Get Debug URL</li>
+                                            </ul>}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <article className="tab-panel">
+                                {this.renderTab(this.state.currentTab)}
+                            </article>
                         </div>
+                        <RightPane />
+                    </div>
+                    <div id="footer">
+                        Questions to <a href="mailto:shadowcraft@ravenholdt.net">Ravenholdt</a> &bull; UI source at <a href="http://github.com/cheald/shadowcraft-ui">GitHub</a>      &bull; discussion at <a href="https://discord.gg/DdPahJ9">Ravenholdt</a> &bull; DPS/EP engine source at <a href="https://github.com/Fierydemise/ShadowCraft-Engine">GitHub</a>      &bull; Hosting provided by <a href="http://mmo-mumble.com">MMO-Mumble.com</a>
                     </div>
 
                     {this.state.waitDisplayed && <div id="wait">

@@ -55,15 +55,6 @@
   <!-- Attach React components -->
   <div id="appjs"></div>
 
-  <!--javascript bundle-->
-  <script>
-  // using this method for now until we figure out the best way to get data into the app
-    {% if character_json %}
-      var characterJson = {{ character_json | safe }}
-    {% else %}
-      var characterJson = undefined;
-    {% endif %}
-  </script>
   <script type="text/javascript" src="{{ url_for('static',
                                         filename='bundle.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static',

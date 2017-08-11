@@ -89,8 +89,8 @@ class RightPane extends React.Component {
             <div className="log warning" key={i}>{this.props.warnings[i]}</div>);
 
         return (
-            <div style={{ flex: 1, height: "100%"}}>
-                <div id="console-footer" className="awin-medium" style={{flex: "1 1"}}>
+            <div style={{ flex: "1 1 0%", flexDirection: "column", display: "flex", height: "100vh"}}>
+                <div id="console-footer" className="awin-medium">
                     <a className="pandaren" href={`http://${this.props.region}.battle.net/wow/en/character/${this.props.realm}/${this.props.name}/advanced`} id="card" target="_blank">
                         <div className="img">
                             <img src={this.props.portrait}/>
@@ -109,7 +109,7 @@ class RightPane extends React.Component {
                     </div>
                     <Line data={graphTestData} options={graphOptions} getElementsAtEvent={this.graphClick} />
                 </div>
-                <div id="logs" style={{flex: "1 2"}}>
+                <div id="logs">
                     <section>
                         <div className="window" id="console">
                             <h3>Notices</h3>
@@ -118,10 +118,10 @@ class RightPane extends React.Component {
                             </div>
                         </div>
                     </section>
-                    <section>
-                        <div className="window" id="log">
+                    <section style={{ flexGrow: 1, display: "flex", flexDirection: "column"}}>
+                        <div className="window" id="log" style={{ flexGrow: 1, display: "flex", flexDirection: "column"}}>
                             <h3>Log</h3>
-                            <div className="inner" />
+                            <div className="inner" style={{flexGrow: 1}} />
                         </div>
                     </section>
                 </div>
