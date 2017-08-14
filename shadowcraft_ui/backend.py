@@ -61,6 +61,15 @@ class ShadowcraftComputation:
         142159: 'bloodstained_handkerchief',
         142167: 'eye_of_command',
         142164: 'toe_knees_promise',
+
+        # 7.2/Tomb of Sargeras
+        144477: 'splinters_of_agronax',
+        147009: 'infernal_cinders',
+        147010: 'cradle_of_anguish',
+        147011: 'vial_of_ceaseless_toxins',
+        147012: 'umbral_moonglaives',
+        147015: 'engine_of_eradication',
+        151190: 'specter_of_betrayal',
     }
 
     otherProcs = {
@@ -202,6 +211,15 @@ class ShadowcraftComputation:
 
         # Legendary trinkets
         'kiljaedens_burning_wish': [910, 940, 970],
+
+        # 7.2/Tomb of Sargeras
+        'splinters_of_agronax': range(845, RANGE_MAX, 5),
+        'infernal_cinders': range(885, RANGE_MAX, 5),
+        'cradle_of_anguish': range(885, RANGE_MAX, 5),
+        'vial_of_ceaseless_toxins': range(885, RANGE_MAX, 5),
+        'umbral_moonglaives': range(885, RANGE_MAX, 5),
+        'engine_of_eradication': range(885, RANGE_MAX, 5),
+        'specter_of_betrayal': range(895, RANGE_MAX, 5),
     }
 
     gearBoosts = {
@@ -229,9 +247,8 @@ class ShadowcraftComputation:
     trinketMap = {**gearProcs, **gearBoosts}
 
     # Tier + Order Hall sets
-    tier18IDs = frozenset([124248, 124257, 124263, 124269, 124274])
-    tier18LFRIDs = frozenset([128130, 128121, 128125, 128054, 128131, 128137])
     tier19IDs = frozenset([138326, 138329, 138332, 138335, 138338, 138371])
+    tier20IDs = frozenset([147169, 147170, 147171, 147172, 147173, 147174])
     orderhallIDs = frozenset(
         [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746])
 
@@ -274,20 +291,17 @@ class ShadowcraftComputation:
         # Set up gear buffs.
         buff_list = ['gear_specialization']
 
-        if len(self.tier18IDs & gear_ids) >= 2:
-            buff_list.append('rogue_t18_2pc')
-
-        if len(self.tier18IDs & gear_ids) >= 4:
-            buff_list.append('rogue_t18_4pc')
-
-        if len(self.tier18LFRIDs & gear_ids) >= 4:
-            buff_list.append('rogue_t18_4pc_lfr')
-
         if len(self.tier19IDs & gear_ids) >= 2:
             buff_list.append('rogue_t19_2pc')
 
         if len(self.tier19IDs & gear_ids) >= 4:
             buff_list.append('rogue_t19_4pc')
+
+        if len(self.tier20IDs & gear_ids) >= 2:
+            buff_list.append('rogue_t20_2pc')
+
+        if len(self.tier20IDs & gear_ids) >= 4:
+            buff_list.append('rogue_t20_4pc')
 
         if len(self.orderhallIDs & gear_ids) >= 6:
             buff_list.append('rogue_orderhall_6pc')
@@ -488,7 +502,7 @@ class ShadowcraftComputation:
             out["ep"] = calculator.get_ep(ep_stats=default_ep_stats)
 
             other_buffs = ['rogue_t19_2pc', 'rogue_t19_4pc', 'rogue_orderhall_8pc',
-                           'rogue_t18_2pc', 'rogue_t18_4pc', 'rogue_t18_4pc_lfr',
+                           'rogue_t20_2pc','rogue_t20_4pc',
                            'mark_of_the_hidden_satyr', 'mark_of_the_distant_army',
                            'mark_of_the_claw', 'march_of_the_legion_2pc',
                            'journey_through_time_2pc', 'jacins_ruse_2pc',
