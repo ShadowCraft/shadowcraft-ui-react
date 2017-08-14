@@ -54,6 +54,7 @@ class CharacterPane extends React.Component {
         this.clearSavedData = this.clearSavedData.bind(this);
         this.getDebugURL = this.getDebugURL.bind(this);
         this.onOuterDivClick = this.onOuterDivClick.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
     componentWillMount() {
@@ -90,6 +91,8 @@ class CharacterPane extends React.Component {
                     }
                 }.bind(this));
         }
+
+        document.addEventListener("keydown", this.onKeyDown.bind(this));
     }
 
     renderTab(tab) {
@@ -100,6 +103,14 @@ class CharacterPane extends React.Component {
             case 'advanced': return <AdvancedPane />;
             case 'documentation': return <DocsPane />;
             default: return (<div>unrecognized string passed to CharacterPane.renderTab</div>);
+        }
+    }
+
+    onKeyDown(e) {
+        if (this.props.modal.open) {
+            if (e.keyCode == 27) {
+                store.dispatch({type: "CLOSE_MODAL"});
+            }
         }
     }
 
