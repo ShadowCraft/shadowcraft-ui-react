@@ -112,7 +112,7 @@ export const characterReducer = function (state = {}, action) {
         case characterActionTypes.CHANGE_BONUSES: {
 
             let newData = {bonuses: action.data.bonuses,
-                           itemLevel: action.data.ilvl,
+                           item_level: action.data.ilvl,
                            stats: action.data.newStats};
             
             // If this item can have a bonus socket but doesn't have one assigned, nuke

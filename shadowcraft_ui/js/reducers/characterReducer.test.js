@@ -287,7 +287,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 0,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: "Meh Item"
@@ -313,7 +313,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 0,
                     stats: { test: 'test' },
-                    itemLevel: 1,
+                    item_level: 1,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: "Awesome Item of Awesomeness"
@@ -334,7 +334,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 0,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: "Awesome Item of Awesomeness"
@@ -360,7 +360,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 0,
                     stats: { test: 'test' },
-                    itemLevel: 1,
+                    item_level: 1,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: "Awesome Item"
@@ -381,7 +381,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 0,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: ""
@@ -407,7 +407,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 0,
                     stats: { test: 'test' },
-                    itemLevel: 1,
+                    item_level: 1,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: ""
@@ -428,7 +428,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 0,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: ""
@@ -455,7 +455,7 @@ describe('characterReducer', () => {
                     gems: [0],
                     socket_count: 0,
                     stats: { test: 'test' },
-                    itemLevel: 1,
+                    item_level: 1,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: ""
@@ -476,7 +476,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 0,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: ""
@@ -503,7 +503,7 @@ describe('characterReducer', () => {
                     gems: [0],
                     socket_count: 1,
                     stats: { test: 'test' },
-                    itemLevel: 1,
+                    item_level: 1,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: ""
@@ -524,7 +524,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: ""
@@ -551,7 +551,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: { test: 'test' },
-                    itemLevel: 1,
+                    item_level: 1,
                     hasBonusSocket: true,
                     canHaveBonusSocket: false,
                     name: ""
@@ -572,7 +572,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 }
             }
@@ -591,7 +591,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 12345
                 }
             }
@@ -618,7 +618,7 @@ describe('characterReducer', () => {
                         }],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 }
             }
@@ -656,7 +656,7 @@ describe('characterReducer', () => {
                         }],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 }
             }
@@ -683,7 +683,7 @@ describe('characterReducer', () => {
                         }],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 slot2: {
@@ -708,7 +708,7 @@ describe('characterReducer', () => {
                     ],
                     socket_count: 2,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 slot3: {
@@ -724,7 +724,7 @@ describe('characterReducer', () => {
                         }],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 }
             }
@@ -773,7 +773,7 @@ describe('characterReducer', () => {
                         }],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 slot2: {
@@ -798,7 +798,7 @@ describe('characterReducer', () => {
                     ],
                     socket_count: 2,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 slot3: {
@@ -814,7 +814,7 @@ describe('characterReducer', () => {
                         }],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 }
             }
@@ -840,7 +840,7 @@ describe('characterReducer', () => {
                         }],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 slot2: {
@@ -865,7 +865,7 @@ describe('characterReducer', () => {
                     ],
                     socket_count: 2,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 slot3: {
@@ -881,7 +881,7 @@ describe('characterReducer', () => {
                         }],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 }
             }
@@ -930,7 +930,7 @@ describe('characterReducer', () => {
                         }],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 slot2: {
@@ -955,7 +955,7 @@ describe('characterReducer', () => {
                     ],
                     socket_count: 2,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 slot3: {
@@ -971,7 +971,7 @@ describe('characterReducer', () => {
                         }],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 }
             }
@@ -989,7 +989,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 chest: {
@@ -997,7 +997,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 back: {
@@ -1005,7 +1005,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 finger1: {
@@ -1013,7 +1013,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 finger2: {
@@ -1021,7 +1021,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 }
             }
@@ -1041,7 +1041,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 1234
                 },
                 chest: {
@@ -1049,7 +1049,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 0
                 },
                 back: {
@@ -1057,7 +1057,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 2345
                 },
                 finger1: {
@@ -1065,7 +1065,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 3456
                 },
                 finger2: {
@@ -1073,7 +1073,7 @@ describe('characterReducer', () => {
                     gems: [],
                     socket_count: 1,
                     stats: {},
-                    itemLevel: 0,
+                    item_level: 0,
                     enchant: 3456
                 }
             }
