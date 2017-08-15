@@ -95,8 +95,8 @@ export const assassination_layout = {
         {
             row: 5,
             col: 1,
-            icon: 'inv_poison_mindnumbing',
-            id: 200802
+            icon: 'inv_weapon_shortblade_62',
+            id: 245388
         },
         {
             row: 5,
@@ -221,8 +221,8 @@ export const assassination_ranking = [
         name: 'Tier 90',
         items: [
             {
-                name: 'Agonizing Poison',
-                id: 'agonizing_poison'
+                name: 'Toxic Blade',
+                id: 'toxic_blade'
             },
             {
                 name: 'Alacrity',
@@ -605,8 +605,8 @@ export const subtlety_layout = {
         {
             row: 5,
             col: 1,
-            icon: 'spell_shadow_possession',
-            id: 196979
+            icon: 'spell_warlock_demonsoul',
+            id: 245687
         },
         {
             row: 5,
@@ -618,7 +618,7 @@ export const subtlety_layout = {
             row: 5,
             col: 3,
             icon: 'ability_rogue_envelopingshadows',
-            id: 206237
+            id: 238104
         },
         {
             row: 6,
@@ -731,8 +731,8 @@ export const subtlety_ranking = [
         name: 'Tier 90',
         items: [
             {
-                name: 'Premeditation',
-                id: 'premeditation'
+                name: 'Dark Shadow',
+                id: 'dark_shadow'
             },
             {
                 name: 'Alacrity',
