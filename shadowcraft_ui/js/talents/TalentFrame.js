@@ -45,7 +45,7 @@ class TalentFrame extends React.Component {
                 active = true;
             }
 
-            talents.push(<Talent key={talent.id} col={talent.col} row={talent.row} id={talent.id} icon={talent.icon} active={active} handleClick={this.handleClick}/>);
+            talents.push(<Talent key={talent.id} col={talent.col-1} row={talent.row} id={talent.id} icon={talent.icon} active={active} handleClick={this.handleClick}/>);
         }
         
         return(
