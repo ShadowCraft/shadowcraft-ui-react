@@ -4,127 +4,127 @@ export const assassination_layout = {
     talents: [
         {
             row: 0,
-            col: 1,
+            col: 0,
             icon: 'ability_creature_poison_06',
             id: 196864
         },
         {
             row: 0,
-            col: 2,
+            col: 1,
             icon: 'inv_misc_map08',
             id: 193640
         },
         {
             row: 0,
-            col: 3,
+            col: 2,
             icon: 'spell_shadow_lifedrain',
             id: 16511
         },
         {
             row: 1,
-            col: 1,
+            col: 0,
             icon: 'ability_stealth',
             id: 14062
         },
         {
             row: 1,
-            col: 2,
+            col: 1,
             icon: 'rogue_subterfuge',
             id: 108208
         },
         {
             row: 1,
-            col: 3,
+            col: 2,
             icon: 'rogue_shadowfocus',
             id: 108209
         },
         {
             row: 2,
-            col: 1,
+            col: 0,
             icon: 'archaeology_5_0_changkiboard',
             id: 193531
         },
         {
             row: 2,
-            col: 2,
+            col: 1,
             icon: 'ability_rogue_slaughterfromtheshadows',
             id: 114015
         },
         {
             row: 2,
-            col: 3,
+            col: 2,
             icon: 'ability_rogue_vigor',
             id: 14983
         },
         {
             row: 3,
-            col: 1,
+            col: 0,
             icon: 'rogue_leeching_poison',
             id: 108211
         },
         {
             row: 3,
-            col: 2,
+            col: 1,
             icon: 'ability_rogue_turnthetables',
             id: 79008
         },
         {
             row: 3,
-            col: 3,
+            col: 2,
             icon: 'ability_rogue_cheatdeath',
             id: 31230
         },
         {
             row: 4,
-            col: 1,
+            col: 0,
             icon: 'inv_misc_bandana_03',
             id: 196861
         },
         {
             row: 4,
-            col: 2,
+            col: 1,
             icon: 'ability_rogue_preyontheweak',
             id: 131511
         },
         {
             row: 4,
-            col: 3,
+            col: 2,
             icon: 'ability_rogue_bloodsplatter',
             id: 154904
         },
         {
             row: 5,
-            col: 1,
+            col: 0,
             icon: 'inv_weapon_shortblade_62',
             id: 245388
         },
         {
             row: 5,
-            col: 2,
+            col: 1,
             icon: 'ability_paladin_speedoflight',
             id: 193539
         },
         {
             row: 5,
-            col: 3,
+            col: 2,
             icon: 'ability_deathwing_bloodcorruption_earth',
             id: 200806
         },
         {
             row: 6,
-            col: 1,
+            col: 0,
             icon: 'rogue_venomzest',
             id: 152152
         },
         {
             row: 6,
-            col: 2,
+            col: 1,
             icon: 'achievement_bg_killingblow_berserker',
             id: 137619
         },
         {
             row: 6,
-            col: 3,
+            col: 2,
             icon: 'spell_rogue_deathfromabove',
             id: 152150
         }
@@ -259,127 +259,127 @@ export const outlaw_layout = {
     talents: [
         {
             row: 0,
-            col: 1,
+            col: 0,
             icon: 'ability_creature_cursed_02',
             id: 196937
         },
         {
             row: 0,
-            col: 2,
+            col: 1,
             icon: 'inv_sword_97',
             id: 200733
         },
         {
             row: 0,
-            col: 3,
+            col: 2,
             icon: 'inv_weapon_rifle_40',
             id: 196938
         },
         {
             row: 1,
-            col: 1,
+            col: 0,
             icon: 'ability_rogue_grapplinghook',
             id: 195457
         },
         {
             row: 1,
-            col: 2,
+            col: 1,
             icon: 'spell_warrior_wildstrike',
             id: 196924
         },
         {
             row: 1,
-            col: 3,
+            col: 2,
             icon: 'ability_rogue_fleetfooted',
             id: 196922
         },
         {
             row: 2,
-            col: 1,
+            col: 0,
             icon: 'archaeology_5_0_changkiboard',
             id: 193531
         },
         {
             row: 2,
-            col: 2,
+            col: 1,
             icon: 'ability_rogue_slaughterfromtheshadows',
             id: 114015
         },
         {
             row: 2,
-            col: 3,
+            col: 2,
             icon: 'ability_rogue_vigor',
             id: 14983
         },
         {
             row: 3,
-            col: 1,
+            col: 0,
             icon: 'inv_misc_organ_11',
             id: 193546
         },
         {
             row: 3,
-            col: 2,
+            col: 1,
             icon: 'ability_rogue_turnthetables',
             id: 79008
         },
         {
             row: 3,
-            col: 3,
+            col: 2,
             icon: 'ability_rogue_cheatdeath',
             id: 31230
         },
         {
             row: 4,
-            col: 1,
+            col: 0,
             icon: 'achievement_character_human_male',
             id: 199743
         },
         {
             row: 4,
-            col: 2,
+            col: 1,
             icon: 'ability_rogue_preyontheweak',
             id: 131511
         },
         {
             row: 4,
-            col: 3,
+            col: 2,
             icon: 'ability_rogue_dirtydeeds',
             id: 108216
         },
         {
             row: 5,
-            col: 1,
+            col: 0,
             icon: 'ability_rogue_cannonballbarrage',
             id: 185767
         },
         {
             row: 5,
-            col: 2,
+            col: 1,
             icon: 'ability_paladin_speedoflight',
             id: 193539
         },
         {
             row: 5,
-            col: 3,
+            col: 2,
             icon: 'ability_rogue_murderspree',
             id: 51690
         },
         {
             row: 6,
-            col: 1,
+            col: 0,
             icon: 'ability_rogue_slicedice',
             id: 5171
         },
         {
             row: 6,
-            col: 2,
+            col: 1,
             icon: 'achievement_bg_killingblow_berserker',
             id: 137619
         },
         {
             row: 6,
-            col: 3,
+            col: 2,
             icon: 'spell_rogue_deathfromabove',
             id: 152150
         }
@@ -514,127 +514,127 @@ export const subtlety_layout = {
     talents: [
         {
             row: 0,
-            col: 1,
+            col: 0,
             icon: 'ability_rogue_masterofsubtlety',
             id: 31223
         },
         {
             row: 0,
-            col: 2,
+            col: 1,
             icon: 'ability_ironmaidens_bladerush',
             id: 193537
         },
         {
             row: 0,
-            col: 3,
+            col: 2,
             icon: 'ability_ironmaidens_convulsiveshadows',
             id: 200758
         },
         {
             row: 1,
-            col: 1,
+            col: 0,
             icon: 'ability_stealth',
             id: 14062
         },
         {
             row: 1,
-            col: 2,
+            col: 1,
             icon: 'rogue_subterfuge',
             id: 108208
         },
         {
             row: 1,
-            col: 3,
+            col: 2,
             icon: 'rogue_shadowfocus',
             id: 108209
         },
         {
             row: 2,
-            col: 1,
+            col: 0,
             icon: 'archaeology_5_0_changkiboard',
             id: 193531
         },
         {
             row: 2,
-            col: 2,
+            col: 1,
             icon: 'ability_rogue_slaughterfromtheshadows',
             id: 114015
         },
         {
             row: 2,
-            col: 3,
+            col: 2,
             icon: 'ability_rogue_vigor',
             id: 14983
         },
         {
             row: 3,
-            col: 1,
+            col: 0,
             icon: 'spell_shadow_twilight',
             id: 200759
         },
         {
             row: 3,
-            col: 2,
+            col: 1,
             icon: 'ability_rogue_turnthetables',
             id: 79008
         },
         {
             row: 3,
-            col: 3,
+            col: 2,
             icon: 'ability_rogue_cheatdeath',
             id: 31230
         },
         {
             row: 4,
-            col: 1,
+            col: 0,
             icon: 'ability_rogue_unfairadvantage',
             id: 196951
         },
         {
             row: 4,
-            col: 2,
+            col: 1,
             icon: 'ability_rogue_preyontheweak',
             id: 131511
         },
         {
             row: 4,
-            col: 3,
+            col: 2,
             icon: 'inv_misc_volatileshadow',
             id: 200778
         },
         {
             row: 5,
-            col: 1,
+            col: 0,
             icon: 'spell_warlock_demonsoul',
             id: 245687
         },
         {
             row: 5,
-            col: 2,
+            col: 1,
             icon: 'ability_paladin_speedoflight',
             id: 193539
         },
         {
             row: 5,
-            col: 3,
+            col: 2,
             icon: 'ability_rogue_envelopingshadows',
             id: 238104
         },
         {
             row: 6,
-            col: 1,
+            col: 0,
             icon: 'spell_shadow_charm',
             id: 196976
         },
         {
             row: 6,
-            col: 2,
+            col: 1,
             icon: 'achievement_bg_killingblow_berserker',
             id: 137619
         },
         {
             row: 6,
-            col: 3,
+            col: 2,
             icon: 'spell_rogue_deathfromabove',
             id: 152150
         }
