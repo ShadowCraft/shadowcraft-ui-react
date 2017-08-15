@@ -11,9 +11,11 @@ class EquippedItem extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.onBonusClick = this.onBonusClick.bind(this);
-        this.checkForWarnings(props);
+    }
+
+    componentWillMount() {
+        this.checkForWarnings(this.props);
     }
 
     componentWillReceiveProps(nextProps) {
