@@ -30,14 +30,6 @@ BASE_ILEVEL_WHITELIST = [1726, 1727, 1798, 1799, 1801, 1805, 1806, 1807, 1824, 1
 
 BONUS_ID_WHITELIST = BASE_WHITELIST + BASE_ILEVEL_WHITELIST
 
-# For some reason the crafted items don't come with the "stage" bonus IDs in their
-# chanceBonusList entry.  This is the list of bonus IDs for those stages and is
-# handled slightly differently.  See below for the check for trade-skill for more
-# details.
-WOD_TRADESKILL_BONUS_IDS = [525, 526, 527,
-                            558, 559, 593, 594, 617, 619, 618, 620]
-TRADESKILL_BONUS_IDS = [596, 597, 598, 599, 666, 667, 668, 669, 670, 671, 672]
-
 ARTIFACT_WEAPONS = [128476, 128479, 128870, 128869, 128872, 134552]
 ORDER_HALL_SET = [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746]
 MIN_ILVL = 800
@@ -244,9 +236,9 @@ def import_item(dbase, item_id, is_gem=False):
 
     # Create a basic item to store in the database. The properties will get populated
     # as we loop through the json below.
-    db_item = {'id': item_id, 'is_gem': is_gem}
+    db_item = {'id': item_id, 'is_gem': is_gem, 'is_crafted': False}
 
-    # Loop through the json data tha twas retrieved and process each in turn
+    # Loop through the json data that was retrieved and process each in turn
     for json in json_data:
 
         item = ArmoryItem(json)
@@ -282,6 +274,8 @@ def import_item(dbase, item_id, is_gem=False):
                     'dps': item_props['dps']
                 }
 
+            if json['context'] == 'trade-skill':
+                db_item['is_crafted'] = True
 
     dbase.items.replace_one({'id': item_id}, db_item, upsert=True)
 
@@ -294,13 +288,6 @@ def get_bonus_ids_to_load(possible_ids, context, item_level):
     item_chance_bonuses = copy.copy(possible_ids)
     item_chance_bonuses = [
         x for x in item_chance_bonuses if x in BONUS_ID_WHITELIST]
-
-    # For trade-skil items, also add the bonuses for each of the "stage" titles
-    if context == 'trade-skill':
-        if item_level > 750:
-            item_chance_bonuses.extend(TRADESKILL_BONUS_IDS)
-        else:
-            item_chance_bonuses.extend(WOD_TRADESKILL_BONUS_IDS)
 
     return item_chance_bonuses
 
