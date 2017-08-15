@@ -23,7 +23,7 @@ class TalentFrame extends React.Component {
     handleClick(e)
     {
         var row = parseInt(e.currentTarget.dataset['row']);
-        var col = parseInt(e.currentTarget.dataset['col']);
+        var col = parseInt(e.currentTarget.dataset['col'])+1;
         var current = this.props.currentTalents;
         var newSetup = current.substr(0, row) + col + current.substr(row+1);
         
@@ -37,6 +37,7 @@ class TalentFrame extends React.Component {
 
     render()
     {
+        console.log(this.props.currentTalents);
         var talents = [];
         for (var index in this.props.layout.talents) {
             var talent = this.props.layout.talents[index];
