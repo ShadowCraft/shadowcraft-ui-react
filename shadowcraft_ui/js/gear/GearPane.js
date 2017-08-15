@@ -19,9 +19,8 @@ export default class GearPane extends React.Component {
         return (
             <div className="with-tools ui-tabs-panel ui-widget-content ui-corner-bottom" id="gear">
                 <StatPanel />
-                {/*this layout method could probably be revised*/}
                 <div className="panel-content">
-                    <div className="slots half" id="slots-left">
+                    <div className="slots">
                         <EquippedItem slot="head" />
                         <EquippedItem slot="neck" />
                         <EquippedItem slot="shoulder" />
@@ -32,7 +31,7 @@ export default class GearPane extends React.Component {
                         {/*need to handle missing gear more gracefully*/}
                         {/*<EquippedItem slot="offhand" />*/}
                     </div>
-                    <div className="slots half" id="slots-right">
+                    <div className="slots">
                         <EquippedItem slot="hands" />
                         <EquippedItem slot="waist" />
                         <EquippedItem slot="legs" />

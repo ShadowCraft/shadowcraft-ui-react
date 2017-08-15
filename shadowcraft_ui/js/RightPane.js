@@ -89,8 +89,8 @@ class RightPane extends React.Component {
             <div className="log warning" key={i}>{this.props.warnings[i]}</div>);
 
         return (
-            <div style={{ flex: "1 1 0%", flexDirection: "column", display: "flex", height: "100vh"}} id="right-pane">
-                <a className="pandaren" href={`http://${this.props.region}.battle.net/wow/en/character/${this.props.realm}/${this.props.name}/advanced`} id="card" target="_blank">
+            <div className="right-pane flex-max-height">
+                <a href={`http://${this.props.region}.battle.net/wow/en/character/${this.props.realm}/${this.props.name}/advanced`} className="card" target="_blank">
                     <div className="img">
                         <img src={this.props.portrait}/>
                     </div>
@@ -116,8 +116,8 @@ class RightPane extends React.Component {
                             </div>
                         </div>
                     </section>
-                    <section style={{ flexGrow: 1, display: "flex", flexDirection: "column"}}>
-                        <div className="window" id="log" style={{ flexGrow: 1, display: "flex", flexDirection: "column"}}>
+                    <section className="flex-fill-vertical">
+                        <div className="window flex-fill-vertical" id="log">
                             <h3>Log</h3>
                             <div className="inner" style={{flexGrow: 1}} />
                         </div>

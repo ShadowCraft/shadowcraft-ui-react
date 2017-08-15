@@ -445,13 +445,24 @@ html.websockets, html.history, html.canvas
     .label_check, .input, .select
       width: inherit
 
-#right-pane
+.flex-fill-vertical
+  flex-grow: 1
+  display: flex
+  flex-direction: column
+
+.flex-max-height
+  flex: 1 1 0%
+  flex-direction: column
+  display: flex
+  height: 100vh
+
+.right-pane
   right: 0px
   min-width: 350px
   border-top: 1px solid #333333
   border-bottom: 1px solid #333333
 
-  #card
+  .card
     background: #111111 url(/static/images/hatch.png)
     +transition(background 0.2s)
     border-bottom: 1px solid #1a1a1a
