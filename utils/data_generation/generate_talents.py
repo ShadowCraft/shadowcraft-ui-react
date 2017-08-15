@@ -151,7 +151,7 @@ elif sys.argv[1] == '--blizzard':
         for talent_idx, talent in enumerate(data['talents']):
             print('        {')
             print('            row: %d,' % talent['row'])
-            print('            col: %d,' % (talent['col']-1))
+            print('            col: %d,' % talent['col'])
             print('            icon: \'%s\',' % talent['icon'])
             print('            id: %d' % talent['id'])
             if talent_idx != (len(data['talents'])-1):
