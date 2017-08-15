@@ -89,26 +89,24 @@ class RightPane extends React.Component {
             <div className="log warning" key={i}>{this.props.warnings[i]}</div>);
 
         return (
-            <div style={{ flex: "1 1 0%", flexDirection: "column", display: "flex", height: "100vh"}}>
-                <div id="console-footer" className="awin-medium">
-                    <a className="pandaren" href={`http://${this.props.region}.battle.net/wow/en/character/${this.props.realm}/${this.props.name}/advanced`} id="card" target="_blank">
-                        <div className="img">
-                            <img src={this.props.portrait}/>
-                        </div>
-                        <span className="info">
-                            <span className="name">
-                                {this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)}
-                            </span>
-                            <span className="realm">
-                                {realm} - {this.props.region.toUpperCase()}
-                            </span>
-                        </span>
-                    </a>
-                    <div id="dps">
-                        <div className="inner">{Math.round(this.props.dps*10)/10.0} {dpsChange < 0.0 ? (<em className="n">({dpsChange} / {dpsChangePct}%)</em>):(<em className="p">(+{dpsChange} / +{dpsChangePct}%)</em>)}</div>
+            <div style={{ flex: "1 1 0%", flexDirection: "column", display: "flex", height: "100vh"}} id="right-pane">
+                <a className="pandaren" href={`http://${this.props.region}.battle.net/wow/en/character/${this.props.realm}/${this.props.name}/advanced`} id="card" target="_blank">
+                    <div className="img">
+                        <img src={this.props.portrait}/>
                     </div>
-                    <Line data={graphTestData} options={graphOptions} getElementsAtEvent={this.graphClick} />
+                    <span className="info">
+                        <span className="name">
+                            {this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)}
+                        </span>
+                        <span className="realm">
+                            {realm} - {this.props.region.toUpperCase()}
+                        </span>
+                    </span>
+                </a>
+                <div id="dps">
+                    <div className="inner">{Math.round(this.props.dps*10)/10.0} {dpsChange < 0.0 ? (<em className="n">({dpsChange} / {dpsChangePct}%)</em>):(<em className="p">(+{dpsChange} / +{dpsChangePct}%)</em>)}</div>
                 </div>
+                <Line data={graphTestData} options={graphOptions} getElementsAtEvent={this.graphClick} />
                 <div id="logs">
                     <section>
                         <div className="window" id="console">
