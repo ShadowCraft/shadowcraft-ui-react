@@ -52,8 +52,6 @@ export default class CharacterInput extends React.Component {
                                     <label><input type="radio" value="EU" checked={this.state.region === 'EU'} onChange={this.handleRegionOnChange} /> EU</label>
                                     <label><input type="radio" value="KR" checked={this.state.region === 'KR'} onChange={this.handleRegionOnChange} /> KR</label>
                                     <label><input type="radio" value="TW" checked={this.state.region === 'TW'} onChange={this.handleRegionOnChange} /> TW</label>
-                                    <label><input type="radio" value="CN" checked={this.state.region === 'CN'} onChange={this.handleRegionOnChange} /> CN</label>
-                                    <level><input type="radio" value="SEA" checked={this.state.region === 'SEA'} onChange={this.handleRegionOnChange} /> SEA</level>
                                 </div>
                             </span>
                             <div className='submit'>

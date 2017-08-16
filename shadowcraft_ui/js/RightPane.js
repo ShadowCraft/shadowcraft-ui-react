@@ -88,9 +88,26 @@ class RightPane extends React.Component {
         let warnings = this.props.warnings.map((g, i) =>
             <div className="log warning" key={i}>{this.props.warnings[i]}</div>);
 
+        let armoryRegion = "";
+        switch (this.props.region) {
+            case 'eu':
+                armoryRegion = "en-gb";
+                break;
+            case 'kr':
+                armoryRegion = "ko-kr";
+                break;
+            case 'tw':
+                armoryRegion = "zh-tw";
+                break;
+            case 'us':
+            default:
+                armoryRegion = "en-us";
+                break;
+        }
+
         return (
             <div className="right-pane flex-max-height">
-                <a href={`http://${this.props.region}.battle.net/wow/en/character/${this.props.realm}/${this.props.name}/advanced`} className="card" target="_blank">
+                <a href={`https://worldofwarcraft.com/${armoryRegion}/character/${this.props.realm}/${this.props.name}`} className="card" target="_blank">
                     <div className="img">
                         <img src={this.props.portrait}/>
                     </div>
