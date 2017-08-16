@@ -1,5 +1,4 @@
 $width: 1400px
-$top-pane-height: 34px
 
 html, body
   min-height: 100%
@@ -147,7 +146,7 @@ html.websockets, html.history, html.canvas
   vertical-align: middle
   background: #050505
   color: #555555
-  border-top: 1px solid #1a1a1a
+  border-top: 1px solid #333333
   +transition(background 0.25s)
   &:hover
     background-color: #050a0f
@@ -289,19 +288,6 @@ html.websockets, html.history, html.canvas
     border-bottom-left-radius: 0
     border-bottom-right-radius: 0
     border-bottom: 0
-
-  #top-pane
-    a#logo
-      display: block
-      right: 5px
-      bottom: 2px
-      position: absolute
-      width: 319px
-      height: 30px
-      background: url(/static/images/logo3s.jpg) bottom right no-repeat
-
-    position: relative
-    height: $top-pane-height - 1
 
   .ui-tabs-nav
     border: 0
@@ -462,6 +448,13 @@ html.websockets, html.history, html.canvas
   min-width: 350px
   border-top: 1px solid #333333
   border-bottom: 1px solid #333333
+
+  .logo
+    display: block
+    height: 30px
+    background: url(/static/images/logo3s.jpg) bottom right no-repeat
+    border-bottom: 1px solid #333333
+    float: right
 
   .card
     background: #111111 url(/static/images/hatch.png)

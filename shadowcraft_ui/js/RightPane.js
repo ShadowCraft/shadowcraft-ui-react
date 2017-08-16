@@ -107,6 +107,7 @@ class RightPane extends React.Component {
 
         return (
             <div className="right-pane flex-max-height">
+                <a href="/" className="logo" />
                 <a href={`https://worldofwarcraft.com/${armoryRegion}/character/${this.props.realm}/${this.props.name}`} className="card" target="_blank">
                     <div className="img">
                         <img src={this.props.portrait}/>
