@@ -138,9 +138,25 @@ export function recalculateStats(baseStats, ilvlChange) {
     return newStats;
 }
 
+export function getStatValue(stats, weights) {
+    let value = 0;
+    //explicit to mind possible mismatched/missing property names
+    value += (stats.agility || 0) * weights.agi;
+    value += (stats.crit || 0) * weights.crit;
+    value += (stats.haste || 0) * weights.haste;
+    value += (stats.mastery || 0) * weights.mastery;
+    value += (stats.versatility || 0) * weights.versatility;
+
+    return value;
+}
+
+// The istanbul statements below cause jest to ignore these methods when calculating coverage
+// statistics. These methods are hard to unit test because they require the browser to
+// be there to actually function.
+
 // Good god I hope our users are using browsers that support local storage. This is a stupid
-// method that makes sure they are.
-export function storageAvailable() {
+// method that makes sure they are. The
+export /* istanbul ignore next */function storageAvailable() {
     try {
         var storage = window['localStorage'],
             x = '__storage_test__';
@@ -164,7 +180,7 @@ export function storageAvailable() {
     }
 }
 
-export function storageSet(name, value) {
+export /* istanbul ignore next */function storageSet(name, value) {
     try {
         window['localStorage'].setItem(name, JSON.stringify(value));
     }
@@ -173,7 +189,7 @@ export function storageSet(name, value) {
     }
 }
 
-export function storageGet(name) {
+export /* istanbul ignore next */function storageGet(name) {
     let value = window.localStorage.getItem(name);
     if (value != null) {
         value = JSON.parse(value);
@@ -181,18 +197,6 @@ export function storageGet(name) {
     return value;
 }
 
-export function storageClear() {
+export /* istanbul ignore next */function storageClear() {
     window['localStorage'].clear();
-}
-
-export function getStatValue(stats, weights) {
-    let value = 0;
-    //explicit to mind possible mismatched/missing property names
-    value += (stats.agility || 0) * weights.agi;
-    value += (stats.crit || 0) * weights.crit;
-    value += (stats.haste || 0) * weights.haste;
-    value += (stats.mastery || 0) * weights.mastery;
-    value += (stats.versatility || 0) * weights.versatility;
-
-    return value;
 }
