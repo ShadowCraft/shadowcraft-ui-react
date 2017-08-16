@@ -105,7 +105,7 @@ class StatPane extends React.Component {
 
         let weightElements = [];
         for (let idx in sortedWeights) {
-            weightElements.push(<StatPanelElement key={name} name={name} value={round3(sortedWeights[idx][1])} />);
+            weightElements.push(<StatPanelElement key={sortedWeights[idx][0]} name={sortedWeights[idx][0]} value={round3(sortedWeights[idx][1])} />);
         }
 
         sortedWeights = [];
