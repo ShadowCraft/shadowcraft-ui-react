@@ -87,26 +87,27 @@ class StatPane extends React.Component {
         // need to make sure the current settings exist before trying to use
         // them.
 
-        let weightElements = [];
         let sortedWeights = [];
         for (let stat in this.props.weights) {
-            sortedWeights.push([stat, this.props.weights[stat]]);
+            let name = "";
+            if (stat == 'ap') {
+                continue;
+            }
+            else if (stat == 'agi') {
+                name = "Agility";
+            }
+            else {
+                name = stat.charAt(0).toUpperCase() + stat.slice(1);
+            }
+            sortedWeights.push([name, this.props.weights[stat]]);
         }
         sortedWeights.sort(function(a, b) { return b[1] - a[1]; });
 
+        let weightElements = [];
         for (let idx in sortedWeights) {
-            let name = sortedWeights[idx][0].charAt(0).toUpperCase() + sortedWeights[idx][0].slice(1);
-            if (name == "Agi") {
-                name = "Agility";
-            }
-            else if (name == "Ap") {
-                continue;
-            }
-
             weightElements.push(<StatPanelElement key={name} name={name} value={round3(sortedWeights[idx][1])} />);
         }
 
-        let setWeightElements = [];
         sortedWeights = [];
         for (let key in this.props.otherEP) {
             if (key.startsWith("rogue_")) {
@@ -117,6 +118,8 @@ class StatPane extends React.Component {
             }
         }
         sortedWeights.sort(function(a, b) { return a[0] - b[0]; });
+        
+        let setWeightElements = [];
         for (let idx in sortedWeights) {
             setWeightElements.push(<StatPanelElement key={sortedWeights[idx][0]} name={sortedWeights[idx][0]} value={round3(sortedWeights[idx][1])} />);
         }
