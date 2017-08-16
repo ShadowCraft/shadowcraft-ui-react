@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1502907774726" clover="3.2.0">
-  <project timestamp="1502907774726" name="All files">
-    <metrics statements="148" coveredstatements="147" conditionals="74" coveredconditionals="71" methods="10" coveredmethods="10" elements="232" coveredelements="228" complexity="0" loc="148" ncloc="148" packages="2" files="6" classes="6">
+<coverage generated="1502908643720" clover="3.2.0">
+  <project timestamp="1502908643720" name="All files">
+    <metrics statements="146" coveredstatements="146" conditionals="72" coveredconditionals="71" methods="10" coveredmethods="10" elements="228" coveredelements="227" complexity="0" loc="146" ncloc="146" packages="2" files="6" classes="6">
       <package name="js">
-        <metrics statements="23" coveredstatements="23" conditionals="18" coveredconditionals="17" methods="3" coveredmethods="3"/>
+        <metrics statements="23" coveredstatements="23" conditionals="18" coveredconditionals="18" methods="3" coveredmethods="3"/>
         <file name="common.js" path="/home/tim/shadowcraft-ui-react/shadowcraft_ui/js/common.js">
-          <metrics statements="23" coveredstatements="23" conditionals="18" coveredconditionals="17" methods="3" coveredmethods="3"/>
+          <metrics statements="23" coveredstatements="23" conditionals="18" coveredconditionals="18" methods="3" coveredmethods="3"/>
           <line num="1" count="2" type="stmt"/>
           <line num="69" count="4" type="stmt"/>
           <line num="72" count="2" type="stmt"/>
@@ -22,28 +22,28 @@
           <line num="130" count="3" type="stmt"/>
           <line num="135" count="1" type="stmt"/>
           <line num="138" count="5" type="stmt"/>
-          <line num="142" count="5" type="stmt"/>
-          <line num="144" count="5" type="cond" truecount="1" falsecount="1"/>
-          <line num="145" count="5" type="cond" truecount="2" falsecount="0"/>
-          <line num="146" count="5" type="cond" truecount="2" falsecount="0"/>
-          <line num="147" count="5" type="cond" truecount="2" falsecount="0"/>
-          <line num="148" count="5" type="cond" truecount="2" falsecount="0"/>
-          <line num="150" count="5" type="stmt"/>
+          <line num="142" count="6" type="stmt"/>
+          <line num="144" count="6" type="cond" truecount="2" falsecount="0"/>
+          <line num="145" count="6" type="cond" truecount="2" falsecount="0"/>
+          <line num="146" count="6" type="cond" truecount="2" falsecount="0"/>
+          <line num="147" count="6" type="cond" truecount="2" falsecount="0"/>
+          <line num="148" count="6" type="cond" truecount="2" falsecount="0"/>
+          <line num="150" count="6" type="stmt"/>
         </file>
       </package>
       <package name="js.reducers">
-        <metrics statements="125" coveredstatements="124" conditionals="56" coveredconditionals="54" methods="7" coveredmethods="7"/>
+        <metrics statements="123" coveredstatements="123" conditionals="54" coveredconditionals="53" methods="7" coveredmethods="7"/>
         <file name="characterReducer.js" path="/home/tim/shadowcraft-ui-react/shadowcraft_ui/js/reducers/characterReducer.js">
-          <metrics statements="78" coveredstatements="77" conditionals="38" coveredconditionals="36" methods="2" coveredmethods="2"/>
+          <metrics statements="76" coveredstatements="76" conditionals="36" coveredconditionals="35" methods="2" coveredmethods="2"/>
           <line num="4" count="1" type="stmt"/>
-          <line num="20" count="4" type="stmt"/>
-          <line num="29" count="4" type="stmt"/>
-          <line num="30" count="4" type="stmt"/>
-          <line num="31" count="4" type="stmt"/>
-          <line num="34" count="4" type="stmt"/>
-          <line num="36" count="4" type="stmt"/>
+          <line num="20" count="5" type="stmt"/>
+          <line num="29" count="5" type="stmt"/>
+          <line num="30" count="5" type="stmt"/>
+          <line num="31" count="5" type="stmt"/>
+          <line num="34" count="5" type="stmt"/>
+          <line num="36" count="5" type="stmt"/>
           <line num="39" count="1" type="cond" truecount="1" falsecount="0"/>
-          <line num="41" count="20" type="cond" truecount="11" falsecount="0"/>
+          <line num="41" count="21" type="cond" truecount="11" falsecount="0"/>
           <line num="44" count="1" type="stmt"/>
           <line num="48" count="1" type="stmt"/>
           <line num="54" count="3" type="stmt"/>
@@ -90,29 +90,27 @@
           <line num="139" count="6" type="stmt"/>
           <line num="144" count="1" type="stmt"/>
           <line num="149" count="1" type="stmt"/>
-          <line num="154" count="2" type="stmt"/>
-          <line num="155" count="2" type="stmt"/>
-          <line num="159" count="2" type="stmt"/>
-          <line num="160" count="2" type="stmt"/>
-          <line num="161" count="2" type="stmt"/>
-          <line num="162" count="6" type="stmt"/>
+          <line num="154" count="3" type="stmt"/>
+          <line num="155" count="3" type="stmt"/>
+          <line num="159" count="3" type="stmt"/>
+          <line num="160" count="3" type="stmt"/>
+          <line num="161" count="3" type="stmt"/>
+          <line num="162" count="9" type="stmt"/>
           <line num="163" count="8" type="cond" truecount="2" falsecount="0"/>
           <line num="164" count="2" type="stmt"/>
           <line num="167" count="8" type="cond" truecount="2" falsecount="0"/>
           <line num="168" count="1" type="stmt"/>
           <line num="169" count="7" type="cond" truecount="3" falsecount="1"/>
           <line num="170" count="7" type="stmt"/>
-          <line num="176" count="2" type="cond" truecount="4" falsecount="0"/>
+          <line num="176" count="3" type="cond" truecount="4" falsecount="0"/>
           <line num="177" count="1" type="stmt"/>
-          <line num="181" count="2" type="cond" truecount="1" falsecount="1"/>
-          <line num="182" count="2" type="stmt"/>
-          <line num="185" count="0" type="stmt"/>
+          <line num="181" count="3" type="stmt"/>
+          <line num="186" count="1" type="stmt"/>
+          <line num="187" count="1" type="stmt"/>
+          <line num="188" count="1" type="stmt"/>
+          <line num="189" count="1" type="stmt"/>
           <line num="191" count="1" type="stmt"/>
-          <line num="192" count="1" type="stmt"/>
-          <line num="193" count="1" type="stmt"/>
-          <line num="194" count="1" type="stmt"/>
-          <line num="196" count="1" type="stmt"/>
-          <line num="200" count="1" type="stmt"/>
+          <line num="195" count="1" type="stmt"/>
         </file>
         <file name="engineReducer.js" path="/home/tim/shadowcraft-ui-react/shadowcraft_ui/js/reducers/engineReducer.js">
           <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>

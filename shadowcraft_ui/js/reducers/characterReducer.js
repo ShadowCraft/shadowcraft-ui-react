@@ -178,12 +178,7 @@ export const characterReducer = function (state = {}, action) {
                                        makeGem(action.data.epic));
             }
 
-            if (newState != null) {
-                return newState;
-            }
-            else {
-                return state;
-            }
+            return newState;
         }
 
         case characterActionTypes.OPTIMIZE_ENCHANTS: {

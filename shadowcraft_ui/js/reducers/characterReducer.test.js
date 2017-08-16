@@ -980,6 +980,98 @@ describe('characterReducer', () => {
         expect(characterReducer(init, action)).toEqual(expected);
     });
 
+    it('should handle OPTIMIZE_GEMS with no sockets', () => {
+
+        const init = {
+            gear: {
+                slot1: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 0,
+                    stats: {},
+                    item_level: 0,
+                    enchant: 0
+                },
+                slot2: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 0,
+                    stats: {},
+                    item_level: 0,
+                    enchant: 0
+                },
+                slot3: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 0,
+                    stats: {},
+                    item_level: 0,
+                    enchant: 0
+                }
+            }
+        };
+
+        const action = {
+            type: characterActionTypes.OPTIMIZE_GEMS,
+            data: {
+                rare: {
+                    id: 12345,
+                    is_gem: true,
+                    name: "Rare Gem of Rareness",
+                    icon: "blue_gem",
+                    gem_slot: "Prismatic",
+                    quality: 3,
+                    stats: {
+                        haste: 200
+                    }
+                },
+                epic: {
+                    id: 67890,
+                    is_gem: true,
+                    name: "Epic Gem of Epicness",
+                    icon: "purple_gem",
+                    gem_slot: "Prismatic",
+                    quality: 4,
+                    stats: {
+                        agility: 500
+                    }
+                }
+            }
+        };
+
+        const expected = {
+            gear: {
+                slot1: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 0,
+                    stats: {},
+                    item_level: 0,
+                    enchant: 0
+                },
+                slot2: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 0,
+                    stats: {},
+                    item_level: 0,
+                    enchant: 0
+                },
+                slot3: {
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 0,
+                    stats: {},
+                    item_level: 0,
+                    enchant: 0
+                }
+            }
+        };
+
+        expect(characterReducer(init, action)).toEqual(expected);
+    });
+
+
     it('should handle OPTIMIZE_ENCHANTS', () => {
 
         const init = {

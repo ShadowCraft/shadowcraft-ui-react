@@ -19,6 +19,8 @@ describe('recalculateStats', () => {
 
 describe('getStatValue', () => {
     it('should return the right value', () => {
+        expect(getStatValue({},
+                            {agi: 2, crit: 3, haste: 4, mastery: 5, versatility: 6})).toEqual(0);
         expect(getStatValue({agility: 1},
                             {agi: 2, crit: 3, haste: 4, mastery: 5, versatility: 6})).toEqual(2);
         expect(getStatValue({agility: 1, crit: 1},
