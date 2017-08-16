@@ -70,19 +70,43 @@ export function getArtifactIlvlChange(oldRelic, newRelic)
 }
 
 export const MULTI_ITEM_SETS = {
-    rogue_t19: [138326, 138329, 138332, 138335, 138338, 138371],
-    rogue_orderhall: [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746],
-
-    // Legion Dungeon sets
-    march_of_the_legion: [134529, 134533],
-    journey_through_time: [137419, 137487],
-    jacins_ruse: [137480, 137397],
-
-    // Kara trinket/chest sets
-    toe_knees: [142164, 142203],
-    bloodstained: [142159, 142203],
-    eye_of_command: [142167, 142203]
-};
+    T19: {
+        ids: [138326, 138329, 138332, 138335, 138338, 138371],
+        bonuses: {4: "rogue_t19_4pc", 2: "rogue_t19_2pc"}
+    },
+    T20: {
+        ids: [147169, 147170, 147171, 147172, 147173, 147174],
+        bonuses: {4: "rogue_t20_4pc", 2: "rogue_t20_2pc"}
+    },
+    ORDERHALL: {
+        ids: [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746],
+        bonuses: {8: "rogue_orderhall_8pc"}
+    },
+    MARCH_OF_THE_LEGION: {
+        ids: [134529, 134533],
+        bonuses: {2: "march_of_the_legion_2pc"}
+    },
+    JOURNEY_THROUGH_TIME: {
+        ids: [137419, 137487],
+        bonuses: {2: "journey_through_time_2pc"}
+    },
+    JACINS_RUSE: {
+        ids: [137480, 137397],
+        bonuses: {2: "jacins_ruse_2pc"}
+    },
+    TOES_KNEES: {
+        ids: [142164, 142203],
+        bonuses: {2: 'kara_empowered_2pc'}
+    },
+    BLOODSTAINED: {
+        ids: [142159, 142203],
+        bonuses: {2: 'kara_empowered_2pc'}
+    },
+    EYE_OF_COMMAND: {
+        ids: [142167, 142203],
+        bonuses: {2: 'kara_empowered_2pc'}
+    }
+}
 
 // Recalculates a stat block based on a change in item level.
 export function recalculateStats(baseStats, ilvlChange) {

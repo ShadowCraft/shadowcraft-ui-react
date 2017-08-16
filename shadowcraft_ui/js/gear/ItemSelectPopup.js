@@ -3,7 +3,7 @@ import store from '../store';
 import ItemSelectElement from './ItemSelectElement';
 import ModalWrapper from '../modals/ModalWrapper';
 import { connect } from 'react-redux';
-import { getStatValue } from '../common';
+import { getStatValue, MULTI_ITEM_SETS } from '../common';
 
 class ItemSelectPopup extends React.Component {
 
@@ -11,8 +11,41 @@ class ItemSelectPopup extends React.Component {
         super(props);
         this.onFilterInput = this.onFilterInput.bind(this);
 
-        this.state = { filter: '' };
+        this.state = { filter: '', setBonusEP: {} };
         this.itemValueCache = {};
+
+        // TODO: this requires iterating over all of the equipped items twice
+        // for each set. And then we loop over each set again for each item in
+        // in the list of items on the popup. There's likely a better way to
+        // do this to reduce that iteration. Maybe a map that goes from item ID
+        // to the sets that it's part of?
+        for (let setName in MULTI_ITEM_SETS) {
+            let setCount = this.getEquippedSetCount(MULTI_ITEM_SETS[setName].ids, this.props.slot);
+            if (!(setName in this.state.setBonusEP)) {
+                this.state.setBonusEP[setName] = 0;
+            }
+            this.state.setBonusEP[setName] += this.getSetBonusEP(MULTI_ITEM_SETS[setName], setCount);
+        }
+    }
+
+    getEquippedSetCount(setIds, ignoreSlot) {
+        let count = 0;
+        for (let slot in this.props.allItems) {
+            if (slot != ignoreSlot && setIds.indexOf(this.props.allItems[slot].id) != -1) {
+                count += 1;
+            }
+        }
+        return count;
+    }
+
+    getSetBonusEP(itemSet, equippedCount) {
+        let total = 0;
+        for (let num in itemSet.bonuses) {
+            if (equippedCount == num -1) {
+                total += this.props.otherEP[itemSet.bonuses[num]];
+            }
+        }
+        return total;
     }
 
     getItemValue(item) {
@@ -24,7 +57,7 @@ class ItemSelectPopup extends React.Component {
                 if (idString in this.props.otherEP) {
                     //check for a missing spell effect values from the engine
                     if (this.props.otherEP[idString] === 'not allowed') {
-                        store.dispatch({ type: 'ADD_WARNING', text: <div>{idString}'s spell effect is not yet implimented</div> });
+                        store.dispatch({ type: 'ADD_WARNING', text: <div>{idString}'s spell effect is not yet implemented</div> });
                     }
                     else {
                         value += this.props.otherEP[idString];
@@ -33,6 +66,12 @@ class ItemSelectPopup extends React.Component {
 
                 if (idString in this.props.procEP) {
                     value += this.props.procEP[idString][item.item_level.toString()];
+                }
+            }
+
+            for (let setName in MULTI_ITEM_SETS) {
+                if (MULTI_ITEM_SETS[setName].ids.indexOf(item.id) != -1) {
+                    value += this.state.setBonusEP[setName];
                 }
             }
 
@@ -161,7 +200,8 @@ const mapStateToProps = function (store, ownProps) {
         otherEP: store.engine.other_ep,
         procEP: store.engine.proc_ep,
         trinketMap: store.engine.trinket_map,
-        equippedItem: store.character.gear[ownProps.slot]
+        equippedItems: store.character.gear[ownProps.slot],
+        allItems: store.character.gear
     };
 };
 
