@@ -24,7 +24,7 @@ export default class EquippedGemItem extends React.Component {
         return (
             <div className="gem" onClick={this.onClick.bind(this)}>
                 <span className="socket">
-                    <img src="/static/images/icons/Socket_Prismatic.png" />
+                    <img src="/static/images/Socket_Prismatic.png" />
                 </span>
                 <span className="img">
                     <img src={`http://media.blizzard.com/wow/icons/56/${gemItem.icon}.jpg`} />
