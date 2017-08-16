@@ -26,7 +26,7 @@ describe('historyReducer', () => {
             dps: [1000],
             data: [{
                 character: { testcharcter: 'testcharcter' },
-                settings: {} //TODO: why is this empty?
+                settings: { testsetting: 'testsetting' }
             }]
         };
         expect(historyReducer(init, action)).toEqual(expected);
