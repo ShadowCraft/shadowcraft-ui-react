@@ -87,6 +87,40 @@ class StatPane extends React.Component {
         // need to make sure the current settings exist before trying to use
         // them.
 
+        let weightElements = [];
+        let sortedWeights = [];
+        for (let stat in this.props.weights) {
+            sortedWeights.push([stat, this.props.weights[stat]]);
+        }
+        sortedWeights.sort(function(a, b) { return b[1] - a[1]; });
+
+        for (let idx in sortedWeights) {
+            let name = sortedWeights[idx][0].charAt(0).toUpperCase() + sortedWeights[idx][0].slice(1);
+            if (name == "Agi") {
+                name = "Agility";
+            }
+            else if (name == "Ap") {
+                continue;
+            }
+
+            weightElements.push(<StatPanelElement key={name} name={name} value={round3(sortedWeights[idx][1])} />);
+        }
+
+        let setWeightElements = [];
+        sortedWeights = [];
+        for (let key in this.props.otherEP) {
+            if (key.startsWith("rogue_")) {
+                let name = key.slice(6);
+                name = name.charAt(0).toUpperCase() + name.slice(1);
+                name = name.replace(/_/, ' ');
+                sortedWeights.push([name, this.props.otherEP[key]]);
+            }
+        }
+        sortedWeights.sort(function(a, b) { return a[0] - b[0]; });
+        for (let idx in sortedWeights) {
+            setWeightElements.push(<StatPanelElement key={sortedWeights[idx][0]} name={sortedWeights[idx][0]} value={round3(sortedWeights[idx][1])} />);
+        }
+
         return (
             <div className="panel-tools">
                 <section id="summary">
@@ -110,13 +144,10 @@ class StatPane extends React.Component {
                 <section id="weights">
                     <h3>Stat Weights</h3>
                     <div className="inner">
-                        <StatPanelElement name="Agility" value={round3(this.props.weights.agi)} />
-                        <StatPanelElement name="Versatility" value={round3(this.props.weights.versatility)} />
-                        <StatPanelElement name="Crit" value={round3(this.props.weights.crit)} />
-                        <StatPanelElement name="Mastery" value={round3(this.props.weights.mastery)} />
-                        <StatPanelElement name="Haste" value={round3(this.props.weights.haste)} />
+                        {weightElements}
                         <StatPanelElement name="Mainhand DPS" value={round3(this.props.mhEP)} />
                         <StatPanelElement name="Offhand DPS" value={round3(this.props.ohEP)} />
+                        {setWeightElements}
                     </div>
                 </section>
                 <section>
