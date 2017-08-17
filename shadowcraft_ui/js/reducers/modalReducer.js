@@ -12,6 +12,7 @@ export const modalTypes = {
     ITEM_SELECT: 'ITEM_SELECT',
     ITEM_BONUSES: 'ITEM_BONUSES',
     DEBUG_URL: 'DEBUG_URL',
+    RELOAD_SWIRL: 'RELOAD_SWIRL'
 };
 
 export const modalReducer = function (state = initialModalState, action) {

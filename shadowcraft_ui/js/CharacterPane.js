@@ -46,7 +46,6 @@ class CharacterPane extends React.Component {
         this.state = {
             currentTab: 'gear',
             dropdown: false,
-            waitDisplayed: false
         };
 
         this.onDropdownClick = this.onDropdownClick.bind(this);
@@ -75,6 +74,8 @@ class CharacterPane extends React.Component {
             store.dispatch(initializeWithDataFromLocalStorage(characterDataFromLocalStorage, settingsDataFromLocalStorage));
         }
         else {
+            store.dispatch({type: "OPEN_MODAL", data: {popupType: modalTypes.RELOAD_SWIRL}});
+
             let url = `/get_character_data?region=${this.props.pathinfo.region}&realm=${this.props.pathinfo.realm}&name=${this.props.pathinfo.name}`;
             if (this.props.pathinfo.sha != undefined) {
                 url += `&sha=${this.props.pathinfo.sha}`;
@@ -90,6 +91,8 @@ class CharacterPane extends React.Component {
                         store.dispatch(initializeWithDataFromLocalStorage(json['character'], json['settings']));
                     }
                 }.bind(this));
+
+            store.dispatch({type: "CLOSE_MODAL"});
         }
 
         document.addEventListener("keydown", this.onKeyDown.bind(this));
@@ -107,7 +110,7 @@ class CharacterPane extends React.Component {
     }
 
     onKeyDown(e) {
-        if (this.props.modal.open) {
+        if (this.props.modal.open && this.props.modal.current != modalTypes.RELOAD_SWIRL) {
             if (e.keyCode == 27) {
                 store.dispatch({type: "CLOSE_MODAL"});
             }
@@ -143,7 +146,7 @@ class CharacterPane extends React.Component {
     }
 
     refreshCharacter() {
-        this.setState({ waitDisplayed: true });
+        store.dispatch({type: "OPEN_MODAL", data: {popupType: modalTypes.RELOAD_SWIRL}});
 
         let url = `/get_character_data?region=${this.props.character.region}&realm=${this.props.character.realm}&name=${this.props.character.name}`;
         fetch(url)
@@ -153,7 +156,7 @@ class CharacterPane extends React.Component {
                 store.dispatch({ type: 'CLEAR_WARNINGS' });
                 store.dispatch(updateCharacterState('RESET_CHARACTER_DATA', json));
                 store.dispatch({ type: 'CLEAR_HISTORY' });
-                this.setState({ waitDisplayed: false });
+                store.dispatch({ type: "CLOSE_MODAL" });
             }.bind(this));
     }
 
@@ -212,7 +215,7 @@ class CharacterPane extends React.Component {
             );
         } else {
             return (
-                <div onClick={this.props.modal.open ? this.onOuterDivClick : null}>
+                <div onClick={this.props.modal.open && this.props.modal.current != modalTypes.RELOAD_SWIRL ? this.onOuterDivClick : null}>
 
                     <ModalConductor />
 
@@ -256,11 +259,6 @@ class CharacterPane extends React.Component {
                     <div id="footer">
                         Questions to <a href="mailto:shadowcraft@ravenholdt.net">Ravenholdt</a> &bull; UI source at <a href="http://github.com/cheald/shadowcraft-ui">GitHub</a>      &bull; discussion at <a href="https://discord.gg/DdPahJ9">Ravenholdt</a> &bull; DPS/EP engine source at <a href="https://github.com/Fierydemise/ShadowCraft-Engine">GitHub</a>      &bull; Hosting provided by <a href="http://mmo-mumble.com">MMO-Mumble.com</a>
                     </div>
-
-                    {this.state.waitDisplayed && <div id="wait">
-                        <div id="waitMsg" />
-                    </div>}
-
                 </div >
             );
         }

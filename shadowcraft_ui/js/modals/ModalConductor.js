@@ -5,6 +5,7 @@ import store from '../store';
 import ItemSelectPopup from '../gear/ItemSelectPopup';
 import BonusIDPopup from '../gear/BonusIDPopup';
 import DebugURLPopup from './DebugURLPopup';
+import ReloadSwirlPopup from './ReloadSwirlPopup';
 
 import { modalTypes } from '../reducers/modalReducer';
 
@@ -29,6 +30,9 @@ class ModalConductor extends React.Component {
 
             case modalTypes.DEBUG_URL:
                 return <DebugURLPopup hideModal={this.hideModal} {...this.props.modalProps}/>;
+
+            case modalTypes.RELOAD_SWIRL:
+                return <ReloadSwirlPopup hideModal={this.hideModal} {...this.props.modalProps}/>;
 
             default:
                 return null;
