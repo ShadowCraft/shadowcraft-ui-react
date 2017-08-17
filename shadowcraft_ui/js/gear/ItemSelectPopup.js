@@ -30,8 +30,8 @@ class ItemSelectPopup extends React.Component {
 
     getEquippedSetCount(setIds, ignoreSlot) {
         let count = 0;
-        for (let slot in this.props.allItems) {
-            if (slot != ignoreSlot && setIds.indexOf(this.props.allItems[slot].id) != -1) {
+        for (let slot in this.props.equippedItems) {
+            if (slot != ignoreSlot && setIds.indexOf(this.props.equippedItems[slot].id) != -1) {
                 count += 1;
             }
         }
@@ -125,13 +125,14 @@ class ItemSelectPopup extends React.Component {
                     return true;
                 }
                 else if (this.props.isEnchant) {
-                    return item.id == this.props.equippedItem.enchant;
+                    return item.id == this.props.equippedItems[this.props.slot].enchant;
                 }
                 else if (this.props.isGem) {
-                    return item.id == this.props.equippedItem.gems[this.props.gemSlot].id;
+                    return item.id == this.props.equippedItems[this.props.slot].gems[this.props.gemSlot].id;
                 }
                 else {
-                    return item.id == this.props.equippedItem.id && item.item_level == this.props.equippedItem.item_level;
+                    return item.id == this.props.equippedItems[this.props.slot].id &&
+                           item.item_level == this.props.equippedItems[this.props.slot].item_level;
                 }
             }.bind(this));
         }
@@ -200,8 +201,7 @@ const mapStateToProps = function (store, ownProps) {
         otherEP: store.engine.other_ep,
         procEP: store.engine.proc_ep,
         trinketMap: store.engine.trinket_map,
-        equippedItems: store.character.gear[ownProps.slot],
-        allItems: store.character.gear
+        equippedItems: store.character.gear
     };
 };
 
