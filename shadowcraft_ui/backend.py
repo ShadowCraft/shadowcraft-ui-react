@@ -408,8 +408,6 @@ class ShadowcraftComputation:
 
         _artifact = input_data['character']['artifact']
 
-        print(len(_artifact['traits']))
-        print(len(artifact_data.traits[('rogue', spec)]))
         num_engine_traits = len(artifact_data.traits[('rogue', spec)])
         traitstr = ""
         if len(_artifact['traits']) == 0:
