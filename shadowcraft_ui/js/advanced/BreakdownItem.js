@@ -1,10 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function round2(val) {
     return Math.round(val * 100.0) / 100.0;
 }
 
-export default class BreakdownItem extends React.Component {
+class BreakdownItem extends React.Component {
+
+    constructor(props) {
+        super();
+        this.props = props;
+    }
+
     render() {
         return (
             <div title={`${round2(this.props.item.dps)} dps`} className="talent_contribution">
@@ -17,3 +24,14 @@ export default class BreakdownItem extends React.Component {
         );
     }
 }
+
+BreakdownItem.propTypes = {
+    item: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        dps: PropTypes.number.isRequired,
+        pct: PropTypes.number.isRequired
+    }).isRequired,
+    maxpct: PropTypes.number.isRequired
+};
+
+export default BreakdownItem;

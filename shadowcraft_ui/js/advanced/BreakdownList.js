@@ -1,7 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import BreakdownItem from './BreakdownItem';
 
-export default class BreakdownList extends React.Component {
+class BreakdownList extends React.Component {
+
+    constructor(props) {
+        super();
+        this.props = props;
+    }
 
     getBreakdownItems(items, max) {
 
@@ -9,9 +15,11 @@ export default class BreakdownList extends React.Component {
 
         // calculate the percentages and find the max percentage
         for (var item in items) {
-            newItems.push( {name: item,
-                            dps: items[item],
-                            pct: items[item] / max} );
+            newItems.push({
+                name: item,
+                dps: items[item],
+                pct: items[item] / max
+            });
         }
 
         let mylist = newItems.sort((a, b) => b.pct - a.pct);
@@ -26,3 +34,10 @@ export default class BreakdownList extends React.Component {
         );
     }
 }
+
+BreakdownList.propTypes = {
+    list: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+    max: PropTypes.number.isRequired
+};
+
+export default BreakdownList;
