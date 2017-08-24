@@ -1,9 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DropDown from './DropDown';
 import TextBox from './TextBox';
 import CheckBox from './CheckBox';
 
-export default class AdvancedPaneSetting extends React.Component {
+class AdvancedPaneSetting extends React.Component {
+
+    constructor(props) {
+        super();
+        this.props = props;
+    }
 
     getSettingType(setting, id, value) {
         switch (setting.type) {
@@ -21,6 +27,17 @@ export default class AdvancedPaneSetting extends React.Component {
                 this.props.current[this.props.setting.name]
             );
         }
-        else return <div />
+        else return <div />;
     }
 }
+
+AdvancedPaneSetting.propTypes = {
+    current: PropTypes.objectOf(
+        PropTypes.any.isRequired
+    ).isRequired,
+    setting: PropTypes.shape({
+        name: PropTypes.string.isRequired
+    }).isRequired
+};
+
+export default AdvancedPaneSetting;

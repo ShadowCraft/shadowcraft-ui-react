@@ -1,8 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import store from '../store';
 import { changeSetting } from '../store';
 
-export default class TextBox extends React.Component {
+class TextBox extends React.Component {
+
+    constructor(props) {
+        super();
+        this.props = props;
+    }
 
     onKeyDown(e) {
         if (e.keyCode == 13) {
@@ -29,3 +35,15 @@ export default class TextBox extends React.Component {
         );
     }
 }
+
+TextBox.propTypes = {
+    id: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    setting: PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+    })
+};
+
+export default TextBox;

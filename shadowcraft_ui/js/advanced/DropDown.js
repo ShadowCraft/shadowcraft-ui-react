@@ -1,8 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import store from '../store';
 import { changeSetting } from '../store';
 
-export default class DropDown extends React.Component {
+class DropDown extends React.Component {
+
+    constructor(props) {
+        super();
+        this.props = props;
+    }
 
     onChange(e) {
         store.dispatch(changeSetting({
@@ -22,8 +28,9 @@ export default class DropDown extends React.Component {
         return (
             <label className="select">
                 <span className="label">{this.props.setting.label}</span>
-                <span className="select-container" value={this.props.value}>
+                <span className="select-container">
                     <select
+                        value={this.props.value}
                         className="optionSelect"
                         id={this.props.id}
                         onChange={this.onChange.bind(this)}
@@ -36,3 +43,16 @@ export default class DropDown extends React.Component {
         );
     }
 }
+
+DropDown.propTypes = {
+    id: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    value: PropTypes.any.isRequired,
+    setting: PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        options: PropTypes.object.isRequired,
+        description: PropTypes.string.isRequired,
+    })
+};
+
+export default DropDown;

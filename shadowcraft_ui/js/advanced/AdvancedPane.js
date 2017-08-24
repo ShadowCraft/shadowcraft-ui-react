@@ -1,11 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import store from '../store';
 
 import BreakdownList from './BreakdownList';
 import AdvancedPaneSection from './AdvancedPaneSection';
 
 class AdvancedPane extends React.Component {
+
+    constructor(props) {
+        super();
+        this.props = props;
+    }
 
     render() {
 
@@ -37,6 +42,18 @@ class AdvancedPane extends React.Component {
         );
     }
 }
+
+AdvancedPane.propTypes = {
+    active_spec: PropTypes.string.isRequired,
+    ui_build: PropTypes.string.isRequired,
+    engine_info: PropTypes.shape({
+        wow_build_target: PropTypes.string.isRequired,
+        shadowcraft_build: PropTypes.string.isRequired
+    }).isRequired,
+    breakdown: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+    dps: PropTypes.number.isRequired,
+    layout: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+};
 
 const mapStateToProps = function (store) {
     return {

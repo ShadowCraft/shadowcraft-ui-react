@@ -1,8 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import store from '../store';
 import { changeSetting } from '../store';
 
-export default class CheckBox extends React.Component {
+class CheckBox extends React.Component {
+
+    constructor(props){
+        super();
+        this.props = props;
+    }
 
     onChange(e) {
         store.dispatch(changeSetting({
@@ -27,3 +33,15 @@ export default class CheckBox extends React.Component {
         );
     }
 }
+
+CheckBox.propTypes = {
+    id: PropTypes.string.isRequired,
+    value: PropTypes.bool.isRequired,
+    setting: PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+    })
+};
+
+export default CheckBox;

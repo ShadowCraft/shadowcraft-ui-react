@@ -1,9 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import AdvancedPaneSetting from './AdvancedPaneSetting';
 
 class AdvancedPaneSection extends React.Component {
+
+    constructor(props) {
+        super();
+        this.props = props;
+    }
 
     render() {
 
@@ -27,6 +33,17 @@ class AdvancedPaneSection extends React.Component {
         );
     }
 }
+
+AdvancedPaneSection.propTypes = {
+    section: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        heading: PropTypes.string.isRequired,
+        items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired
+    }).isRequired,
+    current: PropTypes.objectOf(
+        PropTypes.any.isRequired
+    ).isRequired
+};
 
 const mapStateToProps = function(store) {
     return {
