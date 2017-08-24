@@ -42,7 +42,11 @@ AdvancedPaneSection.propTypes = {
     }).isRequired,
     current: PropTypes.objectOf(
         PropTypes.any.isRequired
-    ).isRequired
+    )
+};
+
+AdvancedPaneSection.defaultProps = {
+    current: {}
 };
 
 const mapStateToProps = function(store) {

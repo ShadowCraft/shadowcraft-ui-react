@@ -46,13 +46,16 @@ class DropDown extends React.Component {
 
 DropDown.propTypes = {
     id: PropTypes.string.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    value: PropTypes.any.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     setting: PropTypes.shape({
         label: PropTypes.string.isRequired,
         options: PropTypes.object.isRequired,
         description: PropTypes.string.isRequired,
     })
+};
+
+DropDown.defaultProps = {
+    value: ''
 };
 
 export default DropDown;

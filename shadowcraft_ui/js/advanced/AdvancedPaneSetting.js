@@ -40,4 +40,8 @@ AdvancedPaneSetting.propTypes = {
     }).isRequired
 };
 
+AdvancedPaneSetting.defaultProps = {
+    current: {}
+};
+
 export default AdvancedPaneSetting;

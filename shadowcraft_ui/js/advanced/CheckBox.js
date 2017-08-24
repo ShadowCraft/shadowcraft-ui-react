@@ -36,12 +36,16 @@ class CheckBox extends React.Component {
 
 CheckBox.propTypes = {
     id: PropTypes.string.isRequired,
-    value: PropTypes.bool.isRequired,
+    value: PropTypes.bool,
     setting: PropTypes.shape({
         label: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
     })
+};
+
+CheckBox.defaultProps = {
+    value: false
 };
 
 export default CheckBox;

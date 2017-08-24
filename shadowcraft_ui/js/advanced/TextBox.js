@@ -38,12 +38,16 @@ class TextBox extends React.Component {
 
 TextBox.propTypes = {
     id: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     setting: PropTypes.shape({
         label: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
     })
+};
+
+TextBox.defaultProps = {
+    value: ''
 };
 
 export default TextBox;

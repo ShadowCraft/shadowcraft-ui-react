@@ -48,11 +48,18 @@ AdvancedPane.propTypes = {
     ui_build: PropTypes.string.isRequired,
     engine_info: PropTypes.shape({
         wow_build_target: PropTypes.string.isRequired,
-        shadowcraft_build: PropTypes.string.isRequired
+        shadowcraft_build: PropTypes.string
     }).isRequired,
-    breakdown: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+    breakdown: PropTypes.objectOf(PropTypes.number.isRequired),
     dps: PropTypes.number.isRequired,
     layout: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+};
+
+AdvancedPane.defaultProps = {
+    engine_info: {
+        shadowcraft_build: ''
+    },
+    breakdown: { 'Loading...': 0 }
 };
 
 const mapStateToProps = function (store) {
