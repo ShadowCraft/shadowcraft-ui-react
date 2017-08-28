@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import store from '../store';
 import { updateCharacterState } from '../store';
@@ -13,6 +14,11 @@ function round3(val) {
 }
 
 class StatPane extends React.Component {
+
+    constructor(props) {
+        super();
+        this.props = props;
+    }
 
     optimizeGems() {
         // We only care about the blue gems, and we'll send over the one agility purple
@@ -41,11 +47,11 @@ class StatPane extends React.Component {
 
     optimizeEnchants() {
         // Need the best neck, back, and ring enchants to send to the reducer.
-        let actionData = {}
+        let actionData = {};
         let slots = ['back', 'neck', 'finger'];
         for (let slot in slots) {
             let enchants = EnchantMap.filter(function (e) {
-                return e.slot == slots[slot]
+                return e.slot == slots[slot];
             });
 
             let bestVal = -1.0;
@@ -101,11 +107,16 @@ class StatPane extends React.Component {
             }
             sortedWeights.push([name, this.props.weights[stat]]);
         }
-        sortedWeights.sort(function(a, b) { return b[1] - a[1]; });
+        sortedWeights.sort(function (a, b) { return b[1] - a[1]; });
 
         let weightElements = [];
         for (let idx in sortedWeights) {
-            weightElements.push(<StatPanelElement key={sortedWeights[idx][0]} name={sortedWeights[idx][0]} value={round3(sortedWeights[idx][1])} />);
+            weightElements.push(
+                <StatPanelElement
+                    key={sortedWeights[idx][0]}
+                    name={sortedWeights[idx][0]}
+                    value={round3(sortedWeights[idx][1]).toString()}
+                />);
         }
 
         sortedWeights = [];
@@ -117,11 +128,16 @@ class StatPane extends React.Component {
                 sortedWeights.push([name, this.props.otherEP[key]]);
             }
         }
-        sortedWeights.sort(function(a, b) { return a[0] - b[0]; });
-        
+        sortedWeights.sort(function (a, b) { return a[0] - b[0]; });
+
         let setWeightElements = [];
         for (let idx in sortedWeights) {
-            setWeightElements.push(<StatPanelElement key={sortedWeights[idx][0]} name={sortedWeights[idx][0]} value={round3(sortedWeights[idx][1])} />);
+            setWeightElements.push(
+                <StatPanelElement
+                    key={sortedWeights[idx][0]}
+                    name={sortedWeights[idx][0]}
+                    value={round3(sortedWeights[idx][1]).toString()}
+                />);
         }
 
         return (
@@ -129,27 +145,34 @@ class StatPane extends React.Component {
                 <section id="summary">
                     <h3>Summary</h3>
                     <div className="inner">
-                        <StatPanelElement name="Engine" value={this.props.engineTarget} />
+                        <StatPanelElement name="Engine" value={this.props.engineTarget.toString()} />
                         <StatPanelElement name="Spec" value={spec} />
-                        <StatPanelElement name="Boss Adds" value={this.props.settings.current ? this.props.settings.current.num_boss_adds : 0} />
+                        <StatPanelElement
+                            name="Boss Adds"
+                            value={
+                                this.props.settings.current
+                                    ? this.props.settings.current.num_boss_adds.toString()
+                                    : '0'
+                            }
+                        />
                     </div>
                 </section>
                 <section className="clearfix" id="stats">
                     <h3>Gear Stats</h3>
                     <div className="inner">
-                        <StatPanelElement name="Agility" value={Math.round(this.props.stats.agility)} />
-                        <StatPanelElement name="Crit" value={Math.round(this.props.stats.crit)} />
-                        <StatPanelElement name="Haste" value={Math.round(this.props.stats.haste)} />
-                        <StatPanelElement name="Mastery" value={Math.round(this.props.stats.mastery)} />
-                        <StatPanelElement name="Versatility" value={Math.round(this.props.stats.versatility)} />
+                        <StatPanelElement name="Agility" value={Math.round(this.props.stats.agility).toString()} />
+                        <StatPanelElement name="Crit" value={Math.round(this.props.stats.crit).toString()} />
+                        <StatPanelElement name="Haste" value={Math.round(this.props.stats.haste).toString()} />
+                        <StatPanelElement name="Mastery" value={Math.round(this.props.stats.mastery).toString()} />
+                        <StatPanelElement name="Versatility" value={Math.round(this.props.stats.versatility).toString()} />
                     </div>
                 </section>
                 <section id="weights">
                     <h3>Stat Weights</h3>
                     <div className="inner">
                         {weightElements}
-                        <StatPanelElement name="Mainhand DPS" value={round3(this.props.mhEP)} />
-                        <StatPanelElement name="Offhand DPS" value={round3(this.props.ohEP)} />
+                        <StatPanelElement name="Mainhand DPS" value={round3(this.props.mhEP).toString()} />
+                        <StatPanelElement name="Offhand DPS" value={round3(this.props.ohEP).toString()} />
                         {setWeightElements}
                     </div>
                 </section>
@@ -164,6 +187,33 @@ class StatPane extends React.Component {
         );
     }
 }
+
+StatPane.propTypes = {
+    stats: PropTypes.shape({
+        agility: PropTypes.number.isRequired,
+        crit: PropTypes.number.isRequired,
+        haste: PropTypes.number.isRequired,
+        versatility: PropTypes.number.isRequired,
+        mastery: PropTypes.number.isRequired,
+    }).isRequired,
+    weights: PropTypes.shape({
+        agi: PropTypes.number.isRequired,
+        crit: PropTypes.number.isRequired,
+        haste: PropTypes.number.isRequired,
+        versatility: PropTypes.number.isRequired,
+        mastery: PropTypes.number.isRequired,
+    }).isRequired,
+    mhEP: PropTypes.number.isRequired,
+    ohEP: PropTypes.number.isRequired,
+    otherEP: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+    engineTarget: PropTypes.string.isRequired,
+    activeSpec: PropTypes.string.isRequired,
+    settings: PropTypes.shape({
+        current: PropTypes.shape({
+            num_boss_adds: PropTypes.string.isRequired
+        })
+    }).isRequired
+};
 
 const mapStateToProps = function (store) {
     return {

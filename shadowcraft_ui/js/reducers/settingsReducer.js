@@ -4,7 +4,7 @@ export const settingsActionTypes = {
     RESET_SETTINGS: 'RESET_SETTINGS'
 };
 
-export const settingsReducer = function (state = {}, action) {
+export const settingsReducer = function (state = { current: {}, layout: [] }, action) {
 
     switch (action.type) {
         //TODO: figure out how to properly merge a nested property, this is nasty
