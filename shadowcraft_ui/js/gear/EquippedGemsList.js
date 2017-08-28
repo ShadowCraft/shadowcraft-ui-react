@@ -1,11 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import EquippedGemItem from './EquippedGemItem';
 
-export default class EquippedGemList extends React.Component {
+class EquippedGemList extends React.Component {
 
     //empty gem sockets are 0
     //if there is no id present in the gems array, then there is no socket on the item
-    //there appears to be between 0 to 3 sockets on an item.
+    //there appears to be between 0 to 3, inclusive, sockets on an item.
+
+    constructor(props) {
+        super();
+        this.props = props;
+    }
 
     render() {
 
@@ -13,7 +19,6 @@ export default class EquippedGemList extends React.Component {
             .filter((g => g.bonus !== 'Relic Enhancement')) // hide relics
             .map((g, i) => <EquippedGemItem item={this.props.item} gemSlot={i} key={i} />);
 
-        // console.log(this.props.gems)
         return (
             <div className="gems">
                 {gemlist}
@@ -21,3 +26,9 @@ export default class EquippedGemList extends React.Component {
         );
     }
 }
+
+EquippedGemList.propTypes = {
+    item: PropTypes.shape({ gems: PropTypes.array.isRequired }).isRequired
+};
+
+export default EquippedGemList;

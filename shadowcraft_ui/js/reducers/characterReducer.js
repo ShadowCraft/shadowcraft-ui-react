@@ -91,7 +91,7 @@ export const characterReducer = function (state = {}, action) {
         case characterActionTypes.CHANGE_ITEM: {
 
             let item = dotProp.get(state, `gear.${action.data.slot}`);
-            
+
             item.icon = action.data.item.icon;
             item.id = action.data.item.id;
             item.name = action.data.item.name;
@@ -111,20 +111,26 @@ export const characterReducer = function (state = {}, action) {
 
         case characterActionTypes.CHANGE_BONUSES: {
 
-            let newData = {bonuses: action.data.bonuses,
-                           item_level: action.data.ilvl,
-                           stats: action.data.newStats};
-            
+            let newData = {
+                bonuses: action.data.bonuses,
+                item_level: action.data.ilvl,
+                stats: action.data.newStats
+            };
+
             // If this item can have a bonus socket but doesn't have one assigned, nuke
             // the equipped gems out of it so they don't show back up when if a socket
             // gets added back in.
             if (action.data.canHaveBonusSocket) {
                 if (!action.data.hasBonusSocket) {
-                    newData.gems = [0];
+                    newData.gems = [];
                     newData.socket_count = 0;
                 }
                 else if (state.gear[action.data.slot].socket_count == 0) {
-                    newData.gems = [0];
+                    newData.gems = [{
+                        id: 0,
+                        name: 'empty',
+                        icon: ''
+                    }];
                     newData.socket_count = 1;
                 }
             }
@@ -142,7 +148,7 @@ export const characterReducer = function (state = {}, action) {
         case characterActionTypes.CHANGE_GEM: {
 
             return dotProp.set(state, `gear.${action.data.slot}.gems.${action.data.gemSlot}`,
-                               makeGem(action.data.gem));
+                makeGem(action.data.gem));
         }
 
         case characterActionTypes.CHANGE_ENCHANT: {
@@ -175,7 +181,7 @@ export const characterReducer = function (state = {}, action) {
             // If we didn't find an epic gem, set the first available gem slot to that.
             if (!foundAgiGem && firstGemSlot != null) {
                 newState = dotProp.set(newState, `gear.${firstGemSlot}.gems.0`,
-                                       makeGem(action.data.epic));
+                    makeGem(action.data.epic));
             }
 
             return newState;

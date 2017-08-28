@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import deepClone from 'deep-clone';
+import PropTypes from 'prop-types';
 
 import store from '../store';
 import { modalTypes } from '../reducers/modalReducer';
@@ -11,6 +12,7 @@ class EquippedItem extends React.Component {
 
     constructor(props) {
         super(props);
+        this.props = props;
         this.onBonusClick = this.onBonusClick.bind(this);
     }
 
@@ -26,7 +28,12 @@ class EquippedItem extends React.Component {
         if (this.IsEnchantable(props.slot)) {
             if (this.props.equippedItem.enchant == 0) {
                 let quality = `quality-${this.props.equippedItem.quality}`;
-                store.dispatch({type: 'ADD_WARNING', text: <div><span className={quality}>{this.props.equippedItem.name}</span> is missing an enchant</div>});
+                store.dispatch(
+                    {
+                        type: 'ADD_WARNING',
+                        //TODO: Break this out to a warning component so we can pass plain values, instead of html
+                        text: <div><span className={quality}>{this.props.equippedItem.name}</span> is missing an enchant</div>
+                    });
             }
         }
 
@@ -41,7 +48,7 @@ class EquippedItem extends React.Component {
 
         if (missingGem) {
             let quality = `quality-${this.props.equippedItem.quality}`;
-            store.dispatch({type: 'ADD_WARNING', text: <div><span className={quality}>{this.props.equippedItem.name}</span> is missing one or more gems</div>});
+            store.dispatch({ type: 'ADD_WARNING', text: <div><span className={quality}>{this.props.equippedItem.name}</span> is missing one or more gems</div> });
         }
     }
 
@@ -55,9 +62,9 @@ class EquippedItem extends React.Component {
         }
     }
 
-    onClick(e) {
+    onClick() {
 
-        let itemData = ITEM_DATA.filter(function(item) {
+        let itemData = ITEM_DATA.filter(function (item) {
             return item.equip_location == this.adjustSlotName(this.props.slot);
         }.bind(this));
 
@@ -65,8 +72,8 @@ class EquippedItem extends React.Component {
         let min_ilvl = -1;
         let max_ilvl = -1;
         if (this.props.settings.dynamic_ilvl) {
-            min_ilvl = this.equippedItem.item_level - 50;
-            max_ilvl = this.equippedItem.item_level + 50;
+            min_ilvl = this.props.equippedItem.item_level - 50;
+            max_ilvl = this.props.equippedItem.item_level + 50;
         }
         else {
             min_ilvl = this.props.settings.min_ilvl;
@@ -95,8 +102,7 @@ class EquippedItem extends React.Component {
                 allItems.push(copy);
 
                 if (copy.id == this.props.equippedItem.id &&
-                    copy.item_level == this.props.equippedItem.item_level)
-                {
+                    copy.item_level == this.props.equippedItem.item_level) {
                     foundMatch = true;
                 }
             }
@@ -124,18 +130,28 @@ class EquippedItem extends React.Component {
             bonus: []
         });
 
-        store.dispatch({type: "OPEN_MODAL",
-                        data: {popupType: modalTypes.ITEM_SELECT,
-                               props:{ slot: this.props.slot,
-                                       items: allItems, isGem: false }}});
+        store.dispatch({
+            type: "OPEN_MODAL",
+            data: {
+                popupType: modalTypes.ITEM_SELECT,
+                props: {
+                    slot: this.props.slot,
+                    items: allItems, isGem: false
+                }
+            }
+        });
     }
 
     onBonusClick(e) {
         e.preventDefault();
 
-        store.dispatch({type: "OPEN_MODAL",
-                        data: {popupType: modalTypes.ITEM_BONUSES,
-                               props:{ item: this.props.equippedItem}}});
+        store.dispatch({
+            type: "OPEN_MODAL",
+            data: {
+                popupType: modalTypes.ITEM_BONUSES,
+                props: { item: this.props.equippedItem }
+            }
+        });
     }
 
     adjustSlotName(slot) {
@@ -151,8 +167,7 @@ class EquippedItem extends React.Component {
         }
     }
 
-    buildTooltipURL(item)
-    {
+    buildTooltipURL(item) {
         let url = `http://wowdb.com/items/${item.id}`;
         if (item.bonuses.length > 0) {
             url += `?bonusIDs=${item.bonuses.toString()}`;
@@ -162,7 +177,7 @@ class EquippedItem extends React.Component {
 
     render() {
         // console.log(`rendering ${this.props.slot}`);
-        // console.log(this.props.equippedItem);
+        // console.log(this.props.equippedItem.gems);
         return (
             <div>
                 <div className="slot">
@@ -178,13 +193,44 @@ class EquippedItem extends React.Component {
                         {/*this probably doesn't need a huge full length div, maybe a gear under the item icon instead?'*/}
                         <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>}
                     {/*need to pass whole item because we need to check item quality to filter out relics*/}
-                    { this.props.equippedItem.socket_count > 0 && <EquippedGemList item={this.props.equippedItem} /> }
-                    { this.IsEnchantable(this.props.equippedItem.slot) && <EquippedEnchant item={this.props.equippedItem} /> }
+                    {this.props.equippedItem.socket_count > 0 && <EquippedGemList item={this.props.equippedItem} />}
+                    {this.IsEnchantable(this.props.equippedItem.slot) && <EquippedEnchant item={this.props.equippedItem} />}
                 </div >
             </div>
         );
     }
 }
+
+EquippedItem.propTypes = {
+    equippedItem: PropTypes.shape({
+        bonuses: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+        enchant: PropTypes.number.isRequired,
+        gems: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+        icon: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
+        item_level: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        quality: PropTypes.number.isRequired,
+        slot: PropTypes.string.isRequired,
+        socket_count: PropTypes.number.isRequired,
+        stats: PropTypes.object.isRequired,
+    }).isRequired,
+    slot: PropTypes.string.isRequired,
+    
+
+    // TODO: modify RESET_SETTINGS in a more appropriate manner and add isRequired back
+    settings: PropTypes.shape({
+        dynamic_ilvl: PropTypes.bool,
+        min_ilvl: PropTypes.string,
+        max_ilvl: PropTypes.string
+    }),
+    // settings: PropTypes.shape({
+    //     dynamic_ilvl: PropTypes.bool.isRequired,
+    //     min_ilvl: PropTypes.string.isRequired,
+    //     max_ilvl: PropTypes.string.isRequired
+    // }).isRequired,
+};
+
 
 const mapStateToProps = function (store, ownProps) {
     return {

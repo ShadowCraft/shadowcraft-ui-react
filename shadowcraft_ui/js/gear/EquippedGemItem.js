@@ -1,21 +1,34 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import store from '../store';
 import { modalTypes } from '../reducers/modalReducer';
 
-export default class EquippedGemItem extends React.Component {
+class EquippedGemItem extends React.Component {
+
+
+    constructor(props) {
+        super();
+        this.props = props;
+    }
 
     onClick() {
 
-        let itemData = ITEM_DATA.filter(function(item) {
+        let itemData = ITEM_DATA.filter(function (item) {
             return item.is_gem;
         });
 
-        store.dispatch({type: "OPEN_MODAL",
-                        data: {popupType: modalTypes.ITEM_SELECT,
-                               props:{ slot: this.props.item.slot,
-                                       items: itemData,
-                                       isGem: true,
-                                       gemSlot: this.props.gemSlot}}});
+        store.dispatch({
+            type: "OPEN_MODAL",
+            data: {
+                popupType: modalTypes.ITEM_SELECT,
+                props: {
+                    slot: this.props.item.slot,
+                    items: itemData,
+                    isGem: true,
+                    gemSlot: this.props.gemSlot
+                }
+            }
+        });
     }
 
     // comments here indicate what classes were inlined while testing inline css
@@ -34,3 +47,18 @@ export default class EquippedGemItem extends React.Component {
         );
     }
 }
+
+
+EquippedGemItem.propTypes = {
+    item: PropTypes.shape({
+        slot: PropTypes.string.isRequired,
+        gems: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            name: PropTypes.string.isRequired,
+            icon: PropTypes.string.isRequired
+        })).isRequired
+    }).isRequired,
+    gemSlot: PropTypes.number.isRequired
+};
+
+export default EquippedGemItem;

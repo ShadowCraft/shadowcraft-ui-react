@@ -1,27 +1,39 @@
 import EnchantMap from './EnchantMap';
 import React from 'react';
+import PropTypes from 'prop-types';
 import store from '../store';
 import { modalTypes } from '../reducers/modalReducer';
 
-export default class EquippedEnchant extends React.Component {
+class EquippedEnchant extends React.Component {
 
-    onClick(e) {
+    constructor(props) {
+        super();
+        this.props = props;
+    }
 
-        let enchants = EnchantMap.filter(function(enchant) {
+    onClick() {
+
+        let enchants = EnchantMap.filter(function (enchant) {
             return this.props.item.slot.includes(enchant.slot);
         }.bind(this));
 
-        store.dispatch({type: "OPEN_MODAL",
-                        data: {popupType: modalTypes.ITEM_SELECT,
-                               props:{ slot: this.props.item.slot,
-                                       items: enchants,
-                                       isEnchant: true}}});
+        store.dispatch({
+            type: "OPEN_MODAL",
+            data: {
+                popupType: modalTypes.ITEM_SELECT,
+                props: {
+                    slot: this.props.item.slot,
+                    items: enchants,
+                    isEnchant: true
+                }
+            }
+        });
     }
 
     // EnchantMap is manual right now, may need to be auto generated in the future
     // handle unimplemented enchants. To implement an enchant, edit EnchantMap.
     getEnchant(id) {
-        let enchant = EnchantMap.filter(function(e) {
+        let enchant = EnchantMap.filter(function (e) {
             return e.id == this.props.item.enchant;
         }.bind(this));
 
@@ -56,3 +68,12 @@ export default class EquippedEnchant extends React.Component {
         );
     }
 }
+
+EquippedEnchant.propTypes = {
+    item: PropTypes.shape({
+        enchant: PropTypes.number.isRequired,
+        slot: PropTypes.string.isRequired
+    }).isRequired
+};
+
+export default EquippedEnchant;

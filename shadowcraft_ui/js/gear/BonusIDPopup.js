@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import store from '../store';
@@ -6,43 +7,16 @@ import ModalWrapper from '../modals/ModalWrapper';
 import { updateCharacterState } from '../store';
 import { recalculateStats, getStatValue } from '../common';
 import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL, TRINKET_COMBAT_RATINGS_MULT_BY_ILVL, WEAPON_COMBAT_RATINGS_MULT_BY_ILVL, ARMOR_COMBAT_RATINGS_MULT_BY_ILVL } from '../multipliers';
+import BonusIDCheckBox from './BonusIDCheckBox';
 
-class BonusIDCheckBox extends React.Component {
-    constructor(props) {
-        super(props);
-        this.onChange = this.onChange.bind(this);
-    }
+// global RANDOM_SUFFIX_MAP, ITEM_DATA
 
-    onChange(e) {
-        this.props.handleCheckbox(e);
-    }
-
-    render() {
-        let description;
-        switch (this.props.bonusId.toString()) {
-            case "1808":
-                description = "1 Socket";
-        }
-
-        let classes = "";
-        if (this.props.checked) {
-            classes = "label_check c_on";
-        } else {
-            classes = "label_check";
-        }
-
-        return (
-            <label className={classes}>
-                <input key={this.props.bonusId} id={"bonus-" + this.props.bonusId} data-bonusId={this.props.bonusId} type="checkbox" onChange={this.onChange} checked={this.props.checked} />{description}
-            </label>
-        );
-    }
-}
 
 class BonusIDPopup extends React.Component {
 
     constructor(props) {
         super(props);
+        this.props = props;
         this.state = {
             active: props.item.bonuses,
             wfBonus: -1,
@@ -79,18 +53,20 @@ class BonusIDPopup extends React.Component {
 
         // We have to find a base item in the list of items so that we can set the selected item
         // level on that option correctly.
-        let staticItems = ITEM_DATA.filter(function(item) {
+        let staticItems = ITEM_DATA.filter(function (item) {
             return item.id == this.props.item.id;
         }.bind(this));
 
         if (staticItems.length == 0) {
             console.log("Couldn't find item ${this.props.item.id} in the static data");
-            this.setState({baseItem: null});
+            this.setState({ baseItem: null });
         }
         else {
-            let itemdata = { chance_bonus_lists: staticItems[0]['chance_bonus_lists'],
-                             stats: null, item_level: 0, name: staticItems[0]['name'],
-                             is_crafted: false }
+            let itemdata = {
+                chance_bonus_lists: staticItems[0]['chance_bonus_lists'],
+                stats: null, item_level: 0, name: staticItems[0]['name'],
+                is_crafted: false
+            };
 
             let itemlevels = Object.keys(staticItems[0]['ilvls']).sort();
 
@@ -131,14 +107,14 @@ class BonusIDPopup extends React.Component {
                             itemdata['item_level'] = itemlevels[0];
                             itemdata['stats'] = staticItems[0]['ilvls'][itemlevels[0]]['stats'];
                         } else {
-                            itemdata['item_level'] = itemlevels[i-1];
-                            itemdata['stats'] = staticItems[0]['ilvls'][itemlevels[i-1]]['stats'];
+                            itemdata['item_level'] = itemlevels[i - 1];
+                            itemdata['stats'] = staticItems[0]['ilvls'][itemlevels[i - 1]]['stats'];
                         }
                     }
                 }
 
                 if (itemdata['item_level'] == 0) {
-                    itemdata['item_level'] = itemlevels[itemlevels.length-1];
+                    itemdata['item_level'] = itemlevels[itemlevels.length - 1];
                     itemdata['stats'] = staticItems[0]['ilvls'][itemdata['item_level']]['stats'];
                 }
             }
@@ -153,7 +129,7 @@ class BonusIDPopup extends React.Component {
 
         // If the value was true, that means we're turning it off. Check to see if the
         // element is in the active list, and remove it.
-        let newActive = this.state.active.slice()
+        let newActive = this.state.active.slice();
         let index = this.state.active.indexOf(bonusId);
 
         if (index != -1) {
@@ -185,7 +161,7 @@ class BonusIDPopup extends React.Component {
         }
 
         newActive.push(parseInt(e.currentTarget.value));
-        this.setState({active: newActive, suffixBonus: e.currentTarget.value});
+        this.setState({ active: newActive, suffixBonus: e.currentTarget.value });
     }
 
     onApply() {
@@ -228,12 +204,12 @@ class BonusIDPopup extends React.Component {
         console.log(eventData);
 
         store.dispatch(updateCharacterState('CHANGE_BONUSES', eventData));
-        store.dispatch({type: "CLOSE_MODAL"});
+        store.dispatch({ type: "CLOSE_MODAL" });
     }
 
     getRandPropMultiplier(item) {
         let entry = 3;
-        switch(item.slot) {
+        switch (item.slot) {
             case 'head':
             case 'chest':
             case 'legs':
@@ -269,22 +245,22 @@ class BonusIDPopup extends React.Component {
             entry += 12;
 
         let combatMultiplier = 0.0;
-        switch(item.slot) {
+        switch (item.slot) {
             case 'neck':
             case 'finger1':
             case 'finger2':
-                combatMultiplier = JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level-1];
+                combatMultiplier = JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level - 1];
                 break;
             case 'mainHand':
             case 'offHand':
-                combatMultiplier = WEAPON_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level-1];
+                combatMultiplier = WEAPON_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level - 1];
                 break;
             case 'trinket1':
             case 'trinket2':
-                combatMultiplier = TRINKET_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level-1];
+                combatMultiplier = TRINKET_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level - 1];
                 break;
             default:
-                combatMultiplier = ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level-1];
+                combatMultiplier = ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[item.item_level - 1];
                 break;
         }
 
@@ -296,8 +272,7 @@ class BonusIDPopup extends React.Component {
         if (this.state.baseItem) {
             let wfOptions = [];
             let selectedWFBonus = 0;
-            if (this.state.baseItem.item_level != 0)
-            {
+            if (this.state.baseItem.item_level != 0) {
                 if (this.props.item.quality == 5) {
                     wfOptions.push(<option value="3570" key="3570">Item Level 970 / +60</option>);
                     wfOptions.push(<option value="3530" key="3530">Item Level 940 / +30</option>);
@@ -327,7 +302,7 @@ class BonusIDPopup extends React.Component {
                             selectedWFBonus = bonus;
                         }
 
-                        wfOptions.push(<option value={bonus} key={bonus}>Obliterum {bonus-669}/10 - Item Level {850+itemLevelDiff} / +{itemLevelDiff}</option>);
+                        wfOptions.push(<option value={bonus} key={bonus}>Obliterum {bonus - 669}/10 - Item Level {850 + itemLevelDiff} / +{itemLevelDiff}</option>);
                     }
                 }
             }
@@ -340,9 +315,9 @@ class BonusIDPopup extends React.Component {
             let selectedSuffix = 0;
             if (this.state.baseItem.item_level != 0) {
                 let propMult = this.getRandPropMultiplier(this.props.item);
-                let bonusOptions = []
+                let bonusOptions = [];
 
-                for(let idx in this.state.baseItem.chance_bonus_lists) {
+                for (let idx in this.state.baseItem.chance_bonus_lists) {
                     let bonus = this.state.baseItem.chance_bonus_lists[idx];
                     if (bonus in RANDOM_SUFFIX_MAP) {
 
@@ -357,13 +332,15 @@ class BonusIDPopup extends React.Component {
                             statString += `+${stats[stat]} ${stat} / `;
                         }
 
-                        bonusOptions.push({bonus: bonus, name: RANDOM_SUFFIX_MAP[bonus].name,
-                                           stats: stats, string: statString.slice(0, -3),
-                                           value: getStatValue(stats, this.props.weights)});
+                        bonusOptions.push({
+                            bonus: bonus, name: RANDOM_SUFFIX_MAP[bonus].name,
+                            stats: stats, string: statString.slice(0, -3),
+                            value: getStatValue(stats, this.props.weights)
+                        });
                     }
                 }
 
-                bonusOptions.sort(function(a, b) { return b.value-a.value });
+                bonusOptions.sort(function (a, b) { return b.value - a.value; });
                 for (let idx in bonusOptions) {
                     suffixOptions.push(<option value={bonusOptions[idx].bonus} key={bonusOptions[idx].bonus}>{bonusOptions[idx].string} / {bonusOptions[idx].name} ({Math.round(bonusOptions[idx].value)} EP)</option>);
                 }
@@ -376,30 +353,30 @@ class BonusIDPopup extends React.Component {
                     <h1>Item Bonuses</h1>
                     <form id="bonuses">
                         {this.state.baseItem.chance_bonus_lists.indexOf(1808) != -1 &&
-                         <fieldset>
-                             <legend>Extra Sockets</legend>
-                             <BonusIDCheckBox bonusId="1808" handleCheckbox={this.onChange} checked={this.state.active.indexOf(1808) != -1} />
-                         </fieldset>
+                            <fieldset>
+                                <legend>Extra Sockets</legend>
+                                <BonusIDCheckBox bonusId="1808" handleCheckbox={this.onChange} checked={this.state.active.indexOf(1808) != -1} />
+                            </fieldset>
                         }
 
-                         <fieldset>
-                             <legend>Titanforged Upgrades</legend>
-                             <select className="optionSelect" value={selectedWFBonus} readOnly onChange={this.onWFChange}>
-                                 {wfOptions}
-                             </select>
-                         </fieldset>
+                        <fieldset>
+                            <legend>Titanforged Upgrades</legend>
+                            <select className="optionSelect" value={selectedWFBonus} readOnly onChange={this.onWFChange}>
+                                {wfOptions}
+                            </select>
+                        </fieldset>
 
-                         {suffixOptions.length > 0 &&
-                          <fieldset>
-                              <legend>Random Suffixes</legend>
-                              <select className="optionSelect" value={selectedSuffix} readOnly onChange={this.onSuffixChange}>
-                                  {suffixOptions}
-                              </select>
-                          </fieldset>
-                         }
-                         <input className="ui-button ui-widget ui-state-default ui-corner-all" role="button" value="Apply" readOnly onClick={this.onApply} />
+                        {suffixOptions.length > 0 &&
+                            <fieldset>
+                                <legend>Random Suffixes</legend>
+                                <select className="optionSelect" value={selectedSuffix} readOnly onChange={this.onSuffixChange}>
+                                    {suffixOptions}
+                                </select>
+                            </fieldset>
+                        }
+                        <input className="ui-button ui-widget ui-state-default ui-corner-all" role="button" value="Apply" readOnly onClick={this.onApply} />
                     </form>
-                    <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={() => {store.dispatch({type: "CLOSE_MODAL"})}}>
+                    <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={() => { store.dispatch({ type: "CLOSE_MODAL" }); }}>
                         <span className="ui-icon ui-icon-closethick" />
                     </a>
                 </ModalWrapper>
@@ -410,6 +387,17 @@ class BonusIDPopup extends React.Component {
         }
     }
 }
+
+BonusIDPopup.propTypes = {
+    item: PropTypes.shape({
+        quality: PropTypes.number.isRequired,
+        bonuses: PropTypes.array.isRequired,
+        id: PropTypes.number.isRequired,
+        item_level: PropTypes.number.isRequired,
+        slot: PropTypes.string.isRequired
+    }).isRequired,
+    weights: PropTypes.objectOf(PropTypes.number.isRequired).isRequired
+};
 
 const mapStateToProps = function (store) {
     return {
