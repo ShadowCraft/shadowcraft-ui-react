@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import store from '../store';
 import ItemSelectElement from './ItemSelectElement';
 import ModalWrapper from '../modals/ModalWrapper';
@@ -9,23 +10,28 @@ class ItemSelectPopup extends React.Component {
 
     constructor(props) {
         super(props);
-        this.onFilterInput = this.onFilterInput.bind(this);
-
-        this.state = { filter: '', setBonusEP: {} };
-        this.itemValueCache = {};
+        this.props = props;
 
         // TODO: this requires iterating over all of the equipped items twice
         // for each set. And then we loop over each set again for each item in
         // in the list of items on the popup. There's likely a better way to
         // do this to reduce that iteration. Maybe a map that goes from item ID
         // to the sets that it's part of?
+        let setBonusEP = {};
         for (let setName in MULTI_ITEM_SETS) {
             let setCount = this.getEquippedSetCount(MULTI_ITEM_SETS[setName].ids, this.props.slot);
-            if (!(setName in this.state.setBonusEP)) {
-                this.state.setBonusEP[setName] = 0;
-            }
-            this.state.setBonusEP[setName] += this.getSetBonusEP(MULTI_ITEM_SETS[setName], setCount);
+            setBonusEP[setName] = setName in setBonusEP ? this.getSetBonusEP(MULTI_ITEM_SETS[setName], setCount) : 0;
         }
+
+        this.state = { filter: '', setBonusEP: setBonusEP };
+        this.itemValueCache = {};
+    }
+
+    componentDidMount() {
+        // This is a bit of a hack and is probably a bit fragile depending on if wowdb ever
+        // changes any of this, but it rescans the DOM for elements that should display a
+        // tooltip.
+        CurseTips['wowdb-tooltip'].watchElligibleElements();
     }
 
     getEquippedSetCount(setIds, ignoreSlot) {
@@ -41,7 +47,7 @@ class ItemSelectPopup extends React.Component {
     getSetBonusEP(itemSet, equippedCount) {
         let total = 0;
         for (let num in itemSet.bonuses) {
-            if (equippedCount == num -1) {
+            if (equippedCount == num - 1) {
                 total += this.props.otherEP[itemSet.bonuses[num]];
             }
         }
@@ -76,7 +82,7 @@ class ItemSelectPopup extends React.Component {
             }
 
             if (!(item.id in this.itemValueCache)) {
-                this.itemValueCache[item.id] = {}
+                this.itemValueCache[item.id] = {};
             }
 
             this.itemValueCache[item.id][item.item_level] = value;
@@ -91,13 +97,6 @@ class ItemSelectPopup extends React.Component {
             value += this.props.otherEP[enchant.ep_id];
         }
         return value;
-    }
-
-    componentDidMount() {
-        // This is a bit of a hack and is probably a bit fragile depending on if wowdb ever
-        // changes any of this, but it rescans the DOM for elements that should display a
-        // tooltip.
-        CurseTips['wowdb-tooltip'].watchElligibleElements();
     }
 
     sortItems(items) {
@@ -132,7 +131,7 @@ class ItemSelectPopup extends React.Component {
                 }
                 else {
                     return item.id == this.props.equippedItems[this.props.slot].id &&
-                           item.item_level == this.props.equippedItems[this.props.slot].item_level;
+                        item.item_level == this.props.equippedItems[this.props.slot].item_level;
                 }
             }.bind(this));
         }
@@ -159,17 +158,18 @@ class ItemSelectPopup extends React.Component {
                 quality = item.quality;
             }
 
-            return <ItemSelectElement
-                key={index}
-                slot={this.props.slot}
-                item={item}
-                quality={quality}
-                value={value}
-                max={maxValue}
-                onClick={this.props.onClick}
-                gemSlot={this.props.isGem ? this.props.gemSlot : null}
-                isEnchant={this.props.isEnchant}
-            />;
+            return (
+                <ItemSelectElement
+                    key={index}
+                    slot={this.props.slot}
+                    item={item}
+                    quality={quality}
+                    value={value}
+                    max={maxValue}
+                    onClick={this.props.onClick}
+                    gemSlot={this.props.isGem ? this.props.gemSlot : null}
+                    isEnchant={this.props.isEnchant}
+                />);
         }.bind(this));
     }
 
@@ -182,12 +182,15 @@ class ItemSelectPopup extends React.Component {
         return (
             <ModalWrapper style={{ top: '100px', left: '100px' }} modalId="alternatives">
                 <div id="filter">
-                    <input className="search" placeholder="Filter..." type="search" onInput={this.onFilterInput} />
+                    <input className="search" placeholder="Filter..." type="search" onInput={this.onFilterInput.bind(this)} />
                 </div>
                 <div className="body" >
                     {this.props.items ? this.getItemSelectElements(this.props.items) : <div />}
                 </div>
-                <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={() => { store.dispatch({ type: "CLOSE_MODAL" }) }}>
+                <a className="close-popup ui-dialog-titlebar-close ui-corner-all"
+                    role="button"
+                    onClick={() => { store.dispatch({ type: "CLOSE_MODAL" }); }}
+                >
                     <span className="ui-icon ui-icon-closethick" />
                 </a>
             </ModalWrapper>
@@ -195,7 +198,40 @@ class ItemSelectPopup extends React.Component {
     }
 }
 
-const mapStateToProps = function (store, ownProps) {
+ItemSelectPopup.propTypes = {
+    slot: PropTypes.string.isRequired,
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            item_level: PropTypes.number,
+            stats: PropTypes.object.isRequired,
+            ep_id: PropTypes.string,
+            name: PropTypes.string.isRequired,
+
+        }).isRequired
+    ).isRequired,
+    isEnchant: PropTypes.bool,
+    isGem: PropTypes.bool,
+    gemSlot: PropTypes.number,
+    onClick: PropTypes.func,
+    equippedItems: PropTypes.shape({
+        item_level: PropTypes.number,
+        quality: PropTypes.number,
+        id: PropTypes.number,
+        enchant: PropTypes.number,
+        gems: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.number.isRequired
+            })),
+    }).isRequired,
+    weights: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+    otherEP: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+    procEP: PropTypes.objectOf(PropTypes.any.isRequired).isRequired,
+    trinketMap: PropTypes.objectOf(PropTypes.string.isRequired).isRequired,
+
+};
+
+const mapStateToProps = function (store) {
     return {
         weights: store.engine.ep,
         otherEP: store.engine.other_ep,

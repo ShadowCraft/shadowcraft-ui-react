@@ -4,7 +4,7 @@ import { settingsReducer } from './reducers/settingsReducer';
 import { engineReducer } from './reducers/engineReducer';
 import { warningsReducer } from './reducers/warningsReducer';
 import { historyReducer } from './reducers/historyReducer';
-import { modalReducer } from './reducers/modalReducer';
+import { modalReducer, modalTypes } from './reducers/modalReducer';
 import { storageAvailable, storageSet } from './common';
 import thunk from 'redux-thunk';
 import 'whatwg-fetch';
@@ -42,8 +42,8 @@ export function updateEngineState(data) {
         });
 
         if (storageAvailable()) {
-            let key = `${state.character.region}-${state.character.realm}-${state.character.name}`
-            storageSet(key, {'settings': state.settings.current, 'character': state.character});
+            let key = `${state.character.region}-${state.character.realm}-${state.character.name}`;
+            storageSet(key, { 'settings': state.settings.current, 'character': state.character });
         }
     };
 }
@@ -62,7 +62,7 @@ export function getEngineData() {
     // TODO: this needs error handling
     return function (dispatch, getState) {
         const state = getState();
-
+        dispatch({ type: "OPEN_MODAL", data: { popupType: modalTypes.RELOAD_SWIRL } });
         fetch('/engine', {
             method: 'POST',
             body: JSON.stringify({
@@ -76,15 +76,17 @@ export function getEngineData() {
             .then(checkFetchStatus)
             .then(r => r.json())
             .then(r => {
+                store.dispatch({ type: "CLOSE_MODAL" });
                 if ('error' in r) {
-                    dispatch({ type: 'ADD_WARNING', text: r['error']});
+                    dispatch({ type: 'ADD_WARNING', text: r['error'] });
                 }
                 else {
-                    dispatch(updateEngineState(r))
-                }})
+                    dispatch(updateEngineState(r));
+                }
+            })
             /* eslint-disable no-console */
             .catch(ex => console.log(ex));
-            /* eslint-enable no-console */
+        /* eslint-enable no-console */
     };
 }
 

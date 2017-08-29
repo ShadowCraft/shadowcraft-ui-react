@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import store from '../store';
 import { updateCharacterState } from '../store';
@@ -6,23 +7,27 @@ import { updateCharacterState } from '../store';
 
 class ItemSelectElement extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.props = props;
+    }
+
     changeItem(slot, item) {
         if (this.props.item.is_gem) {
-            store.dispatch(updateCharacterState('CHANGE_GEM', {slot: slot, gemSlot: this.props.gemSlot, gem: item}));
-            store.dispatch({type: "CLOSE_MODAL"});
+            store.dispatch(updateCharacterState('CHANGE_GEM', { slot: slot, gemSlot: this.props.gemSlot, gem: item }));
+            store.dispatch({ type: "CLOSE_MODAL" });
         }
         else if (this.props.isEnchant) {
-            store.dispatch(updateCharacterState('CHANGE_ENCHANT', {slot: slot, enchant: item.id}));
-            store.dispatch({type: "CLOSE_MODAL"});
+            store.dispatch(updateCharacterState('CHANGE_ENCHANT', { slot: slot, enchant: item.id }));
+            store.dispatch({ type: "CLOSE_MODAL" });
         }
         else {
-            store.dispatch(updateCharacterState('CHANGE_ITEM', {slot: slot, item: item}));
-            store.dispatch({type: "CLOSE_MODAL"});
+            store.dispatch(updateCharacterState('CHANGE_ITEM', { slot: slot, item: item }));
+            store.dispatch({ type: "CLOSE_MODAL" });
         }
     }
 
-    buildTooltipURL(item)
-    {
+    buildTooltipURL(item) {
         let url = "";
         if (this.props.isEnchant) {
             url = `http://wowdb.com/items/${item.remote_id}`;
@@ -55,7 +60,10 @@ class ItemSelectElement extends React.Component {
                     <img src={`http://us.media.blizzard.com/wow/icons/56/${this.props.item.icon}.jpg`} />
                     <span className="ilvl">{this.props.item.item_level}</span>
                 </div>
-                <div className={`name quality-${this.props.quality} ${active ? 'active' : ''}`} data-tooltip-href={this.props.item.id != 0 && this.buildTooltipURL(this.props.item)}>
+                <div
+                    className={`name quality-${this.props.quality} ${active ? 'active' : ''}`}
+                    data-tooltip-href={this.props.item.id != 0 && this.buildTooltipURL(this.props.item)}
+                >
                     {this.props.item.name}
                     <a className="wowhead" href={`http://legion.wowhead.com/item=${this.props.item.id}`} target="_blank">Wowhead</a>
                 </div>
@@ -68,6 +76,31 @@ class ItemSelectElement extends React.Component {
         );
     }
 }
+
+// some fields are not required because there are effectively three different types to handle
+ItemSelectElement.propTypes = {
+    item: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        item_level: PropTypes.number,
+        id: PropTypes.number.isRequired,
+        is_gem: PropTypes.bool,
+        icon: PropTypes.string.isRequired,
+        remote_id: PropTypes.number,
+        bonuses: PropTypes.array
+    }).isRequired,
+    equippedItem: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        gems: PropTypes.array.isRequired,
+        enchant: PropTypes.number.isRequired,
+        item_level: PropTypes.number.isRequired
+    }).isRequired,
+    isEnchant: PropTypes.bool,
+    value: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+    slot: PropTypes.string.isRequired,
+    quality: PropTypes.number.isRequired,
+    gemSlot: PropTypes.number
+};
 
 const mapStateToProps = function (store, ownProps) {
     return {
