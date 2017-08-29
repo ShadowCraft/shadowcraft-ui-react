@@ -256,7 +256,7 @@ describe('characterReducer', () => {
                     item_level: 10,
                     bonuses: [10],
                     gems: [0],
-                    stats: {agi: 10}
+                    stats: { agi: 10 }
                 }
             }
         };
@@ -271,7 +271,7 @@ describe('characterReducer', () => {
                     name: "name",
                     quality: 3,
                     socket_count: "socket_count",
-                    stats: {agi: 10}
+                    stats: { agi: 10 }
                 }
             }
         };
@@ -452,7 +452,7 @@ describe('characterReducer', () => {
             gear: {
                 slot: {
                     bonuses: [],
-                    gems: [0],
+                    gems: [],
                     socket_count: 0,
                     stats: { test: 'test' },
                     item_level: 1,
@@ -500,7 +500,7 @@ describe('characterReducer', () => {
             gear: {
                 slot: {
                     bonuses: [],
-                    gems: [0],
+                    gems: [{ icon: '', id: 0, name: 'empty' }],
                     socket_count: 1,
                     stats: { test: 'test' },
                     item_level: 1,

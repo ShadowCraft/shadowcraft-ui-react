@@ -19,6 +19,7 @@ describe('engineReducer', () => {
             oh_ep: {
                 oh_dps: 0
             },
+            other_ep: {},
             stats: {
                 agility: 0,
                 crit: 0,

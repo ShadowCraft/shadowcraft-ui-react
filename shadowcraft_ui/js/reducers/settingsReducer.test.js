@@ -3,7 +3,7 @@ import { settingsActionTypes, settingsReducer } from './settingsReducer';
 describe('settingsReducer', () => {
 
     it('should return initial state', () => {
-        expect(settingsReducer(undefined, {})).toEqual({});
+        expect(settingsReducer(undefined, {})).toEqual({ current: {}, layout: [] });
     });
 
     it('should handle CHANGE_SETTING', () => {
