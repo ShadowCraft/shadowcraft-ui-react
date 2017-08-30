@@ -7,8 +7,14 @@
   {% else %}
   <title>{{ page_title }} - ShadowCraft</title>
   {% endif %}
-  <link href="{{ url_for('static', filename='images/favicon.png') }}" rel="shortcut icon" type="image/png" />
-  <link href="http://shadowcraft.mmo-mumble.com/humans.txt" rel="author" type="text/plain">
+  <% htmlWebpackPlugin.files.css.forEach(function(cssFile) { %>
+  <link href="{{ url_for('static', filename='images/favicon.png') }}"
+        rel="shortcut icon" type="image/png" />
+  <link href="http://shadowcraft.mmo-mumble.com/humans.txt" rel="author"
+        type="text/plain">
+
+  <link href="{{ url_for('static', filename='<%= cssFile.split('/').slice(-2).join('/') %>') }}" media="screen" rel="stylesheet" type="text/css" />
+  <% }); %>
   <link href="{{ url_for('static', filename='css/main.css') }}" media="screen" rel="stylesheet" type="text/css" />
   <!-- This one can't load async because it has to be loaded before the gear tab
        loads or we end up with an error that it's not ready yet -->
@@ -55,6 +61,9 @@
   <!-- Attach React components -->
   <div id="appjs"></div>
 
+  <% htmlWebpackPlugin.files.js.forEach(function(jsFile) { %>
+  <script type="text/javascript" src="{{ url_for('static', filename='<%= jsFile.split('/').slice(-1) %>') }}"></script>
+  <% }); %>
   <script type="text/javascript" src="{{ url_for('static',
                                         filename='bundle.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static',
