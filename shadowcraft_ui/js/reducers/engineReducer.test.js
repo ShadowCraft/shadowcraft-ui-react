@@ -20,6 +20,7 @@ describe('engineReducer', () => {
                 oh_dps: 0
             },
             other_ep: {},
+            proc_ep: {},
             stats: {
                 agility: 0,
                 crit: 0,
@@ -27,6 +28,7 @@ describe('engineReducer', () => {
                 mastery: 0,
                 versatility: 0
             },
+            trinket_map: {},
             engine_info: {
                 wow_build_target: ''
             },
