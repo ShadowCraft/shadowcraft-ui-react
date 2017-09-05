@@ -8,7 +8,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --no-cache",
     "build": "webpack",
-    "build-prod": "NODE_ENV=production webpack -p",
+    "build-prod": "cross-env NODE_ENV=production webpack -p --define process.env.NODE_ENV='\"production\"'",
     "start": "python app.py",
     "watch": "webpack --watch --progress",
     "install:python": "pip install -r requirements.txt",

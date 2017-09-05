@@ -3,7 +3,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var pkg = require('./package.json');
 
-var bundleCss = ('production' === process.env.NODE_ENV) ? 'css/main-[hash:6].css' : 'css/main.css'
+var bundleCss = ('production' === process.env.NODE_ENV) ? 'css/main-[hash:6].css' : 'css/main.css';
 var pluginsWebpack = [
     new ExtractTextPlugin(bundleCss),
     new HtmlWebpackPlugin({
@@ -16,10 +16,10 @@ var pluginsWebpack = [
 
 if ('production' === process.env.NODE_ENV) {
     var prodEnv = [
-        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.OccurrenceOrderPlugin(true),
         new webpack.optimize.UglifyJsPlugin(),
         new webpack.optimize.DedupePlugin()
-    ]
+    ];
 
     pluginsWebpack.concat(pluginsWebpack, prodEnv);
 }
