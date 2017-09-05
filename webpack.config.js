@@ -33,6 +33,7 @@ module.exports = {
     babel: {
         presets: ['es2015', 'react']
     },
+    devtool: 'inline-source-map',
     module: {
         loaders: [
             {
