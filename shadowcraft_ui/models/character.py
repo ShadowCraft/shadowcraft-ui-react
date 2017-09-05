@@ -283,6 +283,10 @@ def __get_from_armory(db, character, realm, region):
     elif output['active'] == 'b':
         output['artifact']['traits']['209782'] = 1
 
+    # add concordance if it is missing
+    if '239042' not in output['artifact']['traits'] :
+        output['artifact']['traits']['239042'] = 0
+
     output['artifact']['relics'] = [None] * 3
     for relic in json_data['items']['mainHand']['relics']:
 
