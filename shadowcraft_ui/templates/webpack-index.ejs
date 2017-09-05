@@ -32,22 +32,26 @@
           <p class='browser-list'>For best results, use:</p>
           <div class='browsers'>
             <a href='http://www.google.com/chrome/intl/en/landing_chrome.html'>
-              <img alt="Chrome" src="../static/images/browser/chrome.png" />
+              <img alt="Chrome" src="{{ url_for('static',
+                                     filename='/images/browser/chrome.png') }}" />
               <span>Google Chrome</span>
               <em>Best</em>
             </a>
             <a href='http://www.apple.com/safari/'>
-              <img alt="Safari" src="../static/images/browser/safari.png" />
+              <img alt="Safari" src="{{ url_for('static',
+                                     filename='/images/browser/safari.png') }}" />
               <span>Apple Safari</span>
               <em>Best</em>
             </a>
             <a href='http://www.mozilla.com/en-US/firefox/RC/'>
-              <img alt="Firefox" src="../static/images/browser/firefox.png" />
+              <img alt="Firefox" src="{{ url_for('static',
+                                      filename='/images/browser/firefox.png') }}" />
               <span>Mozilla Firefox</span>
               <em>Good</em>
             </a>
             <a href='http://www.beautyoftheweb.com'>
-              <img alt="Ie" src="../static/images/browser/ie.png" />
+              <img alt="IE" src="{{ url_for('static',
+                                 filename='/images/browser/ie.png') }}" />
               <span>Internet Explorer</span>
               <em>Good</em>
             </a>
