@@ -15,8 +15,8 @@ MongoClient.connect(url, function(err, db) {
 
         // get the file size for models/character.py and store it in the ITEM_DATA block so
         // that we can use it to check on whether the character data version has changed.
-        let characterDataVersion = fs.statSync('shadowcraft_ui/models/character.py').size;
-        wstream.write(`export const CHARACTER_DATA_VERSION=${characterDataVersion};`);
+        let stats = fs.statSync('shadowcraft_ui/models/character.py');
+        wstream.write(`export const CHARACTER_DATA_VERSION=${stats['size']};`);
 
         wstream.write('export const ITEM_DATA=[')
         let len = docs.length;
