@@ -8,6 +8,7 @@ import StatPanelElement from './StatPanelElement';
 import StatPanelButton from './StatPanelButton';
 import EnchantMap from './EnchantMap';
 import { getStatValue } from '../common';
+import { ITEM_DATA } from '../item_data';
 
 function round3(val) {
     return Math.round(val * 1000.0) / 1000.0;

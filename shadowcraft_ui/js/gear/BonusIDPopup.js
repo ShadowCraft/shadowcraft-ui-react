@@ -8,9 +8,7 @@ import { updateCharacterState } from '../store';
 import { recalculateStats, getStatValue } from '../common';
 import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL, TRINKET_COMBAT_RATINGS_MULT_BY_ILVL, WEAPON_COMBAT_RATINGS_MULT_BY_ILVL, ARMOR_COMBAT_RATINGS_MULT_BY_ILVL } from '../multipliers';
 import BonusIDCheckBox from './BonusIDCheckBox';
-
-// global RANDOM_SUFFIX_MAP, ITEM_DATA
-
+import { ITEM_DATA, RANDOM_SUFFIX_MAP } from '../item_data';
 
 class BonusIDPopup extends React.Component {
 

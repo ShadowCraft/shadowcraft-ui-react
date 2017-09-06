@@ -67,9 +67,6 @@
   <% htmlWebpackPlugin.files.js.forEach(function(jsFile) { %>
   <script type="text/javascript" src="{{ url_for('static', filename='<%= jsFile.split('/').slice(-1) %>') }}"></script>
   <% }); %>
-  
-  <script type="text/javascript" src="{{ url_for('static',
-                                        filename='item_data.js') }}"></script>
 </body>
 
 </html>

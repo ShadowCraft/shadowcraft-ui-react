@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import store from '../store';
 import { modalTypes } from '../reducers/modalReducer';
+import { ITEM_DATA } from '../item_data';
 
 class EquippedGemItem extends React.Component {
-
 
     constructor(props) {
         super();

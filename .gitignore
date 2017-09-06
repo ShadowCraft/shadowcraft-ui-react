@@ -3,7 +3,7 @@ shadowcraft_ui/static/css/main.css
 shadowcraft_ui/static/css/main-*.css
 shadowcraft_ui/static/bundle.js
 shadowcraft_ui/static/bundle-*.js
-shadowcraft_ui/static/item_data.js
+shadowcraft_ui/js/item_data.js
 shadowcraft_ui/templates/index.html
 venv
 node_modules

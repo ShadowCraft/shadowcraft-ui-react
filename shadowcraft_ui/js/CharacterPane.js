@@ -14,6 +14,7 @@ import RightPane from './RightPane';
 
 import ModalConductor from './modals/ModalConductor';
 import { modalTypes } from './reducers/modalReducer';
+import { ITEM_DATA, CHARACTER_DATA_VERSION } from './item_data';
 
 function initializeWithDataFromLocalStorage(chardata, settings = null) {
     return function (dispatch) {

@@ -7,6 +7,7 @@ import store from '../store';
 import { modalTypes } from '../reducers/modalReducer';
 import EquippedGemList from './EquippedGemsList';
 import EquippedEnchant from './EquippedEnchant';
+import { ITEM_DATA } from '../item_data';
 
 class EquippedItem extends React.Component {
 

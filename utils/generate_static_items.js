@@ -11,9 +11,14 @@ MongoClient.connect(url, function(err, db) {
     collection.find({}).toArray(function(err, docs) {
         assert.equal(err, null);
 
-        let wstream = fs.createWriteStream('shadowcraft_ui/static/item_data.js');
-        wstream.write('var ITEM_DATA=[')
+        let wstream = fs.createWriteStream('shadowcraft_ui/js/item_data.js');
 
+        // get the file size for models/character.py and store it in the ITEM_DATA block so
+        // that we can use it to check on whether the character data version has changed.
+        let characterDataVersion = fs.statSync('shadowcraft_ui/models/character.py').size;
+        wstream.write(`export const CHARACTER_DATA_VERSION=${characterDataVersion};`);
+
+        wstream.write('export const ITEM_DATA=[')
         let len = docs.length;
         for (let i = 0; i < len; i++) {
             delete docs[i]['_id'];
@@ -84,7 +89,7 @@ MongoClient.connect(url, function(err, db) {
             }
         }
 
-        wstream.write("var RANDOM_SUFFIX_MAP=");
+        wstream.write("export const RANDOM_SUFFIX_MAP=");
         wstream.write(JSON.stringify(output));
         wstream.write(";\n");
 
@@ -99,7 +104,7 @@ MongoClient.connect(url, function(err, db) {
             randProps[row[0]] = row;
         });
 
-        wstream.write("var RAND_PROP_POINTS=");
+        wstream.write("export const RAND_PROP_POINTS=");
         wstream.write(JSON.stringify(randProps));
         wstream.write(';');
 
