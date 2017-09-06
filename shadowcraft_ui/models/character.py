@@ -11,11 +11,14 @@ from . import ArmoryDocument
 from . import ArmoryConstants
 from .ArmoryCharacter import ArmoryCharacter
 
-# re-version data when ArmoryCharacter.py changes (file size)
-CHARACTER_DATA_VERSION = os.path.getsize('shadowcraft_ui/models/character.py')
+# re-version data when this file changes. we use file size to keep track of this, which is a
+# terrible metric usually, but is fast and is good enough to just tell if something has
+# changed.
+CHARACTER_DATA_VERSION = os.path.getsize(__file__)
 
 def load(db, region, realm, name, sha=None):
 
+    sha_error = None
     char_data = None
     if sha:
         # If we're loading from a sha, check to see if that sha is in the db.
@@ -24,11 +27,13 @@ def load(db, region, realm, name, sha=None):
         if results.count() != 0:
             char_data = results[0]['json']
         else:
-            print(
-                "Failed to find SHA value in the database, \
-                will attempt to load character from Armory"
-            )
-            refresh = True
+            sha_error = "Failed to find SHA value in the database, loaded fresh copy from the Armory"
+            print(sha_error)
+
+        if char_data is not None and ('data_version' not in char_data or char_data['data_version'] != CHARACTER_DATA_VERSION):
+            char_data = None
+            sha_error = "Character data version didn't match, loaded fresh copy from the Armory"
+            print(sha_error)
 
     if char_data is None:
         # If we haven't gotten data yet, we need to try to reload it from the
@@ -36,6 +41,8 @@ def load(db, region, realm, name, sha=None):
         try:
             char_data = __get_from_armory(db, name, realm, region)
             char_data['data_version'] = CHARACTER_DATA_VERSION
+            if sha_error is not None:
+                char_data['sha_error'] = sha_error
         except Exception as error:
             char_data = None
             print("Failed to load character data for %s/%s/%s: %s" %
