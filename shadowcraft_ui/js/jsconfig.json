@@ -1,0 +1,9 @@
+//this file is for typscript/vscode typecheccking/intellisense
+{
+    "compilerOptions": {
+        "target": "ES6"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
