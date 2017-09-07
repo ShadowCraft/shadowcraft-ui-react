@@ -16,11 +16,9 @@ export const characterActionTypes = {
 };
 
 function makeGem(actionGem) {
-    // TODO: why is gemslot and id the same thing?
 
     if (actionGem) {
         let newGem = {
-            gemslot: actionGem.id,
             icon: actionGem.icon,
             id: actionGem.id,
             name: actionGem.name,
@@ -39,7 +37,6 @@ function makeGem(actionGem) {
     }
     else{
         return {
-            gemslot: 0,
             icon: '',
             id: 0,
             name: '',

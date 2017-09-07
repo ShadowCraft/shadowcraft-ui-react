@@ -265,7 +265,6 @@ describe('characterReducer', () => {
                 slot: {
                     bonuses: [10],
                     gems: [{
-                        gemslot: 0,
                         icon: '',
                         id: 0,
                         name: '',
@@ -508,7 +507,6 @@ describe('characterReducer', () => {
                 slot: {
                     bonuses: [],
                     gems: [{
-                        gemslot: 0,
                         icon: '',
                         id: 0,
                         name: '',
@@ -628,7 +626,6 @@ describe('characterReducer', () => {
                             icon: "icon1",
                             quality: 3,
                             bonus: "+150 Mastery",
-                            gemslot: 1
                         }],
                     socket_count: 1,
                     stats: {},
@@ -666,7 +663,6 @@ describe('characterReducer', () => {
                             icon: "inv_jewelcrafting_70_cutgem03_purple",
                             quality: 3,
                             bonus: "+200 Haste",
-                            gemslot: 130222
                         }],
                     socket_count: 1,
                     stats: {},
@@ -693,7 +689,6 @@ describe('characterReducer', () => {
                             icon: "icon1",
                             quality: 3,
                             bonus: "+150 Mastery",
-                            gemslot: 1
                         }],
                     socket_count: 1,
                     stats: {},
@@ -709,7 +704,6 @@ describe('characterReducer', () => {
                             icon: "icon1",
                             quality: 3,
                             bonus: "+150 Mastery",
-                            gemslot: 1
                         },
                         {
                             name: "gem1",
@@ -717,7 +711,6 @@ describe('characterReducer', () => {
                             icon: "icon1",
                             quality: 3,
                             bonus: "+150 Mastery",
-                            gemslot: 2
                         }
                     ],
                     socket_count: 2,
@@ -734,7 +727,6 @@ describe('characterReducer', () => {
                             icon: "icon1",
                             quality: 3,
                             bonus: "+150 Mastery",
-                            gemslot: 1
                         }],
                     socket_count: 1,
                     stats: {},
@@ -783,7 +775,6 @@ describe('characterReducer', () => {
                             icon: "purple_gem",
                             quality: 4,
                             bonus: "+500 Agility",
-                            gemslot: 67890
                         }],
                     socket_count: 1,
                     stats: {},
@@ -799,7 +790,6 @@ describe('characterReducer', () => {
                             icon: "blue_gem",
                             quality: 3,
                             bonus: "+200 Haste",
-                            gemslot: 12345
                         },
                         {
                             name: "Rare Gem of Rareness",
@@ -807,7 +797,6 @@ describe('characterReducer', () => {
                             icon: "blue_gem",
                             quality: 3,
                             bonus: "+200 Haste",
-                            gemslot: 12345
                         },
                     ],
                     socket_count: 2,
@@ -824,7 +813,6 @@ describe('characterReducer', () => {
                             icon: "blue_gem",
                             quality: 3,
                             bonus: "+200 Haste",
-                            gemslot: 12345
                         }],
                     socket_count: 1,
                     stats: {},
@@ -850,7 +838,6 @@ describe('characterReducer', () => {
                             icon: "icon1",
                             quality: 3,
                             bonus: "+150 Mastery",
-                            gemslot: 1
                         }],
                     socket_count: 1,
                     stats: {},
@@ -866,7 +853,6 @@ describe('characterReducer', () => {
                             icon: "icon1",
                             quality: 3,
                             bonus: "+150 Mastery",
-                            gemslot: 1
                         },
                         {
                             name: "Epic Gem of Epicness",
@@ -874,7 +860,6 @@ describe('characterReducer', () => {
                             icon: "purple_gem",
                             quality: 4,
                             bonus: "+500 Agility",
-                            gemslot: 67890
                         },
                     ],
                     socket_count: 2,
@@ -891,7 +876,6 @@ describe('characterReducer', () => {
                             icon: "icon1",
                             quality: 3,
                             bonus: "+150 Mastery",
-                            gemslot: 1
                         }],
                     socket_count: 1,
                     stats: {},
@@ -940,7 +924,6 @@ describe('characterReducer', () => {
                             icon: "blue_gem",
                             quality: 3,
                             bonus: "+200 Haste",
-                            gemslot: 12345
                         }],
                     socket_count: 1,
                     stats: {},
@@ -956,7 +939,6 @@ describe('characterReducer', () => {
                             icon: "blue_gem",
                             quality: 3,
                             bonus: "+200 Haste",
-                            gemslot: 12345
                         },
                         {
                             name: "Epic Gem of Epicness",
@@ -964,7 +946,6 @@ describe('characterReducer', () => {
                             icon: "purple_gem",
                             quality: 4,
                             bonus: "+500 Agility",
-                            gemslot: 67890
                         },
                     ],
                     socket_count: 2,
@@ -981,7 +962,6 @@ describe('characterReducer', () => {
                             icon: "blue_gem",
                             quality: 3,
                             bonus: "+200 Haste",
-                            gemslot: 12345
                         }],
                     socket_count: 1,
                     stats: {},
