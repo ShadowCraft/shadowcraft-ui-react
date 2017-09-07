@@ -7,6 +7,7 @@ import pymongo
 from pymongo import MongoClient
 import ArmoryDocument
 from ArmoryItem import ArmoryItem
+import ArmoryConstants
 from time import sleep
 
 # These are the only bonus IDs we care about displaying on the gear popouts.  They're
@@ -140,6 +141,12 @@ def import_item(dbase, item_id, is_gem=False):
     json_data = []
     try:
         base_json = ArmoryDocument.get('us', '/wow/item/%d' % item_id)
+
+        for stat in base_json['bonusStats']:
+            if ArmoryConstants.STAT_LOOKUP[stat['stat']] == 'intellect':
+                print("import_item: item has intellect on it, ignoring")
+                return
+
         json_data.append(base_json)
     except ArmoryDocument.ArmoryError as err:
         print("import_item failed to fetch %d: %s" % (item_id, err))
