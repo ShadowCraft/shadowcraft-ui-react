@@ -16,7 +16,7 @@ import ModalConductor from './modals/ModalConductor';
 import { modalTypes } from './reducers/modalReducer';
 import { ITEM_DATA, CHARACTER_DATA_VERSION } from './item_data';
 
-function initializeWithDataFromLocalStorage(chardata, settings = null) {
+function initializeCharacterData(chardata, settings = null) {
     return function (dispatch) {
         dispatch({ type: 'RESET_CHARACTER_DATA', data: chardata });
 
@@ -37,6 +37,8 @@ function initializeWithDataFromLocalStorage(chardata, settings = null) {
                 }
                 dispatch(getEngineData());
             });
+
+        dispatch({type: 'CLOSE_MODAL'});
     };
 }
 
@@ -57,26 +59,46 @@ class CharacterPane extends React.Component {
         this.onKeyDown = this.onKeyDown.bind(this);
     }
 
+    checkCharacterDataVersion(version) {
+        if (version != CHARACTER_DATA_VERSION) {
+            // display an error dialog to the user telling that the data version
+            // changed and that if they don't force refresh, the site may not work
+            // correctly.
+            if (confirm("Character data layout has changed and the data being loaded from local storage doesn't match. Would you like to force a refresh of your character data? If data is not refreshed, the site may not function correctly.")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     componentWillMount() {
         // Check to see if there's data in local storage before loading it from the database
         let characterDataFromLocalStorage = null;
         let settingsDataFromLocalStorage = null;
+        let forceRefreshForVersionError = false;
 
         if (this.props.pathinfo.sha == undefined && storageAvailable()) {
             let key = `${this.props.pathinfo.region}-${this.props.pathinfo.realm}-${this.props.pathinfo.name}`;
             let data = storageGet(key);
             if (data != null) {
+                forceRefreshForVersionError = this.checkCharacterDataVersion(data['character']['data_version']);
                 characterDataFromLocalStorage = data['character'];
                 settingsDataFromLocalStorage = data['settings'];
             }
         }
 
-        if (characterDataFromLocalStorage != null && settingsDataFromLocalStorage != null) {
-            store.dispatch(initializeWithDataFromLocalStorage(characterDataFromLocalStorage, settingsDataFromLocalStorage));
+        if (characterDataFromLocalStorage != null && settingsDataFromLocalStorage != null && !forceRefreshForVersionError) {
+            store.dispatch(initializeCharacterData(characterDataFromLocalStorage,
+                                                   settingsDataFromLocalStorage));
         }
         else {
             store.dispatch({type: "OPEN_MODAL", data: {popupType: modalTypes.RELOAD_SWIRL}});
 
+            // Attempt to load the SHA version of the data if there's a SHA in the request. If the
+            // load of that data fails, the character data endpoint may return a fresh copy of the
+            // character with an error message attached as to why it couldn't load it. In that case
+            // display a warning to the user as to why.
             let url = `/get_character_data?region=${this.props.pathinfo.region}&realm=${this.props.pathinfo.realm}&name=${this.props.pathinfo.name}`;
             if (this.props.pathinfo.sha != undefined) {
                 url += `&sha=${this.props.pathinfo.sha}`;
@@ -86,14 +108,19 @@ class CharacterPane extends React.Component {
                 .then(checkFetchStatus)
                 .then(r => r.json())
                 .then(function (json) {
-                    if (this.props.pathinfo.sha == undefined) {
-                        store.dispatch(initializeWithDataFromLocalStorage(json));
+                    if (this.props.pathinfo.sha == undefined || 'sha_error' in json) {
+                        store.dispatch(initializeCharacterData(json));
+
+                        if ('sha_error' in json) {
+                            alert(`Debug URL load failed: ${json['character']['sha_error']}`);
+                        }
                     } else {
-                        store.dispatch(initializeWithDataFromLocalStorage(json['character'], json['settings']));
+                        store.dispatch(initializeCharacterData(json['character'], json['settings']));
                     }
                 }.bind(this));
 
-            store.dispatch({type: "CLOSE_MODAL"});
+            // TODO: what happens if we can't load character data here, like if the character
+            // doesn't exist? how can we back up the tree and return a 404 to via the router?
         }
 
         document.addEventListener("keydown", this.onKeyDown.bind(this));
