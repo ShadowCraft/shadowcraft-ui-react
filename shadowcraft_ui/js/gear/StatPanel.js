@@ -151,7 +151,7 @@ class StatPane extends React.Component {
                         <StatPanelElement
                             name="Boss Adds"
                             value={
-                                this.props.settings.current
+                                this.props.settings.current && this.props.settings.current.num_boss_adds
                                     ? this.props.settings.current.num_boss_adds.toString()
                                     : '0'
                             }
@@ -211,7 +211,7 @@ StatPane.propTypes = {
     activeSpec: PropTypes.string.isRequired,
     settings: PropTypes.shape({
         current: PropTypes.shape({
-            num_boss_adds: PropTypes.string.isRequired
+            num_boss_adds: PropTypes.string
         })
     }).isRequired
 };
