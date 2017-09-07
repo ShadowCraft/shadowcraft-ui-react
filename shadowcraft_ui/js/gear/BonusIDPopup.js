@@ -8,14 +8,13 @@ import { updateCharacterState } from '../store';
 import { recalculateStats, getStatValue } from '../common';
 import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL, TRINKET_COMBAT_RATINGS_MULT_BY_ILVL, WEAPON_COMBAT_RATINGS_MULT_BY_ILVL, ARMOR_COMBAT_RATINGS_MULT_BY_ILVL } from '../multipliers';
 import BonusIDCheckBox from './BonusIDCheckBox';
-import { ITEM_DATA, RANDOM_SUFFIX_MAP } from '../item_data';
+import { ITEM_DATA, RANDOM_SUFFIX_MAP, RAND_PROP_POINTS } from '../item_data';
 
 class BonusIDPopup extends React.Component {
 
     constructor(props) {
         super(props);
-        this.props = props;
-        this.state = {
+        let _state = {
             active: props.item.bonuses,
             wfBonus: -1,
             suffixBonus: -1,
@@ -34,17 +33,19 @@ class BonusIDPopup extends React.Component {
         for (let idx in props.item.bonuses) {
             if ((props.item.bonuses[idx] >= 1472 && props.item.bonuses[idx] <= 1672) ||
                 (props.item.bonuses[idx] >= 669 && props.item.bonuses[idx] <= 679)) {
-                this.state.wfBonus = props.item.bonuses[idx];
+                _state.wfBonus = props.item.bonuses[idx];
                 break;
             }
         }
 
         for (let idx in props.item.bonuses) {
             if (props.item.bonuses[idx] in RANDOM_SUFFIX_MAP) {
-                this.state.suffixBonus = props.item.bonuses[idx];
+                _state.suffixBonus = props.item.bonuses[idx];
                 break;
             }
         }
+
+        this.state = _state;
     }
 
     componentWillMount() {
@@ -56,7 +57,8 @@ class BonusIDPopup extends React.Component {
         }.bind(this));
 
         if (staticItems.length == 0) {
-            console.log("Couldn't find item ${this.props.item.id} in the static data");
+            //eslint-disable-next-line no-console
+            console.log(`Couldn't find item ${this.props.item.id} in the static data`);
             this.setState({ baseItem: null });
         }
         else {
@@ -198,8 +200,6 @@ class BonusIDPopup extends React.Component {
                 Object.assign({}, eventData['newStats']),
                 (eventData['ilvl'] - this.state.baseItem.item_level).toFixed(2));
         }
-
-        console.log(eventData);
 
         store.dispatch(updateCharacterState('CHANGE_BONUSES', eventData));
         store.dispatch({ type: "CLOSE_MODAL" });

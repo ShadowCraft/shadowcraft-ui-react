@@ -264,7 +264,14 @@ describe('characterReducer', () => {
             gear: {
                 slot: {
                     bonuses: [10],
-                    gems: [0],
+                    gems: [{
+                        gemslot: 0,
+                        icon: '',
+                        id: 0,
+                        name: '',
+                        quality: 0,
+                        bonus: ''
+                    }],
                     icon: "icon",
                     id: "remote_id",
                     item_level: 10,
@@ -500,7 +507,14 @@ describe('characterReducer', () => {
             gear: {
                 slot: {
                     bonuses: [],
-                    gems: [{ icon: '', id: 0, name: 'empty' }],
+                    gems: [{
+                        gemslot: 0,
+                        icon: '',
+                        id: 0,
+                        name: '',
+                        quality: 0,
+                        bonus: ''
+                    }],
                     socket_count: 1,
                     stats: { test: 'test' },
                     item_level: 1,

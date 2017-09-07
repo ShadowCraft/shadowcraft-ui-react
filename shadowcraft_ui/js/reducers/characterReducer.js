@@ -17,23 +17,36 @@ export const characterActionTypes = {
 
 function makeGem(actionGem) {
     // TODO: why is gemslot and id the same thing?
-    let newGem = {
-        gemslot: actionGem.id,
-        icon: actionGem.icon,
-        id: actionGem.id,
-        name: actionGem.name,
-        quality: actionGem.quality,
-        bonus: ""
-    };
 
-    for (let stat in actionGem.stats) {
-        let capStat = stat.charAt(0).toUpperCase() + stat.slice(1);
-        newGem.bonus = newGem.bonus.concat(`+${actionGem.stats[stat]} ${capStat} / `);
+    if (actionGem) {
+        let newGem = {
+            gemslot: actionGem.id,
+            icon: actionGem.icon,
+            id: actionGem.id,
+            name: actionGem.name,
+            quality: actionGem.quality,
+            bonus: ""
+        };
+
+        for (let stat in actionGem.stats) {
+            let capStat = stat.charAt(0).toUpperCase() + stat.slice(1);
+            newGem.bonus = newGem.bonus.concat(`+${actionGem.stats[stat]} ${capStat} / `);
+        }
+
+        newGem.bonus = newGem.bonus.slice(0, -3);
+
+        return newGem;
     }
-
-    newGem.bonus = newGem.bonus.slice(0, -3);
-
-    return newGem;
+    else{
+        return {
+            gemslot: 0,
+            icon: '',
+            id: 0,
+            name: '',
+            quality: 0,
+            bonus: ''
+        };
+    }
 }
 
 export const characterReducer = function (state = {}, action) {
@@ -103,7 +116,7 @@ export const characterReducer = function (state = {}, action) {
 
             // Generate a number of gem entries based on the number of sockets on the item
             item.gems = new Array(item.socket_count);
-            item.gems.fill(0);
+            item.gems.fill(makeGem(null));
 
             let newData = dotProp.merge(state, `gear.${action.data.slot}`, item);
             return newData;
@@ -126,11 +139,7 @@ export const characterReducer = function (state = {}, action) {
                     newData.socket_count = 0;
                 }
                 else if (state.gear[action.data.slot].socket_count == 0) {
-                    newData.gems = [{
-                        id: 0,
-                        name: 'empty',
-                        icon: ''
-                    }];
+                    newData.gems = [makeGem(null)];
                     newData.socket_count = 1;
                 }
             }
