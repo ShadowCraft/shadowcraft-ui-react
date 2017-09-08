@@ -6,16 +6,21 @@ import { ITEM_DATA } from '../item_data';
 
 class EquippedGemItem extends React.Component {
 
-    constructor(props) {
-        super();
-        this.props = props;
-    }
-
     onClick() {
 
         let itemData = ITEM_DATA.filter(function (item) {
             return item.is_gem;
         });
+
+        itemData = [...itemData, {
+            gem_slot: "Prismatic",
+            icon: "inv_misc_questionmark",
+            id: 0,
+            is_gem: true,
+            name: "Empty",
+            quality: 0,
+            stats: {}
+        }];
 
         store.dispatch({
             type: "OPEN_MODAL",
