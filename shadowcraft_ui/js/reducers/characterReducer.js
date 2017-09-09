@@ -35,7 +35,7 @@ function makeGem(actionGem) {
 
         return newGem;
     }
-    else{
+    else {
         return {
             icon: '',
             id: 0,
@@ -60,34 +60,62 @@ export const characterReducer = function (state = {}, action) {
 
         case characterActionTypes.UPDATE_ARTIFACT_RELIC: {
 
-            // TODO: dotProp-ify
-            let newState = Object.assign({}, state);
-            if (newState.artifact.relics[action.data.slot].id != 0) {
-                newState.artifact.traits[newState.artifact.relics[action.data.slot].id] -= 1;
+            const relic = state.artifact.relics[action.data.slot];
+
+            let newState = state;
+            if (relic.id !== 0) {
+
+                const newTraits = Object.assign({}, state.artifact.traits);
+                newTraits[relic.id] = newTraits[relic.id] - 1;
+
+                newState = Object.assign({}, state, {
+                    artifact: {
+                        traits: newTraits,
+                        relics: state.artifact.relics
+                    }
+                });
             }
 
             // Determine what the artifact's ilvl should be based on any relic changes
-            if (newState.artifact.relics[action.data.slot].ilvl != action.data.ilvl) {
+            if (relic.ilvl !== action.data.ilvl) {
 
-                let change = getArtifactIlvlChange(newState.artifact.relics[action.data.slot].ilvl, action.data.ilvl);
+                const ilvlChange = getArtifactIlvlChange(relic.ilvl, action.data.ilvl);
 
-                newState.artifact.relics[action.data.slot].ilvl = action.data.ilvl;
+                const newRelics = [...state.artifact.relics];
+                newRelics[action.data.slot].ilvl = action.data.ilvl;
 
-                newState.gear['mainHand'].item_level += change;
-                newState.gear['mainHand'].stats = action.data.stats;
-                newState.gear['mainHand'].weaponStats = action.data.weaponStats;
+                const newMainHand = Object.assign({}, state.gear.mainHand, {
+                    item_level: state.gear.mainHand.item_level + ilvlChange,
+                    stats: action.data.stats,
+                    weaponStats: action.data.weaponStats
+                });
 
-                newState.gear['offHand'].item_level += change;
-                newState.gear['offHand'].stats = action.data.stats;
-                newState.gear['offHand'].weaponStats = action.data.weaponStats;
+                const newOffHand = Object.assign({}, state.gear.offHand, {
+                    item_level: state.gear.mainHand.item_level + ilvlChange,
+                    stats: action.data.stats,
+                    weaponStats: action.data.weaponStats
+                });
+
+                const newGear = Object.assign({}, state.gear, {
+                    mainHand: newMainHand,
+                    offHand: newOffHand,
+                });
+
+                newState = Object.assign({}, newState, {
+                    gear: newGear,
+                    artifact: {
+                        traits: newState.artifact.traits,
+                        relics: newRelics
+                    }
+                });
             }
 
             newState.artifact.relics[action.data.slot].id = action.data.trait;
 
             // Update the new trait
             newState.artifact.traits[action.data.trait] += 1;
-
-            return Object.assign({}, state, newState);
+            // console.log(JSON.stringify(newState));
+            return newState;
         }
 
         case characterActionTypes.UPDATE_SPEC: {
