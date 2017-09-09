@@ -1,4 +1,5 @@
 import { getArtifactIlvlChange } from '../common';
+import Character from '../viewModels/Character';
 import dotProp from 'dot-prop-immutable';
 
 export const characterActionTypes = {
@@ -46,7 +47,7 @@ function makeGem(actionGem) {
     }
 }
 
-export const characterReducer = function (state = {}, action) {
+export const characterReducer = function (state = new Character(), action) {
 
     switch (action.type) {
 
@@ -114,7 +115,7 @@ export const characterReducer = function (state = {}, action) {
 
             // Update the new trait
             newState.artifact.traits[action.data.trait] += 1;
-            // console.log(JSON.stringify(newState));
+
             return newState;
         }
 

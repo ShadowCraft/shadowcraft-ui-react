@@ -1,8 +1,9 @@
 import { characterActionTypes, characterReducer } from './characterReducer';
+import Character from '../viewModels/Character';
 
 describe('characterReducer', () => {
     it('should return initial state', () => {
-        expect(characterReducer(undefined, {})).toEqual({});
+        expect(characterReducer(undefined, {})).toEqual(new Character());
     });
 
     it('should handle RESET_CHARACTER_DATA', () => {

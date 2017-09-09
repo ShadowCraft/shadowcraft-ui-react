@@ -127,18 +127,7 @@ def __get_from_armory(db, character, realm, region):
         "stats": json_data['stats'],
         "talents": {},
         "gear": {},
-        "artifact": {},
-
-        # stub data from engine
-        "weights": {
-            "agi": 2.5,
-            "haste": 1.5,
-            "mastery": 1.1,
-            "versatility": 1.1,
-            "crit": 1.2,
-            "mainHand": 3.1,
-            "offHand": 2.1
-        }
+        "artifact": {}
     }
 
     for index, tree in enumerate(json_data['talents']):
