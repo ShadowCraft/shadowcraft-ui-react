@@ -1,9 +1,11 @@
 import Item from './Item';
+import Stats from './Stats';
+import Talents from './Talents';
+import Artifact from './Artifact';
 import { CHARACTER_DATA_VERSION } from '../item_data';
 
 export default class Character {
     constructor() {
-
         this.region = "";
         this.realm = "";
         this.name = "";
@@ -11,63 +13,8 @@ export default class Character {
         this.player_class = "";
         this.race = "";
         this.portrait = "http://us.media.blizzard.com/wow/icons/56/inv_misc_questionmark.jpg";
-        this.stats = {
-            health: 0,
-            powerType: "",
-            power: 0,
-            str: 0,
-            agi: 0,
-            int: 0,
-            sta: 0,
-            speedRating: 0,
-            speedRatingBonus: 0,
-            crit: 0,
-            critRating: 0,
-            haste: 0,
-            hasteRating: 0,
-            hasteRatingPercent: 0,
-            mastery: 0,
-            masteryRating: 0,
-            leech: 0,
-            leechRating: 0,
-            leechRatingBonus: 0,
-            versatility: 0,
-            versatilityDamageDoneBonus: 0,
-            versatilityHealingDoneBonus: 0,
-            versatilityDamageTakenBonus: 0,
-            avoidanceRating: 0,
-            avoidanceRatingBonus: 0,
-            spellPen: 0,
-            spellCrit: 0,
-            spellCritRating: 0,
-            mana5: 0,
-            mana5Combat: 0,
-            armor: 2288,
-            dodge: 0,
-            dodgeRating: 0,
-            parry: 0,
-            parryRating: 0,
-            block: 0,
-            blockRating: 0,
-            mainHandDmgMin: 0,
-            mainHandDmgMax: 0,
-            mainHandSpeed: 0,
-            mainHandDps: 0,
-            offHandDmgMin: 0,
-            offHandDmgMax: 0,
-            offHandSpeed: 0,
-            offHandDps: 0,
-            rangedDmgMin: 0,
-            rangedDmgMax: 0,
-            rangedSpeed: 0,
-            rangedDps: 0
-        };
-        this.talents = {
-            a: "1133121",
-            Z: "2113222",
-            b: "1231332",
-            current: "1133121"
-        };
+        this.stats = new Stats();
+        this.talents = new Talents();
         this.gear = {
             head: new Item(),
             neck: new Item(),
@@ -86,12 +33,8 @@ export default class Character {
             mainHand: new Item(),
             offHand: new Item(),
         };
-        this.artifact = {
-            traits: { 0: 0 },
-            relics: [{ id: 0, ilvl: 0 }]
-        };
+        this.artifact = new Artifact();
         this.active = "a";
         this.data_version = CHARACTER_DATA_VERSION;
-
     }
 }
