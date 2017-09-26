@@ -1170,5 +1170,15 @@ describe('characterReducer', () => {
 
     });
 
+    it('should handle SWAP_ARTIFACT_WEAPON', () => {
+        const init = { gear: { mainHand: 'oldweapon' } };
+        const action = {
+            type: characterActionTypes.SWAP_ARTIFACT_WEAPON,
+            data: 'newWeapon'
+        };
+        const expected = { gear: { mainHand: 'newWeapon' } };
+        expect(characterReducer(init, action)).toEqual(expected);
+    });
+
 }
 );

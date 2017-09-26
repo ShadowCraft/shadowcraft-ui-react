@@ -14,6 +14,7 @@ export const characterActionTypes = {
     CHANGE_ENCHANT: 'CHANGE_ENCHANT',
     OPTIMIZE_GEMS: 'OPTIMIZE_GEMS',
     OPTIMIZE_ENCHANTS: 'OPTIMIZE_ENCHANTS',
+    SWAP_ARTIFACT_WEAPON: 'SWAP_ARTIFACT_WEAPON',
 };
 
 function makeGem(actionGem) {
@@ -117,6 +118,10 @@ export const characterReducer = function (state = new Character(), action) {
             newState.artifact.traits[action.data.trait] += 1;
 
             return newState;
+        }
+
+        case characterActionTypes.SWAP_ARTIFACT_WEAPON: {
+            return dotProp.set(state, "gear.mainHand", action.data);
         }
 
         case characterActionTypes.UPDATE_SPEC: {

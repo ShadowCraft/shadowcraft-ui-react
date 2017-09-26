@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { characterReducer } from './reducers/characterReducer';
+import { characterReducer, characterActionTypes } from './reducers/characterReducer';
 import { settingsReducer } from './reducers/settingsReducer';
 import { engineReducer } from './reducers/engineReducer';
 import { warningsReducer } from './reducers/warningsReducer';
@@ -15,6 +15,67 @@ export function updateCharacterState(event, data) {
     return function (dispatch) {
         dispatch({ type: event, data: data });
         dispatch(getEngineData());
+    };
+}
+
+export function swapArtifactWeapon(spec) {
+    return function (dispatch) {
+
+        switch (spec) {
+            case 'a': return dispatch({
+                type: characterActionTypes.SWAP_ARTIFACT_WEAPON,
+                data: {
+                    id: 128870,
+                    slot: 'mainHand',
+                    name: 'The Kingslayers',
+                    icon: 'inv_knife_1h_artifactgarona_d_01',
+                    item_level: 750,
+                    gems: [],
+                    stats: { crit: 148, mastery: 142, agility: 219, stamina: 328 },
+                    bonuses: [0],
+                    quality: 6,
+                    socket_count: 0,
+                    enchant: 0,
+                    weaponStats: { min_dmg: 962, max_dmg: 1604, speed: 1.8, dps: 712.86 },
+                }
+            });
+            case 'Z': return dispatch({
+                type: characterActionTypes.SWAP_ARTIFACT_WEAPON,
+                data: {
+                    id: 128872,
+                    slot: 'mainHand',
+                    name: 'The Dreadblades',
+                    icon: 'inv_sword_1h_artifactskywall_d_01',
+                    item_level: 750,
+                    gems: [],
+                    stats: { crit: 148, mastery: 142, agility: 219, stamina: 328 },
+                    bonuses: [0],
+                    quality: 6,
+                    socket_count: 0,
+                    enchant: 0,
+                    weaponStats: { min_dmg: 962, max_dmg: 1604, speed: 1.8, dps: 712.86 },
+                }
+            });
+            case 'b': return dispatch({
+                type: characterActionTypes.SWAP_ARTIFACT_WEAPON,
+                data: {
+                    id: 128476,
+                    slot: 'mainHand',
+                    name: 'Fangs of the Devourer',
+                    icon: 'inv_knife_1h_artifactfangs_d_01',
+                    item_level: 750,
+                    gems: [],
+                    stats: { crit: 148, mastery: 142, agility: 219, stamina: 328 },
+                    bonuses: [0],
+                    quality: 6,
+                    socket_count: 0,
+                    enchant: 0,
+                    weaponStats: { min_dmg: 962, max_dmg: 1604, speed: 1.8, dps: 712.86 },
+                }
+            });
+        }
+
+
     };
 }
 

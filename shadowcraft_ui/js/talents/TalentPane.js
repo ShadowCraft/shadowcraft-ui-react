@@ -5,7 +5,7 @@ import RankingSection from '../SidebarRanking';
 import TalentFrame from './TalentFrame';
 import * as layouts from './TalentLayouts';
 import store from '../store';
-import { updateCharacterState } from '../store';
+import { swapArtifactWeapon, updateCharacterState } from '../store';
 
 function TalentSetButton(props) {
     return (
@@ -16,7 +16,7 @@ function TalentSetButton(props) {
 }
 
 class TalentPane extends React.Component {
-    
+
     constructor(props) {
         super(props);
         this.clickButton = this.clickButton.bind(this);
@@ -33,6 +33,10 @@ class TalentPane extends React.Component {
         e.preventDefault();
         store.dispatch(updateCharacterState('UPDATE_TALENTS', e.currentTarget.dataset['talents']));
         store.dispatch(updateCharacterState('UPDATE_SPEC', e.currentTarget.dataset['spec']));
+
+        if (e.currentTarget.dataset.spec !== this.props.activeSpec) {
+            store.dispatch(swapArtifactWeapon(e.currentTarget.dataset.spec));
+        }
     }
 
     render() {
@@ -41,15 +45,15 @@ class TalentPane extends React.Component {
 
         if (this.props.activeSpec == 'a') {
             frame = <TalentFrame layout={layouts.assassination_layout} />;
-            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.assassination_ranking} values={this.props.rankings}/>;
+            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.assassination_ranking} values={this.props.rankings} />;
         }
         else if (this.props.activeSpec == 'Z') {
             frame = <TalentFrame layout={layouts.outlaw_layout} />;
-            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.outlaw_ranking} values={this.props.rankings}/>;
+            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.outlaw_ranking} values={this.props.rankings} />;
         }
         else if (this.props.activeSpec == 'b') {
             frame = <TalentFrame layout={layouts.subtlety_layout} />;
-            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.subtlety_ranking} values={this.props.rankings}/>;
+            ranking_frame = <RankingSection id="talentrankings" name="Talent Rankings" layout={layouts.subtlety_ranking} values={this.props.rankings} />;
         }
 
         return (
@@ -74,7 +78,7 @@ class TalentPane extends React.Component {
     }
 }
 
-const mapStateToProps = function(store) {
+const mapStateToProps = function (store) {
     return {
         rankings: store.engine.talentRanking,
         activeSpec: store.character.active,
