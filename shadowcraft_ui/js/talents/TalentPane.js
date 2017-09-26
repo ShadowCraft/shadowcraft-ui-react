@@ -5,7 +5,7 @@ import RankingSection from '../SidebarRanking';
 import TalentFrame from './TalentFrame';
 import * as layouts from './TalentLayouts';
 import store from '../store';
-import { swapArtifactWeapon, updateCharacterState } from '../store';
+import { changeSpecialization } from '../store';
 
 function TalentSetButton(props) {
     return (
@@ -31,12 +31,11 @@ class TalentPane extends React.Component {
 
     clickButton(e) {
         e.preventDefault();
-        store.dispatch(updateCharacterState('UPDATE_TALENTS', e.currentTarget.dataset['talents']));
-        store.dispatch(updateCharacterState('UPDATE_SPEC', e.currentTarget.dataset['spec']));
-
-        if (e.currentTarget.dataset.spec !== this.props.activeSpec) {
-            store.dispatch(swapArtifactWeapon(e.currentTarget.dataset.spec));
-        }
+        store.dispatch(changeSpecialization(
+            this.props.activeSpec,
+            e.currentTarget.dataset.spec,
+            e.currentTarget.dataset.talents
+        ));
     }
 
     render() {
