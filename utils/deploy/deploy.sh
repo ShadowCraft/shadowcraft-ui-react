@@ -1,5 +1,6 @@
 #!/bin/sh
 
-cp shcreact.service /etc/systemd/system/shcreact.service
-cp shcreact.nginx /etc/nginx/sites-enabled/shcreact
+cp shcreact.nginx /etc/nginx/sites-available/shcreact.conf
+ln -s /etc/nginx/sites-available/shcreact.conf /etc/nginx/sites-enabled/shcreact.conf
+cp shcreact.supd /etc/supervisor/conf.d/shcreact.conf
 cp shcreact.tmpfiles /etc/tmpfiles.d/shcreact.conf
