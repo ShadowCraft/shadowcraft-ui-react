@@ -4,7 +4,7 @@ server {
 
     location = /favicon.icon { access_log off; log_not_found off; }
     location /static/ {
-        root /home/ubuntu/shadowcraft-ui-react/shadowcraft_ui;
+        root /home/web/shadowcraft-ui-react/shadowcraft_ui;
     }
 
     location / {
