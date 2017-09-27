@@ -24,6 +24,7 @@ def deploy():
         run('source venv/bin/activate')
         run('npm install')
         run('venv/bin/pip install -r requirements.txt')
+        run('npm run build-prod')
         run('sudo /usr/bin/supervisorctl restart shcreact', shell=False)
 
 def status():
