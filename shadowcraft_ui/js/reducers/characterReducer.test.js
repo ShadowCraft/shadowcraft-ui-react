@@ -209,6 +209,36 @@ describe('characterReducer', () => {
         expect(characterReducer(init, action)).toEqual(expected);
     });
 
+    it('should handle UPDATE_NETHERLIGHT', () => {
+        const init = {
+            artifact: {
+                netherlight: [
+                    { tier2: 0, tier3: 0},
+                    { tier2: 0, tier3: 0},
+                    { tier2: 0, tier3: 0}
+                ]
+            }
+        };
+        const action = {
+            type: characterActionTypes.UPDATE_NETHERLIGHT,
+            data: {
+                slot: 1,
+                tier2: 12345,
+                tier3: 67890
+            }
+        };
+        const expected = {
+            artifact: {
+                netherlight: [
+                    { tier2: 0, tier3: 0},
+                    { tier2: 12345, tier3: 67890},
+                    { tier2: 0, tier3: 0}
+                ]
+            }
+        };
+        expect(characterReducer(init, action)).toEqual(expected);
+    });
+
     it('should handle UPDATE_SPEC', () => {
 
         const init = { active: 'anything' };

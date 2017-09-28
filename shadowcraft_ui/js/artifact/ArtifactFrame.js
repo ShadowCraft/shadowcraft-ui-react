@@ -7,6 +7,7 @@ import { updateCharacterState } from '../store';
 import { recalculateStats, getArtifactIlvlChange } from '../common';
 import ArtifactTrait from './ArtifactTrait';
 import ArtifactRelicSelect from './ArtifactRelicSelect';
+import ArtifactNetherlightSelect from './ArtifactNetherlightSelect';
 
 var FRAME_WIDTH = 720.0;
 var FRAME_HEIGHT = 615.0;
@@ -100,6 +101,11 @@ class ArtifactFrame extends React.Component {
                 slot: slot, trait: trait, ilvl: ilvl, stats: stats,
                 weaponStats: weaponStats
             }));
+    }
+
+    change_netherlight(slot, tier2, tier3) {
+        store.dispatch(updateCharacterState(
+            "UPDATE_NETHERLIGHT", {slot: slot, tier2: tier2, tier3: tier3}));
     }
 
     update_state(artifact_data, send_state) {
@@ -287,6 +293,13 @@ class ArtifactFrame extends React.Component {
                 <ArtifactRelicSelect index="1" relics={this.relics} selected={this.props.artifact.relics[1]} type={this.props.layout.relics[1]} parent={this} />
                 <br />
                 <ArtifactRelicSelect index="2" relics={this.relics} selected={this.props.artifact.relics[2]} type={this.props.layout.relics[2]} parent={this} />
+                <br />
+                Netherlight Crucible:<br />
+                <ArtifactNetherlightSelect index="0" relics={this.relics} />
+                <br />
+                <ArtifactNetherlightSelect index="1" relics={this.relics} />
+                <br />
+                <ArtifactNetherlightSelect index="2" relics={this.relics} />
             </div>
         );
     }

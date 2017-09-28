@@ -11,7 +11,7 @@ export const kingslayers_layout = {
         'ks_toxicblades': {
             name: 'Toxic Blades',
             icon: 'ability_rogue_disembowel',
-            x: 252,
+            x: 258,
             y: 266,
             id: 192310,
             max_rank: 3,
@@ -21,7 +21,7 @@ export const kingslayers_layout = {
         'ks_serratededge': {
             name: 'Serrated Edge',
             icon: 'ability_warrior_bloodbath',
-            x: 431,
+            x: 437,
             y: 288,
             id: 192315,
             max_rank: 3,
@@ -31,7 +31,7 @@ export const kingslayers_layout = {
         'ks_masteralchemist': {
             name: 'Master Alchemist',
             icon: 'trade_brewpoison',
-            x: 41,
+            x: 47,
             y: 344,
             id: 192318,
             max_rank: 3,
@@ -41,7 +41,7 @@ export const kingslayers_layout = {
         'ks_fadeintoshadows': {
             name: 'Fade into Shadows ',
             icon: 'spell_shadow_nethercloak',
-            x: 122,
+            x: 128,
             y: 455,
             id: 192323,
             max_rank: 3,
@@ -51,7 +51,7 @@ export const kingslayers_layout = {
         'ks_balancedblades': {
             name: 'Balanced Blades',
             icon: 'ability_rogue_restlessblades',
-            x: 258,
+            x: 264,
             y: 365,
             id: 192326,
             max_rank: 3,
@@ -61,7 +61,7 @@ export const kingslayers_layout = {
         'ks_gushingwound': {
             name: 'Gushing Wound',
             icon: 'ability_rogue_bloodsplatter',
-            x: 28,
+            x: 34,
             y: 458,
             id: 192329,
             max_rank: 3,
@@ -71,7 +71,7 @@ export const kingslayers_layout = {
         'ks_shadowwalker': {
             name: 'Shadow Walker',
             icon: 'ability_rogue_sprint',
-            x: 144,
+            x: 150,
             y: 276,
             id: 192345,
             max_rank: 3,
@@ -81,7 +81,7 @@ export const kingslayers_layout = {
         'ks_masterassassin': {
             name: 'Master Assassin',
             icon: 'ability_rogue_deadliness',
-            x: 133,
+            x: 139,
             y: 348,
             id: 192349,
             max_rank: 3,
@@ -91,7 +91,7 @@ export const kingslayers_layout = {
         'ks_poisonknives': {
             name: 'Poison Knives',
             icon: 'ability_rogue_dualweild',
-            x: 335,
+            x: 341,
             y: 376,
             id: 192376,
             max_rank: 3,
@@ -101,7 +101,7 @@ export const kingslayers_layout = {
         'ks_urgetokill': {
             name: 'Urge to Kill',
             icon: 'ability_rogue_improvedrecuperate',
-            x: 199,
+            x: 205,
             y: 282,
             id: 192384,
             max_rank: 1,
@@ -111,7 +111,7 @@ export const kingslayers_layout = {
         'ks_shadowswift': {
             name: 'Shadow Swiftness',
             icon: 'rogue_burstofspeed',
-            x: 184,
+            x: 190,
             y: 384,
             id: 192422,
             max_rank: 1,
@@ -121,7 +121,7 @@ export const kingslayers_layout = {
         'ks_surgeoftoxins': {
             name: 'Surge of Toxins',
             icon: 'ability_rogue_deviouspoisons',
-            x: 374,
+            x: 380,
             y: 324,
             id: 192424,
             max_rank: 1,
@@ -131,7 +131,7 @@ export const kingslayers_layout = {
         'ks_fromtheshadows': {
             name: 'From the Shadows',
             icon: 'ability_rogue_deadlybrew',
-            x: 440,
+            x: 449,
             y: 196,
             id: 192428,
             max_rank: 1,
@@ -141,7 +141,7 @@ export const kingslayers_layout = {
         'ks_bagoftricks': {
             name: 'Bag of Tricks',
             icon: 'rogue_paralytic_poison',
-            x: 85,
+            x: 94,
             y: 255,
             id: 192657,
             max_rank: 1,
@@ -151,7 +151,7 @@ export const kingslayers_layout = {
         'ks_kingsbane': {
             name: 'Kingsbane',
             icon: 'inv_knife_1h_artifactgarona_d_01',
-            x: 355,
+            x: 364,
             y: 215,
             id: 192759,
             max_rank: 1,
@@ -161,7 +161,7 @@ export const kingslayers_layout = {
         'ks_bota': {
             name: 'Blood of the Assassinated',
             icon: 'inv_artifact_bloodoftheassassinated',
-            x: 85,
+            x: 94,
             y: 552,
             id: 192923,
             max_rank: 1,
@@ -171,7 +171,7 @@ export const kingslayers_layout = {
         'ks_assassinsblades': {
             name: 'Assassin\'s Blades',
             icon: 'ability_rogue_shadowstrikes',
-            x: 302,
+            x: 308,
             y: 243,
             id: 214368,
             max_rank: 1,
@@ -181,7 +181,7 @@ export const kingslayers_layout = {
         'ks_slayersprecision': {
             name: 'Slayer\'s Precision',
             icon: 'inv_knife_1h_artifactgarona_d_02dual',
-            x: 517,
+            x: 526,
             y: 164,
             id: 214928,
             max_rank: 1,
@@ -191,7 +191,7 @@ export const kingslayers_layout = {
         'ks_strangler': {
             name: 'Strangler',
             icon: 'ability_rogue_garrote',
-            x: 584,
+            x: 590,
             y: 571,
             id: 238066,
             max_rank: 4,
@@ -201,7 +201,7 @@ export const kingslayers_layout = {
         'ks_denseconcoction': {
             name: 'Dense Concoction',
             icon: 'ability_rogue_crimsonvial',
-            x: 509,
+            x: 515,
             y: 497,
             id: 238102,
             max_rank: 1,
@@ -211,7 +211,7 @@ export const kingslayers_layout = {
         'ks_sinistercirculation': {
             name: 'Sinister Circulation',
             icon: 'inv_knife_1h_artifactgarona_d_01dual',
-            x: 585,
+            x: 593,
             y: 425,
             id: 238138,
             max_rank: 1,
@@ -221,7 +221,7 @@ export const kingslayers_layout = {
         'ks_concordance': {
             name: 'Concordance of the Legionfall',
             icon: 'trade_archaeology_shark-jaws',
-            x: 585,
+            x: 593,
             y: 498,
             id: 239042,
             max_rank: 50,
@@ -231,7 +231,7 @@ export const kingslayers_layout = {
         'ks_silence': {
             name: 'Silence of the Uncrowned',
             icon: 'misc_legionfall_rogue',
-            x: 658,
+            x: 667,
             y: 496,
             id: 241152,
             max_rank: 1,
@@ -456,7 +456,7 @@ export const dreadblades_layout = {
         'db_curse': {
             name: 'Curse of the Dreadblades',
             icon: 'inv_sword_1h_artifactskywall_d_01dual',
-            x: 316,
+            x: 325,
             y: 337,
             id: 202665,
             max_rank: 1,
@@ -466,7 +466,7 @@ export const dreadblades_layout = {
         'db_blunderbuss': {
             name: 'Blunderbuss',
             icon: 'inv_weapon_rifle_01',
-            x: 525,
+            x: 534,
             y: 183,
             id: 202897,
             max_rank: 1,
@@ -476,7 +476,7 @@ export const dreadblades_layout = {
         'db_greed': {
             name: 'Greed',
             icon: 'warrior_skullbanner',
-            x: 55,
+            x: 63,
             y: 574,
             id: 202820,
             max_rank: 1,
@@ -486,7 +486,7 @@ export const dreadblades_layout = {
         'db_blurredtime': {
             name: 'Blurred Time',
             icon: 'ability_rogue_quickrecovery',
-            x: 532,
+            x: 541,
             y: 277,
             id: 202769,
             max_rank: 1,
@@ -496,7 +496,7 @@ export const dreadblades_layout = {
         'db_deception': {
             name: 'Deception',
             icon: 'ability_rogue_disguise',
-            x: 388,
+            x: 394,
             y: 197,
             id: 202755,
             max_rank: 1,
@@ -506,7 +506,7 @@ export const dreadblades_layout = {
         'db_hiddenblade': {
             name: 'Hidden Blade',
             icon: 'ability_ironmaidens_bladerush',
-            x: 136,
+            x: 142,
             y: 549,
             id: 202753,
             max_rank: 1,
@@ -516,7 +516,7 @@ export const dreadblades_layout = {
         'db_blademaster': {
             name: 'Blademaster',
             icon: 'ability_warrior_challange',
-            x: 454,
+            x: 459,
             y: 312,
             id: 202628,
             max_rank: 1,
@@ -526,7 +526,7 @@ export const dreadblades_layout = {
         'db_blackpowder': {
             name: 'Black Powder',
             icon: 'inv_weapon_rifle_01',
-            x: 500,
+            x: 506,
             y: 384,
             id: 216230,
             max_rank: 3,
@@ -536,7 +536,7 @@ export const dreadblades_layout = {
         'db_bladedancer': {
             name: 'Blade Dancer',
             icon: 'ability_warrior_bladestorm',
-            x: 277,
+            x: 282,
             y: 443,
             id: 202507,
             max_rank: 3,
@@ -546,7 +546,7 @@ export const dreadblades_layout = {
         'db_fatesthirst': {
             name: 'Fate\'s Thirst',
             icon: 'ability_rogue_waylay',
-            x: 243,
+            x: 248,
             y: 313,
             id: 202514,
             max_rank: 3,
@@ -556,7 +556,7 @@ export const dreadblades_layout = {
         'db_fortunesstrike': {
             name: 'Fortune\'s Strike',
             icon: 'spell_rogue_deathfromabove',
-            x: 467,
+            x: 472,
             y: 235,
             id: 202521,
             max_rank: 3,
@@ -566,7 +566,7 @@ export const dreadblades_layout = {
         'db_gunslinger': {
             name: 'Gunslinger',
             icon: 'inv_weapon_rifle_07',
-            x: 313,
+            x: 318,
             y: 213,
             id: 202522,
             max_rank: 3,
@@ -576,7 +576,7 @@ export const dreadblades_layout = {
         'db_fatebringer': {
             name: 'Fatebringer',
             icon: 'ability_rogue_cuttothechase',
-            x: 135,
+            x: 141,
             y: 400,
             id: 202524,
             max_rank: 3,
@@ -586,7 +586,7 @@ export const dreadblades_layout = {
         'db_fortunestrikes': {
             name: 'Fortune Strikes',
             icon: 'ability_rogue_improvedrecuperate',
-            x: 378,
+            x: 383,
             y: 383,
             id: 202530,
             max_rank: 3,
@@ -596,7 +596,7 @@ export const dreadblades_layout = {
         'db_ghostlyshell': {
             name: 'Ghostly Shell',
             icon: 'spell_shadow_nethercloak',
-            x: 53,
+            x: 59,
             y: 450,
             id: 202533,
             max_rank: 3,
@@ -606,7 +606,7 @@ export const dreadblades_layout = {
         'db_fortunesboon': {
             name: 'Fortune\'s Boon',
             icon: 'ability_rogue_surpriseattack2',
-            x: 377,
+            x: 383,
             y: 290,
             id: 202907,
             max_rank: 3,
@@ -616,7 +616,7 @@ export const dreadblades_layout = {
         'db_cursededges': {
             name: 'Cursed Edges',
             icon: 'inv_sword_33',
-            x: 210,
+            x: 216,
             y: 412,
             id: 202463,
             max_rank: 1,
@@ -626,7 +626,7 @@ export const dreadblades_layout = {
         'db_cursedsteel': {
             name: 'Cursed Steel',
             icon: 'inv_sword_1h_artifactskywall_d_02dual',
-            x: 101,
+            x: 110,
             y: 199,
             id: 214929,
             max_rank: 1,
@@ -636,7 +636,7 @@ export const dreadblades_layout = {
         'db_sabermetrics': {
             name: 'Sabermetrics',
             icon: 'ability_rogue_sabreslash',
-            x: 585,
+            x: 591,
             y: 572,
             id: 238067,
             max_rank: 4,
@@ -646,7 +646,7 @@ export const dreadblades_layout = {
         'db_dreadbladesvigor': {
             name: 'Dreadblade\'s Vigor',
             icon: 'inv_sword_1h_artifactskywall_d_01dual',
-            x: 510,
+            x: 516,
             y: 498,
             id: 238103,
             max_rank: 1,
@@ -656,7 +656,7 @@ export const dreadblades_layout = {
         'db_loadeddice': {
             name: 'Loaded Dice',
             icon: 'ability_rogue_rollthebones',
-            x: 586,
+            x: 594,
             y: 425,
             id: 238139,
             max_rank: 1,
@@ -666,7 +666,7 @@ export const dreadblades_layout = {
         'db_concordance': {
             name: 'Concordance of the Legionfall',
             icon: 'trade_archaeology_shark-jaws',
-            x: 586,
+            x: 594,
             y: 499,
             id: 239042,
             max_rank: 50,
@@ -676,7 +676,7 @@ export const dreadblades_layout = {
         'db_silence': {
             name: 'Bravado of the Uncrowned',
             icon: 'misc_legionfall_rogue',
-            x: 659,
+            x: 668,
             y: 497,
             id: 241153,
             max_rank: 1,
@@ -889,7 +889,7 @@ export const fangs_layout = {
         'fangs_goremawsbite': {
             name: 'Goremaw\'s Bite',
             icon: 'inv_knife_1h_artifactfangs_d_01',
-            x: 519,
+            x: 528,
             y: 134,
             id: 209782,
             max_rank: 1,
@@ -899,7 +899,7 @@ export const fangs_layout = {
         'fangs_quietknife': {
             name: 'The Quiet Knife',
             icon: 'ability_backstab',
-            x: 396,
+            x: 402,
             y: 371,
             id: 197231,
             max_rank: 3,
@@ -909,7 +909,7 @@ export const fangs_layout = {
         'fangs_demonskiss': {
             name: 'Demon\'s Kiss',
             icon: 'ability_priest_voidentropy',
-            x: 228,
+            x: 234,
             y: 566,
             id: 197233,
             max_rank: 3,
@@ -919,7 +919,7 @@ export const fangs_layout = {
         'fangs_gutripper': {
             name: 'Gutripper',
             icon: 'ability_rogue_eviscerate',
-            x: 458,
+            x: 464,
             y: 189,
             id: 197234,
             max_rank: 3,
@@ -928,8 +928,8 @@ export const fangs_layout = {
         },
         'fangs_precision': {
             name: 'Precision Strike',
-            icon: 'ability_rogue_unfairadvantage',
-            x: 335,
+            icon: 'ability_rogue_shadowstrike',
+            x: 341,
             y: 533,
             id: 197235,
             max_rank: 3,
@@ -939,7 +939,7 @@ export const fangs_layout = {
         'fangs_fortunesbite': {
             name: 'Fortune\'s Bite',
             icon: 'ability_rogue_masterofsubtlety',
-            x: 493,
+            x: 499,
             y: 361,
             id: 197369,
             max_rank: 3,
@@ -949,7 +949,7 @@ export const fangs_layout = {
         'fangs_soulshadows': {
             name: 'Soul Shadows',
             icon: 'inv_knife_1h_grimbatolraid_d_03',
-            x: 363,
+            x: 369,
             y: 260,
             id: 197386,
             max_rank: 3,
@@ -959,7 +959,7 @@ export const fangs_layout = {
         'fangs_energetic': {
             name: 'Energetic Stabbing',
             icon: 'inv_knife_1h_pvppandarias3_c_02',
-            x: 214,
+            x: 220,
             y: 464,
             id: 197239,
             max_rank: 3,
@@ -969,7 +969,7 @@ export const fangs_layout = {
         'fangs_catlike': {
             name: 'Catlike Reflexes',
             icon: 'inv_pet_cats_calicocat',
-            x: 351,
+            x: 357,
             y: 334,
             id: 197241,
             max_rank: 3,
@@ -979,7 +979,7 @@ export const fangs_layout = {
         'fangs_ghostarmor': {
             name: 'Ghost Armor',
             icon: 'achievement_halloween_ghost_01',
-            x: 284,
+            x: 290,
             y: 405,
             id: 197244,
             max_rank: 3,
@@ -989,7 +989,7 @@ export const fangs_layout = {
         'fangs_second': {
             name: 'Second Shuriken',
             icon: 'inv_throwingknife_07',
-            x: 272,
+            x: 278,
             y: 496,
             id: 197610,
             max_rank: 1,
@@ -999,7 +999,7 @@ export const fangs_layout = {
         'fangs_flickering': {
             name: 'Flickering Shadows',
             icon: 'ability_rogue_sprint_blue',
-            x: 331,
+            x: 336,
             y: 445,
             id: 197256,
             max_rank: 1,
@@ -1009,7 +1009,7 @@ export const fangs_layout = {
         'fangs_embrace': {
             name: 'Embrace of Darkness',
             icon: 'ability_stealth',
-            x: 421,
+            x: 427,
             y: 438,
             id: 197604,
             max_rank: 1,
@@ -1019,7 +1019,7 @@ export const fangs_layout = {
         'fangs_akaarissoul': {
             name: 'Akaari\'s Soul',
             icon: 'ability_warlock_soullink',
-            x: 467,
+            x: 475,
             y: 283,
             id: 209835,
             max_rank: 1,
@@ -1029,7 +1029,7 @@ export const fangs_layout = {
         'fangs_shadownova': {
             name: 'Shadow Nova',
             icon: 'spell_fire_twilightnova',
-            x: 373,
+            x: 382,
             y: 185,
             id: 209781,
             max_rank: 1,
@@ -1039,7 +1039,7 @@ export const fangs_layout = {
         'fangs_finality': {
             name: 'Finality',
             icon: 'ability_rogue_eviscerate',
-            x: 131,
+            x: 139,
             y: 525,
             id: 197406,
             max_rank: 1,
@@ -1049,7 +1049,7 @@ export const fangs_layout = {
         'fangs_shadowfangs': {
             name: 'Shadow Fangs',
             icon: 'inv_misc_blacksaberonfang',
-            x: 555,
+            x: 560,
             y: 264,
             id: 221856,
             max_rank: 1,
@@ -1059,7 +1059,7 @@ export const fangs_layout = {
         'fangs_legionblade': {
             name: 'Legionblade',
             icon: 'inv_knife_1h_artifactfangs_d_02dual',
-            x: 185,
+            x: 193,
             y: 338,
             id: 214930,
             max_rank: 1,
@@ -1068,8 +1068,8 @@ export const fangs_layout = {
         },
         'fangs_etchedinshadow': {
             name: 'Etched in Shadow',
-            icon: 'spell_shadow_rune',
-            x: 584,
+            icon: 'ability_criticalstrike',
+            x: 590,
             y: 574,
             id: 238068,
             max_rank: 4,
@@ -1079,7 +1079,7 @@ export const fangs_layout = {
         'fangs_shadowswhisper': {
             name: 'Shadow\'s Whisper',
             icon: 'ability_rogue_masterofsubtlety',
-            x: 509,
+            x: 515,
             y: 500,
             id: 242707,
             max_rank: 1,
@@ -1089,7 +1089,7 @@ export const fangs_layout = {
         'fangs_feedingfrenzy': {
             name: 'Feeding Frenzy',
             icon: 'inv_knife_1h_artifactfangs_d_01',
-            x: 585,
+            x: 593,
             y: 427,
             id: 238140,
             max_rank: 1,
@@ -1099,7 +1099,7 @@ export const fangs_layout = {
         'fangs_concordance': {
             name: 'Concordance of the Legionfall',
             icon: 'trade_archaeology_shark-jaws',
-            x: 585,
+            x: 593,
             y: 501,
             id: 239042,
             max_rank: 50,
@@ -1109,7 +1109,7 @@ export const fangs_layout = {
         'fangs_shadows': {
             name: 'Shadows of the Uncrowned',
             icon: 'misc_legionfall_rogue',
-            x: 658,
+            x: 667,
             y: 499,
             id: 241154,
             max_rank: 1,
@@ -1306,6 +1306,69 @@ export const fangs_ranking = [
                 id: 241154
             }
         ]
+    }
+];
+
+export const netherlight_traits = [
+    {
+        "name": "Master of Shadows",
+        "side": "Void",
+        "id": 252901
+    },
+    {
+        "name": "Murderous Intent",
+        "side": "Void",
+        "id": 252191
+    },
+    {
+        "name": "Shadowbind",
+        "side": "Void",
+        "id": 252875
+    },
+    {
+        "name": "Chaotic Darkness",
+        "side": "Void",
+        "id": 252888
+    },
+    {
+        "name": "Torment the Weak",
+        "side": "Void",
+        "id": 252906
+    },
+    {
+        "name": "Dark Sorrows",
+        "side": "Void",
+        "id": 252922
+    },
+    {
+        "name": "Light Speed",
+        "side": "Light",
+        "id": 252088
+    },
+    {
+        "name": "Refractive Shell",
+        "side": "Light",
+        "id": 252207
+    },
+    {
+        "name": "Shocklight",
+        "side": "Light",
+        "id": 252799
+    },
+    {
+        "name": "Secure in the Light",
+        "side": "Light",
+        "id": 253070
+    },
+    {
+        "name": "Infusion of Light",
+        "side": "Light",
+        "id": 253093
+    },
+    {
+        "name": "Light's Embrace",
+        "side": "Light",
+        "id": 253111
     }
 ];
 

@@ -6,6 +6,7 @@ export const characterActionTypes = {
     RESET_CHARACTER_DATA: 'RESET_CHARACTER_DATA',
     UPDATE_ARTIFACT_TRAITS: 'UPDATE_ARTIFACT_TRAITS',
     UPDATE_ARTIFACT_RELIC: 'UPDATE_ARTIFACT_RELIC',
+    UPDATE_NETHERLIGHT: 'UPDATE_NETHERLIGHT',
     UPDATE_SPEC: 'UPDATE_SPEC',
     UPDATE_TALENTS: 'UPDATE_TALENTS',
     CHANGE_ITEM: 'CHANGE_ITEM',
@@ -118,6 +119,11 @@ export const characterReducer = function (state = new Character(), action) {
             newState.artifact.traits[action.data.trait] += 1;
 
             return newState;
+        }
+
+        case characterActionTypes.UPDATE_NETHERLIGHT: {
+            return dotProp.set(state, `artifact.netherlight.${action.data.slot}`,
+                               {tier2: action.data.tier2, tier3: action.data.tier3});
         }
 
         case characterActionTypes.SWAP_ARTIFACT_WEAPON: {

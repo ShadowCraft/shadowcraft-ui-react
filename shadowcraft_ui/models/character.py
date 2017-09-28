@@ -314,6 +314,12 @@ def __get_from_armory(db, character, realm, region):
         if relic is None:
             relic = {'id': 0, 'ilvl': 0}
 
+    # Fill in garbage data for the netherlight crucible since there's ZERO data on it from
+    # the API, which is stupid.
+    output['artifact']['netherlight'] = [{'tier2': 0, 'tier3': 0},
+                                         {'tier2': 0, 'tier3': 0},
+                                         {'tier2': 0, 'tier3': 0}]
+
     return output
 
 
