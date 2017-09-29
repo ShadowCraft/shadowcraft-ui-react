@@ -156,6 +156,22 @@ class ShadowcraftComputation:
             238140: 'feeding_frenzy',
             239042: 'concordance_of_the_legionfall',
         },
+
+        # Netherlight Crucible traits
+        'netherlight': {
+            252901: 'master_of_shadows',
+            252191: 'murderous_intent',
+            252875: 'shadowbind',
+            252888: 'chaotic_darkness',
+            252906: 'torment_of_the_weak',
+            252922: 'dark_sorrows',
+            252088: 'light_speed',
+            252207: 'refractive_shell',
+            252799: 'shocklight',
+            253070: 'secure_in_the_light',
+            253093: 'infusion_of_light',
+            253111: 'lights_embrace'
+        }
     }
 
     artifactTraitsReverse = {}
@@ -408,6 +424,18 @@ class ShadowcraftComputation:
 
         _artifact = input_data['character']['artifact']
 
+        tier2_traits = {}
+        tier3_traits = {}
+        for slot in _artifact['netherlight']:
+            if slot['tier2'] in tier2_traits:
+                tier2_traits[slot['tier2']] += 1
+            else:
+                tier2_traits[slot['tier2']] = 1
+            if slot['tier3'] in tier3_traits:
+                tier3_traits[slot['tier3']] += 1
+            else:
+                tier3_traits[slot['tier3']] = 1
+
         num_engine_traits = len(artifact_data.traits[('rogue', spec)])
         traitstr = ""
         if len(_artifact['traits']) == 0:
@@ -421,14 +449,27 @@ class ShadowcraftComputation:
 
             for t in artifact_data.traits[("rogue", spec)]:
                 if t in remap:
-                    traitstr += str(remap[t])
+                    value = remap[t]
+                    if t in tier3_traits:
+                        value += tier3_traits[t]
+                    traitstr += str(value)
                 else:
+                    value = 0
                     traitstr += "0"
-
         else:
             print("Too many traits received from front end (%d vs %d)" %
                   (len(_artifact['traits']), len(artifact_data.traits[('rogue', spec)])))
             traitstr = '0' * num_engine_traits
+
+        num_netherlight_traits = len(artifact_data.traits[('all', 'netherlight')])
+        if len(tier2_traits) == 0:
+            traitstr += '0' * num_netherlight_traits
+        else:
+            for t in artifact_data.traits[('all', 'netherlight')]:
+                if t in tier2_traits:
+                    traitstr += str(tier2_traits[t])
+                else:
+                    traitstr += "0"
 
         _traits = artifact.Artifact(spec, "rogue", traitstr)
         calculator = AldrianasRogueDamageCalculator(
@@ -544,8 +585,13 @@ class ShadowcraftComputation:
             out["traitRanking"] = {}
             for trait, spell_id in self.artifactTraitsReverse[_spec].items():
                 if trait in artifactRanks:
-                    out['traitRanking'][spell_id] = round(
-                        artifactRanks[trait], 2)
+                    out['traitRanking'][spell_id] = round(artifactRanks[trait], 2)
+                else:
+                    out['traitRanking'][spell_id] = 0
+
+            for trait, spell_id in self.artifactTraitsReverse['netherlight'].items():
+                if trait in artifactRanks:
+                    out['traitRanking'][spell_id] = round(artifactRanks[trait], 2)
                 else:
                     out['traitRanking'][spell_id] = 0
 
