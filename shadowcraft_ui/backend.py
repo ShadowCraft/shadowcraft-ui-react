@@ -1,7 +1,6 @@
 """This module serves as the interface to the shadowcraft engine"""
 
 import traceback
-import pymongo
 
 from shadowcraft.calcs.rogue.Aldriana \
     import AldrianasRogueDamageCalculator, settings, settings_data, InputNotModeledException
@@ -382,10 +381,9 @@ class ShadowcraftComputation:
         # Need parameter order here
         # str, agi, int, spi, sta, ap, crit, hit, exp, haste, mastery, mh, oh,
         # thrown, procs, gear buffs
-        raceStr = input_data['settings'].get(
-            "race", 'human').lower().replace(" ", "_")
+        racestr = input_data['settings'].get("race", 'human').lower().replace(" ", "_")
         _class = input_data['character'].get('player_class', 'rogue')
-        _race = race.Race(raceStr, _class, _level)
+        _race = race.Race(racestr, _class, _level)
 
         _stats = stats.Stats(
             mh=_mh, oh=_oh, procs=_procs, gear_buffs=_gear_buffs,
@@ -404,24 +402,19 @@ class ShadowcraftComputation:
 
         _spec = input_data['character'].get("active", 'a')
         if _spec == "a":
-            tree = 0
             spec = "assassination"
             cycle = settings.AssassinationCycle(**input_data['settings'])
         elif _spec == "Z":
-            tree = 1
             spec = "outlaw"
             cycle = settings.OutlawCycle(**input_data['settings'])
         else:
-            tree = 2
             spec = "subtlety"
             cycle = settings.SubtletyCycle(**input_data['settings'])
 
         # Talents
         t = input_data['character']['talents']['current']
         _talents = talents.Talents(t, spec, _class, _level)
-
         _settings = settings.Settings(cycle, **input_data['settings'])
-
         _artifact = input_data['character']['artifact']
 
         tier2_traits = {}
@@ -465,9 +458,9 @@ class ShadowcraftComputation:
         if len(tier2_traits) == 0:
             traitstr += '0' * num_netherlight_traits
         else:
-            for t in artifact_data.traits[('all', 'netherlight')]:
-                if t in tier2_traits:
-                    traitstr += str(tier2_traits[t])
+            for trait in artifact_data.traits[('all', 'netherlight')]:
+                if trait in tier2_traits:
+                    traitstr += str(tier2_traits[trait])
                 else:
                     traitstr += "0"
 
@@ -541,7 +534,7 @@ class ShadowcraftComputation:
             out["ep"] = calculator.get_ep(ep_stats=default_ep_stats)
 
             other_buffs = ['rogue_t19_2pc', 'rogue_t19_4pc', 'rogue_orderhall_8pc',
-                           'rogue_t20_2pc','rogue_t20_4pc',
+                           'rogue_t20_2pc', 'rogue_t20_4pc',
                            'mark_of_the_hidden_satyr', 'mark_of_the_distant_army',
                            'mark_of_the_claw', 'march_of_the_legion_2pc',
                            'journey_through_time_2pc', 'jacins_ruse_2pc',
@@ -552,11 +545,7 @@ class ShadowcraftComputation:
 
             out["other_ep"] = calculator.get_other_ep(other_buffs)
 
-            exclude_items = [
-                item for item in gear_data if item in self.trinkets]
-            exclude_procs = [self.gearProcs[x] for x in exclude_items]
             gear_rankings = calculator.get_upgrades_ep_fast(self.trinketGroups)
-
             out["proc_ep"] = gear_rankings
             out["trinket_map"] = self.trinketMap
 
@@ -572,32 +561,32 @@ class ShadowcraftComputation:
 
             # Talent ranking is slow. This is done last per a note from
             # nextormento.
-            talents = calculator.get_talents_ranking()
+            talent_ranks = calculator.get_talents_ranking()
             out['talentRanking'] = {}
-            for tier, values in talents.items():
+            for tier, values in talent_ranks.items():
                 out['talentRanking'].update(values)
 
             out["engine_info"] = calculator.get_engine_info()
 
             # Get the artifact ranking and change the IDs from the engine back to
             # the item IDs using the artifactMap data.
-            artifactRanks = calculator.get_trait_ranking()
+            artifact_ranks = calculator.get_trait_ranking()
             out["traitRanking"] = {}
             for trait, spell_id in self.artifactTraitsReverse[_spec].items():
-                if trait in artifactRanks:
-                    out['traitRanking'][spell_id] = round(artifactRanks[trait], 2)
+                if trait in artifact_ranks:
+                    out['traitRanking'][spell_id] = round(artifact_ranks[trait], 2)
                 else:
                     out['traitRanking'][spell_id] = 0
 
             for trait, spell_id in self.artifactTraitsReverse['netherlight'].items():
-                if trait in artifactRanks:
-                    out['traitRanking'][spell_id] = round(artifactRanks[trait], 2)
+                if trait in artifact_ranks:
+                    out['traitRanking'][spell_id] = round(artifact_ranks[trait], 2)
                 else:
                     out['traitRanking'][spell_id] = 0
 
             return out
-        except (InputNotModeledException, exceptions.InvalidInputException) as e:
-            out["error"] = e.error_msg
+        except (InputNotModeledException, exceptions.InvalidInputException) as exc:
+            out["error"] = exc.error_msg
             return out
 
 
@@ -605,9 +594,9 @@ def get_engine_output(db, input_data):
     engine = ShadowcraftComputation()
     try:
         response = engine.get_all(db, input_data)
-    except KeyError as e:
+    except KeyError as exc:
         traceback.print_exc()
-        response = {'error': "%s: %s" % (e.__class__, e.args[0])}
+        response = {'error': "%s: %s" % (exc.__class__, exc.args[0])}
     return response
 
 
