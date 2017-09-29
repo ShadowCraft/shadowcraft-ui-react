@@ -26,6 +26,11 @@ class EquippedItem extends React.Component {
     }
 
     checkForWarnings(props) {
+        // Don't do anything here if this is a default or None item
+        if (this.props.equippedItem.id == 0) {
+            return;
+        }
+        
         if (this.IsEnchantable(props.slot)) {
             if (this.props.equippedItem.enchant == 0) {
                 let quality = `quality-${this.props.equippedItem.quality}`;
