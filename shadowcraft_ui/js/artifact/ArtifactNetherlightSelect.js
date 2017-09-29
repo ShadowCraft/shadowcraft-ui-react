@@ -37,7 +37,7 @@ class ArtifactNetherlightSelect extends React.Component {
         }.bind(this));
 
         var nlTraits = netherlight_traits.map(function(trait) {
-            return <option key={trait['id']} id={`nlTier3-${this.props.index}-${trait['id']}`} value={trait['id']}>{trait['name']} - {trait['side']}</option>;
+            return <option key={trait['id']} id={`nlTier3-${this.props.index}-${trait['id']}`} value={trait['id']}>{trait['name']}</option>;
         }.bind(this));
 
         return (

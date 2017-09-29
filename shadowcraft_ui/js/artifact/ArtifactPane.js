@@ -35,8 +35,8 @@ class ArtifactPane extends React.Component {
     }
 
     render() {
-        var frame = null;
-        var ranking_frame = null;
+        let frame = null;
+        let ranking_frame = null;
 
         if (this.props.activeSpec == 'a') {
             frame = <ArtifactFrame layout={layouts.kingslayers_layout} />;
@@ -69,6 +69,14 @@ class ArtifactPane extends React.Component {
                 />);
         }
 
+        let netherlight_rankings = (
+            <RankingSection
+                id="netherlightrankings"
+                name="Netherlight Crucible"
+                layout={layouts.netherlight_ranking}
+                values={this.props.rankings}
+            />);
+
         return (
             <div className="with-tools ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="artifact">
                 <div className="panel-tools">
@@ -84,6 +92,7 @@ class ArtifactPane extends React.Component {
                         </button>
                     </div>
                     {ranking_frame}
+                    {netherlight_rankings}
                 </div>
 
                 {frame}

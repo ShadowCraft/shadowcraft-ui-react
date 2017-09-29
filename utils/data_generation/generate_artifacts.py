@@ -379,68 +379,58 @@ def dump_netherlight():
     traits = [
         {
             "name": "Master of Shadows",
-            "side": "Void",
             "id": 252901
         },
         {
             "name": "Murderous Intent",
-            "side": "Void",
             "id": 252191
         },
         {
             "name": "Shadowbind",
-            "side": "Void",
             "id": 252875
         },
         {
             "name": "Chaotic Darkness",
-            "side": "Void",
             "id": 252888
         },
         {
             "name": "Torment the Weak",
-            "side": "Void",
             "id": 252906
         },
         {
             "name": "Dark Sorrows",
-            "side": "Void",
             "id": 252922
         },
         {
             "name": "Light Speed",
-            "side": "Light",
             "id": 252088
         },
         {
             "name": "Refractive Shell",
-            "side": "Light",
             "id": 252207
         },
         {
             "name": "Shocklight",
-            "side": "Light",
             "id": 252799
         },
         {
             "name": "Secure in the Light",
-            "side": "Light",
             "id": 253070
         },
         {
             "name": "Infusion of Light",
-            "side": "Light",
             "id": 253093
         },
         {
             "name": "Light's Embrace",
-            "side": "Light",
             "id": 253111
         },
     ]
     print('export const netherlight_traits = ', end='')
     print(json.dumps(traits, indent=4), end='')
     print(';')
+    print()
+    print('export const netherlight_ranking = [{name: "", items: netherlight_traits}];')
     print()
 
 if len(sys.argv) == 1:
