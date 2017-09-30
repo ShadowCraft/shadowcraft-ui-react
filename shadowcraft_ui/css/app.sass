@@ -147,6 +147,7 @@ html.websockets, html.history, html.canvas
   background: #050505
   color: #555555
   border-top: 1px solid #333333
+  z-index: 200
   +transition(background 0.25s)
   &:hover
     background-color: #050a0f
@@ -225,7 +226,7 @@ html.websockets, html.history, html.canvas
   right: 0
   left: 0
   background: rgba(0, 0, 0, 0.7) url(/static/images/wait.gif) center center no-repeat
-  z-index: 1000
+  z-index: 102
   #waitMsg
     position: absolute
     top: 55%
@@ -672,7 +673,7 @@ img.upgrade
   top: 60px
   box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3)
   background: rgba(20, 20, 20, 0.95)
-  z-index: 1000
+  z-index: 102
   overflow: hidden
   .close-popup
     top: 15px
