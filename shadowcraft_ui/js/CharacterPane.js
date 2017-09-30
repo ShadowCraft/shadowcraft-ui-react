@@ -247,7 +247,7 @@ class CharacterPane extends React.Component {
 
                     <ModalConductor />
 
-                    <div style={{ display: 'flex', filter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null, WebkitFilter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null }}>
+                    <div style={{ display: 'flex', marginBottom: '20px', filter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null, WebkitFilter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null }}>
                         <div className="tabs" id="tabs">
                             <nav className="tabs-navigation">
                                 <ul className="tabs-menu">
