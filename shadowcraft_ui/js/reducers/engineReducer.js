@@ -1,6 +1,6 @@
 const initialEngineState = {
 
-    ui_build: "7.2.0-UI-Test",
+    ui_build: __COMMIT_HASH__,
     build: "7.2.0-Test",
 
     // TODO: I'm not a huge fan of hard-coding the layout of the data we get back

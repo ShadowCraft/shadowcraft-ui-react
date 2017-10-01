@@ -1,8 +1,10 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var GitRevisionPlugin = require('git-revision-webpack-plugin');
 var pkg = require('./package.json');
 
+var gitPlugin = new GitRevisionPlugin();
 var bundleCss = ('production' === process.env.NODE_ENV) ? 'css/main-[hash:6].css' : 'css/main.css';
 var pluginsWebpack = [
     new ExtractTextPlugin(bundleCss),
@@ -11,6 +13,9 @@ var pluginsWebpack = [
         template: 'shadowcraft_ui/templates/webpack-index.ejs',
         cache: true,
         inject: false
+    }),
+    new webpack.DefinePlugin({
+        __COMMIT_HASH__: JSON.stringify(gitPlugin.version())
     })
 ];
 
