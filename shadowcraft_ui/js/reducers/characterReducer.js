@@ -74,7 +74,9 @@ export const characterReducer = function (state = new Character(), action) {
                 newState = Object.assign({}, state, {
                     artifact: {
                         traits: newTraits,
-                        relics: state.artifact.relics
+                        relics: state.artifact.relics,
+                        spec: state.artifact.spec,
+                        netherlight: state.artifact.netherlight
                     }
                 });
             }
@@ -108,7 +110,9 @@ export const characterReducer = function (state = new Character(), action) {
                     gear: newGear,
                     artifact: {
                         traits: newState.artifact.traits,
-                        relics: newRelics
+                        relics: newRelics,
+                        spec: state.artifact.spec,
+                        netherlight: state.artifact.netherlight
                     }
                 });
             }
