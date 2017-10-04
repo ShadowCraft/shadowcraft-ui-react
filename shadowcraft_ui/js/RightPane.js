@@ -86,7 +86,7 @@ class RightPane extends React.Component {
         }
 
         let warnings = this.props.warnings.map((g, i) =>
-            <div className="log warning" key={i}>{this.props.warnings[i]}</div>);
+            <div className="log warning" key={i}>{g.text}</div>);
 
         let armoryRegion = "";
         switch (this.props.region) {

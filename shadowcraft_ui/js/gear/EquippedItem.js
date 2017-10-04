@@ -27,35 +27,35 @@ class EquippedItem extends React.Component {
 
     checkForWarnings(props) {
         // Don't do anything here if this is a default or None item
-        if (this.props.equippedItem.id == 0) {
+        if (props.equippedItem.id == 0) {
             return;
         }
-        
+
+        let newWarnings = [];
+
         if (this.IsEnchantable(props.slot)) {
-            if (this.props.equippedItem.enchant == 0) {
-                let quality = `quality-${this.props.equippedItem.quality}`;
-                store.dispatch(
-                    {
-                        type: 'ADD_WARNING',
-                        //TODO: Break this out to a warning component so we can pass plain values, instead of html
-                        text: <div><span className={quality}>{this.props.equippedItem.name}</span> is missing an enchant</div>
-                    });
+            if (props.equippedItem.enchant == 0) {
+                let quality = `quality-${props.equippedItem.quality}`;
+                newWarnings.push(<div><span className={quality}>{props.equippedItem.name}</span> is missing an enchant</div>)
             }
         }
 
         let missingGem = false;
-        if (this.props.equippedItem.socket_count > 0) {
-            for (let idx in this.props.equippedItem.gems) {
-                if (this.props.equippedItem.gems[idx] == 0) {
+        if (props.equippedItem.socket_count > 0) {
+            for (let idx in props.equippedItem.gems) {
+                if (props.equippedItem.gems[idx].id == 0) {
                     missingGem = true;
                 }
             }
         }
 
         if (missingGem) {
-            let quality = `quality-${this.props.equippedItem.quality}`;
-            store.dispatch({ type: 'ADD_WARNING', text: <div><span className={quality}>{this.props.equippedItem.name}</span> is missing one or more gems</div> });
+            let quality = `quality-${props.equippedItem.quality}`;
+            newWarnings.push(<div><span className={quality}>{props.equippedItem.name}</span> is missing one or more gems</div>);
         }
+
+        store.dispatch({type: 'ADD_MULTIPLE_WARNINGS',
+                        component: this, warnings: newWarnings});
     }
 
     IsEnchantable(slot) {

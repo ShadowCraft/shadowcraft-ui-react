@@ -7,7 +7,8 @@ export const initialWarningsState = {
 
 export const warningsActionTypes = {
     CLEAR_WARNINGS: 'CLEAR_WARNINGS',
-    ADD_WARNING: 'ADD_WARNING'
+    ADD_WARNING: 'ADD_WARNING',
+    ADD_MULTIPLE_WARNINGS: 'ADD_MULTIPLE_WARNINGS'
 };
 
 export const warningsReducer = function (state = initialWarningsState, action) {
@@ -16,10 +17,31 @@ export const warningsReducer = function (state = initialWarningsState, action) {
             return dotProp.set(state, 'warnings', []);
 
         case warningsActionTypes.ADD_WARNING: {
-            //check if the warning has already been issued 
-            if (state.warnings.find(value => deepEqual(value, action.text)) === undefined){
-                return dotProp.merge(state, 'warnings', [action.text]);
-            }            
+
+            let newState = dotProp.get(state, 'warnings') || [];
+
+            newState = newState.filter(function(obj) {
+                return obj.component != action.component;
+            });
+
+            newState.push({component: action.component, text: action.text});
+            return dotProp.set(state, 'warnings', newState);
+        }
+
+        case warningsActionTypes.ADD_MULTIPLE_WARNINGS: {
+
+            let newState = dotProp.get(state, 'warnings') || [];
+
+            newState = newState.filter(function(obj) {
+                return obj.component != action.component;
+            });
+
+            for (let idx in action.warnings) {
+                newState.push({component: action.component,
+                               text: action.warnings[idx]});
+            }
+
+            return dotProp.set(state, 'warnings', newState);
         }
     }
 
