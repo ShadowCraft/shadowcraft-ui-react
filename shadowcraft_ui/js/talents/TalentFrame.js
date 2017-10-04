@@ -7,7 +7,7 @@ import { modalTypes } from '../reducers/modalReducer';
 function Talent(props) {
     return (
         <div className={`col-${props.col} row-${props.row} talent ${props.active ? 'active' : ''}`} data-row={props.row} data-col={props.col} style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/large/'+props.icon+'.jpg)' }} onClick={props.handleClick} data-tooltip-href={`http://wowdb.com/spells/${props.id}`} >
-            <div className="grey"></div>
+            <div className="grey" />
         </div>
     );
 }
@@ -37,7 +37,6 @@ class TalentFrame extends React.Component {
 
     render()
     {
-        console.log(this.props.currentTalents);
         var talents = [];
         for (var index in this.props.layout.talents) {
             var talent = this.props.layout.talents[index];
@@ -52,7 +51,7 @@ class TalentFrame extends React.Component {
         return(
             <div className="panel-content">
                 <div id="specactive">
-                    <span className="spec-icon" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/medium/'+this.props.layout.icon+'.jpg)' }}></span><span className="spec-name">{this.props.layout.name}</span>
+                    <span className="spec-icon" style={{ backgroundImage: 'url(http://wow.zamimg.com/images/wow/icons/medium/'+this.props.layout.icon+'.jpg)' }} /><span className="spec-name">{this.props.layout.name}</span>
                 </div>
                 <div id="talentframe">
                     <div className="tiers">

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import store from '../store';
 import { updateCharacterState } from '../store';
-import { recalculateStats, getArtifactIlvlChange } from '../common';
 import ArtifactTrait from './ArtifactTrait';
 import ArtifactRelicSelect from './ArtifactRelicSelect';
 import ArtifactNetherlightSelect from './ArtifactNetherlightSelect';
@@ -68,6 +67,8 @@ class ArtifactFrame extends React.Component {
         // This is a bit of a hack and is probably a bit fragile depending on if wowdb ever
         // changes any of this, but it rescans the DOM for elements that should display a
         // tooltip.
+
+        // eslint-disable-next-line no-undef
         CurseTips['wowdb-tooltip'].watchElligibleElements();
     }
 
@@ -88,24 +89,9 @@ class ArtifactFrame extends React.Component {
         }
     }
 
-    change_relic(slot, trait, ilvl) {
-        // Recalculate the stats on the artifact based on the change in ilevel because of
-        // the relic change.
-        let ilvlChange = getArtifactIlvlChange(this.props.artifact.relics[slot].ilvl, ilvl);
-        let stats = recalculateStats(this.props.mainHand.stats, ilvlChange);
-        let weaponStats = recalculateStats(this.props.mainHand.weaponStats, ilvlChange);
-
-        // TODO: this needs validation to make sure that the values are coming out correct
-        store.dispatch(updateCharacterState(
-            "UPDATE_ARTIFACT_RELIC", {
-                slot: slot, trait: trait, ilvl: ilvl, stats: stats,
-                weaponStats: weaponStats
-            }));
-    }
-
     change_netherlight(slot, tier2, tier3) {
         store.dispatch(updateCharacterState(
-            "UPDATE_NETHERLIGHT", {slot: slot, tier2: tier2, tier3: tier3}));
+            "UPDATE_NETHERLIGHT", { slot: slot, tier2: tier2, tier3: tier3 }));
     }
 
     update_state(artifact_data, send_state) {
@@ -288,11 +274,11 @@ class ArtifactFrame extends React.Component {
                 </div>
 
                 <br />
-                <ArtifactRelicSelect index="0" relics={this.relics} selected={this.props.artifact.relics[0]} type={this.props.layout.relics[0]} parent={this} />
+                <ArtifactRelicSelect index="0" relics={this.relics} selected={this.props.artifact.relics[0]} type={this.props.layout.relics[0]} />
                 <br />
-                <ArtifactRelicSelect index="1" relics={this.relics} selected={this.props.artifact.relics[1]} type={this.props.layout.relics[1]} parent={this} />
+                <ArtifactRelicSelect index="1" relics={this.relics} selected={this.props.artifact.relics[1]} type={this.props.layout.relics[1]} />
                 <br />
-                <ArtifactRelicSelect index="2" relics={this.relics} selected={this.props.artifact.relics[2]} type={this.props.layout.relics[2]} parent={this} />
+                <ArtifactRelicSelect index="2" relics={this.relics} selected={this.props.artifact.relics[2]} type={this.props.layout.relics[2]} />
                 <br />
                 Netherlight Crucible:<br />
                 <ArtifactNetherlightSelect index="0" relics={this.relics} />
@@ -309,13 +295,13 @@ ArtifactFrame.propTypes = {
     layout: PropTypes.shape({
         lines: PropTypes.array.isRequired,
         traits: PropTypes.objectOf(
-            PropTypes.shape({ 
+            PropTypes.shape({
                 id: PropTypes.number.isRequired,
                 icon: PropTypes.string.isRequired,
                 ring: PropTypes.string.isRequired,
                 max_rank: PropTypes.number.isRequired,
                 name: PropTypes.string.isRequired,
-                relic: PropTypes.bool.isRequired 
+                relic: PropTypes.bool.isRequired
             }).isRequired
         ).isRequired,
         primary_trait: PropTypes.number.isRequired,
@@ -328,10 +314,10 @@ ArtifactFrame.propTypes = {
     }).isRequired,
     artifact: PropTypes.shape({
         relics: PropTypes.arrayOf(
-            PropTypes.shape({ 
+            PropTypes.shape({
                 ilvl: PropTypes.number.isRequired,
                 id: PropTypes.number.isRequired,
-             }).isRequired
+            }).isRequired
         ).isRequired,
         traits: PropTypes.objectOf(PropTypes.number.isRequired).isRequired
     }).isRequired,

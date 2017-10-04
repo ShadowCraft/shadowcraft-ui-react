@@ -84,9 +84,10 @@ export function changeSpecialization(oldSpec, newSpec, newTalents) {
                 }
             }
         }
-        dispatch({ type: characterActionTypes.UPDATE_ARTIFACT_TRAITS, data: {} });
+        dispatch({ type: characterActionTypes.RESET_ARTIFACT_TRAITS, data: newSpec });
         dispatch({ type: characterActionTypes.UPDATE_TALENTS, data: newTalents });
         dispatch({ type: characterActionTypes.UPDATE_SPEC, data: newSpec });
+        dispatch({ type: characterActionTypes.CLEAR_ARTIFACT_RELICS });
         dispatch(getEngineData());
     };
 }
@@ -101,6 +102,22 @@ export function changeSetting(setting) {
         dispatch(getEngineData());
     };
 }
+
+export function changeRelic(relicSlot, traitId, relicIlvl) {
+    return function (dispatch) {
+        dispatch({
+            type: characterActionTypes.UPDATE_ARTIFACT_RELIC,
+            data: {
+                slot: relicSlot,
+                trait: traitId,
+                ilvl: relicIlvl
+            }
+        });
+        dispatch(getEngineData());        
+    };
+
+}
+
 
 // Thunk for handling incoming engine state. It updates the engine state, plus passes
 // the current character and settings state to the history reducer.

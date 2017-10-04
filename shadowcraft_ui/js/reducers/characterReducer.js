@@ -1,10 +1,13 @@
-import { getArtifactIlvlChange } from '../common';
+import { getArtifactIlvlChange, recalculateStats } from '../common';
 import Character from '../viewModels/Character';
+import Relic from '../viewModels/Relic';
+import Traits from '../viewModels/Traits';
 import dotProp from 'dot-prop-immutable';
 
 export const characterActionTypes = {
     RESET_CHARACTER_DATA: 'RESET_CHARACTER_DATA',
     UPDATE_ARTIFACT_TRAITS: 'UPDATE_ARTIFACT_TRAITS',
+    RESET_ARTIFACT_TRAITS: 'RESET_ARTIFACT_TRAITS',
     UPDATE_ARTIFACT_RELIC: 'UPDATE_ARTIFACT_RELIC',
     UPDATE_NETHERLIGHT: 'UPDATE_NETHERLIGHT',
     UPDATE_SPEC: 'UPDATE_SPEC',
@@ -16,6 +19,7 @@ export const characterActionTypes = {
     OPTIMIZE_GEMS: 'OPTIMIZE_GEMS',
     OPTIMIZE_ENCHANTS: 'OPTIMIZE_ENCHANTS',
     SWAP_ARTIFACT_WEAPON: 'SWAP_ARTIFACT_WEAPON',
+    CLEAR_ARTIFACT_RELICS: 'CLEAR_ARTIFACT_RELICS',
 };
 
 function makeGem(actionGem) {
@@ -51,6 +55,7 @@ function makeGem(actionGem) {
 
 export const characterReducer = function (state = new Character(), action) {
 
+    // console.log(state.gear.mainHand.weaponStats);
     switch (action.type) {
 
         case characterActionTypes.RESET_CHARACTER_DATA: {
@@ -59,6 +64,21 @@ export const characterReducer = function (state = new Character(), action) {
 
         case characterActionTypes.UPDATE_ARTIFACT_TRAITS: {
             return dotProp.set(state, 'artifact.traits', action.data);
+        }
+
+        case characterActionTypes.RESET_ARTIFACT_TRAITS: {
+            return Object.assign({}, state, {
+                artifact: {
+                    traits: new Traits(action.data),
+                    relics: state.artifact.relics,
+                    spec: state.artifact.spec,
+                    netherlight: state.artifact.netherlight
+                }
+            });
+        }
+
+        case characterActionTypes.CLEAR_ARTIFACT_RELICS: {
+            return dotProp.set(state, 'artifact.relics', [new Relic(), new Relic(), new Relic()]);
         }
 
         case characterActionTypes.UPDATE_ARTIFACT_RELIC: {
@@ -91,14 +111,14 @@ export const characterReducer = function (state = new Character(), action) {
 
                 const newMainHand = Object.assign({}, state.gear.mainHand, {
                     item_level: state.gear.mainHand.item_level + ilvlChange,
-                    stats: action.data.stats,
-                    weaponStats: action.data.weaponStats
+                    stats: recalculateStats(state.gear.mainHand.stats, ilvlChange),
+                    weaponStats: recalculateStats(state.gear.mainHand.weaponStats, ilvlChange)
                 });
 
                 const newOffHand = Object.assign({}, state.gear.offHand, {
                     item_level: state.gear.mainHand.item_level + ilvlChange,
-                    stats: action.data.stats,
-                    weaponStats: action.data.weaponStats
+                    stats: recalculateStats(state.gear.offHand.stats, ilvlChange),
+                    weaponStats: recalculateStats(state.gear.offHand.weaponStats, ilvlChange)
                 });
 
                 const newGear = Object.assign({}, state.gear, {
@@ -127,7 +147,7 @@ export const characterReducer = function (state = new Character(), action) {
 
         case characterActionTypes.UPDATE_NETHERLIGHT: {
             return dotProp.set(state, `artifact.netherlight.${action.data.slot}`,
-                               {tier2: action.data.tier2, tier3: action.data.tier3});
+                { tier2: action.data.tier2, tier3: action.data.tier3 });
         }
 
         case characterActionTypes.SWAP_ARTIFACT_WEAPON: {
