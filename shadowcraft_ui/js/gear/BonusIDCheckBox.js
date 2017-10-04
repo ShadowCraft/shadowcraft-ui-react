@@ -28,7 +28,7 @@ class BonusIDCheckBox extends React.Component {
 
         return (
             <label className={classes}>
-                <input key={this.props.bonusId} id={"bonus-" + this.props.bonusId} data-bonusId={this.props.bonusId} type="checkbox" onChange={this.onChange} checked={this.props.checked} />{description}
+                <input key={this.props.bonusId} id={"bonus-" + this.props.bonusId} data-bonusid={this.props.bonusId} type="checkbox" onChange={this.onChange} checked={this.props.checked} />{description}
             </label>
         );
     }

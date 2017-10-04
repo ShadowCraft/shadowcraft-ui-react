@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { characterReducer, characterActionTypes } from './reducers/characterReducer';
 import { settingsReducer } from './reducers/settingsReducer';
 import { engineReducer } from './reducers/engineReducer';
@@ -199,5 +199,7 @@ const reducers = combineReducers({
 });
 
 // Build the store
-const store = createStore(reducers, applyMiddleware(thunk));
+const store = createStore(reducers, compose(
+    applyMiddleware(thunk),
+    (window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())));
 export default store;
