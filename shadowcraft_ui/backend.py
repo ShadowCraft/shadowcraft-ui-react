@@ -162,7 +162,7 @@ class ShadowcraftComputation:
             252191: 'murderous_intent',
             252875: 'shadowbind',
             252888: 'chaotic_darkness',
-            252906: 'torment_of_the_weak',
+            252906: 'torment_the_weak',
             252922: 'dark_sorrows',
             252088: 'light_speed',
             252207: 'refractive_shell',
@@ -522,7 +522,7 @@ class ShadowcraftComputation:
 
             # Get character stats used for calculation (should equal armory)
             out["stats"] = calculator.stats.get_character_stats(
-                calculator.race)
+                calculator.race, calculator.traits)
             # Filter interesting stats
             out["stats"]["agility"] = out["stats"]["agi"]
             out['stats'] = {k: out['stats'][k] for k in [
