@@ -12,4 +12,4 @@ gunicorn
 future
 pylint
 fabric3
--e git+https://github.com/ShadowCraft/ShadowCraft-Engine.git@netherlight#egg=ShadowCraft-Engine
+-e git+https://github.com/ShadowCraft/ShadowCraft-Engine.git@legion#egg=ShadowCraft-Engine

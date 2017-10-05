@@ -429,42 +429,18 @@ class ShadowcraftComputation:
             else:
                 tier3_traits[slot['tier3']] = 1
 
-        num_engine_traits = len(artifact_data.traits[('rogue', spec)])
-        traitstr = ""
-        if len(_artifact['traits']) == 0:
-            # if no artifact data was passed (probably because the user had the wrong
-            # weapons equipped), pass a string of zeros as the trait data.
-            traitstr = '0' * num_engine_traits
-        elif len(_artifact['traits']) <= num_engine_traits:
-            remap = {}
-            for k, v in _artifact['traits'].items():
-                remap[self.artifactTraits[_spec][int(k)]] = v
+        trait_values = {}
+        for k, v in self.artifactTraits[_spec].items():
+            if str(k) in _artifact['traits']:
+                trait_values[v] = _artifact['traits'][str(k)]
+            if k in tier3_traits:
+                trait_values[v] += tier3_traits[k]
 
-            for t in artifact_data.traits[("rogue", spec)]:
-                if t in remap:
-                    value = remap[t]
-                    if t in tier3_traits:
-                        value += tier3_traits[t]
-                    traitstr += str(value)
-                else:
-                    value = 0
-                    traitstr += "0"
-        else:
-            print("Too many traits received from front end (%d vs %d)" %
-                  (len(_artifact['traits']), len(artifact_data.traits[('rogue', spec)])))
-            traitstr = '0' * num_engine_traits
+        for k, v in self.artifactTraits['netherlight'].items():
+            if k in tier2_traits:
+                trait_values[v] = tier2_traits[k]
 
-        num_netherlight_traits = len(artifact_data.traits[('all', 'netherlight')])
-        if len(tier2_traits) == 0:
-            traitstr += '0' * num_netherlight_traits
-        else:
-            for trait in artifact_data.traits[('all', 'netherlight')]:
-                if trait in tier2_traits:
-                    traitstr += str(tier2_traits[trait])
-                else:
-                    traitstr += "0"
-
-        _traits = artifact.Artifact(spec, "rogue", traitstr)
+        _traits = artifact.Artifact(spec, "rogue", trait_dict=trait_values)
         calculator = AldrianasRogueDamageCalculator(
             _stats, _talents, _traits, _buffs, _race, spec, _settings, _level)
         return calculator
