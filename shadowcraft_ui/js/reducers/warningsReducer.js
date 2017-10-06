@@ -16,12 +16,9 @@ export const warningsReducer = function (state = initialWarningsState, action) {
 
     switch (action.type) {
         case warningsActionTypes.CLEAR_WARNINGS:
-            // console.log('CLEAR_WARNINGS');
             return state.set('warnings', []).toJS();
 
         case warningsActionTypes.ADD_WARNING: {
-
-            // console.log('ADD_WARNING');
             const warningSeq = state.get('warnings').toSeq();
             const filtered = warningSeq.filter(obj => obj.get('component') != action.component);
             const newWarnings = filtered.concat({ component: action.component, text: action.text });
@@ -31,19 +28,14 @@ export const warningsReducer = function (state = initialWarningsState, action) {
 
         case warningsActionTypes.ADD_MULTIPLE_WARNINGS: {
 
-            // console.log('ADD_MULTIPLE');
-            const warnings = state.get('warnings');
-            /* const warningSeq = state.get('warnings').toSeq();
-             * const warnings = warningSeq.filter(function(obj) {
-             *     return obj.component != action.component;
-             * }).toList();
+            const warningSeq = state.get('warnings').toSeq();
+            const filtered = warningSeq.filter(obj => obj.get('component') != action.component);
+            let newWarnings = filtered;
+            for (let idx in action.warnings) {
+                newWarnings = newWarnings.concat({ component: action.component, text: action.warnings[idx] });
+            }
 
-             * for (let idx in action.warnings) {
-             *     warnings.push({component: action.component,
-             *                    text: action.warnings[idx]});
-             * }
-             */
-            return state.set('warnings', warnings).toJS();
+            return state.set('warnings', newWarnings).toJS();
         }
     }
 
