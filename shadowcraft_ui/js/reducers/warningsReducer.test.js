@@ -15,16 +15,16 @@ describe('warningsReducer', () => {
     });
 
     it('should handle ADD_WARNING', () => {
-        const init = { warnings: ["test"] };
-        const action = { type: warningsActionTypes.ADD_WARNING, text: "warning!" };
-        const expected = { warnings: ["test", "warning!"] };
+        const init = { warnings: [{ component: 'init', text: 'init' }] };
+        const action = { type: warningsActionTypes.ADD_WARNING, component: 'new', text: "new" };
+        const expected = { warnings: [{ component: 'init', text: 'init' }, { component: 'new', text: 'new' }] };
         expect(warningsReducer(init, action)).toEqual(expected);
     });
 
     it('ADD_WARNING should not allow duplicate entries', () => {
-        const init = { warnings: [{ test: { foo: 'bar' } }] };
-        const action = { type: warningsActionTypes.ADD_WARNING, text: { test: { foo: 'bar' } } };
-        const expected = { warnings: [{ test: { foo: 'bar' } }] };
+        const init = { warnings: [{ component: 'init', text: 'init' }] };
+        const action = { type: warningsActionTypes.ADD_WARNING, component: 'init', text: 'init' };
+        const expected = { warnings: [{ component: 'init', text: 'init' }] };
         expect(warningsReducer(init, action)).toEqual(expected);
     });
 });

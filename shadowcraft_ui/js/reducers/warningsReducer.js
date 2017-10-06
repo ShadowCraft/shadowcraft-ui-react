@@ -1,5 +1,3 @@
-import dotProp from 'dot-prop-immutable';
-import deepEqual from 'deep-equal';
 import Immutable from 'immutable';
 
 export const initialWarningsState = {
@@ -13,29 +11,27 @@ export const warningsActionTypes = {
 };
 
 export const warningsReducer = function (state = initialWarningsState, action) {
-    
+
     state = Immutable.fromJS(state);
-    
+
     switch (action.type) {
         case warningsActionTypes.CLEAR_WARNINGS:
-            console.log('CLEAR_WARNINGS');
+            // console.log('CLEAR_WARNINGS');
             return state.set('warnings', []).toJS();
 
         case warningsActionTypes.ADD_WARNING: {
 
-            console.log('ADD_WARNING');
+            // console.log('ADD_WARNING');
             const warningSeq = state.get('warnings').toSeq();
-            const warnings = warningSeq.filter(function(obj) {
-                return obj.component != action.component;
-            }).toList();
-            warnings.push({component: action.component, text: action.text});
+            const filtered = warningSeq.filter(obj => obj.get('component') != action.component);
+            const newWarnings = filtered.concat({ component: action.component, text: action.text });
 
-            return state.set('warnings', warnings).toJS();
+            return state.set('warnings', newWarnings).toJS();
         }
 
         case warningsActionTypes.ADD_MULTIPLE_WARNINGS: {
 
-            console.log('ADD_MULTIPLE');
+            // console.log('ADD_MULTIPLE');
             const warnings = state.get('warnings');
             /* const warningSeq = state.get('warnings').toSeq();
              * const warnings = warningSeq.filter(function(obj) {
@@ -51,5 +47,5 @@ export const warningsReducer = function (state = initialWarningsState, action) {
         }
     }
 
-    return state;
+    return state.toJS();
 };

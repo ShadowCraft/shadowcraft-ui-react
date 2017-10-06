@@ -39,6 +39,7 @@
     "jest-cli": "^20.0.0",
     "mongodb": "^2.2.29",
     "node-sass": "^4.0.0",
+    "redux-devtools-extension": "^2.13.2",
     "sass-loader": "^4.1.1",
     "style-loader": "0.13.1",
     "webpack": "^1.12.12"

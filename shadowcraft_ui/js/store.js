@@ -1,4 +1,5 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { characterReducer, characterActionTypes } from './reducers/characterReducer';
 import { settingsReducer } from './reducers/settingsReducer';
 import { engineReducer } from './reducers/engineReducer';
@@ -113,7 +114,7 @@ export function changeRelic(relicSlot, traitId, relicIlvl) {
                 ilvl: relicIlvl
             }
         });
-        dispatch(getEngineData());        
+        dispatch(getEngineData());
     };
 
 }
@@ -199,7 +200,7 @@ const reducers = combineReducers({
 });
 
 // Build the store
-const store = createStore(reducers, compose(
-    applyMiddleware(thunk),
-    (window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())));
+const store = createStore(reducers, composeWithDevTools(
+    applyMiddleware(thunk)
+));
 export default store;
