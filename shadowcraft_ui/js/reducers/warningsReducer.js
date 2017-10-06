@@ -1,5 +1,6 @@
 import dotProp from 'dot-prop-immutable';
 import deepEqual from 'deep-equal';
+import Immutable from 'immutable';
 
 export const initialWarningsState = {
     warnings: []
@@ -12,36 +13,41 @@ export const warningsActionTypes = {
 };
 
 export const warningsReducer = function (state = initialWarningsState, action) {
+    
+    state = Immutable.fromJS(state);
+    
     switch (action.type) {
         case warningsActionTypes.CLEAR_WARNINGS:
-            return dotProp.set(state, 'warnings', []);
+            console.log('CLEAR_WARNINGS');
+            return state.set('warnings', []).toJS();
 
         case warningsActionTypes.ADD_WARNING: {
 
-            let newState = dotProp.get(state, 'warnings') || [];
-
-            newState = newState.filter(function(obj) {
+            console.log('ADD_WARNING');
+            const warningSeq = state.get('warnings').toSeq();
+            const warnings = warningSeq.filter(function(obj) {
                 return obj.component != action.component;
-            });
+            }).toList();
+            warnings.push({component: action.component, text: action.text});
 
-            newState.push({component: action.component, text: action.text});
-            return dotProp.set(state, 'warnings', newState);
+            return state.set('warnings', warnings).toJS();
         }
 
         case warningsActionTypes.ADD_MULTIPLE_WARNINGS: {
 
-            let newState = dotProp.get(state, 'warnings') || [];
+            console.log('ADD_MULTIPLE');
+            const warnings = state.get('warnings');
+            /* const warningSeq = state.get('warnings').toSeq();
+             * const warnings = warningSeq.filter(function(obj) {
+             *     return obj.component != action.component;
+             * }).toList();
 
-            newState = newState.filter(function(obj) {
-                return obj.component != action.component;
-            });
-
-            for (let idx in action.warnings) {
-                newState.push({component: action.component,
-                               text: action.warnings[idx]});
-            }
-
-            return dotProp.set(state, 'warnings', newState);
+             * for (let idx in action.warnings) {
+             *     warnings.push({component: action.component,
+             *                    text: action.warnings[idx]});
+             * }
+             */
+            return state.set('warnings', warnings).toJS();
         }
     }
 

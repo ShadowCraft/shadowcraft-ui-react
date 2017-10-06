@@ -85,6 +85,7 @@ class RightPane extends React.Component {
             dpsChangePct = Math.round(((dpsChange / this.props.history.dps[historyLength-1]) * 100.0) * 100.0) / 100.0;
         }
 
+        console.log('right pane');
         let warnings = this.props.warnings.map((g, i) =>
             <div className="log warning" key={i}>{g.text}</div>);
 
