@@ -215,19 +215,18 @@ export const characterReducer = function (state = new Character(), action) {
         case characterActionTypes.OPTIMIZE_GEMS: {
 
             let newRareGem = makeGem(action.data.rare);
-            let newState = state;
 
             // Set all of the gems to the new rare gem, keeping track of whether or not
             // we found an epic agi gem somewhere in there.
             let foundAgiGem = false;
             let firstGemSlot = null;
-            for (let slot in state.gear) {
-                for (let idx = 0; idx < state.gear[slot].socket_count; idx++) {
+            state.get('gear').keySeq().forEach(slot => {
+                for (let idx = 0; idx < state.getIn(['gear',slot,'socket_count']); idx++) {
                     if (firstGemSlot == null) {
                         firstGemSlot = slot;
                     }
 
-                    const currentId = state.getIn(['gear',slot,'gems',idx,id]);
+                    const currentId = state.getIn(['gear',slot,'gems',idx,'id']);
 
                     if (currentId == action.data.epic.id) {
                         foundAgiGem = true;
@@ -235,7 +234,7 @@ export const characterReducer = function (state = new Character(), action) {
                         state = state.setIn(['gear',slot,'gems',idx], newRareGem);
                     }
                 }
-            }
+            });
 
             // If we didn't find an epic gem, set the first available gem slot to that.
             if (!foundAgiGem && firstGemSlot != null) {
