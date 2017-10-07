@@ -1,53 +1,53 @@
-export default class Stats {
-    constructor() {
-        this.health = 0;
-        this.powerType = "";
-        this.power = 0;
-        this.str = 0;
-        this.agi = 0;
-        this.int = 0;
-        this.sta = 0;
-        this.speedRating = 0;
-        this.speedRatingBonus = 0;
-        this.crit = 0;
-        this.critRating = 0;
-        this.haste = 0;
-        this.hasteRating = 0;
-        this.hasteRatingPercent = 0;
-        this.mastery = 0;
-        this.masteryRating = 0;
-        this.leech = 0;
-        this.leechRating = 0;
-        this.leechRatingBonus = 0;
-        this.versatility = 0;
-        this.versatilityDamageDoneBonus = 0;
-        this.versatilityHealingDoneBonus = 0;
-        this.versatilityDamageTakenBonus = 0;
-        this.avoidanceRating = 0;
-        this.avoidanceRatingBonus = 0;
-        this.spellPen = 0;
-        this.spellCrit = 0;
-        this.spellCritRating = 0;
-        this.mana5 = 0;
-        this.mana5Combat = 0;
-        this.armor = 2288;
-        this.dodge = 0;
-        this.dodgeRating = 0;
-        this.parry = 0;
-        this.parryRating = 0;
-        this.block = 0;
-        this.blockRating = 0;
-        this.mainHandDmgMin = 0;
-        this.mainHandDmgMax = 0;
-        this.mainHandSpeed = 0;
-        this.mainHandDps = 0;
-        this.offHandDmgMin = 0;
-        this.offHandDmgMax = 0;
-        this.offHandSpeed = 0;
-        this.offHandDps = 0;
-        this.rangedDmgMin = 0;
-        this.rangedDmgMax = 0;
-        this.rangedSpeed = 0;
-        this.rangedDps = 0;
-    }
+export default function Stats() {
+    return {
+        health: 0,
+        powerType: "",
+        power: 0,
+        str: 0,
+        agi: 0,
+        int: 0,
+        sta: 0,
+        speedRating: 0,
+        speedRatingBonus: 0,
+        crit: 0,
+        critRating: 0,
+        haste: 0,
+        hasteRating: 0,
+        hasteRatingPercent: 0,
+        mastery: 0,
+        masteryRating: 0,
+        leech: 0,
+        leechRating: 0,
+        leechRatingBonus: 0,
+        versatility: 0,
+        versatilityDamageDoneBonus: 0,
+        versatilityHealingDoneBonus: 0,
+        versatilityDamageTakenBonus: 0,
+        avoidanceRating: 0,
+        avoidanceRatingBonus: 0,
+        spellPen: 0,
+        spellCrit: 0,
+        spellCritRating: 0,
+        mana5: 0,
+        mana5Combat: 0,
+        armor: 2288,
+        dodge: 0,
+        dodgeRating: 0,
+        parry: 0,
+        parryRating: 0,
+        block: 0,
+        blockRating: 0,
+        mainHandDmgMin: 0,
+        mainHandDmgMax: 0,
+        mainHandSpeed: 0,
+        mainHandDps: 0,
+        offHandDmgMin: 0,
+        offHandDmgMax: 0,
+        offHandSpeed: 0,
+        offHandDps: 0,
+        rangedDmgMin: 0,
+        rangedDmgMax: 0,
+        rangedSpeed: 0,
+        rangedDps: 0,
+    };
 }

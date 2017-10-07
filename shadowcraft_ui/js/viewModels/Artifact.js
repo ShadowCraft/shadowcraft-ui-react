@@ -1,8 +1,8 @@
 import Relic from './Relic';
 
-export default class Artifact {
-    constructor(traits = { 0: 0 }, relics = [new Relic()]) {
-        this.traits = traits;
-        this.relics = relics;
-    }
+export default function Artifact(traits = { 0: 0 }, relics = [new Relic()]) {
+    return {
+        traits: traits,
+        relics: relics,
+    };
 }

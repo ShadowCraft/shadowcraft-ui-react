@@ -36,7 +36,7 @@ class EquippedItem extends React.Component {
         if (this.IsEnchantable(props.slot)) {
             if (props.equippedItem.enchant == 0) {
                 let quality = `quality-${props.equippedItem.quality}`;
-                newWarnings.push(<div><span className={quality}>{props.equippedItem.name}</span> is missing an enchant</div>)
+                newWarnings.push(<div><span className={quality}>{props.equippedItem.name}</span> is missing an enchant</div>);
             }
         }
 
@@ -54,8 +54,8 @@ class EquippedItem extends React.Component {
             newWarnings.push(<div><span className={quality}>{props.equippedItem.name}</span> is missing one or more gems</div>);
         }
 
-        store.dispatch({type: 'ADD_MULTIPLE_WARNINGS',
-                        component: this, warnings: newWarnings});
+        // store.dispatch({type: 'ADD_MULTIPLE_WARNINGS',
+        //                 component: this, warnings: newWarnings});
     }
 
     IsEnchantable(slot) {
