@@ -11,7 +11,7 @@ export const settingsReducer = function (state = { current: {}, layout: [] }, ac
     state = Immutable.fromJS(state);
 
     switch (action.type) {
-        //TODO: figure out how to properly merge a nested property, this is nasty
+
         case settingsActionTypes.CHANGE_SETTING: {
             return state.setIn(['current', action.setting], action.value).toJS();
         }

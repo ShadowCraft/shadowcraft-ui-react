@@ -4,7 +4,7 @@ describe('engineReducer', () => {
 
     it('should return initial state', () => {
         const expected = {
-            ui_build: "7.2.0-UI-Test",
+            ui_build: "0",
             build: "7.2.0-Test",
             ep: {
                 agi: 0,

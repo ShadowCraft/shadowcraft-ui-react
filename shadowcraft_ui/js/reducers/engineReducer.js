@@ -1,6 +1,12 @@
+// This fixes the engine reducer test complaining about __COMMIT_HASH__ being undefined.
+let commitHash = '0';
+if (typeof __COMMIT_HASH__ !== 'undefined') {
+    commitHash = __COMMIT_HASH__;
+}
+
 const initialEngineState = {
 
-    ui_build: __COMMIT_HASH__,
+    ui_build: commitHash,
     build: "7.2.0-Test",
 
     // TODO: I'm not a huge fan of hard-coding the layout of the data we get back
