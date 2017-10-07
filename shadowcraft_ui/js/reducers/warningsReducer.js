@@ -28,13 +28,14 @@ export const warningsReducer = function (state = initialWarningsState, action) {
 
         case warningsActionTypes.ADD_MULTIPLE_WARNINGS: {
 
-            const warningSeq = state.get('warnings').toSeq();
-            const filtered = warningSeq.filter(obj => obj.get('component') != action.component);
-            let newWarnings = filtered;
-            for (let idx in action.warnings) {
-                newWarnings = newWarnings.concat({ component: action.component, text: action.warnings[idx] });
-            }
-
+            // const warningSeq = state.get('warnings').toSeq();
+            // const mapped = action.warnings.map(w => ({ component: action.component, text: w }));
+            // const filtered = mapped.filter(m => {
+            //     console.log(m, warningSeq.contains(Immutable.fromJS(m)));
+            // });
+            // let newWarnings = warningSeq.concat(Immutable.fromJS(filtered));
+            // console.log(filtered);
+            console.log('test');
             return state.set('warnings', newWarnings).toJS();
         }
     }
