@@ -69,6 +69,9 @@ class ShadowcraftComputation:
         147012: 'umbral_moonglaives',
         147015: 'engine_of_eradication',
         151190: 'specter_of_betrayal',
+
+        # Seat of the Triumvirate
+        151307: 'void_stalkers_contract',
     }
 
     otherProcs = {
@@ -235,6 +238,9 @@ class ShadowcraftComputation:
         'umbral_moonglaives': range(885, RANGE_MAX, 5),
         'engine_of_eradication': range(885, RANGE_MAX, 5),
         'specter_of_betrayal': range(895, RANGE_MAX, 5),
+
+        # Seat of the Triumvirate
+        'void_stalkers_contract': range(865, RANGE_MAX, 5),
     }
 
     gearBoosts = {
