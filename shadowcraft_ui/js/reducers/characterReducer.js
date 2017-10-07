@@ -2,7 +2,7 @@ import { getArtifactIlvlChange, recalculateStats } from '../common';
 import Character from '../viewModels/Character';
 import Relic from '../viewModels/Relic';
 import Traits from '../viewModels/Traits';
-import dotProp from 'dot-prop-immutable';
+import Immutable from 'immutable';
 
 export const characterActionTypes = {
     RESET_CHARACTER_DATA: 'RESET_CHARACTER_DATA',
@@ -55,116 +55,108 @@ function makeGem(actionGem) {
 
 export const characterReducer = function (state = new Character(), action) {
 
-    // console.log(state.gear.mainHand.weaponStats);
+    state = Immutable.fromJS(state);
+
     switch (action.type) {
 
         case characterActionTypes.RESET_CHARACTER_DATA: {
-            return Object.assign({}, state, action.data);
+            return Immutable.fromJS(action.data).toJS();
         }
 
         case characterActionTypes.UPDATE_ARTIFACT_TRAITS: {
-            return dotProp.set(state, 'artifact.traits', action.data);
+            return state.setIn(['artifact','traits'], action.data).toJS();
         }
 
         case characterActionTypes.RESET_ARTIFACT_TRAITS: {
-            return Object.assign({}, state, {
-                artifact: {
-                    traits: new Traits(action.data),
-                    relics: state.artifact.relics,
-                    spec: state.artifact.spec,
-                    netherlight: state.artifact.netherlight
-                }
-            });
+            return state.setIn(['artifact','traits'], new Traits(action.data)).toJS();
         }
 
         case characterActionTypes.CLEAR_ARTIFACT_RELICS: {
-            return dotProp.set(state, 'artifact.relics', [new Relic(), new Relic(), new Relic()]);
+            return state.setIn(['artifact','relics'], [new Relic(), new Relic(), new Relic()]).toJS();
         }
 
         case characterActionTypes.UPDATE_ARTIFACT_RELIC: {
 
-            const relic = state.artifact.relics[action.data.slot];
-
-            let newState = state;
-            if (relic.id !== 0) {
-
-                const newTraits = Object.assign({}, state.artifact.traits);
-                newTraits[relic.id] = newTraits[relic.id] - 1;
-
-                newState = Object.assign({}, state, {
-                    artifact: {
-                        traits: newTraits,
-                        relics: state.artifact.relics,
-                        spec: state.artifact.spec,
-                        netherlight: state.artifact.netherlight
-                    }
-                });
+            const currentRelic = state.getIn(['artifact','relics',action.data.slot]);
+            const currentRelicId = currentRelic.get('id');
+            const currentRelicIlvl = currentRelic.get('ilvl');
+            
+            // If the current relic's ID isn't zero (which means there's one set), subtract
+            // one from the value for that trait. If the trait didn't change, it'll get set
+            // back later.
+            if (currentRelicId !== 0) {
+                let value = state.getIn(['artifact','traits',currentRelicId.toString()]) - 1;
+                state = state.setIn(['artifact','traits',currentRelicId.toString()], value);
             }
 
             // Determine what the artifact's ilvl should be based on any relic changes
-            if (relic.ilvl !== action.data.ilvl) {
+            if (currentRelicIlvl !== action.data.ilvl) {
 
-                const ilvlChange = getArtifactIlvlChange(relic.ilvl, action.data.ilvl);
+                let ilvlChange;
+                if (currentRelicId != 0) {
+                    ilvlChange = getArtifactIlvlChange(currentRelicIlvl, action.data.ilvl);
+                }
+                else {
+                    ilvlChange = getArtifactIlvlChange(0, action.data.ilvl);
+                }
 
-                const newRelics = [...state.artifact.relics];
-                newRelics[action.data.slot].ilvl = action.data.ilvl;
+                state = state.setIn(['artifact','relics',action.data.slot,'ilvl'], action.data.ilvl);
 
-                const newMainHand = Object.assign({}, state.gear.mainHand, {
-                    item_level: state.gear.mainHand.item_level + ilvlChange,
-                    stats: recalculateStats(state.gear.mainHand.stats, ilvlChange),
-                    weaponStats: recalculateStats(state.gear.mainHand.weaponStats, ilvlChange)
-                });
+                let mainHand = state.getIn(['gear','mainHand']);
+                let newIlvl = mainHand.get('item_level') + ilvlChange;
+                let newStats = recalculateStats(mainHand.get('stats').toJS(), ilvlChange);
+                let newWeaponStats = recalculateStats(mainHand.get('weaponStats').toJS(), ilvlChange);
 
-                const newOffHand = Object.assign({}, state.gear.offHand, {
-                    item_level: state.gear.mainHand.item_level + ilvlChange,
-                    stats: recalculateStats(state.gear.offHand.stats, ilvlChange),
-                    weaponStats: recalculateStats(state.gear.offHand.weaponStats, ilvlChange)
-                });
+                mainHand = mainHand.set('item_level', newIlvl)
+                                   .set('stats', newStats)
+                                   .set('weaponStats', newWeaponStats);
 
-                const newGear = Object.assign({}, state.gear, {
-                    mainHand: newMainHand,
-                    offHand: newOffHand,
-                });
+                let offHand = state.getIn(['gear','offHand']);
+                newIlvl = offHand.get('item_level') + ilvlChange;
+                newStats = recalculateStats(offHand.get('stats').toJS(), ilvlChange);
+                newWeaponStats = recalculateStats(offHand.get('weaponStats').toJS(), ilvlChange);
 
-                newState = Object.assign({}, newState, {
-                    gear: newGear,
-                    artifact: {
-                        traits: newState.artifact.traits,
-                        relics: newRelics,
-                        spec: state.artifact.spec,
-                        netherlight: state.artifact.netherlight
-                    }
-                });
+                offHand = offHand.set('item_level', newIlvl)
+                                 .set('stats', newStats)
+                                 .set('weaponStats', newWeaponStats);
+
+                state = state.setIn(['gear','mainHand'], mainHand)
+                             .setIn(['gear','offHand'], offHand)
+                             .setIn(['artifact','relics',action.data.slot,'ilvl'],
+                                    action.data.ilvl);
             }
 
-            newState.artifact.relics[action.data.slot].id = action.data.trait;
+            state = state.setIn(['artifact','relics',action.data.slot,'id'], action.data.trait);
 
             // Update the new trait
-            newState.artifact.traits[action.data.trait] += 1;
+            if (action.data.trait !== 0) {
+                let value = state.getIn(['artifact','traits',action.data.trait.toString()]) + 1;
+                state = state.setIn(['artifact','traits',action.data.trait.toString()], value);
+            }
 
-            return newState;
+            return state.toJS();
         }
 
         case characterActionTypes.UPDATE_NETHERLIGHT: {
-            return dotProp.set(state, `artifact.netherlight.${action.data.slot}`,
-                { tier2: action.data.tier2, tier3: action.data.tier3 });
+            return state.setIn(['artifact','netherlight',action.data.slot],
+                               { tier2: action.data.tier2, tier3: action.data.tier3 }).toJS();
         }
 
         case characterActionTypes.SWAP_ARTIFACT_WEAPON: {
-            return dotProp.set(state, "gear.mainHand", action.data);
+            return state.setIn(['gear','mainHand'], action.data).toJS();
         }
 
         case characterActionTypes.UPDATE_SPEC: {
-            return dotProp.set(state, "active", action.data);
+            return state.set('active', action.data).toJS();
         }
 
         case characterActionTypes.UPDATE_TALENTS: {
-            return dotProp.set(state, "talents.current", action.data);
+            return state.setIn(['talents','current'], action.data).toJS();
         }
 
         case characterActionTypes.CHANGE_ITEM: {
 
-            let item = dotProp.get(state, `gear.${action.data.slot}`);
+            let item = state.getIn(['gear',action.data.slot]).toJS();
 
             item.icon = action.data.item.icon;
             item.id = action.data.item.id;
@@ -179,50 +171,45 @@ export const characterReducer = function (state = new Character(), action) {
             item.gems = new Array(item.socket_count);
             item.gems.fill(makeGem(null));
 
-            let newData = dotProp.merge(state, `gear.${action.data.slot}`, item);
-            return newData;
+            return state.setIn(['gear',action.data.slot], item).toJS();
         }
 
         case characterActionTypes.CHANGE_BONUSES: {
 
-            let newData = {
-                bonuses: action.data.bonuses,
-                item_level: action.data.ilvl,
-                stats: action.data.newStats
-            };
-
+            let gear = state.getIn(['gear',action.data.slot]);
+            gear = gear.set('bonuses', action.data.bonuses)
+                       .set('item_level', action.data.ilvl)
+                       .set('stats', action.data.newStats);
+            
             // If this item can have a bonus socket but doesn't have one assigned, nuke
             // the equipped gems out of it so they don't show back up when if a socket
             // gets added back in.
             if (action.data.canHaveBonusSocket) {
                 if (!action.data.hasBonusSocket) {
-                    newData.gems = [];
-                    newData.socket_count = 0;
+                    gear = gear.set('gems', []).set('socket_count', 0);
                 }
-                else if (state.gear[action.data.slot].socket_count == 0) {
-                    newData.gems = [makeGem(null)];
-                    newData.socket_count = 1;
+                else if (gear.get('socket_count') == 0) {
+                    gear = gear.set('gems', [makeGem(null)]).set('socket_count', 1);
                 }
             }
 
             if (action.data.suffix.length > 0) {
-                newData['name'] = `${action.data.name} ${action.data.suffix}`;
+                gear = gear.set('name', `${action.data.name} ${action.data.suffix}`);
             }
             else {
-                newData['name'] = action.data.name;
+                gear = gear.set('name', action.data.name);
             }
 
-            return dotProp.merge(state, `gear.${action.data.slot}`, newData);
+            return state.setIn(['gear', action.data.slot], gear).toJS();
         }
 
         case characterActionTypes.CHANGE_GEM: {
-
-            return dotProp.set(state, `gear.${action.data.slot}.gems.${action.data.gemSlot}`,
-                makeGem(action.data.gem));
+            return state.setIn(['gear',action.data.slot,'gems',action.data.gemSlot],
+                               makeGem(action.data.gem)).toJS();
         }
 
         case characterActionTypes.CHANGE_ENCHANT: {
-            return dotProp.set(state, `gear.${action.data.slot}.enchant`, action.data.enchant);
+            return state.setIn(['gear',action.data.slot,'enchant'], action.data.enchant).toJS();
         }
 
         case characterActionTypes.OPTIMIZE_GEMS: {
@@ -240,33 +227,33 @@ export const characterReducer = function (state = new Character(), action) {
                         firstGemSlot = slot;
                     }
 
-                    if (state.gear[slot].gems[idx].id == action.data.epic.id) {
+                    const currentId = state.getIn(['gear',slot,'gems',idx,id]);
+
+                    if (currentId == action.data.epic.id) {
                         foundAgiGem = true;
-                    } else if (state.gear[slot].gems[idx].id != action.data.epic.id && state.gear[slot].gems[idx].id != action.data.rare.id) {
-                        newState = dotProp.set(newState, `gear.${slot}.gems.${idx}`, newRareGem);
+                    } else if (currentId != action.data.epic.id && currentId != action.data.rare.id) {
+                        state = state.setIn(['gear',slot,'gems',idx], newRareGem);
                     }
                 }
             }
 
             // If we didn't find an epic gem, set the first available gem slot to that.
             if (!foundAgiGem && firstGemSlot != null) {
-                newState = dotProp.set(newState, `gear.${firstGemSlot}.gems.0`,
-                    makeGem(action.data.epic));
+                state = state.setIn(['gear',firstGemSlot,'gems',0], makeGem(action.data.epic));
             }
 
-            return newState;
+            return state.toJS();
         }
 
         case characterActionTypes.OPTIMIZE_ENCHANTS: {
 
-            let newState = dotProp.set(state, 'gear.neck.enchant', action.data.neck);
-            newState = dotProp.set(newState, 'gear.back.enchant', action.data.back);
-            newState = dotProp.set(newState, 'gear.finger1.enchant', action.data.finger);
-            newState = dotProp.set(newState, 'gear.finger2.enchant', action.data.finger);
-
-            return newState;
+            return state.setIn(['gear','neck','enchant'], action.data.neck)
+                        .setIn(['gear','back','enchant'], action.data.back)
+                        .setIn(['gear','finger1','enchant'], action.data.finger)
+                        .setIn(['gear','finger2','enchant'], action.data.finger)
+                        .toJS();
         }
     }
 
-    return state;
+    return state.toJS();
 };

@@ -146,7 +146,7 @@ describe('characterReducer', () => {
         expect(characterReducer(init, action)).toEqual(expected);
     });
 
-    it('should handle UPDATE_ARTIFACT_RELIC when id != 0', () => {
+    it('should handle UPDATE_ARTIFACT_RELIC when current relic trait != 0', () => {
         // using wowhead calcuator for verification
         const init = {
             gear: {
@@ -197,7 +197,7 @@ describe('characterReducer', () => {
             data: {
                 slot: 0,
                 trait: 2,
-                ilvl: 930,
+                ilvl: 860,
             }
         };
         const expected = {
@@ -205,37 +205,37 @@ describe('characterReducer', () => {
                 mainHand: {
                     item_level: 882,
                     stats: {
-                        agility: 786,
-                        stamina: 1179,
-                        crit: 336,
-                        mastery: 323
+                        agility: 787,
+                        stamina: 1180,
+                        crit: 345,
+                        mastery: 332,
                     },
                     weaponStats: {
-                        min_dmg: 3293,
-                        max_dmg: 5489,
+                        min_dmg: 3331,
+                        max_dmg: 5551,
                         speed: 1.8,
-                        dps: 2439.50
+                        dps: 2467,
                     }
                 },
                 offHand: {
                     item_level: 882,
                     stats: {
-                        agility: 786,
-                        stamina: 1179,
-                        crit: 336,
-                        mastery: 323
+                        agility: 787,
+                        stamina: 1180,
+                        crit: 345,
+                        mastery: 332,
                     },
                     weaponStats: {
-                        min_dmg: 3293,
-                        max_dmg: 5489,
+                        min_dmg: 3331,
+                        max_dmg: 5551,
                         speed: 1.8,
-                        dps: 2439.50
+                        dps: 2467,
                     }
                 }
             },
             artifact: {
                 relics: [
-                    { id: 2, ilvl: 930 },
+                    { id: 2, ilvl: 860 },
                     { id: 1, ilvl: 850 },
                     { id: 1, ilvl: 850 }
                 ],
@@ -248,7 +248,7 @@ describe('characterReducer', () => {
         expect(characterReducer(init, action)).toEqual(expected);
     });
 
-    it('should handle UPDATE_ARTIFACT_RELIC when id = 0', () => {
+    it('should handle UPDATE_ARTIFACT_RELIC when current relic trait = 0', () => {
         const init = {
             gear: {
                 mainHand: {
@@ -298,7 +298,7 @@ describe('characterReducer', () => {
             data: {
                 slot: 0,
                 trait: 1,
-                ilvl: 930
+                ilvl: 860
             }
         };
         const expected = {
@@ -306,37 +306,37 @@ describe('characterReducer', () => {
                 mainHand: {
                     item_level: 882,
                     stats: {
-                        agility: 786,
-                        stamina: 1179,
-                        crit: 336,
-                        mastery: 323
+                        agility: 787,
+                        stamina: 1180,
+                        crit: 345,
+                        mastery: 332,
                     },
                     weaponStats: {
-                        min_dmg: 3293,
-                        max_dmg: 5489,
+                        min_dmg: 3331,
+                        max_dmg: 5551,
                         speed: 1.8,
-                        dps: 2439.50
+                        dps: 2467,
                     }
                 },
                 offHand: {
                     item_level: 882,
                     stats: {
-                        agility: 786,
-                        stamina: 1179,
-                        crit: 336,
-                        mastery: 323
+                        agility: 787,
+                        stamina: 1180,
+                        crit: 345,
+                        mastery: 332,
                     },
                     weaponStats: {
-                        min_dmg: 3293,
-                        max_dmg: 5489,
+                        min_dmg: 3331,
+                        max_dmg: 5551,
                         speed: 1.8,
-                        dps: 2439.50
+                        dps: 2467,
                     }
                 }
             },
             artifact: {
                 relics: [
-                    { id: 1, ilvl: 930 },
+                    { id: 1, ilvl: 860 },
                     { id: 1, ilvl: 850 },
                     { id: 1, ilvl: 850 }
                 ],
@@ -379,8 +379,6 @@ describe('characterReducer', () => {
                 slot: 1,
                 trait: 2,
                 ilvl: 865,
-                stats: { agi: 2 },
-                weaponStats: {}
             }
         };
         const expected = {

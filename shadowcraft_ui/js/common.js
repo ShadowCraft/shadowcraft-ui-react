@@ -66,7 +66,11 @@ let RELIC_ILVL_MAPPING = {
 
 export function getArtifactIlvlChange(oldRelic, newRelic)
 {
-    return RELIC_ILVL_MAPPING[newRelic] - RELIC_ILVL_MAPPING[oldRelic];
+    if (oldRelic != 0) {
+        return RELIC_ILVL_MAPPING[newRelic] - RELIC_ILVL_MAPPING[oldRelic];
+    } else {
+        return RELIC_ILVL_MAPPING[newRelic];
+    }
 }
 
 export const MULTI_ITEM_SETS = {
