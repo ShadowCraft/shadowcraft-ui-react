@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import deepClone from 'deep-clone';
 import PropTypes from 'prop-types';
+import deepEqual from 'deep-equal';
 
 import store from '../store';
 import { modalTypes } from '../reducers/modalReducer';
@@ -17,11 +18,16 @@ class EquippedItem extends React.Component {
         this.onBonusClick = this.onBonusClick.bind(this);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if(this.props.slot == 'head') console.log(this.props.equippedItem, nextProps.equippedItem , !deepEqual(this.props.equippedItem, nextProps.equippedItem));
+        return !deepEqual(this.props, nextProps);
+    }
+
     componentWillMount() {
         this.checkForWarnings(this.props);
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillUpdate(nextProps, nextState) {
         this.checkForWarnings(nextProps);
     }
 
@@ -54,8 +60,8 @@ class EquippedItem extends React.Component {
             newWarnings.push(<div><span className={quality}>{props.equippedItem.name}</span> is missing one or more gems</div>);
         }
 
-        // store.dispatch({type: 'ADD_MULTIPLE_WARNINGS',
-        //                 component: this, warnings: newWarnings});
+        store.dispatch({type: 'ADD_MULTIPLE_WARNINGS',
+                        component: this, warnings: newWarnings});
     }
 
     IsEnchantable(slot) {
@@ -222,7 +228,7 @@ EquippedItem.propTypes = {
         stats: PropTypes.object.isRequired,
     }).isRequired,
     slot: PropTypes.string.isRequired,
-    
+
 
     // TODO: modify RESET_SETTINGS in a more appropriate manner and add isRequired back
     settings: PropTypes.shape({
