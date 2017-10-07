@@ -20,7 +20,7 @@ describe('settingsReducer', () => {
     });
 
     it('should handle SETTINGS_LAYOUT', () => {
-        const init = { layout: {} };
+        const init = { current: {}, layout: {} };
         const action = {
             type: settingsActionTypes.SETTINGS_LAYOUT,
             data: [{ items: [{ name: 'testname', default: 'testdefault' }] }]
