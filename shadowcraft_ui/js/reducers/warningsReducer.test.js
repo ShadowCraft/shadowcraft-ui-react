@@ -37,7 +37,7 @@ describe('warningsReducer', () => {
 
     it('ADD_MULTIPLE_WARNINGS should not allow duplicate entries', () => {
         const init = { warnings: [{ component: 'init', text: 'first' }] };
-        const action = { type: warningsActionTypes.ADD_MULTPLE_WARNINGS, component: 'init', warnings: ['first', 'second', 'third'] };
+        const action = { type: warningsActionTypes.ADD_MULTIPLE_WARNINGS, component: 'init', warnings: ['first', 'second', 'third'] };
         const expected = { warnings: [{ component: 'init', text: 'first' }, { component: 'init', text: 'second' }, { component: 'init', text: 'third' }] };
         expect(warningsReducer(init, action)).toEqual(expected);
     });

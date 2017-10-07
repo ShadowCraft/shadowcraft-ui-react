@@ -29,9 +29,9 @@ export const warningsReducer = function (state = initialWarningsState, action) {
         case warningsActionTypes.ADD_MULTIPLE_WARNINGS: {
 
             const warningSeq = state.get('warnings').toSeq();
-            const mapped = action.warnings.map(w => ({ component: action.component, text: w }));
-            const filtered = mapped.filter(m => !warningSeq.contains(m));
-            const newWarnings = warningSeq.concat(filtered);
+            const mapped = Immutable.fromJS(action.warnings.map(w => ({ component: action.component, text: w })));
+            const filtered = warningSeq.filter(obj => obj.get('component') != action.component);
+            const newWarnings = filtered.concat(mapped);
             return state.set('warnings', newWarnings).toJS();
         }
     }

@@ -17,8 +17,6 @@ export const settingsReducer = function (state = { current: {}, layout: [] }, ac
         }
 
         case settingsActionTypes.SETTINGS_LAYOUT: {
-
-            console.log(action.data);
             for (var index in action.data) {
                 var section = action.data[index];
                 for (var item_index in section.items) {
