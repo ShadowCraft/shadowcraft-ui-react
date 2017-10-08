@@ -18,13 +18,12 @@ class EquippedItem extends React.Component {
         this.onBonusClick = this.onBonusClick.bind(this);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if(this.props.slot == 'head') console.log(this.props.equippedItem, nextProps.equippedItem , !deepEqual(this.props.equippedItem, nextProps.equippedItem));
-        return !deepEqual(this.props, nextProps);
-    }
-
     componentWillMount() {
         this.checkForWarnings(this.props);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return !deepEqual(this.props, nextProps);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -60,8 +59,10 @@ class EquippedItem extends React.Component {
             newWarnings.push(<div><span className={quality}>{props.equippedItem.name}</span> is missing one or more gems</div>);
         }
 
-        store.dispatch({type: 'ADD_MULTIPLE_WARNINGS',
-                        component: this, warnings: newWarnings});
+        store.dispatch({
+            type: 'ADD_MULTIPLE_WARNINGS',
+            component: this, warnings: newWarnings
+        });
     }
 
     IsEnchantable(slot) {
