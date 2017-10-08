@@ -110,33 +110,42 @@ export const MULTI_ITEM_SETS = {
         ids: [142167, 142203],
         bonuses: {2: 'kara_empowered_2pc'}
     }
-}
+};
 
-// Recalculates a stat block based on a change in item level.
-export function recalculateStats(baseStats, ilvlChange) {
-    let newStats;
+// Recalculates a stat block based on a change in item level. This function only works above
+// ilvl 800, which honestly should be the only place people ever use it.
+export function recalculateStats(baseStats, ilvlChange, slot) {
 
-    if (ilvlChange != 0) {
-        newStats = {};
-        let ilvlMultiplier = 1.0 / Math.pow(1.15, (ilvlChange / -15.0));
-        let secondaryMultiplier = Math.pow(1.0037444020662509239443726693104, ilvlChange);
-
-        for (let stat in baseStats) {
-            newStats[stat] = baseStats[stat];
-            if (stat == 'speed') {
-                continue;
-            }
-
-            if (stat != 'agility' && stat != 'stamina') {
-                newStats[stat] *= secondaryMultiplier;
-            }
-
-            newStats[stat] = Math.round(newStats[stat] * ilvlMultiplier);
-        }
+    if (ilvlChange == 0) {
+        return Object.assign({}, baseStats);
     }
-    else
-    {
-        newStats = Object.assign({}, baseStats);
+
+    let primaryMultiplier = Math.pow(1.15, (ilvlChange / 15.0));
+
+    // Secondary multipler is different for jewelry than for everything else
+    let secondaryMultiplier = 0.0;
+    if (slot == 'neck' || slot == 'finger1' || slot == 'finger2') {
+        secondaryMultiplier = Math.pow(0.996754034, ilvlChange);
+    }
+    else {
+        secondaryMultiplier = Math.pow(0.9944435486, ilvlChange);
+    }
+
+    let newStats = {};
+    for (let stat in baseStats) {
+        newStats[stat] = baseStats[stat];
+
+        // Ignore weapon speed
+        if (stat == 'speed') {
+            continue;
+        }
+
+        // For secondary stats, apply the secondary multipler too
+        if (stat != 'agility' && stat != 'stamina' && stat != 'dps' && stat != 'min_dmg' && stat != 'max_dmg') {
+            newStats[stat] *= secondaryMultiplier;
+        }
+
+        newStats[stat] = Math.round(newStats[stat] * primaryMultiplier);
     }
 
     return newStats;

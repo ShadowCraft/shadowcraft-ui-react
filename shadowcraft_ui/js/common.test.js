@@ -1,4 +1,4 @@
-import { getArtifactIlvlChange, recalculateStats, getStatValue } from './common';
+import { getArtifactIlvlChange, recalculateStats, getStatValue, ItemType } from './common';
 
 describe('getArtifactIlvlChange', () => {
     it('should return the right value', () => {
@@ -14,6 +14,19 @@ describe('recalculateStats', () => {
         expect(recalculateStats({agility: 10}, 100)).toEqual({agility: 25});
         expect(recalculateStats({speed: 1}, 1)).toEqual({speed: 1});
         expect(recalculateStats({notagilityorstamina: 1}, 1)).toEqual({notagilityorstamina: 1});
+
+        // Recalculation of 879 kingslayers to 882 kingslayers
+        expect(recalculateStats({agility: 765, stamina: 1147, crit: 332, mastery: 319}, 3, 'mainHand'))
+            .toEqual({agility: 787, stamina: 1180, crit: 336, mastery: 323});
+
+        // Recalculation of 836 kingslayers to 882 kingslayers. The values are slightly
+        // different than above due to rounding/floating point error.
+        expect(recalculateStats({agility: 512, stamina: 768, crit: 283, mastery: 272}, 46, 'mainHand'))
+            .toEqual({agility: 786, stamina: 1179, crit: 336, mastery: 323});
+
+        // Recalculation of 879 to 882 weapon stats
+        expect(recalculateStats({dps: 2372.51, min_dmg: 3203, max_dmg: 5338}, 3, 'mainHand'))
+            .toEqual({dps: 2467, min_dmg: 3331, max_dmg: 5551});
     });
 });
 

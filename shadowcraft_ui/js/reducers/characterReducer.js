@@ -1,4 +1,4 @@
-import { getArtifactIlvlChange, recalculateStats } from '../common';
+import { getArtifactIlvlChange, recalculateStats, ItemType } from '../common';
 import Character from '../viewModels/Character';
 import Relic from '../viewModels/Relic';
 import Traits from '../viewModels/Traits';
@@ -104,8 +104,9 @@ export const characterReducer = function (state = new Character(), action) {
 
                 let mainHand = state.getIn(['gear','mainHand']);
                 let newIlvl = mainHand.get('item_level') + ilvlChange;
-                let newStats = recalculateStats(mainHand.get('stats').toJS(), ilvlChange);
-                let newWeaponStats = recalculateStats(mainHand.get('weaponStats').toJS(), ilvlChange);
+                let newStats = recalculateStats(mainHand.get('stats').toJS(), ilvlChange, 'mainHand');
+                let newWeaponStats = recalculateStats(mainHand.get('weaponStats').toJS(), ilvlChange,
+                                                      'mainHand');
 
                 mainHand = mainHand.set('item_level', newIlvl)
                                    .set('stats', newStats)
@@ -113,8 +114,9 @@ export const characterReducer = function (state = new Character(), action) {
 
                 let offHand = state.getIn(['gear','offHand']);
                 newIlvl = offHand.get('item_level') + ilvlChange;
-                newStats = recalculateStats(offHand.get('stats').toJS(), ilvlChange);
-                newWeaponStats = recalculateStats(offHand.get('weaponStats').toJS(), ilvlChange);
+                newStats = recalculateStats(offHand.get('stats').toJS(), ilvlChange, 'offHand');
+                newWeaponStats = recalculateStats(offHand.get('weaponStats').toJS(), ilvlChange,
+                                                  'offHand');
 
                 offHand = offHand.set('item_level', newIlvl)
                                  .set('stats', newStats)
