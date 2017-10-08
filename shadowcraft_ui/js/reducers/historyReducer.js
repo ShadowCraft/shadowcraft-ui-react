@@ -1,18 +1,13 @@
 import Immutable from 'immutable';
 
-export const initialHistoryState = {
-    dps: [],
-    data: []
-};
+export const History = Immutable.Record({ dps: Immutable.List(), data: Immutable.List() });
 
 export const historyActionTypes = {
     CLEAR_HISTORY: 'CLEAR_HISTORY',
     ADD_HISTORY: 'ADD_HISTORY'
 };
 
-export const historyReducer = function (state = initialHistoryState, action) {
-
-    state = Immutable.fromJS(state);
+export const historyReducer = function (state = new History(), action) {
 
     switch (action.type) {
 
@@ -33,9 +28,9 @@ export const historyReducer = function (state = initialHistoryState, action) {
                 }
             );
 
-            return state.set('dps', dps).set('data', data).toJS();
+            return state.set('dps', dps).set('data', data);
         }
     }
 
-    return state.toJS();
+    return state;
 };
