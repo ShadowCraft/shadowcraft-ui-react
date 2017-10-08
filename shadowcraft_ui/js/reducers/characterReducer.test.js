@@ -207,8 +207,8 @@ describe('characterReducer', () => {
                     stats: {
                         agility: 787,
                         stamina: 1180,
-                        crit: 345,
-                        mastery: 332,
+                        crit: 336,
+                        mastery: 323
                     },
                     weaponStats: {
                         min_dmg: 3331,
@@ -222,8 +222,8 @@ describe('characterReducer', () => {
                     stats: {
                         agility: 787,
                         stamina: 1180,
-                        crit: 345,
-                        mastery: 332,
+                        crit: 336,
+                        mastery: 323
                     },
                     weaponStats: {
                         min_dmg: 3331,
@@ -306,10 +306,10 @@ describe('characterReducer', () => {
                 mainHand: {
                     item_level: 882,
                     stats: {
-                        agility: 787,
-                        stamina: 1180,
-                        crit: 345,
-                        mastery: 332,
+                        agility: 786,
+                        stamina: 1179,
+                        crit: 336,
+                        mastery: 323
                     },
                     weaponStats: {
                         min_dmg: 3331,
@@ -321,10 +321,10 @@ describe('characterReducer', () => {
                 offHand: {
                     item_level: 882,
                     stats: {
-                        agility: 787,
-                        stamina: 1180,
-                        crit: 345,
-                        mastery: 332,
+                        agility: 786,
+                        stamina: 1179,
+                        crit: 336,
+                        mastery: 323
                     },
                     weaponStats: {
                         min_dmg: 3331,
