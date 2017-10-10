@@ -151,9 +151,8 @@ class StatPane extends React.Component {
                         <StatPanelElement
                             name="Boss Adds"
                             value={
-                                this.props.settings.current && this.props.settings.current.num_boss_adds
-                                    ? this.props.settings.current.num_boss_adds.toString()
-                                    : '0'
+                                this.props.num_boss_adds
+                                    ? this.props.num_boss_adds.toString() : '0'
                             }
                         />
                     </div>
@@ -209,11 +208,7 @@ StatPane.propTypes = {
     otherEP: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
     engineTarget: PropTypes.string.isRequired,
     activeSpec: PropTypes.string.isRequired,
-    settings: PropTypes.shape({
-        current: PropTypes.shape({
-            num_boss_adds: PropTypes.string
-        })
-    }).isRequired
+    num_boss_adds: PropTypes.string.isRequired
 };
 
 // TODO: StatPanel only relies on the num_boss_adds value from the settings.
@@ -227,7 +222,7 @@ const mapStateToProps = function (store) {
         otherEP: store.engine.other_ep,
         engineTarget: store.engine.engine_info.wow_build_target,
         activeSpec: store.character.active,
-        settings: store.settings.toJS()
+        num_boss_adds: store.settings.current.get('num_boss_adds')
     };
 };
 export default connect(mapStateToProps)(StatPane);

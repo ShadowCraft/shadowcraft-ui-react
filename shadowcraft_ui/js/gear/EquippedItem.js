@@ -84,13 +84,13 @@ class EquippedItem extends React.Component {
         // Don't pass over any item outside of the item level filtering.
         let min_ilvl = -1;
         let max_ilvl = -1;
-        if (this.props.settings.dynamic_ilvl) {
+        if (this.props.dynamic_ilvl) {
             min_ilvl = this.props.equippedItem.item_level - 50;
             max_ilvl = this.props.equippedItem.item_level + 50;
         }
         else {
-            min_ilvl = this.props.settings.min_ilvl;
-            max_ilvl = this.props.settings.max_ilvl;
+            min_ilvl = this.props.min_ilvl;
+            max_ilvl = this.props.max_ilvl;
         }
 
         // TODO: would a map() be faster here? Can I do this transformation in a
@@ -230,27 +230,18 @@ EquippedItem.propTypes = {
     }).isRequired,
     slot: PropTypes.string.isRequired,
 
-
     // TODO: modify RESET_SETTINGS in a more appropriate manner and add isRequired back
-    settings: PropTypes.shape({
-        dynamic_ilvl: PropTypes.bool,
-        min_ilvl: PropTypes.string,
-        max_ilvl: PropTypes.string
-    }),
-    // settings: PropTypes.shape({
-    //     dynamic_ilvl: PropTypes.bool.isRequired,
-    //     min_ilvl: PropTypes.string.isRequired,
-    //     max_ilvl: PropTypes.string.isRequired
-    // }).isRequired,
+    dynamic_ilvl: PropTypes.bool,
+    min_ilvl: PropTypes.number,
+    max_ilvl: PropTypes.number,
 };
 
-// TODO: there's probably no reason to get the entire settings object
-// below since we only need three values out of it. It would also help
-// avoid re-renders if none of those three values change.
 const mapStateToProps = function (store, ownProps) {
     return {
         equippedItem: store.character.gear[ownProps.slot],
-        settings: store.settings.current.toJS()
+        dynamic_ilvl: store.settings.current.get['dynamic_ilvl'],
+        min_ilvl: store.settings.current.get['min_ilvl'],
+        max_ilvl: store.settings.current.get['max_ilvl'],
     };
 };
 
