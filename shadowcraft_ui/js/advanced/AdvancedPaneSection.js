@@ -51,7 +51,7 @@ AdvancedPaneSection.defaultProps = {
 
 const mapStateToProps = function(store) {
     return {
-        current: store.settings.current,
+        current: store.settings.current.toJS()
     };
 };
 

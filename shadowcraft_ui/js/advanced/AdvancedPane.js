@@ -69,7 +69,7 @@ const mapStateToProps = function (store) {
         engine_info: store.engine.engine_info,
         breakdown: store.engine.breakdown,
         dps: store.engine.totalDps,
-        layout: store.settings.layout,
+        layout: store.settings.layout.toJS()
     };
 };
 
