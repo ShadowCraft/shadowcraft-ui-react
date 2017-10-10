@@ -216,6 +216,8 @@ StatPane.propTypes = {
     }).isRequired
 };
 
+// TODO: StatPanel only relies on the num_boss_adds value from the settings.
+// There's no reason to get the whole thing.
 const mapStateToProps = function (store) {
     return {
         stats: store.engine.stats,
@@ -225,7 +227,7 @@ const mapStateToProps = function (store) {
         otherEP: store.engine.other_ep,
         engineTarget: store.engine.engine_info.wow_build_target,
         activeSpec: store.character.active,
-        settings: store.settings
+        settings: store.settings.toJS()
     };
 };
 export default connect(mapStateToProps)(StatPane);

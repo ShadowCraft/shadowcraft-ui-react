@@ -244,11 +244,13 @@ EquippedItem.propTypes = {
     // }).isRequired,
 };
 
-
+// TODO: there's probably no reason to get the entire settings object
+// below since we only need three values out of it. It would also help
+// avoid re-renders if none of those three values change.
 const mapStateToProps = function (store, ownProps) {
     return {
         equippedItem: store.character.gear[ownProps.slot],
-        settings: store.settings.current
+        settings: store.settings.current.toJS()
     };
 };
 

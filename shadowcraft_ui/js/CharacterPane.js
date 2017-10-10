@@ -296,7 +296,7 @@ class CharacterPane extends React.Component {
 const mapStateToProps = function (store) {
     return {
         character: store.character,
-        settings: store.settings,
+        settings: store.settings.toJS(),
         modal: store.modal
     };
 };
