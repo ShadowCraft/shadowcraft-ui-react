@@ -211,6 +211,10 @@ StatPane.propTypes = {
     num_boss_adds: PropTypes.string.isRequired
 };
 
+StatPane.defaultProps= {
+    num_boss_adds: '0'
+};
+
 // TODO: StatPanel only relies on the num_boss_adds value from the settings.
 // There's no reason to get the whole thing.
 const mapStateToProps = function (store) {

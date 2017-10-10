@@ -3,16 +3,12 @@ import PropTypes from 'prop-types';
 import DropDown from './DropDown';
 import TextBox from './TextBox';
 import CheckBox from './CheckBox';
+import {Map} from 'immutable';
 
 class AdvancedPaneSetting extends React.Component {
 
-    constructor(props) {
-        super();
-        this.props = props;
-    }
-
     getSettingType(setting, id, value) {
-        switch (setting.type) {
+        switch (setting.get('type')) {
             case 'dropdown': return <DropDown setting={setting} id={id} value={value} />;
             case 'checkbox': return <CheckBox setting={setting} id={id} value={value} />;
             case 'text': return <TextBox setting={setting} id={id} value={value} />;
@@ -23,8 +19,8 @@ class AdvancedPaneSetting extends React.Component {
         if (this.props.current) {
             return this.getSettingType(
                 this.props.setting,
-                this.props.setting.name,
-                this.props.current[this.props.setting.name]
+                this.props.setting.get('name'),
+                this.props.current.get(this.props.setting.get('name'))
             );
         }
         else return <div />;
@@ -32,12 +28,8 @@ class AdvancedPaneSetting extends React.Component {
 }
 
 AdvancedPaneSetting.propTypes = {
-    current: PropTypes.objectOf(
-        PropTypes.any.isRequired
-    ).isRequired,
-    setting: PropTypes.shape({
-        name: PropTypes.string.isRequired
-    }).isRequired
+    current: PropTypes.instanceOf(Map).isRequired,
+    setting: PropTypes.instanceOf(Map).isRequired
 };
 
 AdvancedPaneSetting.defaultProps = {

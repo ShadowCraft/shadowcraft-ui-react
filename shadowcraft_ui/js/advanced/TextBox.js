@@ -2,13 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import store from '../store';
 import { changeSetting } from '../store';
+import { Map } from 'immutable';
 
 class TextBox extends React.Component {
-
-    constructor(props) {
-        super();
-        this.props = props;
-    }
 
     onKeyDown(e) {
         if (e.keyCode == 13) {
@@ -22,15 +18,15 @@ class TextBox extends React.Component {
     render() {
         return (
             <label className="input">
-                <span className="label">{this.props.setting.label}</span>
+                <span className="label">{this.props.setting.get('label')}</span>
                 <input
                     className="optionInput"
                     id={this.props.id}
-                    type={this.props.setting.type}
+                    type={this.props.setting.get('type')}
                     defaultValue={this.props.value}
                     onKeyDown={this.onKeyDown.bind(this)}
                 />
-                <span className="desc">{this.props.setting.description}</span>
+                <span className="desc">{this.props.setting.get('description')}</span>
             </label>
         );
     }
@@ -38,16 +34,8 @@ class TextBox extends React.Component {
 
 TextBox.propTypes = {
     id: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    setting: PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-    })
-};
-
-TextBox.defaultProps = {
-    value: ''
+    value: PropTypes.string.isRequired,
+    setting: PropTypes.instanceOf(Map).isRequired
 };
 
 export default TextBox;

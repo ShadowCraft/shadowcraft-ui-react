@@ -12,7 +12,7 @@ export const historyReducer = function (state = new History(), action) {
     switch (action.type) {
 
         case historyActionTypes.CLEAR_HISTORY: {
-            return state.set('dps', []).set('data', []).toJS();
+            return state.set('dps', Immutable.List()).set('data', Immutable.List());
         }
 
         case historyActionTypes.ADD_HISTORY: {

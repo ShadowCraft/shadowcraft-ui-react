@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import store from '../store';
 import { changeSetting } from '../store';
+import { Map } from 'immutable';
 
 class CheckBox extends React.Component {
 
-    constructor(props){
-        super();
-        this.props = props;
+    shouldComponentUpdate(nextProps, nextState){
+        return this.props.value !== nextProps.value;
     }
 
     onChange(e) {
@@ -17,18 +17,18 @@ class CheckBox extends React.Component {
         }));
     }
 
-    render() {
+    render() {     
         return (
             <label className="select">
-                <span className="label">{this.props.setting.label}</span>
+                <span className="label">{this.props.setting.get('label')}</span>
                 <input
                     className="optionCheck"
                     id={this.props.id}
-                    type={this.props.setting.type}
+                    type={this.props.setting.get('type')}
                     onChange={this.onChange.bind(this)}
                     checked={this.props.value}
                 />
-                <span className="desc">{this.props.setting.description}</span>
+                <span className="desc">{this.props.setting.get('description')}</span>
             </label>
         );
     }
@@ -36,16 +36,8 @@ class CheckBox extends React.Component {
 
 CheckBox.propTypes = {
     id: PropTypes.string.isRequired,
-    value: PropTypes.bool,
-    setting: PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-    })
-};
-
-CheckBox.defaultProps = {
-    value: false
+    value: PropTypes.bool.isRequired,
+    setting: PropTypes.instanceOf(Map).isRequired
 };
 
 export default CheckBox;

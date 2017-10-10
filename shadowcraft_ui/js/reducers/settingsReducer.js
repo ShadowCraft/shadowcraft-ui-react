@@ -17,11 +17,13 @@ export const settingsReducer = function (state = new Settings(), action) {
         }
 
         case settingsActionTypes.SETTINGS_LAYOUT: {
+            // console.log(current);
             for (let index in action.data) {
                 let section = action.data[index];
                 for (let item_index in section.items) {
                     let item = section.items[item_index];
                     let current = state.get('current');
+
 
                     if (!current.has(item.name)) {
                         state = state.setIn(['current', item.name], item.default);
@@ -33,7 +35,10 @@ export const settingsReducer = function (state = new Settings(), action) {
         }
 
         case settingsActionTypes.RESET_SETTINGS: {
-            return state.set('current', Immutable.fromJS(action.data));
+            if (!action.data) {
+                return state.set('current', Immutable.Map());
+            }
+            else return state.set('current', Immutable.fromJS(action.data));
         }
     }
 

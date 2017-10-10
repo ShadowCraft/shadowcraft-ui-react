@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import {List} from 'immutable';
 
 import BreakdownList from './BreakdownList';
 import AdvancedPaneSection from './AdvancedPaneSection';
@@ -12,10 +13,14 @@ class AdvancedPane extends React.Component {
         this.props = props;
     }
 
+    shouldComponentUpdate(nextProps){
+        return this.props.layout === nextProps.layout;
+    }
+
     render() {
 
         let headinglist = this.props.layout
-            .filter(section => section.spec.toLowerCase() === 'all' || section.spec === this.props.active_spec)
+            .filter(section => section.get('spec').toLowerCase() === 'all' || section.get('spec') === this.props.active_spec)
             .map((section, index) => <AdvancedPaneSection key={index} section={section} />);
 
         return (
@@ -52,7 +57,7 @@ AdvancedPane.propTypes = {
     }).isRequired,
     breakdown: PropTypes.objectOf(PropTypes.number.isRequired),
     dps: PropTypes.number.isRequired,
-    layout: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+    layout: PropTypes.instanceOf(List).isRequired,
 };
 
 AdvancedPane.defaultProps = {
@@ -69,7 +74,7 @@ const mapStateToProps = function (store) {
         engine_info: store.engine.engine_info,
         breakdown: store.engine.breakdown,
         dps: store.engine.totalDps,
-        layout: store.settings.layout.toJS()
+        layout: store.settings.layout
     };
 };
 

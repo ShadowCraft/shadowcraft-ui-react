@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import {Map} from 'immutable';
 
 import AdvancedPaneSetting from './AdvancedPaneSetting';
 
@@ -13,7 +14,7 @@ class AdvancedPaneSection extends React.Component {
 
     render() {
 
-        let sectionlist = this.props.section.items.map(
+        let sectionlist = this.props.section.get('items').map(
             (setting, index) =>
                 <AdvancedPaneSetting
                     key={index}
@@ -35,23 +36,17 @@ class AdvancedPaneSection extends React.Component {
 }
 
 AdvancedPaneSection.propTypes = {
-    section: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        heading: PropTypes.string.isRequired,
-        items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired
-    }).isRequired,
-    current: PropTypes.objectOf(
-        PropTypes.any.isRequired
-    )
+    section: PropTypes.instanceOf(Map).isRequired,
+    current: PropTypes.instanceOf(Map).isRequired
 };
 
 AdvancedPaneSection.defaultProps = {
-    current: {}
+    current: Map()
 };
 
 const mapStateToProps = function(store) {
     return {
-        current: store.settings.current.toJS()
+        current: store.settings.current
     };
 };
 

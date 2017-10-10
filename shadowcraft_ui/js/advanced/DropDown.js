@@ -2,13 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import store from '../store';
 import { changeSetting } from '../store';
+import { Map } from 'immutable';
 
 class DropDown extends React.Component {
-
-    constructor(props) {
-        super();
-        this.props = props;
-    }
 
     onChange(e) {
         store.dispatch(changeSetting({
@@ -19,15 +15,12 @@ class DropDown extends React.Component {
 
     render() {
 
-        let optionlist = Object.keys(this.props.setting.options).map(
-            (option, index) => (
-                <option key={index} value={option}>{this.props.setting.options[option]}</option>
-            )
-        );
+        let optionlist = this.props.setting.get('options').valueSeq()
+            .map(option => <option key={option} value={option}>{option}</option>);
 
         return (
             <label className="select">
-                <span className="label">{this.props.setting.label}</span>
+                <span className="label">{this.props.setting.get('label')}</span>
                 <span className="select-container">
                     <select
                         value={this.props.value}
@@ -38,7 +31,7 @@ class DropDown extends React.Component {
                         {optionlist}
                     </select>
                 </span>
-                <span className="desc">{this.props.setting.description}</span>
+                <span className="desc">{this.props.setting.get('description')}</span>
             </label>
         );
     }
@@ -46,16 +39,8 @@ class DropDown extends React.Component {
 
 DropDown.propTypes = {
     id: PropTypes.string.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    setting: PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        options: PropTypes.object.isRequired,
-        description: PropTypes.string.isRequired,
-    })
-};
-
-DropDown.defaultProps = {
-    value: ''
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]).isRequired,
+    setting: PropTypes.instanceOf(Map).isRequired
 };
 
 export default DropDown;
