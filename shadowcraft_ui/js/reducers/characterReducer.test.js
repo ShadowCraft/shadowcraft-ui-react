@@ -211,10 +211,10 @@ describe('characterReducer', () => {
                         mastery: 323
                     },
                     weaponStats: {
-                        min_dmg: 3331,
-                        max_dmg: 5551,
+                        min_dmg: 3294,
+                        max_dmg: 5489,
                         speed: 1.8,
-                        dps: 2467,
+                        dps: 2440,
                     }
                 },
                 offHand: {
@@ -226,10 +226,10 @@ describe('characterReducer', () => {
                         mastery: 323
                     },
                     weaponStats: {
-                        min_dmg: 3331,
-                        max_dmg: 5551,
+                        min_dmg: 3294,
+                        max_dmg: 5489,
                         speed: 1.8,
-                        dps: 2467,
+                        dps: 2440,
                     }
                 }
             },
@@ -312,10 +312,10 @@ describe('characterReducer', () => {
                         mastery: 323
                     },
                     weaponStats: {
-                        min_dmg: 3331,
-                        max_dmg: 5551,
+                        min_dmg: 3293,
+                        max_dmg: 5490,
                         speed: 1.8,
-                        dps: 2467,
+                        dps: 2440,
                     }
                 },
                 offHand: {
@@ -327,10 +327,10 @@ describe('characterReducer', () => {
                         mastery: 323
                     },
                     weaponStats: {
-                        min_dmg: 3331,
-                        max_dmg: 5551,
+                        min_dmg: 3293,
+                        max_dmg: 5490,
                         speed: 1.8,
-                        dps: 2467,
+                        dps: 2440,
                     }
                 }
             },
