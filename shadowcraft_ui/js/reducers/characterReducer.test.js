@@ -1,5 +1,11 @@
 import { characterActionTypes, characterReducer } from './characterReducer';
 import Character from '../viewModels/Character';
+import Artifact from '../viewModels/Artifact';
+import Traits from '../viewModels/Traits';
+import Gear from '../viewModels/Gear';
+import Item from '../viewModels/Item';
+import Relic from '../viewModels/Relic';
+import { Map, toJS } from 'immutable';
 
 describe('characterReducer', () => {
     it('should return initial state', () => {
@@ -8,28 +14,22 @@ describe('characterReducer', () => {
 
     it('should handle RESET_CHARACTER_DATA', () => {
 
-        const init = { test: 'initial' };
+        const init = new Character();
         const action = {
             type: characterActionTypes.RESET_CHARACTER_DATA,
-            data: { test: 'test' }
+            data: new Character({ active: 'test', name: 'joe' })
         };
-        const expected = { test: 'test' };
-        expect(characterReducer(init, action)).toEqual(expected);
+        expect(characterReducer(init, action).active).toEqual('test');
+        expect(characterReducer(init, action).name).toEqual('joe');
     });
 
     it('should handle UPDATE_ARTIFACT_TRAITS', () => {
 
-        const init = { artifact: { traits: {} } };
         const action = {
             type: characterActionTypes.UPDATE_ARTIFACT_TRAITS,
-            data: 'test'
+            data: Map({ test: 'test' })
         };
-        const expected = {
-            artifact: {
-                traits: 'test'
-            }
-        };
-        expect(characterReducer(init, action)).toEqual(expected);
+        expect(characterReducer(undefined, action).artifact.traits.get('test')).toEqual('test');
     });
 
     it('should handle RESET_ARTIFACT_TRAITS when active (spec) is "a" (assassination)', () => {

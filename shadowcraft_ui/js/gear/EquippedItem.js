@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import deepClone from 'deep-clone';
 import PropTypes from 'prop-types';
 import deepEqual from 'deep-equal';
+import Item from '../viewModels/Item';
 
 import store from '../store';
 import { modalTypes } from '../reducers/modalReducer';
@@ -215,19 +216,20 @@ class EquippedItem extends React.Component {
 }
 
 EquippedItem.propTypes = {
-    equippedItem: PropTypes.shape({
-        bonuses: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-        enchant: PropTypes.number.isRequired,
-        gems: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-        icon: PropTypes.string.isRequired,
-        id: PropTypes.number.isRequired,
-        item_level: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        quality: PropTypes.number.isRequired,
-        slot: PropTypes.string.isRequired,
-        socket_count: PropTypes.number.isRequired,
-        stats: PropTypes.object.isRequired,
-    }).isRequired,
+    // equippedItem: PropTypes.shape({
+    //     bonuses: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+    //     enchant: PropTypes.number.isRequired,
+    //     gems: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+    //     icon: PropTypes.string.isRequired,
+    //     id: PropTypes.number.isRequired,
+    //     item_level: PropTypes.number.isRequired,
+    //     name: PropTypes.string.isRequired,
+    //     quality: PropTypes.number.isRequired,
+    //     slot: PropTypes.string.isRequired,
+    //     socket_count: PropTypes.number.isRequired,
+    //     stats: PropTypes.object.isRequired,
+    // }).isRequired,
+    equippedItem: PropTypes.instanceOf(Item).isRequired,
     slot: PropTypes.string.isRequired,
 
     // TODO: modify RESET_SETTINGS in a more appropriate manner and add isRequired back
