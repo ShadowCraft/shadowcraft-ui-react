@@ -262,6 +262,7 @@ class ShadowcraftComputation:
         151817: 'the_curse_of_restlessness',
         151815: 'the_empty_crown',
         151818: 'the_first_of_the_dead',
+        152626: 'insignia_of_the_grand_army',
     }
 
     # combines gearProcs and gearBoosts
