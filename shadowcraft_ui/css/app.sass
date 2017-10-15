@@ -247,7 +247,7 @@ html.websockets, html.history, html.canvas
   border: 1px solid #444444
   position: absolute
   z-index: 101
-  padding: 0 0 0 0
+  padding: 0
   li
     clear: both
     width: 100%
@@ -258,7 +258,7 @@ html.websockets, html.history, html.canvas
     font-weight: bold
     +transition(color 0.2s)
     &:hover
-      +linear-gradient(top, #111111, #050505)
+      +linear-gradient(0deg, #111111, #050505)
       color: white
 
 // This rule has to live here because if it's in the ui.sass file, clearfix isn't defined
@@ -282,7 +282,7 @@ html.websockets, html.history, html.canvas
     display: block
     padding: 3px 3px 2px
     border-radius: 3px
-    +linear-gradient(bottom, #222222, #323232, #4b4b4b)
+    +linear-gradient(180deg, #222222, #323232, #4b4b4b)
     border: 1px solid #444444
     left: 528px
     &.active
@@ -320,7 +320,6 @@ html.websockets, html.history, html.canvas
     border: 1px solid #333333
     label
       white-space: nowrap
-      vertical-align: middle
       +inline-block
       margin: 0.5em
       padding-top: 4px
@@ -615,7 +614,7 @@ a.wowhead
   float: right
   +transition(opacity 0.1s)
   &:hover
-    opacity: 1.0
+    opacity: 1
 
 em.upgrade
   color: #ffd100 !important
@@ -641,10 +640,9 @@ img.upgrade
 .pct
   +inline-block
   height: 13px
-  border: 1px solid #333333
   width: 350px
+  border: 1px solid #333333
   position: relative
-  height: 13px
   .label
     z-index: 11
     font-size: 0.7em
@@ -793,8 +791,6 @@ img.upgrade
       border: 1px solid #333333
       background-color: rgba(0,0,0, 0.4)
       background-position: center center
-      position: relative
-      border-radius: 3px
       width: 56px
       height: 56px
       position: absolute
@@ -802,7 +798,6 @@ img.upgrade
       right: 10px
       font-size: 2em
       color: rgba(255, 255, 255, 0.8)
-      background: rgba(0, 0, 0, 0.6)
       border-radius: 3px
       line-height: 52px
       text-align: center
@@ -826,7 +821,10 @@ img.upgrade
       box-shadow: 0 0 4px 0 black
       background-color: rgba(0,0,0, 0.4)
       background-position: center center
-      position: relative
+      border-radius: 3px
+      width: 56px
+      height: 56px
+      position: absolute
       .grey
         position: absolute
         top: 0
@@ -842,10 +840,6 @@ img.upgrade
         border-color: #ffdd00
       &:hover
         border-color: lime
-      border-radius: 3px
-      width: 56px
-      height: 56px
-      position: absolute
 
 #talentrankings, #upgraderankings, #dpsbreakdown, #traitrankings, #netherlightrankings
   .pct
@@ -1112,13 +1106,12 @@ img.upgrade
       width: 48px
     .ilvl
       font-size: 0.7em
-      color: white
+      color: lime
       position: absolute
       bottom: 1px
       right: 1px
       background: rgba(0, 0, 0, 0.85)
       padding: 1px 2px
-      color: lime
       border-radius: 2px
 
   .name
