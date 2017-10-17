@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { List } from 'immutable';
+import Artifact from '../viewModels/Artifact';
 
 import store from '../store';
 import { updateCharacterState } from '../store';
@@ -74,17 +76,17 @@ class ArtifactFrame extends React.Component {
 
     increase_rank(trait_id) {
         if (this.trait_state.traits[trait_id].enabled &&
-            this.props.artifact.traits[trait_id] < this.trait_state.traits[trait_id].max_rank) {
-            let data = this.props.artifact;
-            data.traits[trait_id] += 1;
+            this.props.artifact.getIn(['traits', trait_id]) < this.trait_state.traits[trait_id].max_rank) {
+            let value = this.props.artifact.getIn(['traits', trait_id]) + 1;
+            let data = this.props.artifact.setIn(['traits', trait_id], value);
             this.update_state(data, true);
         }
     }
 
     decrease_rank(trait_id) {
-        let data = this.props.artifact;
-        if (this.trait_state.traits[trait_id].enabled && data.traits[trait_id] != 0) {
-            data.traits[trait_id] -= 1;
+        let value = this.props.artifact.getIn(['traits', trait_id]);
+        if (this.trait_state.traits[trait_id].enabled && value != 0) {
+            let data = this.props.artifact.setIn(['traits', trait_id], value-1);
             this.update_state(data, true);
         }
     }
@@ -104,21 +106,25 @@ class ArtifactFrame extends React.Component {
         // Force the primary trait to always be enabled. It always will be in-game, and it
         // doesn't get sent in the data from the armory. Setting it up here means that it will
         // get displayed correctly on the frame.
-        artifact_data.traits[this.props.layout.primary_trait] = 1;
+        artifact_data = artifact_data.setIn(['traits', this.props.layout.primary_trait], 1);
 
         // Get a quick count of the number of relics we have. We do more with relics later, but
         // need the count right now so the paragon trait doesn't get enabled too early.
-        for (let relic in artifact_data.relics) {
-            if (artifact_data.relics[relic].id != 0) {
-                artifact_data.traits[artifact_data.relics[relic].id] -= 1;
+        artifact_data.get('relics').forEach(function(relic) {
+            let id = relic.get('id');
+            if (id != 0) {
+                let value = artifact_data.getIn(['traits', id]) - 1;
+                artifact_data = artifact_data.setIn(['traits', id], value);
             }
-        }
+        });
 
         // Calculate how many traits are selected, minus the relic additions. This makes some
         // calculations easier later on, so we take the speed loss on looping through the
         // extra time. Don't include the main trait in the count. Seriously. Blizzard and Wowhead
         // both don't include it in their counts, I promise.
-        this.trait_state.total_traits = Object.values(artifact_data.traits).reduce((a, b) => a + b);
+        // TODO: i'm sure there's some way to do this with a reduce()
+        this.trait_state.total_traits = 0;
+        artifact_data.get('traits').valueSeq().forEach(v => this.trait_state.total_traits += v);
         this.trait_state.total_traits -= 1;
 
         // Do some setup of the trait state. Disable all of the traits and set all of their
@@ -130,11 +136,11 @@ class ArtifactFrame extends React.Component {
             // If the paragon trait is enabled we need to bump all 3-point traits to be 4-point
             // traits. If the paragon trait isn't enabled, we need to make sure that all of the
             // now-3-point traits aren't greater than their max.
-            if (artifact_data.traits[this.props.layout.paragon_trait] > 0 &&
+            if (artifact_data.getIn(['traits', this.props.layout.paragon_trait]) > 0 &&
                 this.trait_state.traits[t].default_max_rank == 3) {
                 this.trait_state.traits[t].max_rank += 1;
-            } else if (artifact_data.traits[t] > this.trait_state.traits[t].max_rank) {
-                artifact_data.traits[t] = this.trait_state.traits[t].max_rank;
+            } else if (artifact_data.getIn(['traits', t]) > this.trait_state.traits[t].max_rank) {
+                artifact_data = artifact_data.setIn(['traits', t], this.trait_state.traits[t].max_rank);
             }
         }
 
@@ -144,8 +150,8 @@ class ArtifactFrame extends React.Component {
             this.trait_state.traits[this.props.layout.paragon_trait].enabled = true;
         }
 
-        if (this.props.layout.paragon_trait in artifact_data.traits &&
-            artifact_data.traits[this.props.layout.paragon_trait] > 0) {
+        if (artifact_data.get('traits').has(this.props.layout.paragon_trait) &&
+            artifact_data.getIn(['traits', this.props.layout.paragon_trait]) > 0) {
             traits_to_check.push(this.props.layout.second_major);
         }
 
@@ -161,11 +167,11 @@ class ArtifactFrame extends React.Component {
             // Add connected traits to the check list if one of the following:
             // 1. The trait is at max rank (always true for the first major trait)
             // 2. The trait is a 4-point trait, has at least 3 points in it, and the 35 point trait is active
-            if (artifact_data.traits[trait] == this.trait_state.traits[trait].max_rank ||
+            if (artifact_data.getIn(['traits', trait]) == this.trait_state.traits[trait].max_rank ||
                 (this.props.layout.paragon_trait in artifact_data.traits &&
-                    artifact_data.traits[this.props.layout.paragon_trait] > 0 &&
+                    artifact_data.getIn(['traits', this.props.layout.paragon_trait]) > 0 &&
                     this.trait_state.traits[trait].max_rank == 4 &&
-                    trait in artifact_data.traits && artifact_data.traits[trait] >= 3)) {
+                    artifact_data.get('traits').has(trait) && artifact_data.getIn(['traits', trait]) >= 3)) {
                 if (trait in this.connected_traits) {
                     traits_to_check = traits_to_check.concat(this.connected_traits[trait]);
                 }
@@ -177,41 +183,49 @@ class ArtifactFrame extends React.Component {
         for (trait in this.trait_state.traits) {
             if (trait != this.props.layout.paragon_trait &&
                 traits_checked.indexOf(parseInt(trait)) == -1) {
-                artifact_data.traits[trait] = 0;
+                artifact_data = artifact_data.setIn(['traits', trait], 0);
             }
         }
 
         // Now that we've made all of the necessary changes to the state, re-run the counter
         // so that the display is correct. Do this before making modifications for the relics
         // so they're not included in the count.
-        this.trait_state.total_traits = Object.values(artifact_data.traits).reduce((a, b) => a + b);
+        // TODO: i'm sure there's some way to do this with a reduce()
+        this.trait_state.total_traits = 0;
+        artifact_data.get('traits').valueSeq().forEach(v => this.trait_state.total_traits += v);
         this.trait_state.total_traits -= 1;
 
         // Fix the max ranks for traits that have relics attached
-        for (let relic in artifact_data.relics) {
-            let relic_trait = artifact_data.relics[relic].id;
-
+        let relic_traits = new List();
+        artifact_data.get('relics').forEach(function(relic) {
+            let relic_trait = relic.get('id');
             if (relic_trait != 0) {
-                artifact_data.traits[artifact_data.relics[relic].id] += 1;
                 this.trait_state.traits[relic_trait].max_rank += 1;
                 this.trait_state.traits[relic_trait].enabled = true;
+                relic_traits = relic_traits.push(relic_trait);
             }
-        }
+        }.bind(this));
+
+        relic_traits.forEach(function(trait) {
+            let value = artifact_data.getIn(['traits', trait]) + 1;
+            artifact_data = artifact_data.setIn(['traits', trait]);
+        });
 
         if (send_state) {
             store.dispatch(updateCharacterState("UPDATE_ARTIFACT_TRAITS", artifact_data.traits));
         }
+
+        return artifact_data;
     }
 
     render() {
         let trait_elements = [];
         let line_elements = [];
-
-        this.update_state(Object.assign({}, this.props.artifact), false);
+        let artifact_data = this.update_state(this.props.artifact, false);
 
         for (let idx in this.props.layout.traits) {
             let trait = this.props.layout.traits[idx];
-            let trait_rank = this.props.artifact.traits[trait.id];
+            let trait_rank = artifact_data.getIn(['traits', trait.id.toString()]);
             let trait_state = this.trait_state.traits[trait.id];
 
             // The position that we grab from wowhead is translated to match the center
@@ -244,14 +258,14 @@ class ArtifactFrame extends React.Component {
             let x2 = trait2.x / FRAME_WIDTH * 100.0;
             let y2 = trait2.y / FRAME_HEIGHT * 100.0;
 
-            let tdata = this.props.artifact.traits;
+            let tdata = artifact_data.get('traits');
             let tstate = this.trait_state.traits;
 
             let color = 'grey';
             if (tstate[trait1.id].enabled &&
                 tstate[trait2.id].enabled &&
-                (((tdata[trait1.id] == tstate[trait1.id].max_rank) || (tdata[trait1.id] == tstate[trait1.id].max_rank - 1 && tdata[this.props.layout.paragon_trait] > 0)) ||
-                    ((tdata[trait2.id] == tstate[trait2.id].max_rank) || (tdata[trait2.id] == tstate[trait2.id].max_rank - 1 && tdata[this.props.layout.paragon_trait] > 0)))) {
+                (((tdata.get(trait1.id) == tstate[trait1.id].max_rank) || (tdata.get(trait1.id) == tstate[trait1.id].max_rank - 1 && tdata.get(this.props.layout.paragon_trait) > 0)) ||
+                    ((tdata.get(trait2.id) == tstate[trait2.id].max_rank) || (tdata.get(trait2.id) == tstate[trait2.id].max_rank - 1 && tdata.get(this.props.layout.paragon_trait) > 0)))) {
                 color = 'yellow';
             }
 
@@ -274,11 +288,11 @@ class ArtifactFrame extends React.Component {
                 </div>
 
                 <br />
-                <ArtifactRelicSelect index="0" relics={this.relics} selected={this.props.artifact.relics[0]} type={this.props.layout.relics[0]} />
+                <ArtifactRelicSelect index="0" relics={this.relics} selected={artifact_data.getIn(['relics', '0'])} type={this.props.layout.relics[0]} />
                 <br />
-                <ArtifactRelicSelect index="1" relics={this.relics} selected={this.props.artifact.relics[1]} type={this.props.layout.relics[1]} />
+                <ArtifactRelicSelect index="1" relics={this.relics} selected={artifact_data.getIn(['relics', '1'])} type={this.props.layout.relics[1]} />
                 <br />
-                <ArtifactRelicSelect index="2" relics={this.relics} selected={this.props.artifact.relics[2]} type={this.props.layout.relics[2]} />
+                <ArtifactRelicSelect index="2" relics={this.relics} selected={artifact_data.getIn(['relics', '2'])} type={this.props.layout.relics[2]} />
                 <br />
                 Netherlight Crucible:<br />
                 <ArtifactNetherlightSelect index="0" relics={this.relics} />
@@ -312,25 +326,12 @@ ArtifactFrame.propTypes = {
         artifact: PropTypes.string.isRequired,
         relics: PropTypes.array.isRequired
     }).isRequired,
-    artifact: PropTypes.shape({
-        relics: PropTypes.arrayOf(
-            PropTypes.shape({
-                ilvl: PropTypes.number.isRequired,
-                id: PropTypes.number.isRequired,
-            }).isRequired
-        ).isRequired,
-        traits: PropTypes.objectOf(PropTypes.number.isRequired).isRequired
-    }).isRequired,
-    mainHand: PropTypes.shape({
-        stats: PropTypes.object.isRequired,
-        weaponStats: PropTypes.object.isRequired
-    }).isRequired,
+    artifact: PropTypes.instanceOf(Artifact).isRequired,
 };
 
 const mapStateToProps = function (store) {
     return {
-        artifact: store.character.artifact,
-        mainHand: store.character.gear['mainHand']
+        artifact: store.character.get('artifact')
     };
 };
 

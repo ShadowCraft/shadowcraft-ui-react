@@ -20,4 +20,4 @@ export default class Item extends Record(initItem) {
         let _item = item || new Record(initItem)();
         super(_item);
     }
- }
+}

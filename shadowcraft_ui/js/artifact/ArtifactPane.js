@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import store from '../store';
 import { updateCharacterState } from '../store';
+import Artifact from '../viewModels/Artifact';
 
 import RankingSection from '../SidebarRanking';
 import * as layouts from './ArtifactLayouts';
@@ -102,9 +103,7 @@ class ArtifactPane extends React.Component {
 }
 
 ArtifactPane.propTypes = {
-    artifact: PropTypes.shape({
-        traits: PropTypes.objectOf(PropTypes.number.isRequired).isRequired
-    }).isRequired,
+    artifact: PropTypes.instanceOf(Artifact).isRequired,
     activeSpec: PropTypes.string.isRequired,
     rankings: PropTypes.objectOf(PropTypes.number.isRequired).isRequired
 };
@@ -112,8 +111,8 @@ ArtifactPane.propTypes = {
 const mapStateToProps = function (store) {
     return {
         rankings: store.engine.traitRanking,
-        artifact: store.character.artifact,
-        activeSpec: store.character.active
+        artifact: store.character.get('artifact'),
+        activeSpec: store.character.get('active')
     };
 };
 
