@@ -106,14 +106,14 @@ class ArtifactFrame extends React.Component {
         // Force the primary trait to always be enabled. It always will be in-game, and it
         // doesn't get sent in the data from the armory. Setting it up here means that it will
         // get displayed correctly on the frame.
-        artifact_data = artifact_data.setIn(['traits', this.props.layout.primary_trait], 1);
+        artifact_data = artifact_data.setIn(['traits', this.props.layout.primary_trait.toString()], 1);
 
         // Get a quick count of the number of relics we have. We do more with relics later, but
         // need the count right now so the paragon trait doesn't get enabled too early.
         artifact_data.get('relics').forEach(function(relic) {
-            let id = relic.get('id');
-            if (id != 0) {
-                let value = artifact_data.getIn(['traits', id]) - 1;
+            let id = relic.get('id').toString();
+            if (id !== '0') {
+                let value = parseInt(artifact_data.getIn(['traits', id])) - 1;
                 artifact_data = artifact_data.setIn(['traits', id], value);
             }
         });
@@ -122,9 +122,10 @@ class ArtifactFrame extends React.Component {
         // calculations easier later on, so we take the speed loss on looping through the
         // extra time. Don't include the main trait in the count. Seriously. Blizzard and Wowhead
         // both don't include it in their counts, I promise.
-        // TODO: i'm sure there's some way to do this with a reduce()
         this.trait_state.total_traits = 0;
-        artifact_data.get('traits').valueSeq().forEach(v => this.trait_state.total_traits += v);
+        artifact_data.get('traits').valueSeq().forEach(function(v) {
+            this.trait_state.total_traits += v;
+        }.bind(this));
         this.trait_state.total_traits -= 1;
 
         // Do some setup of the trait state. Disable all of the traits and set all of their
@@ -136,11 +137,11 @@ class ArtifactFrame extends React.Component {
             // If the paragon trait is enabled we need to bump all 3-point traits to be 4-point
             // traits. If the paragon trait isn't enabled, we need to make sure that all of the
             // now-3-point traits aren't greater than their max.
-            if (artifact_data.getIn(['traits', this.props.layout.paragon_trait]) > 0 &&
+            if (artifact_data.getIn(['traits', this.props.layout.paragon_trait.toString()]) > 0 &&
                 this.trait_state.traits[t].default_max_rank == 3) {
                 this.trait_state.traits[t].max_rank += 1;
-            } else if (artifact_data.getIn(['traits', t]) > this.trait_state.traits[t].max_rank) {
-                artifact_data = artifact_data.setIn(['traits', t], this.trait_state.traits[t].max_rank);
+            } else if (artifact_data.getIn(['traits', t.toString()]) > this.trait_state.traits[t].max_rank) {
+                artifact_data = artifact_data.setIn(['traits', t.toString()], this.trait_state.traits[t].max_rank);
             }
         }
 
@@ -150,8 +151,9 @@ class ArtifactFrame extends React.Component {
             this.trait_state.traits[this.props.layout.paragon_trait].enabled = true;
         }
 
-        if (artifact_data.get('traits').has(this.props.layout.paragon_trait) &&
-            artifact_data.getIn(['traits', this.props.layout.paragon_trait]) > 0) {
+        if (artifact_data.get('traits').has(this.props.layout.paragon_trait.toString()) &&
+            artifact_data.getIn(['traits', this.props.layout.paragon_trait.toString()]) > 0)
+        {
             traits_to_check.push(this.props.layout.second_major);
         }
 
@@ -167,11 +169,11 @@ class ArtifactFrame extends React.Component {
             // Add connected traits to the check list if one of the following:
             // 1. The trait is at max rank (always true for the first major trait)
             // 2. The trait is a 4-point trait, has at least 3 points in it, and the 35 point trait is active
-            if (artifact_data.getIn(['traits', trait]) == this.trait_state.traits[trait].max_rank ||
-                (this.props.layout.paragon_trait in artifact_data.traits &&
-                    artifact_data.getIn(['traits', this.props.layout.paragon_trait]) > 0 &&
-                    this.trait_state.traits[trait].max_rank == 4 &&
-                    artifact_data.get('traits').has(trait) && artifact_data.getIn(['traits', trait]) >= 3)) {
+            if (artifact_data.getIn(['traits', trait.toString()]) == this.trait_state.traits[trait].max_rank ||
+                 (artifact_data.getIn(['traits', this.props.layout.paragon_trait.toString()], 0) > 0 &&
+                  this.trait_state.traits[trait].max_rank == 4 &&
+                  artifact_data.getIn(['traits', trait.toString()], 0) >= 3))
+            {
                 if (trait in this.connected_traits) {
                     traits_to_check = traits_to_check.concat(this.connected_traits[trait]);
                 }
@@ -183,16 +185,17 @@ class ArtifactFrame extends React.Component {
         for (trait in this.trait_state.traits) {
             if (trait != this.props.layout.paragon_trait &&
                 traits_checked.indexOf(parseInt(trait)) == -1) {
-                artifact_data = artifact_data.setIn(['traits', trait], 0);
+                artifact_data = artifact_data.setIn(['traits', trait.toString()], 0);
             }
         }
 
         // Now that we've made all of the necessary changes to the state, re-run the counter
         // so that the display is correct. Do this before making modifications for the relics
         // so they're not included in the count.
-        // TODO: i'm sure there's some way to do this with a reduce()
         this.trait_state.total_traits = 0;
-        artifact_data.get('traits').valueSeq().forEach(v => this.trait_state.total_traits += v);
+        artifact_data.get('traits').valueSeq().forEach(function(v) {
+            this.trait_state.total_traits += v;
+        }.bind(this));
         this.trait_state.total_traits -= 1;
 
         // Fix the max ranks for traits that have relics attached
@@ -207,8 +210,8 @@ class ArtifactFrame extends React.Component {
         }.bind(this));
 
         relic_traits.forEach(function(trait) {
-            let value = artifact_data.getIn(['traits', trait]) + 1;
-            artifact_data = artifact_data.setIn(['traits', trait]);
+            let value = artifact_data.getIn(['traits', trait.toString()]) + 1;
+            artifact_data = artifact_data.setIn(['traits', trait.toString()], value);
         });
 
         if (send_state) {
