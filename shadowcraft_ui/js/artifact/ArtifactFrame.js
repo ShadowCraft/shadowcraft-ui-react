@@ -75,18 +75,18 @@ class ArtifactFrame extends React.Component {
     }
 
     increase_rank(trait_id) {
-        if (this.trait_state.traits[trait_id].enabled &&
-            this.props.artifact.getIn(['traits', trait_id]) < this.trait_state.traits[trait_id].max_rank) {
-            let value = this.props.artifact.getIn(['traits', trait_id]) + 1;
-            let data = this.props.artifact.setIn(['traits', trait_id], value);
+        if (this.trait_state.traits[trait_id].enabled && this.props.artifact.getIn(['traits', trait_id.toString()]) < this.trait_state.traits[trait_id].max_rank)
+        {
+            let value = this.props.artifact.getIn(['traits', trait_id.toString()]) + 1;
+            let data = this.props.artifact.setIn(['traits', trait_id.toString()], value);
             this.update_state(data, true);
         }
     }
 
     decrease_rank(trait_id) {
-        let value = this.props.artifact.getIn(['traits', trait_id]);
+        let value = this.props.artifact.getIn(['traits', trait_id.toString()]);
         if (this.trait_state.traits[trait_id].enabled && value != 0) {
-            let data = this.props.artifact.setIn(['traits', trait_id], value-1);
+            let data = this.props.artifact.setIn(['traits', trait_id.toString()], value-1);
             this.update_state(data, true);
         }
     }
