@@ -191,11 +191,11 @@ export const characterReducer = function (state = new Character(), action) {
         }
 
         case characterActionTypes.UPDATE_SPEC: {
-            return state.set('active', action.data).toJS();
+            return state.set('active', action.data);
         }
 
         case characterActionTypes.UPDATE_TALENTS: {
-            return state.setIn(['talents', 'current'], action.data).toJS();
+            return state.setIn(['talents', 'current'], action.data);
         }
 
         case characterActionTypes.CHANGE_ITEM: {

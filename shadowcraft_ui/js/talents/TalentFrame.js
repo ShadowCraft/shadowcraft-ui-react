@@ -77,7 +77,7 @@ class TalentFrame extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-        currentTalents: store.character.talents.current
+        currentTalents: store.character.getIn(['talents','current'])
     };
 };
 

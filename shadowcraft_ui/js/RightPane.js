@@ -177,10 +177,10 @@ RightPane.propTypes = {
 
 const mapStateToProps = function (store) {
     return {
-        name: store.character.name,
-        region: store.character.region,
-        realm: store.character.realm,
-        portrait: store.character.portrait,
+        name: store.character.get('name'),
+        region: store.character.get('region'),
+        realm: store.character.get('realm'),
+        portrait: store.character.get('portrait'),
         dps: store.engine.totalDps,
         warnings: store.warnings.warnings,
         history: store.history

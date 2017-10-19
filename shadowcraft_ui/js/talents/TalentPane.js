@@ -61,9 +61,9 @@ class TalentPane extends React.Component {
                     <section>
                         <h3>Talent Sets</h3>
                         <div className="inner" id="talentsets">
-                            <TalentSetButton spec="a" talents={this.props.talents['a']} name="Imported Assassination" handler={this.clickButton} />
-                            <TalentSetButton spec="Z" talents={this.props.talents['Z']} name="Imported Outlaw" handler={this.clickButton} />
-                            <TalentSetButton spec="b" talents={this.props.talents['b']} name="Imported Subtlety" handler={this.clickButton} />
+                            <TalentSetButton spec="a" talents={this.props.talents.get('a')} name="Imported Assassination" handler={this.clickButton} />
+                            <TalentSetButton spec="Z" talents={this.props.talents.get('Z')} name="Imported Outlaw" handler={this.clickButton} />
+                            <TalentSetButton spec="b" talents={this.props.talents.get('b')} name="Imported Subtlety" handler={this.clickButton} />
                             <TalentSetButton spec="a" talents="2211021" name="Stock Assassination" handler={this.clickButton} />
                             <TalentSetButton spec="Z" talents="2211011" name="Stock Outlaw" handler={this.clickButton} />
                             <TalentSetButton spec="b" talents="1210011" name="Stock Subtlety" handler={this.clickButton} />
@@ -80,8 +80,8 @@ class TalentPane extends React.Component {
 const mapStateToProps = function (store) {
     return {
         rankings: store.engine.talentRanking,
-        activeSpec: store.character.active,
-        talents: store.character.talents,
+        activeSpec: store.character.get('active'),
+        talents: store.character.get('talents')
     };
 };
 
