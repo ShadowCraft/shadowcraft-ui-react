@@ -7,12 +7,12 @@ import Stats from '../viewModels/Stats';
 import Talents from '../viewModels/Talents';
 import Gear from '../viewModels/Gear';
 import Item from '../viewModels/Item';
-import { fromJS, Record, Map } from 'immutable';
+import { fromJS, Record, Map, List } from 'immutable';
 
 export const characterActionTypes = {
     RESET_CHARACTER_DATA: 'RESET_CHARACTER_DATA',
     UPDATE_ARTIFACT_TRAITS: 'UPDATE_ARTIFACT_TRAITS',
-    RESET_ARTIFACT_TRAITS: 'RESET_ARTIFACT_TRAITS',
+    RESET_ARTIFACT: 'RESET_ARTIFACT',
     UPDATE_ARTIFACT_RELIC: 'UPDATE_ARTIFACT_RELIC',
     UPDATE_NETHERLIGHT: 'UPDATE_NETHERLIGHT',
     UPDATE_SPEC: 'UPDATE_SPEC',
@@ -24,7 +24,6 @@ export const characterActionTypes = {
     OPTIMIZE_GEMS: 'OPTIMIZE_GEMS',
     OPTIMIZE_ENCHANTS: 'OPTIMIZE_ENCHANTS',
     SWAP_ARTIFACT_WEAPON: 'SWAP_ARTIFACT_WEAPON',
-    CLEAR_ARTIFACT_RELICS: 'CLEAR_ARTIFACT_RELICS',
 };
 
 function makeGem(actionGem) {
@@ -104,12 +103,17 @@ export const characterReducer = function (state = new Character(), action) {
             return state.setIn(['artifact', 'traits'], action.data);
         }
 
-        case characterActionTypes.RESET_ARTIFACT_TRAITS: {
-            return state.setIn(['artifact', 'traits'], new Traits(action.data)).toJS();
-        }
+        case characterActionTypes.RESET_ARTIFACT: {
+            let newRelics = new List([new Relic(), new Relic(), new Relic()]);
+            let newNL = new List([new Map({tier2: 0, tier3: 0}),
+                                  new Map({tier2: 0, tier3: 0}),
+                                  new Map({tier2: 0, tier3: 0})]);
 
-        case characterActionTypes.CLEAR_ARTIFACT_RELICS: {
-            return state.setIn(['artifact', 'relics'], [new Relic(), new Relic(), new Relic()]).toJS();
+            let newState = state.setIn(['artifact', 'traits'], Traits(action.data));
+            newState = newState.setIn(['artifact', 'relics'], newRelics);
+            newState = newState.setIn(['artifact', 'netherlight'], newNL);
+
+            return newState;
         }
 
         case characterActionTypes.UPDATE_ARTIFACT_RELIC: {
@@ -122,8 +126,8 @@ export const characterReducer = function (state = new Character(), action) {
             // one from the value for that trait. If the trait didn't change, it'll get set
             // back later.
             if (currentRelicId !== 0) {
-                let value = state.getIn(['artifact', 'traits', currentRelicId.toString()]) - 1;
-                state = state.setIn(['artifact', 'traits', currentRelicId.toString()], value);
+                let value = state.getIn(['artifact', 'traits', currentRelicId]) - 1;
+                state = state.setIn(['artifact', 'traits', currentRelicId], value);
             }
 
             // Determine what the artifact's ilvl should be based on any relic changes
@@ -141,8 +145,8 @@ export const characterReducer = function (state = new Character(), action) {
 
                 let mainHand = state.getIn(['gear', 'mainHand']);
                 let newIlvl = mainHand.get('item_level') + ilvlChange;
-                let newStats = recalculateStats(mainHand.get('stats').toJS(), ilvlChange, 'mainHand');
-                let newWeaponStats = recalculateStats(mainHand.get('weaponStats').toJS(), ilvlChange,
+                let newStats = recalculateStats(mainHand.get('stats'), ilvlChange, 'mainHand');
+                let newWeaponStats = recalculateStats(mainHand.get('weaponStats'), ilvlChange,
                     'mainHand');
 
                 mainHand = mainHand.set('item_level', newIlvl)
@@ -151,8 +155,8 @@ export const characterReducer = function (state = new Character(), action) {
 
                 let offHand = state.getIn(['gear', 'offHand']);
                 newIlvl = offHand.get('item_level') + ilvlChange;
-                newStats = recalculateStats(offHand.get('stats').toJS(), ilvlChange, 'offHand');
-                newWeaponStats = recalculateStats(offHand.get('weaponStats').toJS(), ilvlChange,
+                newStats = recalculateStats(offHand.get('stats'), ilvlChange, 'offHand');
+                newWeaponStats = recalculateStats(offHand.get('weaponStats'), ilvlChange,
                     'offHand');
 
                 offHand = offHand.set('item_level', newIlvl)
@@ -169,16 +173,17 @@ export const characterReducer = function (state = new Character(), action) {
 
             // Update the new trait
             if (action.data.trait !== 0) {
-                let value = state.getIn(['artifact', 'traits', action.data.trait.toString()]) + 1;
-                state = state.setIn(['artifact', 'traits', action.data.trait.toString()], value);
+                let value = state.getIn(['artifact', 'traits', action.data.trait]) + 1;
+                state = state.setIn(['artifact', 'traits', action.data.trait], value);
             }
 
-            return state.toJS();
+            return state;
         }
 
         case characterActionTypes.UPDATE_NETHERLIGHT: {
-            return state.setIn(['artifact', 'netherlight', action.data.slot],
-                { tier2: action.data.tier2, tier3: action.data.tier3 }).toJS();
+            state = state.setIn(['artifact', 'netherlight', action.data.slot, 'tier2'], action.data.tier2);
+            state = state.setIn(['artifact', 'netherlight', action.data.slot, 'tier3'], action.data.tier3);
+            return state;
         }
 
         case characterActionTypes.SWAP_ARTIFACT_WEAPON: {

@@ -18,21 +18,7 @@ class ArtifactPane extends React.Component {
 
     clickResetButton(e) {
         e.preventDefault();
-
-        // Reset all traits and relics to zero and push it upwards to the character pane to reset
-        // the state there.
-        var traits = {};
-        var relics = [];
-
-        for (var i = 0; i < 3; i++) {
-            relics.push({ id: 0, ilvl: 0 });
-        }
-
-        for (var trait in this.props.artifact.traits) {
-            traits[trait] = 0;
-        }
-
-        store.dispatch(updateCharacterState("UPDATE_ARTIFACT_TRAITS", traits));
+        store.dispatch(updateCharacterState("RESET_ARTIFACT", this.props.activeSpec));
     }
 
     render() {

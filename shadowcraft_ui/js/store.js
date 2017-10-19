@@ -85,10 +85,9 @@ export function changeSpecialization(oldSpec, newSpec, newTalents) {
                 }
             }
         }
-        dispatch({ type: characterActionTypes.RESET_ARTIFACT_TRAITS, data: newSpec });
+        dispatch({ type: characterActionTypes.RESET_ARTIFACT, data: newSpec });
         dispatch({ type: characterActionTypes.UPDATE_TALENTS, data: newTalents });
         dispatch({ type: characterActionTypes.UPDATE_SPEC, data: newSpec });
-        dispatch({ type: characterActionTypes.CLEAR_ARTIFACT_RELICS });
         dispatch(getEngineData());
     };
 }

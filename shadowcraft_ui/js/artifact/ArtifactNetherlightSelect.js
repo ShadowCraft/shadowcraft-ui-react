@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import store from '../store';
 import { updateCharacterState } from '../store';
 import { netherlight_traits } from './ArtifactLayouts';
+import { Map } from 'immutable';
 
 class ArtifactNetherlightSelect extends React.Component {
 
@@ -19,14 +20,14 @@ class ArtifactNetherlightSelect extends React.Component {
         store.dispatch(updateCharacterState("UPDATE_NETHERLIGHT",
                                             {slot: this.props.index,
                                              tier2: parseInt(e.target.value),
-                                             tier3: this.props.netherlightRelic.tier3}));
+                                             tier3: this.props.netherlightRelic.get('tier3')}));
     }
 
     handleTier3Change(e) {
         e.preventDefault();
         store.dispatch(updateCharacterState("UPDATE_NETHERLIGHT",
                                             {slot: this.props.index,
-                                             tier2: this.props.netherlightRelic.tier2,
+                                             tier2: this.props.netherlightRelic.get('tier2'),
                                              tier3: parseInt(e.target.value)}));
     }
 
@@ -48,7 +49,7 @@ class ArtifactNetherlightSelect extends React.Component {
                         className="optionSelect"
                         id={'relic-' + this.props.index + '-select'}
                         data-index={this.props.index}
-                        value={this.props.netherlightRelic.tier2}
+                        value={this.props.netherlightRelic.get('tier2')}
                         onChange={this.handleTier2Change}
                     >
                         <option id={`nlTier2-${this.props.index}-none`} value="0">None</option>
@@ -60,7 +61,7 @@ class ArtifactNetherlightSelect extends React.Component {
                         className="optionSelect"
                         id={'relic-' + this.props.index + '-select'}
                         data-index={this.props.index}
-                        value={this.props.netherlightRelic.tier3}
+                        value={this.props.netherlightRelic.get('tier3')}
                         onChange={this.handleTier3Change}
                     >
                         <option id={`nlTier3-${this.props.index}-none`} value="0">None</option>
@@ -75,15 +76,12 @@ class ArtifactNetherlightSelect extends React.Component {
 ArtifactNetherlightSelect.propTypes = {
     index: PropTypes.string.isRequired,
     relics: PropTypes.arrayOf(PropTypes.array.isRequired).isRequired,
-    netherlightRelic: PropTypes.shape({
-        tier2: PropTypes.number.isRequired,
-        tier3: PropTypes.number.isRequired
-    }).isRequired
+    netherlightRelic: PropTypes.instanceOf(Map).isRequired,
 };
 
 const mapStateToProps = function (store, ownProps) {
     return {
-        netherlightRelic: store.character.artifact.netherlight[ownProps.index]
+        netherlightRelic: store.character.getIn(['artifact','netherlight',ownProps.index])
     };
 };
 
