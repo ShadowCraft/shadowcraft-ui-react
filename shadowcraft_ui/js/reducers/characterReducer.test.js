@@ -5,7 +5,7 @@ import Traits from '../viewModels/Traits';
 import Gear from '../viewModels/Gear';
 import Item from '../viewModels/Item';
 import Relic from '../viewModels/Relic';
-import { Map, toJS } from 'immutable';
+import { Map, List, toJS } from 'immutable';
 
 describe('characterReducer', () => {
     it('should return initial state', () => {
@@ -32,10 +32,10 @@ describe('characterReducer', () => {
         expect(characterReducer(undefined, action).artifact.traits.get('test')).toEqual('test');
     });
 
-    it('should handle RESET_ARTIFACT_TRAITS when active (spec) is "a" (assassination)', () => {
+    it('should handle RESET_ARTIFACT when active (spec) is "a" (assassination)', () => {
         const init = { artifact: { traits: { 0: 0, 1: 1 } } };
         const action = {
-            type: characterActionTypes.RESET_ARTIFACT_TRAITS,
+            type: characterActionTypes.RESET_ARTIFACT,
             data: 'a'
         };
         const expected = {
@@ -64,16 +64,18 @@ describe('characterReducer', () => {
                     238102: 0,
                     238138: 0,
                     239042: 0,
-                }
+                },
+                relics: [{id: 0, ilvl: 835}, {id: 0, ilvl: 835}, {id: 0, ilvl: 835}],
+                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}]
             }
         };
-        expect(characterReducer(init, action)).toEqual(expected);
+        expect(characterReducer(init, action).toJS()).toEqual(expected);
     });
 
-    it('should handle RESET_ARTIFACT_TRAITS when active (spec) is "Z" (outlaw)', () => {
+    it('should handle RESET_ARTIFACT when active (spec) is "Z" (outlaw)', () => {
         const init = { artifact: { traits: { 0: 0, 1: 1 } } };
         const action = {
-            type: characterActionTypes.RESET_ARTIFACT_TRAITS,
+            type: characterActionTypes.RESET_ARTIFACT,
             data: 'Z'
         };
         const expected = {
@@ -102,16 +104,18 @@ describe('characterReducer', () => {
                     238103: 0,
                     238139: 0,
                     239042: 0,
-                }
+                },
+                relics: [{id: 0, ilvl: 835}, {id: 0, ilvl: 835}, {id: 0, ilvl: 835}],
+                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}]
             }
         };
-        expect(characterReducer(init, action)).toEqual(expected);
+        expect(characterReducer(init, action).toJS()).toEqual(expected);
     });
 
-    it('should handle RESET_ARTIFACT_TRAITS when active (spec) is "b" (subtlety)', () => {
+    it('should handle RESET_ARTIFACT when active (spec) is "b" (subtlety)', () => {
         const init = { artifact: { traits: { 0: 0, 1: 1 } } };
         const action = {
-            type: characterActionTypes.RESET_ARTIFACT_TRAITS,
+            type: characterActionTypes.RESET_ARTIFACT,
             data: 'b'
         };
         const expected = {
@@ -140,10 +144,12 @@ describe('characterReducer', () => {
                     242707: 0,
                     238140: 0,
                     239042: 0,
-                }
+                },
+                relics: [{id: 0, ilvl: 835}, {id: 0, ilvl: 835}, {id: 0, ilvl: 835}],
+                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}]
             }
         };
-        expect(characterReducer(init, action)).toEqual(expected);
+        expect(characterReducer(init, action).toJS()).toEqual(expected);
     });
 
     it('should handle UPDATE_ARTIFACT_RELIC when current relic trait != 0', () => {
@@ -181,16 +187,15 @@ describe('characterReducer', () => {
                     }
                 }
             },
-            artifact: {
+            artifact: new Artifact({
                 relics: [
                     { id: 1, ilvl: 850 },
                     { id: 1, ilvl: 850 },
                     { id: 1, ilvl: 850 }
                 ],
                 traits: { 1: 3, 2: 0 },
-                netherlight: undefined,
-                spec: undefined
-            }
+                spec: 'a'
+            })
         };
         const action = {
             type: characterActionTypes.UPDATE_ARTIFACT_RELIC,
@@ -240,12 +245,12 @@ describe('characterReducer', () => {
                     { id: 1, ilvl: 850 }
                 ],
                 traits: { 1: 2, 2: 1 },
-                netherlight: undefined,
-                spec: undefined
+                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}],
+                spec: 'a'
             }
 
         };
-        expect(characterReducer(init, action)).toEqual(expected);
+        expect(characterReducer(init, action).toJS()).toEqual(expected);
     });
 
     it('should handle UPDATE_ARTIFACT_RELIC when current relic trait = 0', () => {
@@ -282,16 +287,15 @@ describe('characterReducer', () => {
                     }
                 }
             },
-            artifact: {
+            artifact: new Artifact({
                 relics: [
                     { id: 0, ilvl: 0 },
                     { id: 1, ilvl: 850 },
                     { id: 1, ilvl: 850 }
                 ],
                 traits: { 1: 2 },
-                netherlight: undefined,
-                spec: undefined
-            }
+                spec: 'a'
+            })
         };
         const action = {
             type: characterActionTypes.UPDATE_ARTIFACT_RELIC,
@@ -341,12 +345,12 @@ describe('characterReducer', () => {
                     { id: 1, ilvl: 850 }
                 ],
                 traits: { 1: 3 },
-                netherlight: undefined,
-                spec: undefined
+                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}],
+                spec: 'a'
             }
 
         };
-        expect(characterReducer(init, action)).toEqual(expected);
+        expect(characterReducer(init, action).toJS()).toEqual(expected);
     });
 
     it('should handle UPDATE_ARTIFACT_RELIC when ilvl are equal', () => {
@@ -364,14 +368,15 @@ describe('characterReducer', () => {
                     weaponStats: {}
                 }
             },
-            artifact: {
+            artifact: new Artifact({
                 relics: [
                     { id: 1, ilvl: 850 },
                     { id: 1, ilvl: 865 },
                     { id: 1, ilvl: 850 }
                 ],
-                traits: { 1: 3, 2: 0 }
-            }
+                traits: { 1: 3, 2: 0 },
+                spec: 'a'
+            })
         };
         const action = {
             type: characterActionTypes.UPDATE_ARTIFACT_RELIC,
@@ -400,11 +405,13 @@ describe('characterReducer', () => {
                     { id: 2, ilvl: 865 },
                     { id: 1, ilvl: 850 }
                 ],
-                traits: { 1: 2, 2: 1 }
+                traits: { 1: 2, 2: 1 },
+                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}],
+                spec: 'a'
             }
 
         };
-        expect(characterReducer(init, action)).toEqual(expected);
+        expect(characterReducer(init, action).toJS()).toEqual(expected);
     });
 
     it('should handle UPDATE_NETHERLIGHT', () => {
@@ -425,15 +432,14 @@ describe('characterReducer', () => {
                 tier3: 67890
             }
         };
-        const expected = {
-            artifact: {
-                netherlight: [
-                    { tier2: 0, tier3: 0 },
-                    { tier2: 12345, tier3: 67890 },
-                    { tier2: 0, tier3: 0 }
-                ]
-            }
-        };
+        const expected = new Map({
+            artifact: new Map({
+                netherlight: new List([
+                    new Map({ tier2: 0, tier3: 0 }),
+                    new Map({ tier2: 12345, tier3: 67890 }),
+                    new Map({ tier2: 0, tier3: 0 })])
+            })
+        });
         expect(characterReducer(init, action)).toEqual(expected);
     });
 
@@ -441,7 +447,7 @@ describe('characterReducer', () => {
 
         const init = { active: 'anything' };
         const action = { type: characterActionTypes.UPDATE_SPEC, data: 'example' };
-        const expected = { active: 'example' };
+        const expected = new Map({ active: 'example' });
 
         expect(characterReducer(init, action)).toEqual(expected);
     });
@@ -450,7 +456,7 @@ describe('characterReducer', () => {
 
         const init = { talents: { current: 'initial' } };
         const action = { type: characterActionTypes.UPDATE_TALENTS, data: 'result' };
-        const expected = { talents: { current: 'result' } };
+        const expected = new Map({talents: new Map({ current: 'result' })});
 
         expect(characterReducer(init, action)).toEqual(expected);
     });

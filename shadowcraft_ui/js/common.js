@@ -1,3 +1,5 @@
+import { Map } from 'immutable';
+
 let RELIC_ILVL_MAPPING = {
     650: 2,
     660: 2,
@@ -117,7 +119,7 @@ export const MULTI_ITEM_SETS = {
 export function recalculateStats(baseStats, ilvlChange, slot) {
 
     if (ilvlChange == 0) {
-        return Object.assign({}, baseStats);
+        return baseStats;
     }
 
     let primaryMultiplier = Math.pow(1.15, (ilvlChange / 15.0));
@@ -131,21 +133,44 @@ export function recalculateStats(baseStats, ilvlChange, slot) {
         secondaryMultiplier = Math.pow(0.9944435486, ilvlChange);
     }
 
-    let newStats = {};
-    for (let stat in baseStats) {
-        newStats[stat] = baseStats[stat];
+    let newStats;
 
-        // Ignore weapon speed
-        if (stat == 'speed') {
-            continue;
+    if (Map.isMap(baseStats)) {
+        newStats = new Map();
+        baseStats.entrySeq().forEach(function([stat, value]) {
+            // Ignore weapon speed
+            if (stat != 'speed') {
+                // For secondary stats, apply the secondary multipler too
+                let newValue = value;
+                if (stat != 'agility' && stat != 'stamina' && stat != 'dps' && stat != 'min_dmg' && stat != 'max_dmg') {
+                    newValue *= secondaryMultiplier;
+                }
+
+                newValue = Math.round(newValue * primaryMultiplier);
+                newStats = newStats.set(stat, newValue);
+            }
+            else {
+                newStats = newStats.set(stat, value);
+            }
+        });
+    }
+    else {
+        newStats = {};
+        for (let stat in baseStats) {
+            newStats[stat] = baseStats[stat];
+
+            // Ignore weapon speed
+            if (stat == 'speed') {
+                continue;
+            }
+
+            // For secondary stats, apply the secondary multipler too
+            if (stat != 'agility' && stat != 'stamina' && stat != 'dps' && stat != 'min_dmg' && stat != 'max_dmg') {
+                newStats[stat] *= secondaryMultiplier;
+            }
+
+            newStats[stat] = Math.round(newStats[stat] * primaryMultiplier);
         }
-
-        // For secondary stats, apply the secondary multipler too
-        if (stat != 'agility' && stat != 'stamina' && stat != 'dps' && stat != 'min_dmg' && stat != 'max_dmg') {
-            newStats[stat] *= secondaryMultiplier;
-        }
-
-        newStats[stat] = Math.round(newStats[stat] * primaryMultiplier);
     }
 
     return newStats;
@@ -153,12 +178,24 @@ export function recalculateStats(baseStats, ilvlChange, slot) {
 
 export function getStatValue(stats, weights) {
     let value = 0;
-    //explicit to mind possible mismatched/missing property names
-    value += (stats.agility || 0) * weights.agi;
-    value += (stats.crit || 0) * weights.crit;
-    value += (stats.haste || 0) * weights.haste;
-    value += (stats.mastery || 0) * weights.mastery;
-    value += (stats.versatility || 0) * weights.versatility;
+
+    if (Map.isMap(stats)) {
+        // TODO: weights might need the same treatment here depending on who's calling
+        // this method.
+        value += (stats.get('agility') || 0) * weights.agi;
+        value += (stats.get('crit') || 0) * weights.crit;
+        value += (stats.get('haste') || 0) * weights.haste;
+        value += (stats.get('mastery') || 0) * weights.mastery;
+        value += (stats.get('versatility') || 0) * weights.versatility;
+    }
+    else {
+        //explicit to mind possible mismatched/missing property names
+        value += (stats.agility || 0) * weights.agi;
+        value += (stats.crit || 0) * weights.crit;
+        value += (stats.haste || 0) * weights.haste;
+        value += (stats.mastery || 0) * weights.mastery;
+        value += (stats.versatility || 0) * weights.versatility;
+    }
 
     return value;
 }

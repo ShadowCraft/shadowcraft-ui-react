@@ -122,18 +122,20 @@ export const characterReducer = function (state = new Character(), action) {
             const currentRelicId = currentRelic.get('id');
             const currentRelicIlvl = currentRelic.get('ilvl');
 
+            let newState = state;
+
             // If the current relic's ID isn't zero (which means there's one set), subtract
             // one from the value for that trait. If the trait didn't change, it'll get set
             // back later.
             if (currentRelicId !== 0) {
-                let value = state.getIn(['artifact', 'traits', currentRelicId]) - 1;
-                state = state.setIn(['artifact', 'traits', currentRelicId], value);
+                let value = newState.getIn(['artifact', 'traits', currentRelicId]) - 1;
+                newState = newState.setIn(['artifact', 'traits', currentRelicId], value);
             }
 
             // Determine what the artifact's ilvl should be based on any relic changes
             if (currentRelicIlvl !== action.data.ilvl) {
 
-                let ilvlChange;
+                let ilvlChange = 0;
                 if (currentRelicId != 0) {
                     ilvlChange = getArtifactIlvlChange(currentRelicIlvl, action.data.ilvl);
                 }
@@ -141,9 +143,9 @@ export const characterReducer = function (state = new Character(), action) {
                     ilvlChange = getArtifactIlvlChange(0, action.data.ilvl);
                 }
 
-                state = state.setIn(['artifact', 'relics', action.data.slot, 'ilvl'], action.data.ilvl);
+                newState = newState.setIn(['artifact', 'relics', action.data.slot, 'ilvl'], action.data.ilvl);
 
-                let mainHand = state.getIn(['gear', 'mainHand']);
+                let mainHand = newState.getIn(['gear', 'mainHand']);
                 let newIlvl = mainHand.get('item_level') + ilvlChange;
                 let newStats = recalculateStats(mainHand.get('stats'), ilvlChange, 'mainHand');
                 let newWeaponStats = recalculateStats(mainHand.get('weaponStats'), ilvlChange,
@@ -153,7 +155,7 @@ export const characterReducer = function (state = new Character(), action) {
                     .set('stats', newStats)
                     .set('weaponStats', newWeaponStats);
 
-                let offHand = state.getIn(['gear', 'offHand']);
+                let offHand = newState.getIn(['gear', 'offHand']);
                 newIlvl = offHand.get('item_level') + ilvlChange;
                 newStats = recalculateStats(offHand.get('stats'), ilvlChange, 'offHand');
                 newWeaponStats = recalculateStats(offHand.get('weaponStats'), ilvlChange,
@@ -163,21 +165,21 @@ export const characterReducer = function (state = new Character(), action) {
                     .set('stats', newStats)
                     .set('weaponStats', newWeaponStats);
 
-                state = state.setIn(['gear', 'mainHand'], mainHand)
+                newState = newState.setIn(['gear', 'mainHand'], mainHand)
                     .setIn(['gear', 'offHand'], offHand)
                     .setIn(['artifact', 'relics', action.data.slot, 'ilvl'],
                     action.data.ilvl);
             }
 
-            state = state.setIn(['artifact', 'relics', action.data.slot, 'id'], action.data.trait);
+            newState = newState.setIn(['artifact', 'relics', action.data.slot, 'id'], action.data.trait);
 
             // Update the new trait
             if (action.data.trait !== 0) {
-                let value = state.getIn(['artifact', 'traits', action.data.trait]) + 1;
-                state = state.setIn(['artifact', 'traits', action.data.trait], value);
+                let value = newState.getIn(['artifact', 'traits', action.data.trait]) + 1;
+                newState = newState.setIn(['artifact', 'traits', action.data.trait], value);
             }
 
-            return state;
+            return newState;
         }
 
         case characterActionTypes.UPDATE_NETHERLIGHT: {
