@@ -39,7 +39,7 @@ export default class Item extends Record(initItem) {
             _item = _item.set('gems', gemList);
 
             if (item.weaponStats !== undefined) {
-                _item = _item.set('weaponStats', new Map(item.stats));
+                _item = _item.set('weaponStats', new Map(item.weaponStats));
             }
         }
 

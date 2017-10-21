@@ -156,7 +156,7 @@ export function getEngineData() {
         fetch('/engine', {
             method: 'POST',
             body: JSON.stringify({
-                character: state.character,
+                character: state.character.toJS(),
                 settings: state.settings.current
             }),
             headers: {
