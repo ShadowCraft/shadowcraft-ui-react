@@ -7,7 +7,7 @@ import Item from '../viewModels/Item';
 
 import store from '../store';
 import { modalTypes } from '../reducers/modalReducer';
-import EquippedGemList from './EquippedGemsList';
+import EquippedGemList from './EquippedGemList';
 import EquippedEnchant from './EquippedEnchant';
 import { ITEM_DATA } from '../item_data';
 
@@ -33,31 +33,31 @@ class EquippedItem extends React.Component {
 
     checkForWarnings(props) {
         // Don't do anything here if this is a default or None item
-        if (props.equippedItem.id == 0) {
+        if (props.equippedItem.get('id') == 0) {
             return;
         }
 
         let newWarnings = [];
 
         if (this.IsEnchantable(props.slot)) {
-            if (props.equippedItem.enchant == 0) {
-                let quality = `quality-${props.equippedItem.quality}`;
-                newWarnings.push(<div><span className={quality}>{props.equippedItem.name}</span> is missing an enchant</div>);
+            if (props.equippedItem.get('enchant') == 0) {
+                let quality = `quality-${props.equippedItem.get('quality')}`;
+                newWarnings.push(<div><span className={quality}>{props.equippedItem.get('name')}</span> is missing an enchant</div>);
             }
         }
 
         let missingGem = false;
-        if (props.equippedItem.socket_count > 0) {
-            for (let idx in props.equippedItem.gems) {
-                if (props.equippedItem.gems[idx].id == 0) {
+        if (props.equippedItem.get('socket_count') > 0) {
+            props.equippedItem.get('gems').valueSeq().forEach(function(gem) {
+                if (gem.get('id') == 0) {
                     missingGem = true;
                 }
-            }
+            });
         }
 
         if (missingGem) {
-            let quality = `quality-${props.equippedItem.quality}`;
-            newWarnings.push(<div><span className={quality}>{props.equippedItem.name}</span> is missing one or more gems</div>);
+            let quality = `quality-${props.equippedItem.get('quality')}`;
+            newWarnings.push(<div><span className={quality}>{props.equippedItem.get('name')}</span> is missing one or more gems</div>);
         }
 
         store.dispatch({
@@ -234,16 +234,16 @@ EquippedItem.propTypes = {
 
     // TODO: modify RESET_SETTINGS in a more appropriate manner and add isRequired back
     dynamic_ilvl: PropTypes.bool,
-    min_ilvl: PropTypes.number,
-    max_ilvl: PropTypes.number,
+    min_ilvl: PropTypes.string,
+    max_ilvl: PropTypes.string,
 };
 
 const mapStateToProps = function (store, ownProps) {
     return {
-        equippedItem: store.character.gear[ownProps.slot],
-        dynamic_ilvl: store.settings.current.get['dynamic_ilvl'],
-        min_ilvl: store.settings.current.get['min_ilvl'],
-        max_ilvl: store.settings.current.get['max_ilvl'],
+        equippedItem: store.character.getIn(['gear',ownProps.slot]),
+        dynamic_ilvl: store.settings.current.get('dynamic_ilvl'),
+        min_ilvl: store.settings.current.get('min_ilvl'),
+        max_ilvl: store.settings.current.get('max_ilvl'),
     };
 };
 

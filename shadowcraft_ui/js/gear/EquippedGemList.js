@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import EquippedGemItem from './EquippedGemItem';
+import Item from '../viewModels/Item';
 
 class EquippedGemList extends React.Component {
 
@@ -28,7 +29,7 @@ class EquippedGemList extends React.Component {
 }
 
 EquippedGemList.propTypes = {
-    item: PropTypes.shape({ gems: PropTypes.array.isRequired }).isRequired
+    item: PropTypes.instanceOf(Item).isRequired,
 };
 
 export default EquippedGemList;

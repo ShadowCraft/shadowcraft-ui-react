@@ -225,7 +225,7 @@ const mapStateToProps = function (store) {
         ohEP: store.engine.oh_ep.oh_dps,
         otherEP: store.engine.other_ep,
         engineTarget: store.engine.engine_info.wow_build_target,
-        activeSpec: store.character.active,
+        activeSpec: store.character.get('active'),
         num_boss_adds: store.settings.current.get('num_boss_adds')
     };
 };
