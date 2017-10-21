@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Item from '../viewModels/Item';
 
 import { connect } from 'react-redux';
 import store from '../store';
@@ -53,12 +54,12 @@ class BonusIDPopup extends React.Component {
         // We have to find a base item in the list of items so that we can set the selected item
         // level on that option correctly.
         let staticItems = ITEM_DATA.filter(function (item) {
-            return item.id == this.props.item.id;
+            return item.id == this.props.item.get('id');
         }.bind(this));
 
         if (staticItems.length == 0) {
             //eslint-disable-next-line no-console
-            console.log(`Couldn't find item ${this.props.item.id} in the static data`);
+            console.log(`Couldn't find item ${this.props.item.get('id')} in the static data`);
             this.setState({ baseItem: null });
         }
         else {
@@ -387,13 +388,7 @@ class BonusIDPopup extends React.Component {
 }
 
 BonusIDPopup.propTypes = {
-    item: PropTypes.shape({
-        quality: PropTypes.number.isRequired,
-        bonuses: PropTypes.array.isRequired,
-        id: PropTypes.number.isRequired,
-        item_level: PropTypes.number.isRequired,
-        slot: PropTypes.string.isRequired
-    }).isRequired,
+    item: PropTypes.instanceOf(Item).isRequired,
     weights: PropTypes.objectOf(PropTypes.number.isRequired).isRequired
 };
 

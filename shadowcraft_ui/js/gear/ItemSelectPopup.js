@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import store from '../store';
+import Gear from '../viewModels/Gear';
 import ItemSelectElement from './ItemSelectElement';
 import ModalWrapper from '../modals/ModalWrapper';
 import { connect } from 'react-redux';
@@ -37,7 +38,7 @@ class ItemSelectPopup extends React.Component {
     getEquippedSetCount(setIds, ignoreSlot) {
         let count = 0;
         for (let slot in this.props.equippedItems) {
-            if (slot != ignoreSlot && setIds.indexOf(this.props.equippedItems[slot].id) != -1) {
+            if (slot != ignoreSlot && setIds.indexOf(this.props.equippedItems.getIn([slot, 'id'])) != -1) {
                 count += 1;
             }
         }
@@ -124,14 +125,14 @@ class ItemSelectPopup extends React.Component {
                     return true;
                 }
                 else if (this.props.isEnchant) {
-                    return item.id == this.props.equippedItems[this.props.slot].enchant;
+                    return item.id == this.props.equippedItems.getIn([this.props.slot, 'enchant']);
                 }
                 else if (this.props.isGem) {
-                    return item.id == this.props.equippedItems[this.props.slot].gems[this.props.gemSlot].id;
+                    return item.id == this.props.equippedItems.getIn([this.props.slot, 'gems', this.props.gemSlot, 'id']);
                 }
                 else {
-                    return item.id == this.props.equippedItems[this.props.slot].id &&
-                        item.item_level == this.props.equippedItems[this.props.slot].item_level;
+                    return item.id == this.props.equippedItems.getIn([this.props.slot, 'id']) &&
+                           item.item_level == this.props.equippedItems.getIn([this.props.slot, 'item_level']);
                 }
             }.bind(this));
         }
@@ -214,16 +215,7 @@ ItemSelectPopup.propTypes = {
     isGem: PropTypes.bool,
     gemSlot: PropTypes.number,
     onClick: PropTypes.func,
-    equippedItems: PropTypes.shape({
-        item_level: PropTypes.number,
-        quality: PropTypes.number,
-        id: PropTypes.number,
-        enchant: PropTypes.number,
-        gems: PropTypes.arrayOf(
-            PropTypes.shape({
-                id: PropTypes.number.isRequired
-            })),
-    }).isRequired,
+    equippedItems: PropTypes.instanceOf(Gear).isRequired,
     weights: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
     otherEP: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
     procEP: PropTypes.objectOf(PropTypes.any.isRequired).isRequired,
@@ -237,7 +229,7 @@ const mapStateToProps = function (store) {
         otherEP: store.engine.other_ep,
         procEP: store.engine.proc_ep,
         trinketMap: store.engine.trinket_map,
-        equippedItems: store.character.gear
+        equippedItems: store.character.get('gear')
     };
 };
 

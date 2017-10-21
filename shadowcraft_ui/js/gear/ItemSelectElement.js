@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Item from '../viewModels/Item';
 import store from '../store';
 import { updateCharacterState } from '../store';
 
@@ -45,13 +46,13 @@ class ItemSelectElement extends React.Component {
         let active = false;
 
         if (this.props.item.is_gem) {
-            active = this.props.equippedItem.gems[this.props.gemSlot].id == this.props.item.id;
+            active = this.props.equippedItem.getIn(['gems', this.props.gemSlot, 'id']) == this.props.item.id;
         }
         else if (this.props.isEnchant) {
-            active = this.props.equippedItem.enchant == this.props.item.id;
+            active = this.props.equippedItem.get('enchant') == this.props.item.id;
         }
         else {
-            active = (this.props.equippedItem.id == this.props.item.id && this.props.equippedItem.item_level == this.props.item.item_level);
+            active = (this.props.equippedItem.get('id') == this.props.item.id && this.props.equippedItem.get('item_level') == this.props.item.item_level);
         }
 
         return (
@@ -88,12 +89,7 @@ ItemSelectElement.propTypes = {
         remote_id: PropTypes.number,
         bonuses: PropTypes.array
     }).isRequired,
-    equippedItem: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        gems: PropTypes.array.isRequired,
-        enchant: PropTypes.number.isRequired,
-        item_level: PropTypes.number.isRequired
-    }).isRequired,
+    equippedItem: PropTypes.instanceOf(Item).isRequired,
     isEnchant: PropTypes.bool,
     value: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
@@ -104,7 +100,7 @@ ItemSelectElement.propTypes = {
 
 const mapStateToProps = function (store, ownProps) {
     return {
-        equippedItem: store.character.gear[ownProps.slot]
+        equippedItem: store.character.getIn(['gear', ownProps.slot])
     };
 };
 
