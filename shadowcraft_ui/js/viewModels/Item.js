@@ -43,8 +43,6 @@ export default class Item extends Record(initItem) {
             }
         }
 
-        console.log(_item);
-
         super(_item);
     }
 }
