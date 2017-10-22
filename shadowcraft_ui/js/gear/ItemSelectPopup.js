@@ -132,7 +132,7 @@ class ItemSelectPopup extends React.Component {
                 }
                 else {
                     return item.id == this.props.equippedItems.getIn([this.props.slot, 'id']) &&
-                           item.item_level == this.props.equippedItems.getIn([this.props.slot, 'item_level']);
+                        item.item_level == this.props.equippedItems.getIn([this.props.slot, 'item_level']);
                 }
             }.bind(this));
         }
@@ -217,7 +217,12 @@ ItemSelectPopup.propTypes = {
     onClick: PropTypes.func,
     equippedItems: PropTypes.instanceOf(Gear).isRequired,
     weights: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
-    otherEP: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+    otherEP: PropTypes.objectOf(
+        PropTypes.oneOfType([
+            PropTypes.number.isRequired,
+            PropTypes.string.isRequired
+        ])
+    ).isRequired,
     procEP: PropTypes.objectOf(PropTypes.any.isRequired).isRequired,
     trinketMap: PropTypes.objectOf(PropTypes.string.isRequired).isRequired,
 
