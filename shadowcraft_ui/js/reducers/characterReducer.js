@@ -202,22 +202,18 @@ export const characterReducer = function (state = new Character(), action) {
 
         case characterActionTypes.CHANGE_ITEM: {
 
-            let item = state.getIn(['gear', action.data.slot]).toJS();
-
-            item.icon = action.data.item.icon;
-            item.id = action.data.item.id;
-            item.name = action.data.item.name;
-            item.socket_count = action.data.item.socket_count;
-            item.item_level = action.data.item.item_level;
-            item.stats = action.data.item.stats;
-            item.quality = action.data.item.quality;
-            item.bonuses = action.data.item.bonuses;
+            let item = action.data.item;
+            item = item.set('slot', action.data.slot);
+            item = item.set('enchant', state.getIn(['gear', action.data.slot, 'enchant'], 0));
 
             // Generate a number of gem entries based on the number of sockets on the item
-            item.gems = new Array(item.socket_count);
-            item.gems.fill(makeGem(null));
+            let gems = new List();
+            for (let i = 0; i < item.socket_count; i++) {
+                gems = gems.push(makeGem(null));
+            }
+            item = item.set('gems', gems);
 
-            return state.setIn(['gear', action.data.slot], item).toJS();
+            return state.setIn(['gear', action.data.slot], item);
         }
 
         case characterActionTypes.CHANGE_BONUSES: {

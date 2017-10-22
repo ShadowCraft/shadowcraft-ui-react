@@ -23,7 +23,7 @@ class ItemSelectElement extends React.Component {
             store.dispatch({ type: "CLOSE_MODAL" });
         }
         else {
-            store.dispatch(updateCharacterState('CHANGE_ITEM', { slot: slot, item: item }));
+            store.dispatch(updateCharacterState('CHANGE_ITEM', { slot: slot, item: new Item(item) }));
             store.dispatch({ type: "CLOSE_MODAL" });
         }
     }
