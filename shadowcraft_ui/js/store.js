@@ -9,6 +9,7 @@ import { modalReducer, modalTypes } from './reducers/modalReducer';
 import { storageAvailable, storageSet } from './common';
 import thunk from 'redux-thunk';
 import 'whatwg-fetch';
+import Immutable from 'immutable';
 
 // Thunk for calling the events in the character reducer. Using this to dispatch events
 // into the character reducer will also make a call to the engine to update that data.
@@ -198,8 +199,15 @@ const reducers = combineReducers({
     modal: modalReducer,
 });
 
+const composer = composeWithDevTools({
+    serialize: {
+        immutable: Immutable
+    }
+});
+
+
 // Build the store
-const store = createStore(reducers, composeWithDevTools(
+const store = createStore(reducers, composer(
     applyMiddleware(thunk)
 ));
 export default store;
