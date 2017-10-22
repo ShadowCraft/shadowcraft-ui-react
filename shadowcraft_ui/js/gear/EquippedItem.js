@@ -190,8 +190,6 @@ class EquippedItem extends React.Component {
     }
 
     render() {
-        // console.log(`rendering ${this.props.slot}`);
-        // console.log(this.props.equippedItem.gems);
         return (
             <div>
                 <div className="slot">
@@ -216,19 +214,6 @@ class EquippedItem extends React.Component {
 }
 
 EquippedItem.propTypes = {
-    // equippedItem: PropTypes.shape({
-    //     bonuses: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-    //     enchant: PropTypes.number.isRequired,
-    //     gems: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-    //     icon: PropTypes.string.isRequired,
-    //     id: PropTypes.number.isRequired,
-    //     item_level: PropTypes.number.isRequired,
-    //     name: PropTypes.string.isRequired,
-    //     quality: PropTypes.number.isRequired,
-    //     slot: PropTypes.string.isRequired,
-    //     socket_count: PropTypes.number.isRequired,
-    //     stats: PropTypes.object.isRequired,
-    // }).isRequired,
     equippedItem: PropTypes.instanceOf(Item).isRequired,
     slot: PropTypes.string.isRequired,
 
