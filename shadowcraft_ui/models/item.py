@@ -35,12 +35,6 @@ ARTIFACT_WEAPONS = [128476, 128479, 128870, 128869, 128872, 134552]
 ORDER_HALL_SET = [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746]
 MIN_ILVL = 800
 
-# This is the set of bonus IDs that should be on basically every legion item, but the API
-# neglects to actually add. These are the four tertiary stats and a legion
-# socket.
-# TODO: this isn't used anywhere
-CHANCE_BONUSES = [40, 41, 42, 43, 1808, -1]
-
 def init_db(dbase):
     """create indexes"""
     dbase.items.create_index(
@@ -63,37 +57,17 @@ def populate_db(dbase):
 
     # Abuse wowhead to load in a big list of items to import
     wowhead_ids = []
-    print("Requesting rare items from wowhead")
-    print("Item levels 801 to 850...")
-    wowhead_ids.extend(get_ids_from_wowhead_by_ilvl(3, 801, 850))
-    
-    print("Item levels 851 to 900...")
-    wowhead_ids.extend(get_ids_from_wowhead_by_ilvl(3, 851, 900))
-    print("Item levels 901 to 950...")
-    wowhead_ids.extend(get_ids_from_wowhead_by_ilvl(3, 901, 950))
-
-    print("Requesting epic items from wowhead")
-    print("Item levels 801 to 850...")
-    wowhead_ids.extend(get_ids_from_wowhead_by_ilvl(4, 801, 850))
-    print("Item levels 851 to 900...")
-    wowhead_ids.extend(get_ids_from_wowhead_by_ilvl(4, 851, 900))
-    print("Item levels 901 to 950...")
-    wowhead_ids.extend(get_ids_from_wowhead_by_ilvl(4, 901, 950))
-
-    for item_type in ['rings', 'amulets', 'trinkets']:
+    ranges = ((800, 850), (851, 900), (901, 950))
+    for item_type in ['weapons', 'leather-armor', 'cloaks', 'rings', 'amulets', 'trinkets']:
         print("Requesting %s from wowhead" % item_type)
-        wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:800/max-level:850/class:3' % item_type))
-        wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:850/max-level:900/class:3' % item_type))
-        wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:900/class:3' % item_type))
-        wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:800/max-level:850/class:4' % item_type))
-        wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:850/max-level:900/class:4' % item_type))
-        wowhead_ids.extend(get_ids_from_wowhead(
-            'http://www.wowhead.com/items/armor/%s/min-level:900/class:4' % item_type))
+        for r in ranges:
+            print("Rare items, ilevels %d to %d...  " % (r[0], r[1]), end='')
+            wowhead_ids.extend(get_ids_from_wowhead(
+                'http://www.wowhead.com/%s/min-level:%d/max-level:%d/class:4/quality:3' % (item_type, r[0], r[1])))
+            print("Epic items, ilevels %d to %d...  " % (r[0], r[1]), end='')
+            wowhead_ids.extend(get_ids_from_wowhead(
+                'http://www.wowhead.com/%s/min-level:%d/max-level:%d/class:4/quality:4' % (item_type, r[0], r[1])))
+        print()
 
     print("Requesting legendaries from wowhead")
     wowhead_ids.extend(get_ids_from_wowhead(
@@ -332,7 +306,7 @@ def get_ids_from_wowhead(url):
     ids = []
     resp = requests.get(
         url,
-        timeout=30,
+        timeout=60,
         headers={'user-agent': ArmoryDocument.USER_AGENT}
     )
     if resp.status_code == 200:
@@ -341,7 +315,7 @@ def get_ids_from_wowhead(url):
             ids.append(int(match.groups(1)[0]))
 
     print("Found %d new items from wowhead" % len(ids))
-    sleep(5)
+    sleep(10)
     return ids
 
 
