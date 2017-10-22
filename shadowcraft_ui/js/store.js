@@ -199,12 +199,13 @@ const reducers = combineReducers({
     modal: modalReducer,
 });
 
+// This makes the immutable objects get tagged with the right class names
+// in Redux DevTools.
 const composer = composeWithDevTools({
     serialize: {
         immutable: Immutable
     }
 });
-
 
 // Build the store
 const store = createStore(reducers, composer(

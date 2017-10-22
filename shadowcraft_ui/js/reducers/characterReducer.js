@@ -44,16 +44,16 @@ function makeGem(actionGem) {
 
         newGem.bonus = newGem.bonus.slice(0, -3);
 
-        return newGem;
+        return new Map(newGem);
     }
     else {
-        return {
+        return new Map({
             icon: '',
             id: 0,
             name: '',
             quality: 0,
             bonus: ''
-        };
+        });
     }
 }
 
@@ -247,11 +247,11 @@ export const characterReducer = function (state = new Character(), action) {
 
         case characterActionTypes.CHANGE_GEM: {
             return state.setIn(['gear', action.data.slot, 'gems', action.data.gemSlot],
-                makeGem(action.data.gem)).toJS();
+                makeGem(action.data.gem));
         }
 
         case characterActionTypes.CHANGE_ENCHANT: {
-            return state.setIn(['gear', action.data.slot, 'enchant'], action.data.enchant).toJS();
+            return state.setIn(['gear', action.data.slot, 'enchant'], action.data.enchant);
         }
 
         case characterActionTypes.OPTIMIZE_GEMS: {
