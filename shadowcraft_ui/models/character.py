@@ -6,6 +6,7 @@ import os
 import traceback
 import jsonschema
 import pymongo
+import hashlib
 
 from . import ArmoryDocument
 from . import ArmoryConstants
@@ -14,7 +15,7 @@ from .ArmoryCharacter import ArmoryCharacter
 # re-version data when this file changes. we use file size to keep track of this, which is a
 # terrible metric usually, but is fast and is good enough to just tell if something has
 # changed.
-CHARACTER_DATA_VERSION = os.path.getsize(__file__)
+CHARACTER_DATA_VERSION = hashlib.md5(open(__file__, 'rb').read()).hexdigest()
 
 def load(db, region, realm, name, sha=None):
 

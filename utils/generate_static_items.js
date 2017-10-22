@@ -2,6 +2,7 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var fs = require('fs');
 var parse = require('csv-parse/lib/sync');
+const crypto = require('crypto');
 
 let url = 'mongodb://localhost:27017/roguesim_python';
 MongoClient.connect(url, function(err, db) {
@@ -13,12 +14,13 @@ MongoClient.connect(url, function(err, db) {
 
         let wstream = fs.createWriteStream('shadowcraft_ui/js/item_data.js');
 
-        // get the file size for models/character.py and store it in the ITEM_DATA block so
+        // get the md5 checksum for models/character.py and store it in the ITEM_DATA block so
         // that we can use it to check on whether the character data version has changed.
-        let stats = fs.statSync('shadowcraft_ui/models/character.py');
-        wstream.write(`export const CHARACTER_DATA_VERSION=${stats['size']};`);
+        const pyfile = fs.readFileSync('shadowcraft_ui/models/character.py');
+        const md5 = crypto.createHash('md5').update(pyfile).digest("hex");
+        wstream.write(`export const CHARACTER_DATA_VERSION=${md5};`);
 
-        wstream.write('export const ITEM_DATA=[')
+        wstream.write('export const ITEM_DATA=[');
         let len = docs.length;
         for (let i = 0; i < len; i++) {
             delete docs[i]['_id'];
@@ -86,7 +88,7 @@ MongoClient.connect(url, function(err, db) {
             output[index] = {
                 name: descriptions[descrMap[index]],
                 stats: propMap[index]
-            }
+            };
         }
 
         wstream.write("export const RANDOM_SUFFIX_MAP=");
@@ -97,7 +99,7 @@ MongoClient.connect(url, function(err, db) {
         // know what ilvl or slot the item is ahead of time. Take out the header row
         // since it's useless and sort the data by the first item.
         let randPropData = fs.readFileSync('shadowcraft_ui/external_data/RandPropPoints.dbc.csv');
-        let randProps = {}
+        let randProps = {};
         parse(randPropData).filter(function(row) {
             return row[0] != 'id';
         }).map(function(row) {
