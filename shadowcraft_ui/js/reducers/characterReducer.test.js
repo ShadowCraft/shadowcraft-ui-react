@@ -65,8 +65,8 @@ describe('characterReducer', () => {
                     238138: 0,
                     239042: 0,
                 },
-                relics: [{id: 0, ilvl: 835}, {id: 0, ilvl: 835}, {id: 0, ilvl: 835}],
-                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}]
+                relics: [{ id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }],
+                netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }]
             }
         };
         expect(characterReducer(init, action).toJS()).toEqual(expected);
@@ -105,8 +105,8 @@ describe('characterReducer', () => {
                     238139: 0,
                     239042: 0,
                 },
-                relics: [{id: 0, ilvl: 835}, {id: 0, ilvl: 835}, {id: 0, ilvl: 835}],
-                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}]
+                relics: [{ id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }],
+                netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }]
             }
         };
         expect(characterReducer(init, action).toJS()).toEqual(expected);
@@ -145,8 +145,8 @@ describe('characterReducer', () => {
                     238140: 0,
                     239042: 0,
                 },
-                relics: [{id: 0, ilvl: 835}, {id: 0, ilvl: 835}, {id: 0, ilvl: 835}],
-                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}]
+                relics: [{ id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }],
+                netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }]
             }
         };
         expect(characterReducer(init, action).toJS()).toEqual(expected);
@@ -245,7 +245,7 @@ describe('characterReducer', () => {
                     { id: 1, ilvl: 850 }
                 ],
                 traits: { 1: 2, 2: 1 },
-                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}],
+                netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }],
                 spec: 'a'
             }
 
@@ -345,7 +345,7 @@ describe('characterReducer', () => {
                     { id: 1, ilvl: 850 }
                 ],
                 traits: { 1: 3 },
-                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}],
+                netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }],
                 spec: 'a'
             }
 
@@ -406,7 +406,7 @@ describe('characterReducer', () => {
                     { id: 1, ilvl: 850 }
                 ],
                 traits: { 1: 2, 2: 1 },
-                netherlight: [{tier2: 0, tier3: 0},{tier2: 0, tier3: 0},{tier2: 0, tier3: 0}],
+                netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }],
                 spec: 'a'
             }
 
@@ -456,7 +456,7 @@ describe('characterReducer', () => {
 
         const init = { talents: { current: 'initial' } };
         const action = { type: characterActionTypes.UPDATE_TALENTS, data: 'result' };
-        const expected = new Map({talents: new Map({ current: 'result' })});
+        const expected = new Map({ talents: new Map({ current: 'result' }) });
 
         expect(characterReducer(init, action)).toEqual(expected);
     });
@@ -710,24 +710,10 @@ describe('characterReducer', () => {
 
     it('should handle CHANGE_BONUSES when socket_count is 0', () => {
 
-        const init = {
-            gear: {
-                slot: {
-                    bonuses: [],
-                    gems: [],
-                    socket_count: 0,
-                    stats: {},
-                    item_level: 0,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
-                    name: ""
-                }
-            }
-        };
         const action = {
             type: characterActionTypes.CHANGE_BONUSES,
             data: {
-                slot: 'slot',
+                slot: 'head',
                 bonuses: [],
                 ilvl: 1,
                 newStats: { test: 'test' },
@@ -737,28 +723,28 @@ describe('characterReducer', () => {
                 suffix: ""
             }
         };
-        const expected = {
-            gear: {
-                slot: {
-                    bonuses: [],
-                    gems: [{
-                        icon: '',
-                        id: 0,
-                        name: '',
-                        quality: 0,
-                        bonus: ''
-                    }],
-                    socket_count: 1,
-                    stats: { test: 'test' },
-                    item_level: 1,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
-                    name: ""
-                }
-            }
-        };
+        const expected = new Item({
+            enchant: 0,
+            icon: 'inv_misc_questionmark',
+            id: 0,
+            quality: 0,
+            slot: '',
+            bonuses: [],
+            gems: [{
+                icon: '',
+                id: 0,
+                name: '',
+                quality: 0,
+                bonus: ''
+            }],
+            socket_count: 1,
+            stats: { test: 'test' },
+            item_level: 1,
+            name: "",
+            weaponStats: { min_dmg: 0, max_dmg: 0, speed: 1.0, dps: 0 }
+        });
 
-        expect(characterReducer(init, action)).toEqual(expected);
+        expect(characterReducer(undefined, action).gear.head).toEqual(expected);
 
     });
 

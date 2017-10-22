@@ -218,31 +218,31 @@ export const characterReducer = function (state = new Character(), action) {
 
         case characterActionTypes.CHANGE_BONUSES: {
 
-            let gear = state.getIn(['gear', action.data.slot]);
-            gear = gear.set('bonuses', action.data.bonuses)
+            let item = state.getIn(['gear', action.data.slot]);
+            item = item.set('bonuses', new List(action.data.bonuses))
                 .set('item_level', action.data.ilvl)
-                .set('stats', action.data.newStats);
+                .set('stats', new Map(action.data.newStats));
 
             // If this item can have a bonus socket but doesn't have one assigned, nuke
             // the equipped gems out of it so they don't show back up when if a socket
             // gets added back in.
             if (action.data.canHaveBonusSocket) {
                 if (!action.data.hasBonusSocket) {
-                    gear = gear.set('gems', []).set('socket_count', 0);
+                    item = item.set('gems', List()).set('socket_count', 0);
                 }
-                else if (gear.get('socket_count') == 0) {
-                    gear = gear.set('gems', [makeGem(null)]).set('socket_count', 1);
+                else if (item.get('socket_count') == 0) {
+                    item = item.set('gems', List([makeGem(null)])).set('socket_count', 1);
                 }
             }
 
             if (action.data.suffix.length > 0) {
-                gear = gear.set('name', `${action.data.name} ${action.data.suffix}`);
+                item = item.set('name', `${action.data.name} ${action.data.suffix}`);
             }
             else {
-                gear = gear.set('name', action.data.name);
+                item = item.set('name', action.data.name);
             }
 
-            return state.setIn(['gear', action.data.slot], gear).toJS();
+            return state.setIn(['gear', action.data.slot], item);
         }
 
         case characterActionTypes.CHANGE_GEM: {
