@@ -130,7 +130,7 @@ class BonusIDPopup extends React.Component {
 
         // If the value was true, that means we're turning it off. Check to see if the
         // element is in the active list, and remove it.
-        let newActive = this.state.active.slice();
+        let newActive = [... this.state.active];
         let index = this.state.active.indexOf(bonusId);
 
         if (index != -1) {
