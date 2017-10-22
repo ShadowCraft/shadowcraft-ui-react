@@ -18,7 +18,7 @@ MongoClient.connect(url, function(err, db) {
         // that we can use it to check on whether the character data version has changed.
         const pyfile = fs.readFileSync('shadowcraft_ui/models/character.py');
         const md5 = crypto.createHash('md5').update(pyfile).digest("hex");
-        wstream.write(`export const CHARACTER_DATA_VERSION=${md5};`);
+        wstream.write(`export const CHARACTER_DATA_VERSION='${md5}';`);
 
         wstream.write('export const ITEM_DATA=[');
         let len = docs.length;
