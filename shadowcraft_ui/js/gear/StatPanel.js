@@ -205,13 +205,18 @@ StatPane.propTypes = {
     }).isRequired,
     mhEP: PropTypes.number.isRequired,
     ohEP: PropTypes.number.isRequired,
-    otherEP: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+    otherEP: PropTypes.objectOf(
+        PropTypes.oneOfType([
+            PropTypes.number.isRequired,
+            PropTypes.string.isRequired
+        ])
+    ).isRequired,
     engineTarget: PropTypes.string.isRequired,
     activeSpec: PropTypes.string.isRequired,
     num_boss_adds: PropTypes.string.isRequired
 };
 
-StatPane.defaultProps= {
+StatPane.defaultProps = {
     num_boss_adds: '0'
 };
 
