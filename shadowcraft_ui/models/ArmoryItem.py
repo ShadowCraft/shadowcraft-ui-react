@@ -75,6 +75,8 @@ class ArmoryItem(object):
             self.speed = float(json_data['weaponInfo']['weaponSpeed'])
             self.dps = float(json_data['weaponInfo']['dps'])
             self.subclass = json_data['itemSubClass']
+            self.min_dmg = float(json_data['weaponInfo']['damage']['exactMin'])
+            self.max_dmg = float(json_data['weaponInfo']['damage']['exactMax'])
 
         if 'socketInfo' in json_data:
             self.socket_count = len(json_data['socketInfo']['sockets'])
@@ -83,7 +85,8 @@ class ArmoryItem(object):
 
     IGNORE_FIELDS = ['item_id', 'ilevel', 'context', 'bonus_tree', 'tag']
     IGNORE_FOR_GEMS = ['speed', 'dps', 'subclass', 'armor_class', 'upgradable',
-                       'chance_bonus_lists', 'equip_location', 'socket_count']
+                       'chance_bonus_lists', 'equip_location', 'socket_count',
+                       'min_dmg', 'max_dmg']
 
     def as_json(self):
         ret = copy.deepcopy(self.__dict__)

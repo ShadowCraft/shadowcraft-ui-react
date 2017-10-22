@@ -66,6 +66,7 @@ def populate_db(dbase):
     print("Requesting rare items from wowhead")
     print("Item levels 801 to 850...")
     wowhead_ids.extend(get_ids_from_wowhead_by_ilvl(3, 801, 850))
+    
     print("Item levels 851 to 900...")
     wowhead_ids.extend(get_ids_from_wowhead_by_ilvl(3, 851, 900))
     print("Item levels 901 to 950...")
@@ -251,6 +252,11 @@ def import_item(dbase, item_id, is_gem=False):
         item = ArmoryItem(json)
         item_props = item.as_json()
 
+        # Skip items that don't have an equip location because wowhead keeps sticking
+        # random shit into the list (like the item that discovers new legendaries)
+        if not is_gem and item_props['equip_location'] == '':
+            continue
+
         if 'name' not in db_item:
             db_item.update(item_props)
 
@@ -275,11 +281,20 @@ def import_item(dbase, item_id, is_gem=False):
                     'bonuses': item.bonus_tree
                 }
 
+            # Weapon stats go into a different part of the object. Take them out of the
+            # main object after they've been copied.
             if 'speed' in item_props:
                 db_item['ilvls'][ilvl]['weaponStats'] = {
                     'speed': item_props['speed'],
-                    'dps': item_props['dps']
+                    'dps': item_props['dps'],
+                    'min_dmg': item_props['min_dmg'],
+                    'max_dmg': item_props['max_dmg']
                 }
+
+                del db_item['speed']
+                del db_item['dps']
+                del db_item['min_dmg']
+                del db_item['max_dmg']
 
             if json['context'] == 'trade-skill':
                 db_item['is_crafted'] = True
