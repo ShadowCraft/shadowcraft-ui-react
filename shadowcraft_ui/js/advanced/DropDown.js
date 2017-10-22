@@ -14,9 +14,8 @@ class DropDown extends React.Component {
     }
 
     render() {
-
-        let optionlist = this.props.setting.get('options').valueSeq()
-            .map(option => <option key={option} value={option}>{option}</option>);
+        let optionlist = this.props.setting.get('options').entrySeq()
+            .map(([value, key]) => <option key={key} value={value}>{key}</option>);
 
         return (
             <label className="select">
