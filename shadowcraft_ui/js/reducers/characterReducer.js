@@ -8,6 +8,7 @@ import Talents from '../viewModels/Talents';
 import Gear from '../viewModels/Gear';
 import Item from '../viewModels/Item';
 import { fromJS, Record, Map, List } from 'immutable';
+import { ITEM_DATA } from '../item_data';
 
 export const characterActionTypes = {
     RESET_CHARACTER_DATA: 'RESET_CHARACTER_DATA',
@@ -189,7 +190,51 @@ export const characterReducer = function (state = new Character(), action) {
         }
 
         case characterActionTypes.SWAP_ARTIFACT_WEAPON: {
-            return state.setIn(['gear', 'mainHand'], action.data).toJS();
+
+            let newState = state;
+            let itemID = 0;
+            switch (action.data) {
+                case 'a': {
+                    itemID = 128870;
+                    break;
+                }
+                case 'Z': {
+                    itemID = 128872;
+                    break;
+                }
+                case 'b': {
+                    itemID = 128476;
+                    break;
+                }
+            }
+
+            if (itemID != 0) {
+                let artifact = ITEM_DATA.filter(function(item) {
+                    return item.id == itemID;
+                }.bind(itemID));
+
+                if (artifact.length > 0) {
+                    let itemData = artifact[0];
+                    let stats = itemData['ilvls']['750'];
+                    let item = new Item({
+                        id: itemData.id,
+                        slot: itemData.equip_location,
+                        name: itemData.name,
+                        icon: itemData.icon,
+                        item_level: 750,
+                        gems: [],
+                        stats: stats.stats,
+                        bonuses: stats.bonuses,
+                        quality: stats.quality,
+                        socket_count: 0,
+                        enchant: 0,
+                        weaponStats: stats.weaponStats
+                    });
+                    newState = state.setIn(['gear', 'mainHand'], item);
+                }
+            }
+
+            return newState;
         }
 
         case characterActionTypes.UPDATE_SPEC: {
