@@ -31,20 +31,17 @@ class BonusIDPopup extends React.Component {
         this.onSuffixChange = this.onSuffixChange.bind(this);
         this.onApply = this.onApply.bind(this);
 
-        for (let idx in props.item.bonuses) {
-            if ((props.item.bonuses[idx] >= 1472 && props.item.bonuses[idx] <= 1672) ||
-                (props.item.bonuses[idx] >= 669 && props.item.bonuses[idx] <= 679)) {
-                _state.wfBonus = props.item.bonuses[idx];
-                break;
+        props.item.get('bonuses').valueSeq().forEach(function(bonus) {
+            console.log(bonus);
+            if ((bonus >= 1472 && bonus <= 1672) ||
+                (bonus >= 669 && bonus <= 679)) {
+                _state.wfBonus = bonus;
             }
-        }
 
-        for (let idx in props.item.bonuses) {
-            if (props.item.bonuses[idx] in RANDOM_SUFFIX_MAP) {
-                _state.suffixBonus = props.item.bonuses[idx];
-                break;
+            if (bonus in RANDOM_SUFFIX_MAP) {
+                _state.suffixBonus = bonus;
             }
-        }
+        }.bind(_state));
 
         this.state = _state;
     }
