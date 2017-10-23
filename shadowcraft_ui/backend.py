@@ -366,7 +366,7 @@ class ShadowcraftComputation:
             if enchant != 0 and enchant in self.enchantMap:
                 proclist.append(self.enchantMap[enchant])
 
-        pot = input_data['settings'].get('pot', 'potion_none')
+        pot = input_data['settings'].get('potion', 'potion_none')
         if pot != 'potion_none':
             proclist.append(pot)
 
