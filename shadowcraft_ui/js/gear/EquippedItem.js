@@ -24,7 +24,7 @@ class EquippedItem extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return !deepEqual(this.props, nextProps);
+        return !this.props.equippedItem.equals(nextProps.equippedItem);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -48,7 +48,7 @@ class EquippedItem extends React.Component {
 
         let missingGem = false;
         if (props.equippedItem.get('socket_count') > 0) {
-            props.equippedItem.get('gems').valueSeq().forEach(function(gem) {
+            props.equippedItem.get('gems').valueSeq().forEach(function (gem) {
                 if (gem.get('id') == 0) {
                     missingGem = true;
                 }
@@ -183,7 +183,7 @@ class EquippedItem extends React.Component {
 
     buildTooltipURL(item) {
         let url = `http://wowdb.com/items/${item.id}`;
-        if (item.bonuses.length > 0) {
+        if (item.bonuses.size > 0) {
             url += `?bonusIDs=${item.bonuses.toString()}`;
         }
         return url;
@@ -202,7 +202,6 @@ class EquippedItem extends React.Component {
                         <a className="wowhead" href={`http://legion.wowhead.com/item=${this.props.equippedItem.id}`} target="_blank">Wowhead</a>
                     </div>
                     {this.props.equippedItem.quality != 6 && <div className="bonuses" onClick={this.onBonusClick} >
-                        {/*this probably doesn't need a huge full length div, maybe a gear under the item icon instead?'*/}
                         <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>}
                     {/*need to pass whole item because we need to check item quality to filter out relics*/}
                     {this.props.equippedItem.socket_count > 0 && <EquippedGemList item={this.props.equippedItem} />}
@@ -216,7 +215,6 @@ class EquippedItem extends React.Component {
 EquippedItem.propTypes = {
     equippedItem: PropTypes.instanceOf(Item).isRequired,
     slot: PropTypes.string.isRequired,
-
     // TODO: modify RESET_SETTINGS in a more appropriate manner and add isRequired back
     dynamic_ilvl: PropTypes.bool,
     min_ilvl: PropTypes.string,
@@ -225,7 +223,7 @@ EquippedItem.propTypes = {
 
 const mapStateToProps = function (store, ownProps) {
     return {
-        equippedItem: store.character.getIn(['gear',ownProps.slot]),
+        equippedItem: store.character.getIn(['gear', ownProps.slot]),
         dynamic_ilvl: store.settings.current.get('dynamic_ilvl'),
         min_ilvl: store.settings.current.get('min_ilvl'),
         max_ilvl: store.settings.current.get('max_ilvl'),
