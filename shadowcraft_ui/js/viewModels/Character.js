@@ -12,7 +12,7 @@ const initialCharacter = {
     level: 0,
     player_class: "",
     race: "",
-    portrait: "http://us.media.blizzard.com/wow/icons/56/inv_misc_questionmark.jpg",
+    portrait: "http://render-us.worldofwarcraft.com/icons/56/inv_misc_questionmark.jpg",
     stats: new Stats(),
     talents: new Talents(),
     gear: new Gear(),

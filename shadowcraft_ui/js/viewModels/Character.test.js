@@ -172,7 +172,7 @@ describe('Character', () => {
         });
 
         it('should be "" by default', () => {
-            expect(character.portrait).toEqual('http://us.media.blizzard.com/wow/icons/56/inv_misc_questionmark.jpg');
+            expect(character.portrait).toEqual('http://render-us.worldofwarcraft.com/icons/56/inv_misc_questionmark.jpg');
         });
 
         it('should return the proper value upon construction', () => {

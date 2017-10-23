@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import deepClone from 'deep-clone';
 import PropTypes from 'prop-types';
-import deepEqual from 'deep-equal';
 import Item from '../viewModels/Item';
 
 import store from '../store';
@@ -15,19 +14,18 @@ class EquippedItem extends React.Component {
 
     constructor(props) {
         super(props);
-        this.props = props;
         this.onBonusClick = this.onBonusClick.bind(this);
     }
-
+    
     componentWillMount() {
         this.checkForWarnings(this.props);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
         return !this.props.equippedItem.equals(nextProps.equippedItem);
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    componentWillUpdate(nextProps) {
         this.checkForWarnings(nextProps);
     }
 
@@ -184,7 +182,7 @@ class EquippedItem extends React.Component {
     buildTooltipURL(item) {
         let url = `http://wowdb.com/items/${item.id}`;
         if (item.bonuses.size > 0) {
-            url += `?bonusIDs=${item.bonuses.toString()}`;
+            url += `?bonusIDs=${item.bonuses.toJS().toString()}`;
         }
         return url;
     }
@@ -194,7 +192,7 @@ class EquippedItem extends React.Component {
             <div>
                 <div className="slot">
                     <div className="image">
-                        <img src={`http://media.blizzard.com/wow/icons/56/${this.props.equippedItem.icon}.jpg`} />
+                        <img src={`http://render-us.worldofwarcraft.com/icons/56/${this.props.equippedItem.icon}.jpg`} />
                         <span className="ilvl">{this.props.equippedItem.item_level}</span>
                     </div>
                     <div className={`name quality-${this.props.equippedItem.quality}`} onClick={this.props.equippedItem.slot !== "mainHand" ? this.onClick.bind(this) : null} >
