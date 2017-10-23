@@ -192,29 +192,29 @@ export const characterReducer = function (state = new Character(), action) {
         case characterActionTypes.SWAP_ARTIFACT_WEAPON: {
 
             let newState = state;
-            let itemID = 0;
+            let itemIDs = []
             switch (action.data) {
                 case 'a': {
-                    itemID = 128870;
+                    itemIDs = [128870, 128869];
                     break;
                 }
                 case 'Z': {
-                    itemID = 128872;
+                    itemIDs = [128872, 134552];
                     break;
                 }
                 case 'b': {
-                    itemID = 128476;
+                    itemIDs = [128476, 128479];
                     break;
                 }
             }
 
-            if (itemID != 0) {
+            if (itemIDs.length > 0) {
                 let artifact = ITEM_DATA.filter(function(item) {
-                    return item.id == itemID;
-                }.bind(itemID));
+                    return itemIDs.indexOf(item.id) != -1;
+                }.bind(itemIDs));
 
-                if (artifact.length > 0) {
-                    let itemData = artifact[0];
+                for (let i = 0; i < artifact.length; i++) {
+                    let itemData = artifact[i]
                     let stats = itemData['ilvls']['750'];
                     let item = new Item({
                         id: itemData.id,
@@ -230,7 +230,7 @@ export const characterReducer = function (state = new Character(), action) {
                         enchant: 0,
                         weaponStats: stats.weaponStats
                     });
-                    newState = state.setIn(['gear', 'mainHand'], item);
+                    newState = newState.setIn(['gear', itemData.equip_location], item);
                 }
             }
 
