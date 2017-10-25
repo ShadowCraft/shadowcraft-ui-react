@@ -24,7 +24,7 @@ export const historyReducer = function (state = new History(), action) {
             data = data.concat(
                 {
                     character: JSON.parse(JSON.stringify(action.character)),
-                    settings: Object.assign({}, action.settings)
+                    settings: Object.assign({}, action.settings.toJS())
                 }
             );
 
