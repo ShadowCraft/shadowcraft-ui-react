@@ -16,7 +16,7 @@ class EquippedItem extends React.Component {
         super(props);
         this.onBonusClick = this.onBonusClick.bind(this);
     }
-    
+
     componentWillMount() {
         this.checkForWarnings(this.props);
     }
@@ -40,7 +40,7 @@ class EquippedItem extends React.Component {
         if (this.IsEnchantable(props.slot)) {
             if (props.equippedItem.get('enchant') == 0) {
                 let quality = `quality-${props.equippedItem.get('quality')}`;
-                newWarnings.push(<div><span className={quality}>{props.equippedItem.get('name')}</span> is missing an enchant</div>);
+                newWarnings.push(<div><span key={`${props.equippedItem.get('name')}enchant`} className={quality}>{props.equippedItem.get('name')}</span> is missing an enchant</div>);
             }
         }
 
@@ -55,7 +55,7 @@ class EquippedItem extends React.Component {
 
         if (missingGem) {
             let quality = `quality-${props.equippedItem.get('quality')}`;
-            newWarnings.push(<div><span className={quality}>{props.equippedItem.get('name')}</span> is missing one or more gems</div>);
+            newWarnings.push(<div><span key={`${props.equippedItem.get('name')}gem`} className={quality}>{props.equippedItem.get('name')}</span> is missing one or more gems</div>);
         }
 
         store.dispatch({
