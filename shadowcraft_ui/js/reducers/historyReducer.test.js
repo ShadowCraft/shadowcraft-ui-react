@@ -1,5 +1,6 @@
 import { historyReducer, History, historyActionTypes } from './historyReducer';
-import { List, Record } from 'immutable';
+import { List, Record, Map} from 'immutable';
+import Character from '../viewModels/Character';
 
 describe('historyReducer', () => {
 
@@ -19,14 +20,14 @@ describe('historyReducer', () => {
         const action = {
             type: historyActionTypes.ADD_HISTORY,
             dps: 1000,
-            character: { testcharcter: 'testcharcter' },
-            settings: { testsetting: 'testsetting' }
+            character: new Character({name: 'testcharacter'}),
+            settings: new Map({ testsetting: 'testsetting' })
         };
         const expected = new History({
             dps: [1000],
             data: [{
-                character: { testcharcter: 'testcharcter' },
-                settings: { testsetting: 'testsetting' }
+                character: new Character({ name: 'testcharacter' }).toJS(),
+                settings: new Map({ testsetting: 'testsetting' }).toJS()
             }]
         });
         expect(historyReducer(init, action)).toEqual(expected);
