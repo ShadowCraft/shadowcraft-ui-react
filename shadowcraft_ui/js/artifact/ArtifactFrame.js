@@ -112,7 +112,7 @@ class ArtifactFrame extends React.Component {
         // need the count right now so the paragon trait doesn't get enabled too early.
         artifact_data.get('relics').forEach(function(relic) {
             let id = relic.get('id');
-            if (id !== '0') {
+            if (id !== 0) {
                 let value = parseInt(artifact_data.getIn(['traits', id])) - 1;
                 artifact_data = artifact_data.setIn(['traits', id], value);
             }
