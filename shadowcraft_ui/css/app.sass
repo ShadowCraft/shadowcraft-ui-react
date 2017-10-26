@@ -947,16 +947,9 @@ img.upgrade
   width: 49%
   min-width: 340px
   position: relative
-  float: left
+  float: left  
 
-  .gem
-    position: relative
-    .socket
-      position: absolute
-      top: 9px
-      left: 13px
-
-  .gems .gem, .enchant, .bonuses, .name
+  .gems .gem, .gems .socket, .enchant, .bonuses, .name
     background: #0e0e0e url(/static/images/texture.png)
     margin-bottom: 2px
     border-radius: 2px
@@ -987,7 +980,24 @@ img.upgrade
       margin-right: 5px
       img
         width: 24px
-
+  .socket
+    color: red
+    font-size: 0.9em
+    .img
+      width: 17px
+      height: 17px
+      margin-right: 5px
+      img
+        width: 24px
+  .gem
+    color: lime
+    font-size: 0.9em
+    .img
+      width: 17px
+      height: 17px
+      margin-right: 5px
+      img
+        width: 24px
   .bonus
     color: lime
     margin-bottom: 4px

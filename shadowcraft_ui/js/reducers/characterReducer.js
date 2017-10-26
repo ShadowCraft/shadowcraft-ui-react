@@ -51,7 +51,7 @@ function makeGem(actionGem) {
         return new Map({
             icon: '',
             id: 0,
-            name: '',
+            name: 'Empty Gem Socket',
             quality: 0,
             bonus: ''
         });
@@ -192,7 +192,7 @@ export const characterReducer = function (state = new Character(), action) {
         case characterActionTypes.SWAP_ARTIFACT_WEAPON: {
 
             let newState = state;
-            let itemIDs = []
+            let itemIDs = [];
             switch (action.data) {
                 case 'a': {
                     itemIDs = [128870, 128869];
@@ -214,7 +214,7 @@ export const characterReducer = function (state = new Character(), action) {
                 }.bind(itemIDs));
 
                 for (let i = 0; i < artifact.length; i++) {
-                    let itemData = artifact[i]
+                    let itemData = artifact[i];
                     let stats = itemData['ilvls']['750'];
                     let item = new Item({
                         id: itemData.id,

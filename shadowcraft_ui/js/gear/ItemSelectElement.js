@@ -58,7 +58,9 @@ class ItemSelectElement extends React.Component {
         return (
             <div className={`slot ${active ? 'active' : ''}`} onClick={() => this.changeItem(this.props.slot, this.props.item)}>
                 <div className="image">
-                    <img src={`http://render-us.worldofwarcraft.com/icons/56/${this.props.item.icon}.jpg`} />
+                    {this.props.item.icon !== ''
+                        ? <img src={`http://render-us.worldofwarcraft.com/icons/56/${this.props.item.icon}.jpg`} />
+                        : <img />}
                     <span className="ilvl">{this.props.item.item_level}</span>
                 </div>
                 <div

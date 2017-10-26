@@ -15,10 +15,10 @@ class EquippedGemItem extends React.Component {
 
         itemData = [...itemData, {
             gem_slot: "Prismatic",
-            icon: "inv_misc_questionmark",
+            icon: '',
             id: 0,
             is_gem: true,
-            name: "Empty",
+            name: "Empty Gem Socket",
             quality: 0,
             stats: {}
         }];
@@ -37,20 +37,30 @@ class EquippedGemItem extends React.Component {
         });
     }
 
-    // comments here indicate what classes were inlined while testing inline css
     render() {
         let gemItem = this.props.item.getIn(['gems', this.props.gemSlot]);
-        return (
-            <div className="gem" onClick={this.onClick.bind(this)}>
-                <span className="socket">
-                    <img src="/static/images/Socket_Prismatic.png" />
-                </span>
-                <span className="img">
-                    <img src={`http://media.blizzard.com/wow/icons/56/${gemItem.get('icon')}.jpg`} />
-                </span>
-                <span data-tooltip-href={`http://wowdb.com/items/${gemItem.get('id')}`}>{gemItem.get('name')}</span>
-            </div >
-        );
+        // empty icon string means empty socket, and we don't want to request images or create a tooltip
+        if (gemItem.get('icon') !== '') {
+            return (
+                <div className="gem" onClick={this.onClick.bind(this)}>
+                    <span className="img">
+                        <img src={`http://render-us.worldofwarcraft.com/icons/56/${gemItem.get('icon')}.jpg`} />
+                    </span>
+                    <span data-tooltip-href={`http://wowdb.com/items/${gemItem.get('id')}`}>{gemItem.get('name')}</span>
+                </div >
+            );
+        }
+        else {
+            return (
+                <div className="socket" onClick={this.onClick.bind(this)}>
+                    <span className="img">
+                        <img />
+                    </span>
+                    <span>{gemItem.get('name')}</span>
+                </div >
+            );
+        }
+
     }
 }
 
