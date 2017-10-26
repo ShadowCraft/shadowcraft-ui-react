@@ -34,7 +34,18 @@ export default class Item extends Record(initItem) {
 
             let gemList = new List();
             for (let idx in item.gems) {
-                gemList = gemList.push(Map(item.gems[idx]));
+                if (item.gems[idx] == 0) {
+                    gemList = gemList.push(new Map({
+                        icon: '',
+                        id: 0,
+                        name: 'Empty Gem Socket',
+                        quality: 0,
+                        bonus: ''
+                    }));
+                }
+                else {
+                    gemList = gemList.push(new Map(item.gems[idx]));
+                }
             }
             _item = _item.set('gems', gemList);
 
