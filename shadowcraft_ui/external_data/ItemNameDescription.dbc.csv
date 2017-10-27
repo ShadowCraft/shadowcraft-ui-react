@@ -188,9 +188,9 @@ id,desc,flags
 13288,"Legion Season 2 Elite",65280
 13289,"Mythic 11",4278255360
 13290,"Mythic 12",4278255360
-13291,"25 Man Normal",0
-13292,"25 Man Heroic",0
-13293,"10 Man Normal",65280
+13291,"25 Player (Normal)",0
+13292,"25 Player (Heroic)",0
+13293,"10 Player (Normal)",65280
 13295,"Legion Season 3",65280
 13296,"Legion Season 3 Elite",65280
 13297,"Legion Season 4",65280
@@ -218,4 +218,22 @@ id,desc,flags
 13319,"Crafted Item",4284922879
 13320,"Relinquished",65280
 13321,"Dauntless",65280
+13322,"Primal Obliterum: 0/10",65280
+13323,"Primal Obliterum: 1/10",65280
+13324,"Primal Obliterum: 2/10",65280
+13325,"Primal Obliterum: 3/10",65280
+13326,"Primal Obliterum: 4/10",65280
+13327,"Primal Obliterum: 5/10",65280
+13328,"Primal Obliterum: 6/10",65280
+13329,"Primal Obliterum: 7/10",65280
+13330,"Primal Obliterum: 8/10",65280
+13331,"Primal Obliterum: 9/10",65280
+13332,"Primal Obliterum: 10/10",65280
+13333,"Shatug",4288886254
+13334,"F'harg",4288886254
+13335,"Legion Season 5, 6, & 7",65280
+13336,"Legion Season 5, 6, & 7 Elite",65280
+13337,"Confiscated",65280
+13338,"Unsullied",65280
+13339,"Unsullied",4278255360
 13294,"Rank 8",4278255615
