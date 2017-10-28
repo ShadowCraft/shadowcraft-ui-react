@@ -12,22 +12,30 @@ os.environ['PYTHONIOENCODING'] = 'utf-8'
 SCRIPT_DIR=os.path.dirname(os.path.realpath(__file__))
 os.chdir(SCRIPT_DIR)
 
-# We use some tools from simc to do the actual data retrieval and extraction. Clone
-# the simc repo so we can grab those tools, get them, and then delete the rest of it.
-print('Gathering casc_extract and dbc_extract tools from simc')
-os.mkdir('csv_temp')
+if not os.path.exists('csv_temp'):
+    os.mkdir('csv_temp')
 os.chdir('csv_temp')
-cmd = ['git', 'clone', '-b', 'legion-dev', '--single-branch', 'https://github.com/simulationcraft/simc.git', 'simc']
-subprocess.call(cmd)
 
-shutil.move(os.path.join('simc','dbc_extract3'), '.')
-shutil.move(os.path.join('simc','casc_extract'), '.')
-shutil.rmtree('simc')
+# We use some tools from simc to do the actual data retrieval and extraction. You can either
+# pass in a path to a clone of the repo, or we clone it here.
+print('Gathering casc_extract and dbc_extract tools from simc')
+simc_path = ''
+if len(sys.argv) > 1:
+    simc_path = sys.argv[1]
+    shutil.copytree(os.path.join(simc_path, 'dbc_extract3'), 'dbc_extract3')
+    shutil.copytree(os.path.join(simc_path, 'casc_extract'), 'casc_extract')
+else:
+    cmd = ['git', 'clone', '-b', 'legion-dev', '--single-branch', 'https://github.com/simulationcraft/simc.git', 'simc']
+    subprocess.call(cmd)
+    shutil.move(os.path.join('simc','dbc_extract3'), '.')
+    shutil.move(os.path.join('simc','casc_extract'), '.')
+    shutil.rmtree('simc')
 
 # Pull down all of the client data in CASC format from the Blizzard CDN. This will
 # result in a bunch of db2 files that we can parse further.
 print('Extracting casc data from the CDN...')
-os.mkdir('casc_data')
+if not os.path.exists('casc_data'):
+    os.mkdir('casc_data')
 os.chdir('casc_extract')
 with open(os.path.join('..','casc_data','extract.log'), 'w') as log:
     cmd = ['./casc_extract.py', '-m', 'batch', '--cdn', '-o', '../casc_data']
@@ -35,7 +43,7 @@ with open(os.path.join('..','casc_data','extract.log'), 'w') as log:
     if retval != 0:
         print('Failed to retrieve CDN data, so we have to give up here')
         os.chdir(SCRIPT_DIR)
-        shutil.rmtree('csv_temp')
+#        shutil.rmtree('csv_temp')
         sys.exit(retval)
         
 
@@ -55,7 +63,8 @@ CASC_DATA_DIR=os.path.join(os.getcwd(), 'casc_data', CDN_VERSION, 'DBFilesClient
 
 # Use dbc_extract3 from simc to turn the db2 files into csv files for use in the python
 # data models.
-os.mkdir('csvs')
+if not os.path.exists('csvs'):
+    os.mkdir('csvs')
 os.chdir('dbc_extract3')
 environ = os.environ
 environ['PYTHONIOENCODING'] = 'utf-8'
@@ -70,7 +79,7 @@ for item in ['ItemUpgrade','RulesetItemUpgrade','ArtifactPowerRank','ItemBonus',
 os.chdir('../csvs')
 
 # ItemSparse comes with data for every single item in the game. We obviously don't need
-# all of this data. Kill off a bunch of the items (anything < 750 ilvl) and a bunch of
+# all of this data. Kill off a bunch of the items (anything < 650 ilvl) and a bunch of
 # the fields for each item that we don't use.
 with open('ItemSparse.dbc.csv', 'r', encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile, delimiter=',', skipinitialspace=True)
@@ -83,7 +92,7 @@ with open('ItemSparse.dbc.csv', 'r', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(output, fieldnames=good_fields)
         writer.writeheader()
         for row in reader:
-            if int(row['ilevel']) >= 750 and int(row['ilevel']) != 65535:
+            if int(row['ilevel']) >= 650 and int(row['ilevel']) != 65535:
                 for field in unused_fields:
                     row.pop(field, None)
                 writer.writerow(row)
