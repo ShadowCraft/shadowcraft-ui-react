@@ -88,7 +88,8 @@ __artifact_ids = None
 
 # Maps the a trait ID from the artifact data to a spell ID using the DBC data
 # from the Blizzard CDN
-
+# TODO: this exists in ArmoryCharacter also, and is the only thing in that class.
+# can we just remove it from there?
 
 def __artifact_id(trait_id):
     # The header on the ArtifactPowerRank data looks like (as of 7.0.3):
@@ -96,14 +97,10 @@ def __artifact_id(trait_id):
     # We're mapping between id_power and id_spell
     if __artifact_ids is None:
         __artifact_ids = {}
-        with open(
-            os.getcwd() + '/shadowcraft_ui/external_data/ArtifactPowerRank.dbc.csv',
-            mode='r'
-        ) as infile:
-            reader = csv.reader(infile)
-            next(reader)  # Skip the first row with the header
+        with open(os.path.join(os.getcwd(),'shadowcraft_ui','external_data','ArtifactPowerRank.dbc.csv'), mode='r') as infile:
+            reader = csv.DictReader(infile)
             for row in reader:
-                __artifact_ids[int(row[3])] = int(row[1])
+                __artifact_ids[int(row['id_power'])] = int(row['id_spell'])
 
     return __artifact_ids[trait_id] if trait_id in __artifact_ids else 0
 

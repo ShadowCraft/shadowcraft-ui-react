@@ -163,11 +163,10 @@ class ArmoryItem(object):
             ArmoryItem.item_upgrades = {}
             filepath = os.path.dirname(os.path.abspath(__file__))
             with open(os.path.join(filepath, '..', 'external_data', 'ItemUpgrade.dbc.csv'), mode='r') as infile:
-                reader = csv.reader(infile)
-                next(reader) # Skip the first row with the header
+                reader = csv.DictReader(infile)
                 for row in reader:
-                    p_id = int(row[2])
-                    currency = int(row[3])
+                    p_id = int(row['prev_id'])
+                    currency = int(row['id_currency_type'])
                     if p_id != 0 and currency != 0:
                         ArmoryItem.item_upgrades[p_id] = currency
         return ArmoryItem.item_upgrades[rule_id] if rule_id in ArmoryItem.item_upgrades else None
