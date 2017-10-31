@@ -45,7 +45,6 @@ with open(os.path.join('..','casc_data','extract.log'), 'w') as log:
         os.chdir(SCRIPT_DIR)
 #        shutil.rmtree('csv_temp')
         sys.exit(retval)
-        
 
 os.chdir('..')
 
@@ -69,7 +68,7 @@ os.chdir('dbc_extract3')
 environ = os.environ
 environ['PYTHONIOENCODING'] = 'utf-8'
 
-for item in ['ItemUpgrade','RulesetItemUpgrade','ArtifactPowerRank','ItemBonus','ItemNameDescription','RandPropPoints','ItemSparse']:
+for item in ['ItemUpgrade','RulesetItemUpgrade','ArtifactPowerRank','ItemBonus','ItemNameDescription','RandPropPoints','ItemSparse','ItemDamageOneHand']:
    output = open(os.path.join('..','csvs','%s.dbc.csv' % item), 'w')
    print("Generating CSV for %s ..." % item)
    cmd = ['./dbc_extract.py', '-b', BUILD_NUMBER, '-p', CASC_DATA_DIR, '-t', 'csv', '--delim=,', item]
@@ -84,7 +83,7 @@ os.chdir('../csvs')
 with open('ItemSparse.dbc.csv', 'r', encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile, delimiter=',', skipinitialspace=True)
 
-    unused_fields = ["unk_1","unk_2","unk_3","buy_price","sell_price","race_mask","req_spell","max_count","stackable","ranged_mod_range","req_skill","req_skill_rank","req_rep_faction","delay","page_text","start_quest","id_lock","item_set","area","map","totem_category","item_limit_category","id_holiday","unk_l72_1","id_name_desc","bag_family","duration","req_level","unk_4","unk_5","req_rep_rank","container_slots","bonding","id_lang","page_mat","material","sheath","socket_color_1","socket_color_2","socket_color_3","unk_6","unk_7","id_artifact","unk_9"]
+    unused_fields = ["unk_1","unk_2","unk_3","buy_price","sell_price","race_mask","req_spell","max_count","stackable","ranged_mod_range","req_skill","req_skill_rank","req_rep_faction","page_text","start_quest","id_lock","item_set","area","map","totem_category","item_limit_category","id_holiday","unk_l72_1","id_name_desc","bag_family","duration","req_level","unk_4","unk_5","req_rep_rank","container_slots","bonding","id_lang","page_mat","material","sheath","socket_color_1","socket_color_2","socket_color_3","unk_6","unk_7","id_artifact","unk_9"]
 
     good_fields = [x for x in reader.fieldnames if x not in unused_fields]
 
@@ -101,7 +100,8 @@ os.rename('updated.csv','ItemSparse.dbc.csv')
 
 os.chdir(SCRIPT_DIR)
 for f in glob.glob(os.path.join('csv_temp','csvs','*.csv')):
-    os.remove(os.path.join(SCRIPT_DIR, os.path.basename(f)))
+    if os.path.join(SCRIPT_DIR, os.path.basename(f)).exists():
+        os.remove(os.path.join(SCRIPT_DIR, os.path.basename(f)))
     shutil.move(f, SCRIPT_DIR)
 
 with open('README.txt', 'w') as readme:
