@@ -16,7 +16,7 @@ const initItem = {
 };
 
 export default class Item extends Record(initItem) {
-    constructor(item){
+    constructor(item) {
 
         let _item = new Record(initItem)();
 
@@ -29,28 +29,32 @@ export default class Item extends Record(initItem) {
             _item = _item.set('quality', item.quality);
             _item = _item.set('socket_count', item.socket_count);
             _item = _item.set('enchant', item.enchant);
-            _item = _item.set('bonuses', new List(item.bonuses));
-            _item = _item.set('stats', new Map(item.stats));
+            _item = _item.set('bonuses', List(item.bonuses));
+            _item = _item.set('stats', Map(item.stats));
 
-            let gemList = new List();
-            for (let idx in item.gems) {
-                if (item.gems[idx] == 0) {
-                    gemList = gemList.push(new Map({
-                        icon: '',
-                        id: 0,
-                        name: 'Empty Gem Socket',
-                        quality: 0,
-                        bonus: ''
-                    }));
-                }
-                else {
-                    gemList = gemList.push(new Map(item.gems[idx]));
+            if (item.gems instanceof List) {
+                _item = _item.set('gems', item.gems);
+            }
+            else {
+                let gemList = new List();
+                for (let idx in item.gems) {
+                    if (item.gems[idx] == 0) {
+                        gemList = gemList.push(new Map({
+                            icon: '',
+                            id: 0,
+                            name: 'Empty Gem Socket',
+                            quality: 0,
+                            bonus: ''
+                        }));
+                    }
+                    else {
+                        gemList = gemList.push(new Map(item.gems[idx]));
+                    }
                 }
             }
-            _item = _item.set('gems', gemList);
 
             if (item.weaponStats !== undefined) {
-                _item = _item.set('weaponStats', new Map(item.weaponStats));
+                _item = _item.set('weaponStats', Map(item.weaponStats));
             }
         }
 

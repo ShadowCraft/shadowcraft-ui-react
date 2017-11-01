@@ -54,7 +54,7 @@ const graphOptions = {
     }
 };
 
-graphTestData['labels'] = Array(graphTestData['datasets'][0]['data'].length).fill('');
+graphTestData.labels = Array(graphTestData.datasets[0].data.length).fill('');
 
 class RightPane extends React.Component {
 
@@ -67,7 +67,7 @@ class RightPane extends React.Component {
     // we might as well wait to rerender until history is amended most of the time
     // this reduces rerenders from about 9 down to 3 on the initial load
     // and from 5 down to 1 on a gear swap
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
         return (
             // nextProps.name !== this.props.name ||
             // nextProps.region !== this.props.region ||
@@ -80,11 +80,11 @@ class RightPane extends React.Component {
     }
 
     graphClick(elems) {
-        // Don't allow the user to continually click the last element and keep resetting
-        // to the same data.
-        if (elems[0]._index + 1 != this.props.history.dps.size) {
+        // Don't allow the user to continually click the last element
+        // and keep resetting to the same data.
+        if (elems[0]._index + 1 != this.props.history.data.size) {
             var historyEntry = this.props.history.data.get(elems[0]._index);
-            store.dispatch(historyTimeMachine(historyEntry.character, historyEntry.settings)); 
+            store.dispatch(historyTimeMachine(historyEntry.character, historyEntry.settings, historyEntry.engine));
         }
     }
 
@@ -92,16 +92,17 @@ class RightPane extends React.Component {
 
         var realm = this.props.realm.replace("-", " ");
         realm = realm.replace(/\b\w/g, l => l.toUpperCase());
-
-        graphTestData['datasets'][0]['data'] = this.props.history.dps.toJS();
-        graphTestData['labels'] = Array(graphTestData['datasets'][0]['data'].length).fill('');
+        graphTestData.datasets[0].data = this.props.history.data.map(d => d.engine.totalDps).toJS();
+        graphTestData.labels = Array(graphTestData.datasets[0].data.length).fill('');
 
         let dpsChange = 0.0;
         let dpsChangePct = 0.0;
-        let historyLength = this.props.history.dps.size;
+        let historyLength = this.props.history.data.size;
         if (historyLength > 1) {
-            dpsChange = Math.round((this.props.history.dps.get(historyLength - 1) - this.props.history.dps.get(historyLength - 2)) * 100.0) / 100.0;
-            dpsChangePct = Math.round(((dpsChange / this.props.history.dps.get(historyLength - 1)) * 100.0) * 100.0) / 100.0;
+            const currentDPS = this.props.history.data.get(historyLength - 1).engine.totalDps;
+            const lastDPS = this.props.history.data.get(historyLength - 2).engine.totalDps;
+            dpsChange = Math.round((currentDPS - lastDPS) * 100.0) / 100.0;
+            dpsChangePct = Math.round(((dpsChange / currentDPS) * 100.0) * 100.0) / 100.0;
         }
 
         let warnings = this.props.warnings.map((g, i) =>
@@ -183,7 +184,8 @@ const mapStateToProps = function (store) {
         portrait: store.character.get('portrait'),
         dps: store.engine.totalDps,
         warnings: store.warnings.warnings,
-        history: store.history
+        history: store.history,
+        engine: store.engine,
     };
 };
 

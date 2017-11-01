@@ -26,7 +26,7 @@ export function changeSpecialization(oldSpec, newSpec, newTalents) {
         // TODO: why is this check only done for one of the events? shouldn't it apply to
         // all of them?
         if (oldSpec !== newSpec) {
-            dispatch({type: characterActionTypes.SWAP_ARTIFACT_WEAPON, data: newSpec});
+            dispatch({ type: characterActionTypes.SWAP_ARTIFACT_WEAPON, data: newSpec });
         }
         dispatch({ type: characterActionTypes.RESET_ARTIFACT, data: newSpec });
         dispatch({ type: characterActionTypes.UPDATE_TALENTS, data: newTalents });
@@ -66,12 +66,15 @@ export function changeRelic(relicSlot, traitId, relicIlvl) {
 // the current character and settings state to the history reducer.
 export function updateEngineState(data) {
     return function (dispatch, getState) {
-        const state = getState();
         dispatch({ type: 'SET_ENGINE_STATE', response: data });
+        // the order matters here, getState must come after the engine dispatch
+        // otherwise the engine state that will be saved will be the last state, instead of the current       
+        const state = getState();
         dispatch({
-            type: 'ADD_HISTORY', dps: data.totalDps,
+            type: 'ADD_HISTORY',
             character: state.character,
-            settings: state.settings.current
+            settings: state.settings.current,
+            engine: state.engine
         });
 
         if (storageAvailable()) {
@@ -123,11 +126,23 @@ export function getEngineData() {
     };
 }
 
-export function historyTimeMachine(character, settings) {
-    return function (dispatch) {
+export function historyTimeMachine(character, settings, engine) {
+    return function (dispatch, getState) {
         dispatch({ type: 'RESET_CHARACTER_DATA', data: character });
         dispatch({ type: 'RESET_SETTINGS', data: settings });
-        dispatch(getEngineData());
+        dispatch({ type: 'SET_ENGINE_STATE', data: engine });
+        dispatch({
+            type: 'ADD_HISTORY',
+            character: character,
+            settings: settings,
+            engine: engine
+        });
+
+        const state = getState();
+        if (storageAvailable()) {
+            let key = `${state.character.region}-${state.character.realm}-${state.character.name}`;
+            storageSet(key, { 'settings': state.settings.current, 'character': state.character });
+        }
     };
 }
 

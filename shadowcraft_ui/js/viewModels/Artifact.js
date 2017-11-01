@@ -4,14 +4,16 @@ import Relic from './Relic';
 const initArtifact = {
     traits: Map({ 0: 0 }),
     relics: List([new Relic(), new Relic(), new Relic()]),
-    netherlight: List([new Map({tier2: 0, tier3: 0}),
-                       new Map({tier2: 0, tier3: 0}),
-                       new Map({tier2: 0, tier3: 0})]),
+    netherlight: List([
+        new Map({ tier2: 0, tier3: 0 }),
+        new Map({ tier2: 0, tier3: 0 }),
+        new Map({ tier2: 0, tier3: 0 })
+    ]),
     spec: 'a'
 };
 
 export default class Artifact extends Record(initArtifact) {
-    constructor(artifact){
+    constructor(artifact) {
         let _artifact = Record(initArtifact)();
 
         if (artifact !== undefined) {
@@ -22,17 +24,26 @@ export default class Artifact extends Record(initArtifact) {
                 _artifact = _artifact.setIn(['traits', parseInt(trait)], artifact.traits[trait]);
             }
 
-            for (let index in artifact.relics) {
-                _artifact = _artifact.setIn(['relics', index], new Relic(artifact.relics[index]));
+            if (artifact.relics instanceof List) {
+                _artifact = _artifact.set('relics', artifact.relics);
             }
-
+            else {
+                for (let index in artifact.relics) {
+                    _artifact = _artifact.setIn(['relics', index], new Relic(artifact.relics[index]));
+                }
+            }
             // TODO: netherlight, if we ever get data from blizzard on it
-            for (let index in artifact.netherlight) {
-                _artifact = _artifact.setIn(['netherlight', index, 'tier2'], artifact.netherlight[index].tier2)
-                _artifact = _artifact.setIn(['netherlight', index, 'tier3'], artifact.netherlight[index].tier3)
+            if (artifact.netherlight instanceof List) {
+                _artifact = _artifact.set('netherlight', artifact.netherlight);
+            }
+            else {
+                for (let index in artifact.netherlight) {
+                    _artifact = _artifact.setIn(['netherlight', index, 'tier2'], artifact.netherlight[index].tier2);
+                    _artifact = _artifact.setIn(['netherlight', index, 'tier3'], artifact.netherlight[index].tier3);
+                }
             }
         }
-        
+
         super(_artifact);
     }
 }
