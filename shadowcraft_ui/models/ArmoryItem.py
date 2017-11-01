@@ -10,10 +10,11 @@ class ArmoryItem(object):
     # Some static data that used by the item loader code
     item_upgrades = None
     upgrade_rulesets = None
+    sparse_items = None
+    item_damages = None
 
     def __init__(self, json_data):
         self.name = json_data['name']
-        self.ilevel = int(json_data['itemLevel'])
         self.item_id = int(json_data['id'])
         self.upgradable = ArmoryItem.check_upgradable(self.item_id)
         self.populate_data(json_data)
@@ -54,14 +55,6 @@ class ArmoryItem(object):
             if json_data['itemSubClass'] in ArmoryConstants.ARMOR_CLASS:
                 self.armor_class = ArmoryConstants.ARMOR_CLASS[json_data['itemSubClass']]
 
-        if json_data['itemClass'] != 3 and 'bonusStats' in json_data:
-            self.stats = {}
-            for entry in json_data['bonusStats']:
-                if entry['stat'] not in ArmoryConstants.STAT_LOOKUP:
-                    print("STAT ID missing: %s", entry['stat'])
-                else:
-                    self.stats[ArmoryConstants.STAT_LOOKUP[entry['stat']]] = entry['amount']
-
         # If an item has chanceBonusLists, then it's an item that can have
         # various bonuses attached to it like item sockets, random enchantments,
         # etc. Store these with the item if they exist so they can be displayed
@@ -69,19 +62,55 @@ class ArmoryItem(object):
         self.bonus_tree = json_data['bonusLists'] if 'bonusLists' in json_data else []
         self.chance_bonus_lists = json_data['bonusSummary']['chanceBonusLists']
 
-        # If this item is a weapon, we need to store a little bit of information
-        # about it.
-        if 'weaponInfo' in json_data:
-            self.speed = float(json_data['weaponInfo']['weaponSpeed'])
-            self.dps = float(json_data['weaponInfo']['dps'])
-            self.subclass = json_data['itemSubClass']
-            self.min_dmg = float(json_data['weaponInfo']['damage']['exactMin'])
-            self.max_dmg = float(json_data['weaponInfo']['damage']['exactMax'])
-
         if 'socketInfo' in json_data:
             self.socket_count = len(json_data['socketInfo']['sockets'])
         else:
             self.socket_count = 0
+
+        # Use the client data to fill in item level and stats so that we get
+        # consistent information all the time. If it's not there, log that it's
+        # not and begrudgingly use the data from the API.
+        if json_data['itemClass'] != 3:
+            self.stats = {}
+            item_data = ArmoryItem.sparse_item(int(json_data['id']))
+            if item_data is not None:
+                self.ilevel = int(item_data['ilevel'])
+                for i in range(1, 11):
+                    stat_index = int(item_data.get('stat_type_%d' % i))
+                    if stat_index != -1:
+                        stat = ArmoryConstants.STAT_LOOKUP[stat_index]
+                        value = item_data.get('stat_val_%d' % i)
+                        self.stats[stat] = int(value)
+
+                if (int(item_data.get('delay')) > 0):
+                    weapon_stats = ArmoryItem.item_damage(self.item_id, int(item_data['ilevel']),
+                                                          int(item_data.get('quality')),
+                                                          float(item_data.get('dmg_range')),
+                                                          float(item_data.get('delay')) / 1000)
+
+                    self.speed = weapon_stats['speed']
+                    self.dps = weapon_stats['dps']
+                    self.min_dmg = weapon_stats['min_dmg']
+                    self.max_dmg = weapon_stats['max_dmg']
+
+            else:
+                self.ilevel = int(json_data['itemLevel'])
+                if 'bonusStats' in json_data:
+                    print('item %s wasn\'t in the client data, using API stat data' % json_data['id'])
+                    for entry in json_data['bonusStats']:
+                        if entry['stat'] not in ArmoryConstants.STAT_LOOKUP:
+                            print("STAT ID missing: %s", entry['stat'])
+                        else:
+                            self.stats[ArmoryConstants.STAT_LOOKUP[entry['stat']]] = entry['amount']
+
+                # If this item is a weapon, we need to store a little bit of information
+                # about it.
+                if 'weaponInfo' in json_data:
+                    self.speed = float(json_data['weaponInfo']['weaponSpeed'])
+                    self.dps = float(json_data['weaponInfo']['dps'])
+                    self.subclass = json_data['itemSubClass']
+                    self.min_dmg = float(json_data['weaponInfo']['damage']['exactMin'])
+                    self.max_dmg = float(json_data['weaponInfo']['damage']['exactMax'])
 
     IGNORE_FIELDS = ['item_id', 'ilevel', 'context', 'bonus_tree', 'tag']
     IGNORE_FOR_GEMS = ['speed', 'dps', 'subclass', 'armor_class', 'upgradable',
@@ -180,13 +209,45 @@ class ArmoryItem(object):
             ArmoryItem.upgrade_rulesets = {}
             filepath = os.path.dirname(os.path.abspath(__file__))
             with open(os.path.join(filepath, '..', 'external_data', 'RulesetItemUpgrade.dbc.csv'), mode='r') as infile:
-                reader = csv.reader(infile)
-                next(reader) # Skip the first row with the header
+                reader = csv.DictReader(infile)
                 for row in reader:
-                    ArmoryItem.upgrade_rulesets[int(row[1])] = int(row[2])
+                    ArmoryItem.upgrade_rulesets[int(row['id_item'])] = int(row['id_upgrade_base'])
 
         if item_id in ArmoryItem.upgrade_rulesets:
             return item_id
+        else:
+            return None
+
+    @staticmethod
+    def sparse_item(item_id):
+        if ArmoryItem.sparse_items is None:
+            ArmoryItem.sparse_items = {}
+            filepath = os.path.dirname(os.path.abspath(__file__))
+            with open(os.path.join(filepath, '..', 'external_data', 'ItemSparse.dbc.csv'), mode='r') as infile:
+                reader = csv.DictReader(infile)
+                for row in reader:
+                    ArmoryItem.sparse_items[int(row['id'])] = row
+
+        if item_id in ArmoryItem.sparse_items:
+            return ArmoryItem.sparse_items[item_id]
+        else:
+            return None
+
+    @staticmethod
+    def item_damage(item_id, ilvl, quality, dmg_range, speed):
+        if ArmoryItem.item_damages is None:
+            ArmoryItem.item_damages = {}
+            filepath = os.path.dirname(os.path.abspath(__file__))
+            with open(os.path.join(filepath, '..', 'external_data', 'ItemDamageOneHand.dbc.csv'), mode='r') as infile:
+                reader = csv.DictReader(infile)
+                for row in reader:
+                    ArmoryItem.item_damages[int(row['ilevel'])] = row
+
+        if ilvl in ArmoryItem.item_damages:
+            result = {'speed': speed, 'dps': float(ArmoryItem.item_damages[ilvl].get('v_%d' % quality))}
+            result['min_dmg'] = result['dps'] * result['speed'] * (1.0 - dmg_range / 2.0)
+            result['max_dmg'] = result['dps'] * result['speed'] * (1.5 - dmg_range / 2.0)
+            return result
         else:
             return None
 
@@ -216,13 +277,13 @@ class ArmoryItem(object):
             return ''
 
 def test_item():
-    print(ArmoryItem.check_upgradable(142512))
-    print(ArmoryItem.check_upgradable(124367))
-    print(ArmoryItem.scan_str("+4 Critical Strike"))
-    print(ArmoryItem.scan_str("Equip: Mastery by 4"))
-    json_data = ArmoryDocument.get('us', '/wow/item/%d' % 124367)
+#    print(ArmoryItem.check_upgradable(142512))
+#    print(ArmoryItem.check_upgradable(124367))
+#    print(ArmoryItem.scan_str("+4 Critical Strike"))
+#    print(ArmoryItem.scan_str("Equip: Mastery by 4"))
+    json_data = ArmoryDocument.get('us', '/wow/item/%d' % 128870)
     item = ArmoryItem(json_data)
-    print(item.name)
+#    print(item.name)
     print(item.as_json())
 
 if __name__ == '__main__':

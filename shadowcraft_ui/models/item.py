@@ -113,179 +113,63 @@ def import_item(dbase, item_id, is_gem=False):
     # Request the initial json data from the armory and insert it into an array of
     # json to be further processed. If we get an exception here, we can't continue
     # because we can't generate any of the remaining urls anyways.
-    json_data = []
+    json = {}
     try:
-        base_json = ArmoryDocument.get('us', '/wow/item/%d' % item_id)
+        json = ArmoryDocument.get('us', '/wow/item/%d' % item_id)
 
-        for stat in base_json['bonusStats']:
+        for stat in json['bonusStats']:
             if ArmoryConstants.STAT_LOOKUP[stat['stat']] == 'intellect':
                 print("import_item: item has intellect on it, ignoring")
                 return
 
-        json_data.append(base_json)
     except ArmoryDocument.ArmoryError as err:
         print("import_item failed to fetch %d: %s" % (item_id, err))
         return
-
-    # Check if the item has any available contexts. Remove the first context since that
-    # context is the one the first document's data is valid for. For example, loading
-    # a document for an item with contexts ['raid-normal','raid-heroic'] will default
-    # to returning data for raid-normal.
-    contexts = copy.copy(base_json['availableContexts'])
-    contexts = contexts[1:]
-
-    # Next, look at the chance bonus lists that accompany the item. This bonus list is
-    # the things that can be applied to an item, such as extra titles (warforged, crafting
-    # stages), tertiary stats, sockets, etc.
-    item_chance_bonuses = get_bonus_ids_to_load(
-        base_json['bonusSummary']['chanceBonusLists'], base_json['context'], base_json['itemLevel'])
-
-    # For legendaries, add the bonus IDs for the two item level upgrades
-    if base_json['quality'] == 5:
-        item_chance_bonuses += [3530, 3570]
-
-    # Loop through the now-modified list of bonus IDs and load an additional item for
-    # each of those IDs from the armory, and store it in the list to be processed.
-    for bonus_id in item_chance_bonuses:
-        try:
-            print('Loading extra item for bonus ID %d' % bonus_id)
-            bonuses = copy.copy(base_json['bonusLists'])
-            bonuses.append(bonus_id)
-            params = {"bl": ','.join(map(str, bonuses))}
-            json = ArmoryDocument.get('us', '/wow/item/%d' % item_id, params)
-            json_data.append(json)
-        except ArmoryDocument.ArmoryError as err:
-            print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
-
-    # Don't load all of the world quest or pvp contexts. Only load a single context
-    # for each of them, at the highest ilvl possible.
-    world_quests = [x for x in contexts if x.startswith('world-quest-')]
-    world_quests.sort()
-    world_quests = world_quests[:-1]
-    pvp_unranked = [x for x in contexts if x.startswith('pvp-unranked')]
-    pvp_unranked.sort()
-    pvp_unranked = pvp_unranked[:-1]
-    pvp_ranked = [x for x in contexts if x.startswith('pvp-ranked')]
-    pvp_ranked.sort()
-    pvp_ranked = pvp_ranked[:-1]
-    context_blacklist = world_quests + pvp_unranked + pvp_ranked
-
-    contexts = [x for x in contexts if x not in context_blacklist]
-
-    # For each of the extra contexts, load the document for each one of them and store
-    # it in the list of json to deal with.
-    for context in contexts:
-        try:
-            print('Loading document for extra context %s' % context)
-            json = ArmoryDocument.get(
-                'us', '/wow/item/%d/%s' % (item_id, context))
-            json_data.append(json)
-        except ArmoryDocument.ArmoryError as err:
-            print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
-            continue
-
-        # Same thing with the bonus IDs. Gotta load all of those too.
-        item_chance_bonuses = get_bonus_ids_to_load(
-            json['bonusSummary']['chanceBonusLists'], json['context'], json['itemLevel'])
-
-        # Loop through the now-modified list of bonus IDs and load an additional item for
-        # each of those IDs from teh armory, and store it in the list to be
-        # processed.
-        for bonus_id in item_chance_bonuses:
-            try:
-                print('Loading extra item for bonus ID %d with context %s' % (bonus_id, context))
-                bonuses = copy.copy(json['bonusLists'])
-                bonuses.append(bonus_id)
-                params = {"bl": ','.join(map(str, bonuses))}
-                json = ArmoryDocument.get(
-                    'us', '/wow/item/%d' % item_id, params)
-                json_data.append(json)
-            except ArmoryDocument.ArmoryError as err:
-                print("import_item failed to fetch %d with extra bonuses: %s" % (item_id, err))
-
-    if not is_gem:
-        current_total = len(json_data)
-        json_data = [x for x in json_data if not(
-            x['itemLevel'] < MIN_ILVL and
-            item_id not in ARTIFACT_WEAPONS and
-            item_id not in ORDER_HALL_SET
-        )]
-
-        print('Rejected %d json entries due to item level filter' %
-              (current_total - len(json_data)))
-        print('Loading data from a total of %d json entries for this item' %
-              len(json_data))
 
     # Create a basic item to store in the database. The properties will get populated
     # as we loop through the json below.
     db_item = {'id': item_id, 'is_gem': is_gem, 'is_crafted': False}
 
     # Loop through the json data that was retrieved and process each in turn
-    for json in json_data:
+    item = ArmoryItem(json)
+    item_props = item.as_json()
 
-        item = ArmoryItem(json)
-        item_props = item.as_json()
+    # Skip items that don't have an equip location because wowhead keeps sticking
+    # random shit into the list (like the item that discovers new legendaries)
+    if not is_gem and item_props['equip_location'] == '':
+        return
 
-        # Skip items that don't have an equip location because wowhead keeps sticking
-        # random shit into the list (like the item that discovers new legendaries)
-        if not is_gem and item_props['equip_location'] == '':
-            continue
+    db_item.update(item_props)
 
-        if 'name' not in db_item:
-            db_item.update(item_props)
+    if not is_gem:
+        # Join all of the chance bonus lists into one list for all of the item levels.
+        # This is mostly safe. It might be weird for items at very low ilvls where they
+        # might not support sockets, but that rarely happens.
+        db_item['chance_bonus_lists'] += item_props['chance_bonus_lists']
+        db_item['chance_bonus_lists'] = list(set(db_item['chance_bonus_lists']))
+        db_item['quality'] = item.quality
+        db_item['bonuses'] = item.bonus_tree
+        db_item['ilevel'] = item.ilevel
 
-        if not is_gem:
-            # Join all of the chance bonus lists into one list for all of the item levels.
-            # This is mostly safe. It might be weird for items at very low ilvls where they
-            # might not support sockets, but that rarely happens.
-            db_item['chance_bonus_lists'] += item_props['chance_bonus_lists']
-            db_item['chance_bonus_lists'] = list(set(db_item['chance_bonus_lists']))
+        # Weapon stats go into a different part of the object. Take them out of the
+        # main object after they've been copied.
+        if 'speed' in item_props:
+            db_item['weaponStats'] = {
+                'speed': item_props['speed'],
+                'dps': item_props['dps'],
+                'min_dmg': item_props['min_dmg'],
+                'max_dmg': item_props['max_dmg']
+            }
 
-            if 'stats' in db_item:
-                del db_item['stats']
+            del db_item['speed']
+            del db_item['dps']
+            del db_item['min_dmg']
+            del db_item['max_dmg']
 
-            if 'ilvls' not in db_item:
-                db_item['ilvls'] = {}
-
-            ilvl = str(item.ilevel)
-            if str(item.ilevel) not in db_item['ilvls']:
-                db_item['ilvls'][ilvl] = {
-                    'stats': item_props['stats'],
-                    'quality': item.quality,
-                    'bonuses': item.bonus_tree
-                }
-
-            # Weapon stats go into a different part of the object. Take them out of the
-            # main object after they've been copied.
-            if 'speed' in item_props:
-                db_item['ilvls'][ilvl]['weaponStats'] = {
-                    'speed': item_props['speed'],
-                    'dps': item_props['dps'],
-                    'min_dmg': item_props['min_dmg'],
-                    'max_dmg': item_props['max_dmg']
-                }
-
-                del db_item['speed']
-                del db_item['dps']
-                del db_item['min_dmg']
-                del db_item['max_dmg']
-
-            if json['context'] == 'trade-skill':
-                db_item['is_crafted'] = True
+        if json['context'] == 'trade-skill':
+            db_item['is_crafted'] = True
 
     dbase.items.replace_one({'id': item_id}, db_item, upsert=True)
-
-def get_bonus_ids_to_load(possible_ids, context, item_level):
-    """Trims a list of bonus IDs down to the set of IDs that we actually care about, like
-    titles, since we load an additional item for each one of those. The bonus IDs that
-    we want are white-listed earlier in this class. Extra items will be loaded for
-    these bonus IDs."""
-
-    item_chance_bonuses = copy.copy(possible_ids)
-    item_chance_bonuses = [
-        x for x in item_chance_bonuses if x in BONUS_ID_WHITELIST]
-
-    return item_chance_bonuses
 
 
 def get_ids_from_wowhead_by_ilvl(quality, min_ilvl, max_ilvl):
@@ -322,6 +206,7 @@ def get_ids_from_wowhead(url):
 def test_item():
     """load mongo with test items"""
     mongo = MongoClient()
+#    import_item(mongo.roguesim_python, 147172)
     populate_db(mongo.roguesim_python)
     populate_gems(mongo.roguesim_python)
 
