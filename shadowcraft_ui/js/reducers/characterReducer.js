@@ -215,7 +215,6 @@ export const characterReducer = function (state = new Character(), action) {
 
                 for (let i = 0; i < artifact.length; i++) {
                     let itemData = artifact[i];
-                    let stats = itemData['ilvls']['750'];
                     let item = new Item({
                         id: itemData.id,
                         slot: itemData.equip_location,
@@ -223,12 +222,12 @@ export const characterReducer = function (state = new Character(), action) {
                         icon: itemData.icon,
                         item_level: 750,
                         gems: [],
-                        stats: stats.stats,
-                        bonuses: stats.bonuses,
-                        quality: stats.quality,
+                        stats: itemData.stats,
+                        bonuses: itemData.bonuses,
+                        quality: itemData.quality,
                         socket_count: 0,
                         enchant: 0,
-                        weaponStats: stats.weaponStats
+                        weaponStats: itemData.weaponStats
                     });
                     newState = newState.setIn(['gear', itemData.equip_location], item);
                 }
