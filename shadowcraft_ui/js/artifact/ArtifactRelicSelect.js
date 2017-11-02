@@ -3,6 +3,20 @@ import PropTypes from 'prop-types';
 import store from '../store';
 import { changeRelic } from '../store';
 
+// WARNING!!, this function must be called with 'this' bound to ArtifactRelicSelect ( ie .call(this, props))
+function initialize(props) {
+
+    let ilvls = [];
+    for (var i = 835; i <= 955; i += 5) {
+        ilvls.push(<option key={i} value={i}>{i}</option>);
+    }
+    this.relicIlvlSelectionList = ilvls;
+
+    this.relicTypeSelectionList = props.relics.map(
+        relic => <option key={relic[0]} value={relic[0]}>{relic[1]}</option>
+    );
+}
+
 class ArtifactRelicSelect extends React.Component {
 
     constructor(props) {
@@ -10,17 +24,14 @@ class ArtifactRelicSelect extends React.Component {
         this.handleRelicChange = this.handleRelicChange.bind(this);
         this.handleIlvlChange = this.handleIlvlChange.bind(this);
 
-        // should only need to run these once when created
-        let ilvls = [];
-        for (var i = 835; i <= 955; i += 5) {
-            ilvls.push(<option key={i} value={i}>{i}</option>);
-        }
-        this.relicIlvlSelectionList = ilvls;
+        initialize.call(this, props);
 
-        this.relicTypeSelectionList = this.props.relics.map(
-            relic => <option key={relic[0]} value={relic[0]}>{relic[1]}</option>
-        );
+    }
 
+    // have to reinitialize in the case that the spec changes while the component is already
+    // constructed (ie refresh char) -- a bit nasty, maybe this pattern calls for a higher order component?
+    componentWillUpdate(nextProps) {
+        initialize.call(this, nextProps);
     }
 
     handleRelicChange(e) {
