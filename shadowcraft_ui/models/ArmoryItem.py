@@ -74,7 +74,7 @@ class ArmoryItem(object):
             self.stats = {}
             item_data = ArmoryItem.sparse_item(int(json_data['id']))
             if item_data is not None:
-                self.ilevel = int(item_data['ilevel'])
+                self.item_level = int(item_data['ilevel'])
                 for i in range(1, 11):
                     stat_index = int(item_data.get('stat_type_%d' % i))
                     if stat_index != -1:
@@ -94,7 +94,7 @@ class ArmoryItem(object):
                     self.max_dmg = weapon_stats['max_dmg']
 
             else:
-                self.ilevel = int(json_data['itemLevel'])
+                self.item_level = int(json_data['itemLevel'])
                 if 'bonusStats' in json_data:
                     print('item %s wasn\'t in the client data, using API stat data' % json_data['id'])
                     for entry in json_data['bonusStats']:
@@ -112,7 +112,7 @@ class ArmoryItem(object):
                     self.min_dmg = float(json_data['weaponInfo']['damage']['exactMin'])
                     self.max_dmg = float(json_data['weaponInfo']['damage']['exactMax'])
 
-    IGNORE_FIELDS = ['item_id', 'ilevel', 'context', 'bonus_tree', 'tag']
+    IGNORE_FIELDS = ['item_id', 'item_level', 'context', 'bonus_tree', 'tag']
     IGNORE_FOR_GEMS = ['speed', 'dps', 'subclass', 'armor_class', 'upgradable',
                        'chance_bonus_lists', 'equip_location', 'socket_count',
                        'min_dmg', 'max_dmg']
