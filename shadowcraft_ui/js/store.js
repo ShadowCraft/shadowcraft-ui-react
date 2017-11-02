@@ -27,6 +27,7 @@ export function changeSpecialization(oldSpec, newSpec, newTalents) {
         // all of them?
         if (oldSpec !== newSpec) {
             dispatch({ type: characterActionTypes.SWAP_ARTIFACT_WEAPON, data: newSpec });
+            dispatch({ type: 'CLEAR_HISTORY' });
         }
         dispatch({ type: characterActionTypes.RESET_ARTIFACT, data: newSpec });
         dispatch({ type: characterActionTypes.UPDATE_TALENTS, data: newTalents });
