@@ -74,6 +74,11 @@ class EquippedItem extends React.Component {
         }
     }
 
+    generateItemVariants(baseItem) {
+        let items = [baseItem];
+        return items;
+    }
+
     onClick() {
 
         let itemData = ITEM_DATA.filter(function (item) {
@@ -98,33 +103,24 @@ class EquippedItem extends React.Component {
         let numItems = itemData.length;
         for (let idx = 0; idx < numItems; idx++) {
             let item = itemData[idx];
+            let variants = this.generateItemVariants(item);
+
             let foundMatch = false;
-            for (let ilvl in item.ilvls) {
-
-                let ilvlInt = parseInt(ilvl);
-                if (ilvlInt < min_ilvl || ilvlInt > max_ilvl) {
-                    continue;
-                }
-
-                let copy = deepClone(item);
-                copy['item_level'] = ilvlInt;
-                for (let key in item.ilvls[ilvl]) {
-                    copy[key] = item.ilvls[ilvl][key];
-                }
-                allItems.push(copy);
-
-                if (copy.id == this.props.equippedItem.id &&
-                    copy.item_level == this.props.equippedItem.item_level) {
+            variants.forEach(function(item) {
+                if (item.id == this.props.equippedItem.id &&
+                    item.ilevel == this.props.equippedItem.item_level) {
                     foundMatch = true;
                 }
-            }
+            }.bind(this));
+
+            allItems = allItems.concat(variants);
 
             if (!foundMatch && item.id == this.props.equippedItem.id) {
                 let copy = deepClone(item);
                 let equipped = this.props.equippedItem;
                 copy['item_level'] = equipped.item_level;
-                copy['bonuses'] = equipped.bonuses;
-                copy['stats'] = equipped.stats;
+                copy['bonuses'] = equipped.bonuses.toJS();
+                copy['stats'] = Object.assign({}, equipped.stats.toJS());
                 copy['quality'] = equipped.quality;
                 allItems.push(copy);
             }
@@ -139,7 +135,7 @@ class EquippedItem extends React.Component {
             item_level: 0,
             stats: {},
             socket_count: 0,
-            bonus: []
+            bonuses: [],
         });
 
         store.dispatch({
