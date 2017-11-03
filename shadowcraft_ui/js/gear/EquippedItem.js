@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import deepClone from 'deep-clone';
 import PropTypes from 'prop-types';
+import bs from 'binary-search';
 import Item from '../viewModels/Item';
 
 import store from '../store';
@@ -9,6 +10,7 @@ import { modalTypes } from '../reducers/modalReducer';
 import EquippedGemList from './EquippedGemList';
 import EquippedEnchant from './EquippedEnchant';
 import { ITEM_DATA } from '../item_data';
+import { ITEM_VARIANTS } from '../item_variants';
 
 class EquippedItem extends React.Component {
 
@@ -76,6 +78,25 @@ class EquippedItem extends React.Component {
 
     generateItemVariants(baseItem) {
         let items = [baseItem];
+        let variant = null;
+
+        for (let idx = 0; idx < ITEM_VARIANTS.length; idx++) {
+            if (bs(ITEM_VARIANTS[idx][0], baseItem['id'], function(a,b) {return a-b;}) > 0) {
+                variant = ITEM_VARIANTS[idx];
+                break;
+            }
+        }
+
+        if (variant) {
+            variant[1].forEach(function(v) {
+                var item = deepClone(baseItem);
+                item.item_level = v;
+                // TODO: modify stats
+                // TODO: modify bonus ID
+                items.push(item);
+            });
+        }
+
         return items;
     }
 
