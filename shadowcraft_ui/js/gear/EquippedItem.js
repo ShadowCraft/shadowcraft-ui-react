@@ -19,51 +19,8 @@ class EquippedItem extends React.Component {
         this.onBonusClick = this.onBonusClick.bind(this);
     }
 
-    componentWillMount() {
-        this.checkForWarnings(this.props);
-    }
-
     shouldComponentUpdate(nextProps) {
         return !this.props.equippedItem.equals(nextProps.equippedItem);
-    }
-
-    componentWillUpdate(nextProps) {
-        this.checkForWarnings(nextProps);
-    }
-
-    checkForWarnings(props) {
-        // Don't do anything here if this is a default or None item
-        if (props.equippedItem.get('id') == 0) {
-            return;
-        }
-
-        let newWarnings = [];
-
-        if (this.IsEnchantable(props.slot)) {
-            if (props.equippedItem.get('enchant') == 0) {
-                let quality = `quality-${props.equippedItem.get('quality')}`;
-                newWarnings.push(<div><span key={`${props.equippedItem.get('name')}enchant`} className={quality}>{props.equippedItem.get('name')}</span> is missing an enchant</div>);
-            }
-        }
-
-        let missingGem = false;
-        if (props.equippedItem.get('socket_count') > 0) {
-            props.equippedItem.get('gems').valueSeq().forEach(function (gem) {
-                if (gem.get('id') == 0) {
-                    missingGem = true;
-                }
-            });
-        }
-
-        if (missingGem) {
-            let quality = `quality-${props.equippedItem.get('quality')}`;
-            newWarnings.push(<div><span key={`${props.equippedItem.get('name')}gem`} className={quality}>{props.equippedItem.get('name')}</span> is missing one or more gems</div>);
-        }
-
-        store.dispatch({
-            type: 'ADD_MULTIPLE_WARNINGS',
-            component: this, warnings: newWarnings
-        });
     }
 
     IsEnchantable(slot) {

@@ -27,18 +27,4 @@ describe('warningsReducer', () => {
         const expected = { warnings: [{ component: 'init', text: 'init' }] };
         expect(warningsReducer(init, action)).toEqual(expected);
     });
-
-    it('should handle ADD_MULTIPLE_WARNINGS', () => {
-        const init = { warnings: [{ component: 'init', text: 'init' }] };
-        const action = { type: warningsActionTypes.ADD_MULTIPLE_WARNINGS, component: 'new', warnings: ['first', 'second'] };
-        const expected = { warnings: [{ component: 'init', text: 'init' }, { component: 'new', text: 'first' },  { component: 'new', text: 'second' }] };
-        expect(warningsReducer(init, action)).toEqual(expected);
-    });
-
-    it('ADD_MULTIPLE_WARNINGS should not allow duplicate entries', () => {
-        const init = { warnings: [{ component: 'init', text: 'first' }] };
-        const action = { type: warningsActionTypes.ADD_MULTIPLE_WARNINGS, component: 'init', warnings: ['first', 'second', 'third'] };
-        const expected = { warnings: [{ component: 'init', text: 'first' }, { component: 'init', text: 'second' }, { component: 'init', text: 'third' }] };
-        expect(warningsReducer(init, action)).toEqual(expected);
-    });
 });

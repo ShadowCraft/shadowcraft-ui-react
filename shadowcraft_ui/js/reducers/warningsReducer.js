@@ -7,7 +7,6 @@ export const initialWarningsState = {
 export const warningsActionTypes = {
     CLEAR_WARNINGS: 'CLEAR_WARNINGS',
     ADD_WARNING: 'ADD_WARNING',
-    ADD_MULTIPLE_WARNINGS: 'ADD_MULTIPLE_WARNINGS'
 };
 
 export const warningsReducer = function (state = initialWarningsState, action) {
@@ -23,15 +22,6 @@ export const warningsReducer = function (state = initialWarningsState, action) {
             const filtered = warningSeq.filter(obj => obj.get('component') != action.component);
             const newWarnings = filtered.concat({ component: action.component, text: action.text });
 
-            return state.set('warnings', newWarnings).toJS();
-        }
-
-        case warningsActionTypes.ADD_MULTIPLE_WARNINGS: {
-
-            const warningSeq = state.get('warnings').toSeq();
-            const mapped = Immutable.fromJS(action.warnings.map(w => ({ component: action.component, text: w })));
-            const filtered = warningSeq.filter(obj => obj.get('component') != action.component);
-            const newWarnings = filtered.concat(mapped);
             return state.set('warnings', newWarnings).toJS();
         }
     }

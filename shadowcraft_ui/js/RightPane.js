@@ -4,6 +4,7 @@ import GoogleAd from 'react-google-ad';
 import { Line } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import { History } from './reducers/historyReducer';
+import Warnings from './Warnings';
 
 import store from './store';
 import { historyTimeMachine } from './store';
@@ -105,9 +106,6 @@ class RightPane extends React.Component {
             dpsChangePct = Math.round(((dpsChange / currentDPS) * 100.0) * 100.0) / 100.0;
         }
 
-        let warnings = this.props.warnings.map((g, i) =>
-            <div className="log warning" key={i}>{g.text}</div>);
-
         let armoryRegion = "";
         switch (this.props.region) {
             case 'eu':
@@ -149,9 +147,7 @@ class RightPane extends React.Component {
                     <section>
                         <div className="window" id="console">
                             <h3>Notices</h3>
-                            <div className="inner">
-                                {warnings}
-                            </div>
+                            <Warnings />
                         </div>
                     </section>
                     <section className="flex-fill-vertical">
@@ -172,7 +168,6 @@ RightPane.propTypes = {
     realm: PropTypes.string.isRequired,
     portrait: PropTypes.string.isRequired,
     dps: PropTypes.number.isRequired,
-    warnings: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     history: PropTypes.instanceOf(History).isRequired
 };
 
@@ -183,7 +178,6 @@ const mapStateToProps = function (store) {
         realm: store.character.get('realm'),
         portrait: store.character.get('portrait'),
         dps: store.engine.totalDps,
-        warnings: store.warnings.warnings,
         history: store.history,
         engine: store.engine,
     };
