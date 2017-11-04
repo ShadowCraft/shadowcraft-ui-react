@@ -327,7 +327,7 @@ export const characterReducer = function (state = new Character(), action) {
                 state = state.setIn(['gear', firstGemSlot, 'gems', 0], makeGem(action.data.epic));
             }
 
-            return state.toJS();
+            return state;
         }
 
         case characterActionTypes.OPTIMIZE_ENCHANTS: {
@@ -335,8 +335,7 @@ export const characterReducer = function (state = new Character(), action) {
             return state.setIn(['gear', 'neck', 'enchant'], action.data.neck)
                 .setIn(['gear', 'back', 'enchant'], action.data.back)
                 .setIn(['gear', 'finger1', 'enchant'], action.data.finger)
-                .setIn(['gear', 'finger2', 'enchant'], action.data.finger)
-                .toJS();
+                .setIn(['gear', 'finger2', 'enchant'], action.data.finger);
         }
     }
 
