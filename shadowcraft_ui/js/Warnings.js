@@ -13,14 +13,16 @@ class Warnings extends React.Component {
 
     render() {
 
-        let newWarnings = [];
+        let warnings = [];
+        let keyIndex = 0;
 
         this.props.gear.keySeq().forEach(slot => {
             let item = this.props.gear.get(slot);
             if (slot == "neck" || slot == "finger1" || slot == "finger2" || slot == "back") {
                 if (item.get('enchant') == 0) {
                     let quality = `quality-${item.get('quality')}`;
-                    newWarnings.push(<div><span key={`${item.get('name')}enchant`} className={quality}>{item.get('name')}</span> is missing an enchant</div>);
+                    warnings.push(<div className="log warning" key={keyIndex}><span key={`${item.get('name')}enchant`} className={quality}>{item.get('name')}</span> is missing an enchant</div>);
+                    keyIndex = keyIndex + 1;
                 }
             }
 
@@ -35,12 +37,14 @@ class Warnings extends React.Component {
 
             if (missingGem) {
                 let quality = `quality-${item.get('quality')}`;
-                newWarnings.push(<div><span key={`${item.get('name')}gem`} className={quality}>{item.get('name')}</span> is missing one or more gems</div>);
+                warnings.push(<div className="log warning" key={keyIndex}><span key={`${item.get('name')}gem`} className={quality}>{item.get('name')}</span> is missing one or more gems</div>);
+                keyIndex = keyIndex + 1;
             }
         });
 
-        let warnings = newWarnings.map((g, i) =>
-            <div className="log warning" key={i}>{g}</div>);
+        if (this.props.engineWarning.length > 0) {
+            warnings.push(<div className="log warning" key={keyIndex}>{this.props.engineWarning}</div>);
+        }
 
         return (
             <div className="inner">
@@ -51,12 +55,14 @@ class Warnings extends React.Component {
 }
 
 Warnings.propTypes = {
-    gear: PropTypes.instanceOf(Gear).isRequired
+    gear: PropTypes.instanceOf(Gear).isRequired,
+    engineWarning: PropTypes.string.isRequired
 };
 
 const mapStateToProps = function (store) {
     return {
-        gear: store.character.get('gear')
+        gear: store.character.get('gear'),
+        engineWarning: store.warnings.get('engineWarning')
     };
 };
 

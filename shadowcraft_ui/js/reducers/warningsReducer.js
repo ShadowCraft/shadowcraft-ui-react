@@ -1,30 +1,17 @@
 import Immutable from 'immutable';
 
-export const initialWarningsState = {
-    warnings: []
-};
+export const WarningState = Immutable.Record({ engineWarning: '' });
 
 export const warningsActionTypes = {
-    CLEAR_WARNINGS: 'CLEAR_WARNINGS',
-    ADD_WARNING: 'ADD_WARNING',
+    SET_ENGINE_WARNING: 'SET_ENGINE_WARNING',
 };
 
-export const warningsReducer = function (state = initialWarningsState, action) {
-
-    state = Immutable.fromJS(state);
+export const warningsReducer = function (state = new WarningState(), action) {
 
     switch (action.type) {
-        case warningsActionTypes.CLEAR_WARNINGS:
-            return state.set('warnings', []).toJS();
-
-        case warningsActionTypes.ADD_WARNING: {
-            const warningSeq = state.get('warnings').toSeq();
-            const filtered = warningSeq.filter(obj => obj.get('component') != action.component);
-            const newWarnings = filtered.concat({ component: action.component, text: action.text });
-
-            return state.set('warnings', newWarnings).toJS();
-        }
+        case warningsActionTypes.SET_ENGINE_WARNING:
+            return state.set('engineWarning', action.data);
     }
 
-    return state.toJS();
+    return state;
 };
