@@ -31,9 +31,9 @@ function makeGem(actionGem) {
 
     if (actionGem) {
         let newGem = {
-            icon: actionGem.icon,
-            id: actionGem.id,
             name: actionGem.name,
+            id: actionGem.id,
+            icon: actionGem.icon,
             quality: actionGem.quality,
             bonus: ""
         };
@@ -300,10 +300,10 @@ export const characterReducer = function (state = new Character(), action) {
 
         case characterActionTypes.OPTIMIZE_GEMS: {
 
-            let newRareGem = makeGem(action.data.rare);
+            let newNonjcGem = makeGem(action.data.nonjc);
 
-            // Set all of the gems to the new rare gem, keeping track of whether or not
-            // we found an epic agi gem somewhere in there.
+            // Set all of the gems to the new non-jc gem, keeping track of whether or not
+            // we found an JC agi gem somewhere in there.
             let foundAgiGem = false;
             let firstGemSlot = null;
             state.get('gear').keySeq().forEach(slot => {
@@ -314,17 +314,17 @@ export const characterReducer = function (state = new Character(), action) {
 
                     const currentId = state.getIn(['gear', slot, 'gems', idx, 'id']);
 
-                    if (currentId == action.data.epic.id) {
+                    if (currentId == action.data.jc.id) {
                         foundAgiGem = true;
-                    } else if (currentId != action.data.epic.id && currentId != action.data.rare.id) {
-                        state = state.setIn(['gear', slot, 'gems', idx], newRareGem);
+                    } else if (currentId != action.data.jc.id && currentId != action.data.nonjc.id) {
+                        state = state.setIn(['gear', slot, 'gems', idx], newNonjcGem);
                     }
                 }
             });
 
-            // If we didn't find an epic gem, set the first available gem slot to that.
+            // If we didn't find an JC gem, set the first available gem slot to that.
             if (!foundAgiGem && firstGemSlot != null) {
-                state = state.setIn(['gear', firstGemSlot, 'gems', 0], makeGem(action.data.epic));
+                state = state.setIn(['gear', firstGemSlot, 'gems', 0], makeGem(action.data.jc));
             }
 
             return state;
