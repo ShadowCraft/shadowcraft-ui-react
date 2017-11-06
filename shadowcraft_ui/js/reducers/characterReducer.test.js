@@ -798,37 +798,16 @@ describe('characterReducer', () => {
 
     it('should handle CHANGE_ENCHANT', () => {
 
-        const init = {
-            gear: {
-                slot: {
-                    bonuses: [],
-                    gems: [],
-                    socket_count: 1,
-                    stats: {},
-                    item_level: 0,
-                    enchant: 0
-                }
-            }
-        };
+        const init = new Character({});
         const action = {
             type: characterActionTypes.CHANGE_ENCHANT,
             data: {
-                slot: "slot",
+                slot: "neck",
                 enchant: 12345
             }
         };
-        const expected = {
-            gear: {
-                slot: {
-                    bonuses: [],
-                    gems: [],
-                    socket_count: 1,
-                    stats: {},
-                    item_level: 0,
-                    enchant: 12345
-                }
-            }
-        };
+        let expected = new Character({});
+        expected = expected.setIn(['gear','neck','enchant'], 12345);
 
         expect(characterReducer(init, action)).toEqual(expected);
 
@@ -836,29 +815,20 @@ describe('characterReducer', () => {
 
     it('should handle CHANGE_GEM', () => {
 
-        const init = {
-            gear: {
-                slot: {
-                    bonuses: [],
-                    gems: [
-                        {
-                            name: "gem1",
-                            id: 1,
-                            icon: "icon1",
-                            quality: 3,
-                            bonus: "+150 Mastery",
-                        }],
-                    socket_count: 1,
-                    stats: {},
-                    item_level: 0,
-                    enchant: 0
-                }
-            }
-        };
+        let init = new Character({});
+        init = init.setIn(['gear', 'neck', 'socket_count'], 1);
+        init = init.setIn(['gear', 'neck', 'gems', 0], new Map({
+            name: "gem1",
+            id: 1,
+            icon: "icon1",
+            quality: 3,
+            bonus: "+150 Mastery",
+        }));
+
         const action = {
             type: characterActionTypes.CHANGE_GEM,
             data: {
-                slot: "slot",
+                slot: "neck",
                 gemSlot: 0,
                 gem: {
                     id: 130222,
@@ -873,25 +843,16 @@ describe('characterReducer', () => {
                 }
             }
         };
-        const expected = {
-            gear: {
-                slot: {
-                    bonuses: [],
-                    gems: [
-                        {
-                            name: "Masterful Shadowruby",
-                            id: 130222,
-                            icon: "inv_jewelcrafting_70_cutgem03_purple",
-                            quality: 3,
-                            bonus: "+200 Haste",
-                        }],
-                    socket_count: 1,
-                    stats: {},
-                    item_level: 0,
-                    enchant: 0
-                }
-            }
-        };
+
+        let expected = new Character({});
+        expected = expected.setIn(['gear', 'neck', 'socket_count'], 1);
+        expected = expected.setIn(['gear', 'neck', 'gems', 0], new Map({
+            name: "Masterful Shadowruby",
+            id: 130222,
+            icon: "inv_jewelcrafting_70_cutgem03_purple",
+            quality: 3,
+            bonus: "+200 Haste",
+        }));
 
         expect(characterReducer(init, action)).toEqual(expected);
 
