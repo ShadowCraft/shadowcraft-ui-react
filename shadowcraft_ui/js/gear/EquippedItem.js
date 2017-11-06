@@ -11,6 +11,7 @@ import EquippedGemList from './EquippedGemList';
 import EquippedEnchant from './EquippedEnchant';
 import { ITEM_DATA } from '../item_data';
 import { ITEM_VARIANTS } from '../item_variants';
+import { getItems } from '../items/ItemPermutations';
 
 class EquippedItem extends React.Component {
 
@@ -38,14 +39,14 @@ class EquippedItem extends React.Component {
         let variant = null;
 
         for (let idx = 0; idx < ITEM_VARIANTS.length; idx++) {
-            if (bs(ITEM_VARIANTS[idx][0], baseItem['id'], function(a,b) {return a-b;}) > 0) {
+            if (bs(ITEM_VARIANTS[idx][0], baseItem['id'], function (a, b) { return a - b; }) > 0) {
                 variant = ITEM_VARIANTS[idx];
                 break;
             }
         }
 
         if (variant) {
-            variant[1].forEach(function(v) {
+            variant[1].forEach(function (v) {
                 var item = deepClone(baseItem);
                 item.item_level = v;
                 // TODO: modify stats
@@ -84,7 +85,7 @@ class EquippedItem extends React.Component {
             let variants = this.generateItemVariants(item);
 
             let foundMatch = false;
-            variants.forEach(function(item) {
+            variants.forEach(function (item) {
                 if (item.id == this.props.equippedItem.id &&
                     item.ilevel == this.props.equippedItem.item_level) {
                     foundMatch = true;
@@ -115,6 +116,12 @@ class EquippedItem extends React.Component {
             socket_count: 0,
             bonuses: [],
         });
+
+        // WARNING! THIS IS OVERWRITTING EVERYTHING BEFORE
+        // THIS IS A TEMPORARY TEST
+        allItems = getItems(this.adjustSlotName(this.props.slot), min_ilvl, max_ilvl);
+        // WARNING! THIS IS OVERWRITTING EVERYTHING BEFORE
+        // THIS IS A TEMPORARY TEST
 
         store.dispatch({
             type: "OPEN_MODAL",
