@@ -25,12 +25,17 @@ class StatPane extends React.Component {
         // We only care about the blue gems, and we'll send over the one agility purple
         // gem too so that one is equipped somewhere.
         let gems = ITEM_DATA.filter(function (item) {
-            return item.is_gem && item.quality == 3;
+            return item.is_gem;
         });
 
         let bestVal = -1.0;
         let best = null;
         for (let idx in gems) {
+            // Skip the jewelcrafting gem for this.
+            if (gems[idx]['stats'].hasOwnProperty('agility')) {
+                continue;
+            }
+
             let value = getStatValue(gems[idx].stats, this.props.weights);
             if (value > bestVal) {
                 bestVal = value;
@@ -43,7 +48,7 @@ class StatPane extends React.Component {
         });
 
 
-        store.dispatch(updateCharacterState('OPTIMIZE_GEMS', { rare: best, epic: gems[0] }));
+        store.dispatch(updateCharacterState('OPTIMIZE_GEMS', { nonjc: best, jc: gems[0] }));
     }
 
     optimizeEnchants() {
