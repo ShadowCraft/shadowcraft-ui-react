@@ -20,7 +20,7 @@ def get(region, path, params=None):
     if params is None:
         params = {}
 
-    # TODO
+    # TODO: move this out of the environment into a config file of some sort
     params['apikey'] = os.environ['BLIZZARD_API_KEY']
     url = 'https://%s%s' % (host, path)
     headers = {'user-agent': USER_AGENT}

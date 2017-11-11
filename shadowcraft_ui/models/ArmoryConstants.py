@@ -65,7 +65,7 @@ SLOT_MAP = {
     'offHand': 16,
 }
 
-# TODO: missing some mappings in here based on data from ItemBonus.dbc. The follow
+# TODO: missing some mappings in here based on data from ItemBonus.dbc. The following
 # types are missing: 7, 9, 10, 11, 12, 13, 17, 18 (these are probably relics).
 SOCKET_MAP = {
     1: 'Meta',
