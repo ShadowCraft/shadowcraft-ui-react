@@ -105,6 +105,13 @@ class EquippedItem extends React.Component {
             }
         }
 
+        // WARNING! THIS IS OVERWRITTING EVERYTHING BEFORE
+        // THIS IS A TEMPORARY TEST
+        allItems = getItems(this.adjustSlotName(this.props.slot), min_ilvl, max_ilvl, this.props.equippedItem.item_level);
+        console.log(allItems);
+        // WARNING! THIS IS OVERWRITTING EVERYTHING BEFORE
+        // THIS IS A TEMPORARY TEST
+        
         // Add a "None" item to the end of the array that will always have a zero EP.
         allItems.push({
             id: 0,
@@ -117,11 +124,6 @@ class EquippedItem extends React.Component {
             bonuses: [],
         });
 
-        // WARNING! THIS IS OVERWRITTING EVERYTHING BEFORE
-        // THIS IS A TEMPORARY TEST
-        allItems = getItems(this.adjustSlotName(this.props.slot), min_ilvl, max_ilvl);
-        // WARNING! THIS IS OVERWRITTING EVERYTHING BEFORE
-        // THIS IS A TEMPORARY TEST
 
         store.dispatch({
             type: "OPEN_MODAL",
