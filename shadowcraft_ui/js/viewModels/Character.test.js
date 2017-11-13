@@ -317,7 +317,7 @@ describe('Character', () => {
     describe('data_version', () => {
 
         it('should be a string', () => {
-            expect(typeof character.data_version).toEqual('number');
+            expect(typeof character.data_version).toEqual('string');
         });
 
         it('should be "" by default', () => {
