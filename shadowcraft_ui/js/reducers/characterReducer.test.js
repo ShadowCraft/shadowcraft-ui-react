@@ -1079,7 +1079,6 @@ describe('characterReducer', () => {
 
 
     it('should handle OPTIMIZE_ENCHANTS', () => {
-
         const init = new Character({});
         const action = {
             type: characterActionTypes.OPTIMIZE_ENCHANTS,
@@ -1097,17 +1096,17 @@ describe('characterReducer', () => {
         expected = expected.setIn(['gear','finger2','enchant'], 3456);
 
         expect(characterReducer(init, action)).toEqual(expected);
-
     });
 
     it('should handle SWAP_ARTIFACT_WEAPON', () => {
         const init = { gear: { mainHand: 'oldweapon' } };
         const action = {
             type: characterActionTypes.SWAP_ARTIFACT_WEAPON,
-            data: 'newWeapon'
+            data: 'Z'
         };
-        const expected = { gear: { mainHand: 'newWeapon' } };
-        expect(characterReducer(init, action)).toEqual(expected);
+        const expected = new Map({ gear: new Map({ mainHand: 'newWeapon' })});
+        console.log(characterReducer(init, action).getIn(['gear','mainHand','name']));
+        expect(characterReducer(init, action).getIn(['gear','mainHand','name'])).toEqual('The Dreadblades');
     });
 
 }
