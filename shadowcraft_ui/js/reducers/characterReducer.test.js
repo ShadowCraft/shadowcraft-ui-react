@@ -521,23 +521,21 @@ describe('characterReducer', () => {
 
     it('should handle CHANGE_BONUSES suffix name addition', () => {
 
-        const init = {
-            gear: {
-                slot: {
+        const init = new Character({
+            gear: new Gear({
+                head: new Item({
                     bonuses: [],
                     gems: [],
                     socket_count: 0,
                     stats: {},
                     item_level: 0,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
                     name: "Meh Item"
-                }
-            }
-        };
+                })
+            })
+        });
         const action = {
             type: characterActionTypes.CHANGE_BONUSES, data: {
-                slot: 'slot',
+                slot: 'head',
                 bonuses: ['test'],
                 ilvl: 1,
                 newStats: { test: 'test' },
@@ -547,20 +545,18 @@ describe('characterReducer', () => {
                 suffix: "of Awesomeness"
             }
         };
-        const expected = {
-            gear: {
-                slot: {
+        const expected = new Character({
+            gear: new Gear({
+                head: new Item({
                     bonuses: ['test'],
                     gems: [],
                     socket_count: 0,
                     stats: { test: 'test' },
                     item_level: 1,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
                     name: "Awesome Item of Awesomeness"
-                }
-            }
-        };
+                })
+            })
+        });
 
         expect(characterReducer(init, action)).toEqual(expected);
 
@@ -568,23 +564,21 @@ describe('characterReducer', () => {
 
     it('should handle CHANGE_BONUSES suffix name removal', () => {
 
-        const init = {
-            gear: {
-                slot: {
+        const init = new Character({
+            gear: new Gear({
+                head: new Item({
                     bonuses: [],
                     gems: [],
                     socket_count: 0,
                     stats: {},
                     item_level: 0,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
                     name: "Awesome Item of Awesomeness"
-                }
-            }
-        };
+                })
+            })
+        });
         const action = {
             type: characterActionTypes.CHANGE_BONUSES, data: {
-                slot: 'slot',
+                slot: 'head',
                 bonuses: ['test'],
                 ilvl: 1,
                 newStats: { test: 'test' },
@@ -594,20 +588,18 @@ describe('characterReducer', () => {
                 suffix: ""
             }
         };
-        const expected = {
-            gear: {
-                slot: {
+        const expected = new Character({
+            gear: new Gear({
+                head: new Item({
                     bonuses: ['test'],
                     gems: [],
                     socket_count: 0,
                     stats: { test: 'test' },
                     item_level: 1,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
                     name: "Awesome Item"
-                }
-            }
-        };
+                })
+            })
+        });
 
         expect(characterReducer(init, action)).toEqual(expected);
 
@@ -615,23 +607,21 @@ describe('characterReducer', () => {
 
     it('should handle CHANGE_BONUSES when !canHaveBonusSocket', () => {
 
-        const init = {
-            gear: {
-                slot: {
+        const init = new Character({
+            gear: new Gear({
+                head: new Item({
                     bonuses: [],
                     gems: [],
                     socket_count: 0,
                     stats: {},
                     item_level: 0,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
                     name: ""
-                }
-            }
-        };
+                })
+            })
+        });
         const action = {
             type: characterActionTypes.CHANGE_BONUSES, data: {
-                slot: 'slot',
+                slot: 'head',
                 bonuses: ['test'],
                 ilvl: 1,
                 newStats: { test: 'test' },
@@ -641,20 +631,18 @@ describe('characterReducer', () => {
                 suffix: ""
             }
         };
-        const expected = {
-            gear: {
-                slot: {
+        const expected = new Character({
+            gear: new Gear({
+                head: new Item({
                     bonuses: ['test'],
                     gems: [],
                     socket_count: 0,
                     stats: { test: 'test' },
                     item_level: 1,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
                     name: ""
-                }
-            }
-        };
+                })
+            })
+        });
 
         expect(characterReducer(init, action)).toEqual(expected);
 
@@ -662,24 +650,22 @@ describe('characterReducer', () => {
 
     it('should handle CHANGE_BONUSES when !hasBonusSocket', () => {
 
-        const init = {
-            gear: {
-                slot: {
+        const init = new Character({
+            gear: new Gear({
+                head: new Item({
                     bonuses: [],
                     gems: [],
-                    socket_count: 0,
+                    socket_count: 1,
                     stats: {},
                     item_level: 0,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
                     name: ""
-                }
-            }
-        };
+                })
+            })
+        });
         const action = {
             type: characterActionTypes.CHANGE_BONUSES,
             data: {
-                slot: 'slot',
+                slot: 'head',
                 bonuses: [],
                 ilvl: 1,
                 newStats: { test: 'test' },
@@ -689,20 +675,18 @@ describe('characterReducer', () => {
                 suffix: ""
             }
         };
-        const expected = {
-            gear: {
-                slot: {
+        const expected = new Character({
+            gear: new Gear({
+                head: new Item({
                     bonuses: [],
                     gems: [],
                     socket_count: 0,
                     stats: { test: 'test' },
                     item_level: 1,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
                     name: ""
-                }
-            }
-        };
+                })
+            })
+        });
 
         expect(characterReducer(init, action)).toEqual(expected);
 
@@ -758,8 +742,6 @@ describe('characterReducer', () => {
                     socket_count: 1,
                     stats: {},
                     item_level: 0,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
                     name: ""
                 }
             }
@@ -785,8 +767,6 @@ describe('characterReducer', () => {
                     socket_count: 1,
                     stats: { test: 'test' },
                     item_level: 1,
-                    hasBonusSocket: true,
-                    canHaveBonusSocket: false,
                     name: ""
                 }
             }
