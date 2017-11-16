@@ -462,27 +462,27 @@ describe('characterReducer', () => {
     });
 
     it('should handle CHANGE_ITEM', () => {
-        const init = {
-            gear: {
-                slot: {
+        const init = new Character({
+            gear: new Gear({
+                head: new Item({
                     bonuses: ['nobonuses'],
-                    gems: [0],
+                    gems: [],
                     icon: "noicon",
                     id: "noremote_id",
                     item_level: "noitem_level",
                     name: "noname",
                     quality: "noquality",
                     socket_count: "nosocket_count",
-                    stats: "nostats"
-                }
-            }
-        };
+                    stats: {}
+                })
+            })
+        });
         const action = {
             type: characterActionTypes.CHANGE_ITEM,
             data: {
-                slot: 'slot',
+                slot: 'head',
                 ilvl: 10,
-                item: {
+                item: new Item({
                     id: 'remote_id',
                     icon: 'icon',
                     name: 'name',
@@ -492,12 +492,12 @@ describe('characterReducer', () => {
                     bonuses: [10],
                     gems: [0],
                     stats: { agi: 10 }
-                }
+                })
             }
         };
-        const expected = {
-            gear: {
-                slot: {
+        const expected = new Character({
+            gear: new Gear({
+                head: new Item({
                     bonuses: [10],
                     gems: [{
                         icon: '',
@@ -513,9 +513,9 @@ describe('characterReducer', () => {
                     quality: 3,
                     socket_count: "socket_count",
                     stats: { agi: 10 }
-                }
-            }
-        };
+                })
+            })
+        });
         expect(characterReducer(init, action)).toEqual(expected);
     });
 

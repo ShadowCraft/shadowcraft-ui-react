@@ -247,7 +247,6 @@ export const characterReducer = function (state = new Character(), action) {
         case characterActionTypes.CHANGE_ITEM: {
 
             let item = action.data.item;
-            item = item.set('slot', action.data.slot);
             item = item.set('enchant', state.getIn(['gear', action.data.slot, 'enchant'], 0));
 
             // Generate a number of gem entries based on the number of sockets on the item
