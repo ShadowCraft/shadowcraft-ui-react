@@ -648,12 +648,12 @@ describe('characterReducer', () => {
 
     });
 
-    it('should handle CHANGE_BONUSES when !hasBonusSocket', () => {
+    it('should handle CHANGE_BONUSES removing a bonus socket', () => {
 
         const init = new Character({
             gear: new Gear({
                 head: new Item({
-                    bonuses: [],
+                    bonuses: [1808],
                     gems: [],
                     socket_count: 1,
                     stats: {},
@@ -689,11 +689,22 @@ describe('characterReducer', () => {
         });
 
         expect(characterReducer(init, action)).toEqual(expected);
-
     });
 
-    it('should handle CHANGE_BONUSES when socket_count is 0', () => {
+    it('should handle CHANGE_BONUSES disallow removing a fixed socket', () => {
 
+        const init = new Character({
+            gear: new Gear({
+                head: new Item({
+                    bonuses: [],
+                    gems: [],
+                    socket_count: 1,
+                    stats: {},
+                    item_level: 0,
+                    name: ""
+                })
+            })
+        });
         const action = {
             type: characterActionTypes.CHANGE_BONUSES,
             data: {
@@ -701,80 +712,30 @@ describe('characterReducer', () => {
                 bonuses: [],
                 ilvl: 1,
                 newStats: { test: 'test' },
-                hasBonusSocket: true,
-                canHaveBonusSocket: true,
+                hasBonusSocket: false,
+                canHaveBonusSocket: false,
                 name: "",
                 suffix: ""
             }
         };
-        const expected = new Item({
-            enchant: 0,
-            icon: 'inv_misc_questionmark',
-            id: 0,
-            quality: 0,
-            slot: '',
-            bonuses: [],
-            gems: [{
-                icon: '',
-                id: 0,
-                name: '',
-                quality: 0,
-                bonus: ''
-            }],
-            socket_count: 1,
-            stats: { test: 'test' },
-            item_level: 1,
-            name: "",
-            weaponStats: { min_dmg: 0, max_dmg: 0, speed: 1.0, dps: 0 }
-        });
-
-        expect(characterReducer(undefined, action).gear.head).toEqual(expected);
-
-    });
-
-    it('should handle CHANGE_BONUSES when socket_count is !0', () => {
-
-        const init = {
-            gear: {
-                slot: {
-                    bonuses: [],
-                    gems: [],
-                    socket_count: 1,
-                    stats: {},
-                    item_level: 0,
-                    name: ""
-                }
-            }
-        };
-        const action = {
-            type: characterActionTypes.CHANGE_BONUSES,
-            data: {
-                slot: 'slot',
-                bonuses: [],
-                ilvl: 1,
-                newStats: { test: 'test' },
-                hasBonusSocket: true,
-                canHaveBonusSocket: true,
-                name: "",
-                suffix: ""
-            }
-        };
-        const expected = {
-            gear: {
-                slot: {
+        const expected = new Character({
+            gear: new Gear({
+                head: new Item({
                     bonuses: [],
                     gems: [],
                     socket_count: 1,
                     stats: { test: 'test' },
                     item_level: 1,
                     name: ""
-                }
-            }
-        };
+                })
+            })
+        });
 
         expect(characterReducer(init, action)).toEqual(expected);
 
     });
+
+
 
     it('should handle CHANGE_ENCHANT', () => {
 
