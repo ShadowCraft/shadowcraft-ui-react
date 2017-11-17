@@ -57,6 +57,7 @@ let isChecked = false;
 
 const checkWhiteList = id => {
     if (ITEM_DATA.find(i => i.id === id) !== undefined) return;
+    //eslint-disable-next-line no-console
     console.warn(`Itemid ${id} has been delcared in TOSItems but was not found in ITEM_DATA`);
 };
 

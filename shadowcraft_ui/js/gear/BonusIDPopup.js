@@ -32,7 +32,6 @@ class BonusIDPopup extends React.Component {
         this.onApply = this.onApply.bind(this);
 
         props.item.get('bonuses').valueSeq().forEach(function(bonus) {
-            console.log(bonus);
             if ((bonus >= 1472 && bonus <= 1672) ||
                 (bonus >= 669 && bonus <= 679)) {
                 _state.wfBonus = bonus;

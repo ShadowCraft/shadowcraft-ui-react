@@ -21,6 +21,7 @@ const CRAFTED_IDS = [
 const baseItems = CRAFTED_IDS.map(id => {
     const item = ITEM_DATA.find(item => item.id === id);
     if (item !== undefined) return item;
+    //eslint-disable-next-line no-console    
     else console.log(`Item ${id} defined in LegionCraftedItems could not be found.`);
 });
 const filteredItems = (slot) => baseItems.filter(item => item !== undefined && item.equip_location === slot);
