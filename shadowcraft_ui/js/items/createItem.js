@@ -1,4 +1,3 @@
-import Item from '../viewModels/Item';
 import { recalculateStats } from '../common';
 
 export const createItem = (item, ilvl, bonuses) => Object.assign({}, item,

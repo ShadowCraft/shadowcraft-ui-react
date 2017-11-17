@@ -105,10 +105,11 @@ class EquippedItem extends React.Component {
             }
         }
 
+        // TODO: remove this before release
         // WARNING! THIS IS OVERWRITTING EVERYTHING BEFORE
         // THIS IS A TEMPORARY TEST
         allItems = getItems(this.adjustSlotName(this.props.slot), min_ilvl, max_ilvl, this.props.equippedItem.item_level);
-        console.log(allItems);
+        // console.log(allItems.length);
         // WARNING! THIS IS OVERWRITTING EVERYTHING BEFORE
         // THIS IS A TEMPORARY TEST
         
