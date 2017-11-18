@@ -11,7 +11,7 @@ import EquippedGemList from './EquippedGemList';
 import EquippedEnchant from './EquippedEnchant';
 import { ITEM_DATA } from '../item_data';
 import { ITEM_VARIANTS } from '../item_variants';
-import { getItems } from '../items/ItemPermutations';
+import { getItems } from '../items';
 
 class EquippedItem extends React.Component {
 

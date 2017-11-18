@@ -1,5 +1,5 @@
 import { ITEM_DATA } from '../item_data';
-import { createItem } from './createItem';
+import { modifyItem } from './tools';
 
 const CRAFTED_IDS = [
     // 146669, // sentenals eternal refuge --lego-- // need to handle this differently
@@ -22,7 +22,7 @@ const baseItems = CRAFTED_IDS.map(id => {
     const item = ITEM_DATA.find(item => item.id === id);
     if (item !== undefined) return item;
     //eslint-disable-next-line no-console    
-    else console.log(`Item ${id} defined in LegionCraftedItems could not be found.`);
+    else console.warn(`Item ${id} defined in LegionCraftedItems could not be found.`);
 });
 const filteredItems = (slot) => baseItems.filter(item => item !== undefined && item.equip_location === slot);
 const getObliterumBonus = (ilvl) => {
@@ -51,7 +51,7 @@ const getObliterumBonus = (ilvl) => {
 const mapItemsToBonuses = (slot, ilvl) => filteredItems(slot).map(item => {
     // we only want to include an item equal to the current ilvl or min or max for crafted items
     let ilvlClamp = ilvl < 815 ? 815 : ilvl > 900 ? 900 : ilvl;
-    return createItem(item, ilvlClamp, getObliterumBonus(ilvlClamp));
+    return modifyItem(item, ilvlClamp, getObliterumBonus(ilvlClamp));
 });
 
 export const getLegionCraftedItems = (slot, ilvl) => mapItemsToBonuses(slot, ilvl);
