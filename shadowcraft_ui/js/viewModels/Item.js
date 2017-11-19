@@ -51,6 +51,8 @@ export default class Item extends Record(initItem) {
                         gemList = gemList.push(new Map(item.gems[idx]));
                     }
                 }
+
+                _item = _item.set('gems', gemList);
             }
 
             if (item.weaponStats !== undefined) {
