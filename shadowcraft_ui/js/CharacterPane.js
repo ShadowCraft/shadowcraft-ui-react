@@ -120,7 +120,7 @@ class CharacterPane extends React.Component {
                 }.bind(this));
 
             // TODO: what happens if we can't load character data here, like if the character
-            // doesn't exist? how can we back up the tree and return a 404 to via the router?
+            // doesn't exist? how can we back up the tree and return a 404 via the router?
         }
 
         document.addEventListener("keydown", this.onKeyDown.bind(this));
@@ -211,7 +211,7 @@ class CharacterPane extends React.Component {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                character: this.props.character,
+                character: this.props.character.toJSON(),
                 settings: this.props.settings.current
             })
         })

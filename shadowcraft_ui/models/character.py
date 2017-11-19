@@ -54,18 +54,16 @@ def load(db, region, realm, name, sha=None):
 
 
 def get_sha(db, char_data):
-    # TODO: load the schema from disk
+
+    print("get_sha")
 
     # load the schema and validate this data against it
-    schema = {
-        "type": "object",
-        "properties": {
-            "value": {"type": "number"},
-        },
-    }
+    filepath = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(filepath, '..', 'external_data', 'character_data_json.schema'), mode='r') as infile:
+        schema = json.load(infile)
 
     try:
-        #jsonschema.validate(char_data, schema)
+        jsonschema.validate(char_data, schema)
         print('getting sha')
         print(char_data)
     except jsonschema.ValidationError as error:
@@ -78,6 +76,7 @@ def get_sha(db, char_data):
 
         # store the hash in the database, making sure to set the expiration on it
         # so that mongo automatically removes it after a set amount of time.
+        # TODO: actually set the expiration
         db.history.replace_one(
             {'sha': sha}, {'sha': sha, 'json': char_data}, upsert=True)
         return {'sha': sha}

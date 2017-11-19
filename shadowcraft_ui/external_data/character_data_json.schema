@@ -1,434 +1,887 @@
 {
-  "definitions": {
-    "gear_slot": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer"
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "",
+    "type": "object",
+    "properties": {
+        "character": {
+            "type": "object",
+            "properties": {
+                "region": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 25
+                },
+                "realm": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 25
+                },
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 25
+                },
+                "level": {
+                    "type": "number",
+                    "min": 0,
+                    "max": 110
+                },
+                "player_class": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 25
+                },
+                "race": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 25
+                },
+                "portrait": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "stats": {
+                    "type": "object",
+                    "properties": {
+                        "health": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "powerType": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 8
+                        },
+                        "power": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "str": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "agi": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "int": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "sta": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "speedRating": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "speedRatingBonus": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "crit": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "critRating": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "haste": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "hasteRating": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "hasteRatingPercent": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "mastery": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "masteryRating": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "leech": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "leechRating": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "leechRatingBonus": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "versatility": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "versatilityDamageDoneBonus": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "versatilityHealingDoneBonus": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "versatilityDamageTakenBonus": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "avoidanceRating": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "avoidanceRatingBonus": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "spellPen": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "spellCrit": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "spellCritRating": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "mana5": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "mana5Combat": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "armor": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "dodge": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "dodgeRating": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "parry": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "parryRating": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "block": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "blockRating": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "mainHandDmgMin": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "mainHandDmgMax": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "mainHandSpeed": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "mainHandDps": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "offHandDmgMin": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "offHandDmgMax": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "offHandSpeed": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "offHandDps": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "rangedDmgMin": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "rangedDmgMax": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "rangedSpeed": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "rangedDps": {
+                            "$ref": "#/definitions/stat"
+                        }
+                    },
+                    "required": [
+                        "health",
+                        "powerType",
+                        "power",
+                        "str",
+                        "agi",
+                        "int",
+                        "sta",
+                        "speedRating",
+                        "speedRatingBonus",
+                        "crit",
+                        "critRating",
+                        "haste",
+                        "hasteRating",
+                        "hasteRatingPercent",
+                        "mastery",
+                        "masteryRating",
+                        "leech",
+                        "leechRating",
+                        "leechRatingBonus",
+                        "versatility",
+                        "versatilityDamageDoneBonus",
+                        "versatilityHealingDoneBonus",
+                        "versatilityDamageTakenBonus",
+                        "avoidanceRating",
+                        "avoidanceRatingBonus",
+                        "spellPen",
+                        "spellCrit",
+                        "spellCritRating",
+                        "mana5",
+                        "mana5Combat",
+                        "armor",
+                        "dodge",
+                        "dodgeRating",
+                        "parry",
+                        "parryRating",
+                        "block",
+                        "blockRating",
+                        "mainHandDmgMin",
+                        "mainHandDmgMax",
+                        "mainHandSpeed",
+                        "mainHandDps",
+                        "offHandDmgMin",
+                        "offHandDmgMax",
+                        "offHandSpeed",
+                        "offHandDps",
+                        "rangedDmgMin",
+                        "rangedDmgMax",
+                        "rangedSpeed",
+                        "rangedDps"
+                    ]
+                },
+                "talents": {
+                    "type": "object",
+                    "properties": {
+                        "a": {
+                            "type": "string",
+                            "minLength": 7,
+                            "maxLength": 7
+                        },
+                        "Z": {
+                            "type": "string",
+                            "minLength": 7,
+                            "maxLength": 7
+                        },
+                        "b": {
+                            "type": "string",
+                            "minLength": 7,
+                            "maxLength": 7
+                        },
+                        "current": {
+                            "type": "string",
+                            "minLength": 7,
+                            "maxLength": 7
+                        }
+                    },
+                    "required": [
+                        "a",
+                        "Z",
+                        "b",
+                        "current"
+                    ]
+                },
+                "gear": {
+                    "type": "object",
+                    "properties": {
+                        "head": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "neck": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "shoulder": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "back": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "chest": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "wrist": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "hands": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "waist": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "legs": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "feet": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "finger1": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "finger2": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "trinket1": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "trinket2": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "mainHand": {
+                            "$ref": "#/definitions/item"
+                        },
+                        "offHand": {
+                            "$ref": "#/definitions/item"
+                        }
+                    },
+                    "required": [
+                        "head",
+                        "neck",
+                        "shoulder",
+                        "back",
+                        "chest",
+                        "wrist",
+                        "hands",
+                        "waist",
+                        "legs",
+                        "feet",
+                        "finger1",
+                        "finger2",
+                        "trinket1",
+                        "trinket2",
+                        "mainHand",
+                        "offHand"
+                    ]
+                },
+                "artifact": {
+                    "type": "object",
+                    "properties": {
+                        "traits": {
+                            "type": "object",
+                            "properties": {
+                                "214368": { "type": "number", "min": 0, "max": 4 },
+                                "192657": { "type": "number", "min": 0, "max": 4 },
+                                "192326": { "type": "number", "min": 0, "max": 4 },
+                                "192923": { "type": "number", "min": 0, "max": 4 },
+                                "192323": { "type": "number", "min": 0, "max": 4 },
+                                "192428": { "type": "number", "min": 0, "max": 4 },
+                                "192759": { "type": "number", "min": 0, "max": 4 },
+                                "192329": { "type": "number", "min": 0, "max": 4 },
+                                "192318": { "type": "number", "min": 0, "max": 4 },
+                                "192349": { "type": "number", "min": 0, "max": 4 },
+                                "192376": { "type": "number", "min": 0, "max": 4 },
+                                "192315": { "type": "number", "min": 0, "max": 4 },
+                                "192422": { "type": "number", "min": 0, "max": 4 },
+                                "192345": { "type": "number", "min": 0, "max": 4 },
+                                "192424": { "type": "number", "min": 0, "max": 4 },
+                                "192310": { "type": "number", "min": 0, "max": 4 },
+                                "192384": { "type": "number", "min": 0, "max": 4 },
+                                "214928": { "type": "number", "min": 0, "max": 4 },
+                                "241152": { "type": "number", "min": 0, "max": 4 },
+                                "238066": { "type": "number", "min": 0, "max": 4 },
+                                "238102": { "type": "number", "min": 0, "max": 4 },
+                                "238138": { "type": "number", "min": 0, "max": 4 },
+                                "216230": { "type": "number", "min": 0, "max": 4 },
+                                "202507": { "type": "number", "min": 0, "max": 4 },
+                                "202628": { "type": "number", "min": 0, "max": 4 },
+                                "202897": { "type": "number", "min": 0, "max": 4 },
+                                "202769": { "type": "number", "min": 0, "max": 4 },
+                                "202665": { "type": "number", "min": 0, "max": 4 },
+                                "202463": { "type": "number", "min": 0, "max": 4 },
+                                "202521": { "type": "number", "min": 0, "max": 4 },
+                                "202755": { "type": "number", "min": 0, "max": 4 },
+                                "202524": { "type": "number", "min": 0, "max": 4 },
+                                "202514": { "type": "number", "min": 0, "max": 4 },
+                                "202907": { "type": "number", "min": 0, "max": 4 },
+                                "202530": { "type": "number", "min": 0, "max": 4 },
+                                "202533": { "type": "number", "min": 0, "max": 4 },
+                                "202820": { "type": "number", "min": 0, "max": 4 },
+                                "202522": { "type": "number", "min": 0, "max": 4 },
+                                "202753": { "type": "number", "min": 0, "max": 4 },
+                                "214929": { "type": "number", "min": 0, "max": 4 },
+                                "241153": { "type": "number", "min": 0, "max": 4 },
+                                "238067": { "type": "number", "min": 0, "max": 4 },
+                                "238103": { "type": "number", "min": 0, "max": 4 },
+                                "238139": { "type": "number", "min": 0, "max": 4 },
+                                "209835": { "type": "number", "min": 0, "max": 4 },
+                                "197241": { "type": "number", "min": 0, "max": 4 },
+                                "197233": { "type": "number", "min": 0, "max": 4 },
+                                "197604": { "type": "number", "min": 0, "max": 4 },
+                                "197239": { "type": "number", "min": 0, "max": 4 },
+                                "197256": { "type": "number", "min": 0, "max": 4 },
+                                "197406": { "type": "number", "min": 0, "max": 4 },
+                                "197369": { "type": "number", "min": 0, "max": 4 },
+                                "197244": { "type": "number", "min": 0, "max": 4 },
+                                "209782": { "type": "number", "min": 0, "max": 4 },
+                                "197234": { "type": "number", "min": 0, "max": 4 },
+                                "197235": { "type": "number", "min": 0, "max": 4 },
+                                "197231": { "type": "number", "min": 0, "max": 4 },
+                                "197610": { "type": "number", "min": 0, "max": 4 },
+                                "221856": { "type": "number", "min": 0, "max": 4 },
+                                "209781": { "type": "number", "min": 0, "max": 4 },
+                                "197386": { "type": "number", "min": 0, "max": 4 },
+                                "214930": { "type": "number", "min": 0, "max": 4 },
+                                "241154": { "type": "number", "min": 0, "max": 4 },
+                                "238068": { "type": "number", "min": 0, "max": 4 },
+                                "242707": { "type": "number", "min": 0, "max": 4 },
+                                "238140": { "type": "number", "min": 0, "max": 4 },
+                                "239042": { "type": "number", "min": 0, "max": 60}
+                            },
+                            "additionalProperties": false
+                        },
+                        "relics": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 3,
+                            "items": { "$ref": "#/definitions/relic" }
+                        },
+                        "netherlight": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 3,
+                            "items": {
+                                "required": [
+                                    "tier2",
+                                    "tier3"
+                                ],
+                                "properties": {
+                                    "tier2": {
+                                        "$ref": "#/definitions/trait"
+                                    },
+                                    "tier3": {
+                                        "$ref": "#/definitions/trait"
+                                    }
+                                }
+                            }
+                        },
+                        "spec": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 1
+                        }
+                    },
+                    "required": [
+                        "traits",
+                        "relics",
+                        "netherlight",
+                        "spec"
+                    ]
+                },
+                "active": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1
+                },
+                "data_version": {
+                    "type": "string",
+                    "minLength": 32,
+                    "maxLength": 32
+                }
+            },
+            "required": [
+                "region",
+                "realm",
+                "name",
+                "level",
+                "player_class",
+                "race",
+                "portrait",
+                "stats",
+                "talents",
+                "gear",
+                "artifact",
+                "active",
+                "data_version"
+            ]
         },
-        "item_level": {
-          "type": "integer"
-        },
-        "enchant": {
-          "type": "integer"
-        },
-        "gems": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          },
-          "minItems": 3,
-          "maxItems": 3
-        },
-        "slot": {
-          "type": "integer"
-        },
-        "upgrade_level": {
-          "type": "integer"
-        },
-        "bonuses": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          },
-          "minItems": 0
-        },
-        "ttBonuses": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          },
-          "minItems": 0
-        },
-        "context": {
-          "type": "string",
-          "maxLength": 50
-        },
-        "quality": {
-          "type": "integer"
-        },
-        "base_ilvl": {
-          "type": "integer"
+        "settings": {
+            "type": "object",
+            "properties": {
+                "reroll_policy": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "jolly_roger_reroll": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "level": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "finisher_threshold_subtlety": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "min_ilvl": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "is_day": {
+                    "type": "boolean"
+                },
+                "finisher_threshold_outlaw": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "patch": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "cp_builder_subtlety": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "buried_treasure_reroll": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "flask_legion_agi": {
+                    "type": "boolean"
+                },
+                "between_the_eyes_policy": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "shark_reroll": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "num_boss_adds": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "response_time": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "grand_melee_reroll": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "lethal_poison": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "dance_finishers_allowed": {
+                    "type": "boolean"
+                },
+                "compute_cp_waste": {
+                    "type": "boolean"
+                },
+                "blade_flurry": {
+                    "type": "boolean"
+                },
+                "race": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "prepot": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "true_bearing_reroll": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "adv_params": {
+                    "type": "string"
+                },
+                "kingsbane": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "potion": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "max_ilvl": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "duration": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "food_buff": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "broadsides_reroll": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "is_demon": {
+                    "type": "boolean"
+                },
+                "short_term_haste_buff": {
+                    "type": "boolean"
+                },
+                "marked_for_death_resets": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "show_upgrades": {
+                    "type": "boolean"
+                },
+                "dynamic_ilvl": {
+                    "type": "boolean"
+                },
+                "positional_uptime_percent": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "cp_builder_assassination": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "exsang": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "finisher_threshold_assassination": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "latency": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "epic_gems": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "reroll_policy",
+                "jolly_roger_reroll",
+                "level",
+                "finisher_threshold_subtlety",
+                "min_ilvl",
+                "is_day",
+                "finisher_threshold_outlaw",
+                "patch",
+                "cp_builder_subtlety",
+                "buried_treasure_reroll",
+                "flask_legion_agi",
+                "between_the_eyes_policy",
+                "shark_reroll",
+                "num_boss_adds",
+                "response_time",
+                "grand_melee_reroll",
+                "lethal_poison",
+                "dance_finishers_allowed",
+                "compute_cp_waste",
+                "blade_flurry",
+                "race",
+                "prepot",
+                "true_bearing_reroll",
+                "adv_params",
+                "kingsbane",
+                "potion",
+                "max_ilvl",
+                "duration",
+                "food_buff",
+                "broadsides_reroll",
+                "is_demon",
+                "short_term_haste_buff",
+                "marked_for_death_resets",
+                "show_upgrades",
+                "dynamic_ilvl",
+                "positional_uptime_percent",
+                "cp_builder_assassination",
+                "exsang",
+                "finisher_threshold_assassination",
+                "latency",
+                "epic_gems"
+            ]
         }
-      },
-      "required": ["id", "item_level", "enchant", "gems", "slot", "bonuses", "ttBonuses", "context", "quality", "base_ilvl"],
-      "additionalProperties": false
     },
-    "gear": {
-      "type": "object",
-      "properties": {
-        "0": {
-          "$ref": "#/definitions/gear_slot"
+    "required": [
+        "character",
+        "settings"
+    ],
+    "definitions": {
+        "item": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "slot": {
+                    "type": "string",
+                    "enum": ["head", "neck", "shoulder","back","chest","wrist","hands","waist","legs","feet","finger1","finger2","trinket1","trinket2","mainHand","offHand"]
+                },
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                },
+                "icon": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "item_level": {
+                    "type": "number",
+                    "min": 0,
+                    "max": 2000
+                },
+                "gems": {
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/gem" }
+                },
+                "stats": {
+                    "type": "object",
+                    "properties": {
+                        "versatility": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "agility": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "haste": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "stamina": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "mastery": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "crit": {
+                            "$ref": "#/definitions/stat"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "bonuses": {
+                    "type": "array",
+                    "items": {
+                        "type": "number",
+                        "min": 0,
+                        "max": 9999
+                    }
+                },
+                "quality": {
+                    "type": "number",
+                    "min": 0,
+                    "max": 10
+                },
+                "socket_count": {
+                    "type": "number",
+                    "min": 0,
+                    "max": 3
+                },
+                "enchant": {
+                    "type": "number",
+                    "min": 0,
+                    "max": 9999
+                },
+                "weaponStats": {
+                    "type": "object",
+                    "properties": {
+                        "min_dmg": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "max_dmg": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "speed": {
+                            "$ref": "#/definitions/stat"
+                        },
+                        "dps": {
+                            "$ref": "#/definitions/stat"
+                        }
+                    },
+                    "required": [
+                        "min_dmg",
+                        "max_dmg",
+                        "speed",
+                        "dps"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "id",
+                "slot",
+                "name",
+                "icon",
+                "item_level",
+                "gems",
+                "stats",
+                "bonuses",
+                "quality",
+                "socket_count",
+                "enchant",
+                "weaponStats"
+            ],
+            "additionalProperties": false
         },
-        "1": {
-          "$ref": "#/definitions/gear_slot"
+        "stat": {
+            "type": "number",
+            "min": 0,
+            "max": 99999
         },
-        "2": {
-          "$ref": "#/definitions/gear_slot"
+        "trait": {
+            "type": "number",
+            "min": 0,
+            "max": 999999
         },
-        "4": {
-          "$ref": "#/definitions/gear_slot"
+        "relic": {
+            "type": "object",
+            "properties" : {
+                "ilvl": {
+                    "type": "number",
+                    "min": 0,
+                    "max": 2000
+                },
+                "id": { "$ref": "#/definitions/trait" }
+            },
+            "required": [
+                "ilvl",
+                "id"
+            ],
+            "additionalProperties": false
         },
-        "5": {
-          "$ref": "#/definitions/gear_slot"
-        },
-        "6": {
-          "$ref": "#/definitions/gear_slot"
-        },
-        "7": {
-          "$ref": "#/definitions/gear_slot"
-        },
-        "8": {
-          "$ref": "#/definitions/gear_slot"
-        },
-        "9": {
-          "$ref": "#/definitions/gear_slot"
-        },
-        "10": {
-          "$ref": "#/definitions/gear_slot"
-        },
-        "11": {
-          "$ref": "#/definitions/gear_slot"
-        },
-        "12": {
-          "$ref": "#/definitions/gear_slot"
-        },
-        "13": {
-          "$ref": "#/definitions/gear_slot"
-        },
-        "14": {
-          "$ref": "#/definitions/gear_slot"
-        },
-        "15": {
-          "$ref": "#/definitions/gear_slot"
-        },
-        "16": {
-          "$ref": "#/definitions/gear_slot"
+        "gem": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                },
+                "id": {
+                    "type": "number",
+                    "min": 0,
+                    "max": 999999
+                },
+                "icon": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50
+                },
+                "quality": {
+                    "type": "number",
+                    "min": 0,
+                    "max": 10
+                },
+                "bonus": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 45
+                },
+                "gemslot": {
+                    "type": "number",
+                    "min": 0,
+                    "max": 999999
+                }
+            },
+            "required": [
+                "name",
+                "id",
+                "icon",
+                "quality",
+                "bonus",
+                "gemslot"
+            ],
+            "additionalProperties": false
         }
-      },
-      "required": ["0", "1", "2", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"],
-      "additionalProperties": false
-    },
-    "talents": {
-      "type": "object",
-      "properties": {
-        "spec": {
-          "type": "string",
-          "maxLength": 1
-        },
-        "talents": {
-          "type": "string",
-          "maxLength": 7
-        }
-      },
-      "required": ["spec", "talents"],
-      "additionalProperties": false
-    },
-    "options_general": {
-      "type": "object",
-      "properties": {
-        "level": {
-          "type": "integer"
-        },
-        "race": {
-          "type": "string",
-          "maxLength": 10
-        },
-        "patch": {
-          "type": "integer"
-        },
-        "night_elf_racial": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "duration": {
-          "type": "integer"
-        },
-        "response_time": {
-          "type": "number"
-        },
-        "num_boss_adds": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "demon_enemy": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "dynamic_ilvl": {
-          "type": "boolean"
-        },
-        "max_ilvl": {
-          "type": "integer"
-        },
-        "min_ilvl": {
-          "type": "integer"
-        },
-        "show_upgrades": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "epic_gems": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "prepot": {
-          "type": "string",
-          "max_length": 25
-        },
-        "potion": {
-          "type": "string",
-          "max_length": 25
-        },
-        "mfd_resets": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "finisher_threshold": {
-          "type": "integer",
-          "minimum": 4,
-          "maximum": 6
-        }
-      },
-      "required": ["level", "race", "patch", "night_elf_racial", "duration", "response_time", "num_boss_adds", "demon_enemy", "dynamic_ilvl", "max_ilvl", "min_ilvl", "show_upgrades", "epic_gems", "prepot", "potion", "mfd_resets", "finisher_threshold"],
-      "additionalProperties": false
-    },
-    "options_buffs": {
-      "type": "object",
-      "properties": {
-        "food_buff": {
-          "type": "string",
-          "maxLength": 30
-        },
-        "flask_legion_agi": {
-          "type": "boolean"
-        },
-        "short_term_haste_buff": {
-          "type": "boolean"
-        }
-      },
-      "required": ["food_buff", "flask_legion_agi", "short_term_haste_buff"],
-      "additionalProperties": false
-    },
-    "options_rotation": {
-      "type": "object",
-      "properties": {
-        "kingsbane": {
-          "type": "string",
-          "maxLength": 10
-        },
-        "exsang": {
-          "type": "string",
-          "maxLength": 10
-        },
-        "cp_builder": {
-          "type": "string",
-          "maxLength": 20
-        },
-        "assn_cp_builder": {
-          "type": "string",
-          "maxLength": 20
-        },
-        "sub_cp_builder": {
-          "type": "string",
-          "maxLength": 20
-        },
-        "lethal_poison": {
-          "type": "string",
-          "maxLength": 2
-        },
-        "blade_flurry": {
-          "type": "boolean"
-        },
-        "between_the_eyes_policy": {
-          "type": "string",
-          "maxLength": 10
-        },
-        "reroll_policy": {
-          "type": "string",
-          "maxLength": 10
-        },
-        "jolly_roger_reroll": {
-          "type": "string",
-          "maxLength": 1
-        },
-        "grand_melee_reroll": {
-          "type": "string",
-          "maxLength": 1
-        },
-        "shark_reroll": {
-          "type": "string",
-          "maxLength": 1
-        },
-        "true_bearing_reroll": {
-          "type": "string",
-          "maxLength": 1
-        },
-        "buried_treasure_reroll": {
-          "type": "string",
-          "maxLength": 1
-        },
-        "broadsides_reroll": {
-          "type": "string",
-          "maxLength": 1
-        },
-        "symbols_policy": {
-          "type": "string",
-          "maxLength": 10
-        },
-        "dance_finishers_allowed": {
-          "type": "boolean"
-        },
-        "positional_uptime": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 100
-        },
-        "compute_cp_waste": {
-          "type": "boolean"
-        }
-      },
-      "required": ["kingsbane", "exsang", "lethal_poison", "blade_flurry", "between_the_eyes_policy", "reroll_policy", "jolly_roger_reroll", "grand_melee_reroll", "shark_reroll", "true_bearing_reroll", "buried_treasure_reroll", "broadsides_reroll", "symbols_policy", "dance_finishers_allowed", "positional_uptime"],
-      "additionalProperties": false
-    },
-    "options_advanced": {
-      "type": "object",
-      "properties": {
-        "latency": {
-          "type": "number"
-        },
-        "adv_params": {
-          "type": "string",
-          "maxLength": 50
-        }
-      },
-      "required": ["latency", "adv_params"],
-      "additionalProperties": false
-    },
-    "all_options": {
-      "type": "object",
-      "properties": {
-        "general": {
-          "$ref": "#/definitions/options_general"
-        },
-        "buffs": {
-          "$ref": "#/definitions/options_buffs"
-        },
-        "rotation": {
-          "$ref": "#/definitions/options_rotation"
-        },
-        "advanced": {
-          "$ref": "#/definitions/options_advanced"
-        }
-      },
-      "required": ["general", "buffs", "rotation", "advanced"],
-      "additionalProperties": false
-    },
-
-    "artifact_trait": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer"
-        },
-        "rank": {
-          "type": "integer"
-        }
-      },
-      "required": ["id", "rank"]
-    },
-    "artifact_relic": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer"
-        },
-        "bonuses": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          },
-          "minItems": 0,
-          "maxItems": 5
-        }
-      }
-    },
-    "artifact": {
-      "type": "object",
-      "properties": {
-        "traits" : {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/artifact_trait"
-          },
-          "minItems": 0,
-          "maxItems": 18
-        },
-        "relics": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/artifact_relic"
-          },
-          "minItems": 3,
-          "maxItems": 3
-        }
-      },
-      "required": ["traits", "relics"]
-    },
-    "artifacts": {
-      "type": "object",
-      "properties": {
-        "a": {
-          "$ref": "#/definitions/artifact"
-        },
-        "Z": {
-          "$ref": "#/definitions/artifact"
-        },
-        "b": {
-          "$ref": "#/definitions/artifact"
-        }
-      },
-      "required": ["a", "Z", "b"]
     }
-  },
-
-  "title": "Gear schema",
-  "type": "object",
-  "properties": {
-    "gear": {
-      "$ref": "#/definitions/gear"
-    },
-    "talents": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/talents"
-      },
-      "minItems": 3,
-      "maxItems": 3
-    },
-    "active": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 2
-    },
-    "options": {
-      "$ref": "#/definitions/all_options"
-    },
-    "activeSpec": {
-      "type": "string",
-      "maxLength": 1
-    },
-    "activeTalents": {
-      "type": "string",
-      "maxLength": 7
-    },
-    "artifact": {
-      "$ref": "#/definitions/artifacts"
-    }
-  },
-  "required": ["gear", "talents", "active", "options", "activeSpec", "activeTalents", "artifact"]
 }
