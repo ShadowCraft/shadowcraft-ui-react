@@ -7,6 +7,7 @@ import ItemSelectPopup from '../gear/ItemSelectPopup';
 import BonusIDPopup from '../gear/BonusIDPopup';
 import DebugURLPopup from './DebugURLPopup';
 import ReloadSwirlPopup from './ReloadSwirlPopup';
+import AzeritePopup from '../gear/AzeritePopup';
 
 import { modalTypes } from '../reducers/modalReducer';
 
@@ -34,6 +35,9 @@ class ModalConductor extends React.Component {
 
             case modalTypes.RELOAD_SWIRL:
                 return <ReloadSwirlPopup hideModal={this.hideModal} {...this.props.modalProps}/>;
+
+            case modalTypes.AZERITE:
+                return <AzeritePopup hideModal={this.hideModal} {...this.props.modalProps}/>;
 
             default:
                 return null;

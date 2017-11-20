@@ -14,6 +14,7 @@ class EquippedItem extends React.Component {
     constructor(props) {
         super(props);
         this.onBonusClick = this.onBonusClick.bind(this);
+        this.onAzeriteClick = this.onAzeriteClick.bind(this);
     }
 
     shouldComponentUpdate(nextProps) {
@@ -26,6 +27,15 @@ class EquippedItem extends React.Component {
             case 'finger1': return true;
             case 'finger2': return true;
             case 'back': return true;
+            default: return false;
+        }
+    }
+
+    IsAzeriteSlot(slot) {
+        switch (slot) {
+            case 'head': return true;
+            case 'shoulder': return true;
+            case 'chest': return true;
             default: return false;
         }
     }
@@ -75,6 +85,18 @@ class EquippedItem extends React.Component {
         });
     }
 
+    onAzeriteClick(e) {
+        e.preventDefault();
+
+        store.dispatch({
+            type: "OPEN_MODAL",
+            data: {
+                popupType: modalTypes.AZERITE,
+                props: { item: this.props.equippedItem }
+            }
+        });
+    }
+
     adjustSlotName(slot) {
         switch (slot) {
             case 'trinket1':
@@ -117,10 +139,14 @@ class EquippedItem extends React.Component {
                         <a className="wowhead" onClick={this.openWowhead.bind(this)}>Wowhead</a>
                     </div>
                     {this.props.equippedItem.quality != 6 && <div className="bonuses" onClick={this.onBonusClick} >
-                        <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>}
+                        <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses
+                    </div>}
                     {/*need to pass whole item because we need to check item quality to filter out relics*/}
                     {this.props.equippedItem.socket_count > 0 && <EquippedGemList item={this.props.equippedItem} />}
                     {this.IsEnchantable(this.props.equippedItem.slot) && <EquippedEnchant item={this.props.equippedItem} />}
+                    {this.IsAzeriteSlot(this.props.equippedItem.slot) && <div className="bonuses" onClick={this.onAzeriteClick} >
+                        <img alt="Azerite" src="/static/images/reforge.png" />Azerite Picker
+                    </div>}
                 </div >
             </div>
         );
