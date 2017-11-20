@@ -7,7 +7,13 @@ export const modifyItem = (item, ilvl, bonuses) => Object.assign({}, item,
         bonuses
     });
 
+
 export const getRaidTierPermutations = (itemdata = [], whitelist = [], bonusmap = {}, slot = '', min = 0, max = 0) => {
+
+    // i don't know why I can't get the unit test for this to fail with string min and max,
+    // but the TOSItems.getTOSItems test will fail, and it's better to fix it here so...
+    const _min = parseInt(min);
+    const _max = parseInt(max);
 
     const whitelistfilter = item => whitelist.length ? whitelist.includes(item.id) : true;
 
@@ -16,9 +22,9 @@ export const getRaidTierPermutations = (itemdata = [], whitelist = [], bonusmap 
     // check that our items are included in the whitelist and that it is the right slot to avoid work
     const filteredItems = itemdata.filter(item => whitelistfilter(item) && slotfilter(item));
 
-    const minfilter = ilvl => parseInt(min) ? ilvl >= parseInt(min) : true;
+    const minfilter = ilvl => _min ? ilvl >= _min : true;
 
-    const maxfilter = ilvl => parseInt(max) ? ilvl <= parseInt(max) : true;
+    const maxfilter = ilvl => _max ? ilvl <= _max : true;
 
     //filtering on bonusmap to minimize the coming permutations
     const filteredBonusMap = Object.keys(bonusmap).filter(ilvl => minfilter(ilvl) && maxfilter(ilvl));
@@ -34,4 +40,3 @@ export const getRaidTierPermutations = (itemdata = [], whitelist = [], bonusmap 
 
     return modifiedItems;
 };
-

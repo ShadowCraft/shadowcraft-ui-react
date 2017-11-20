@@ -1,4 +1,4 @@
-import { modifyItem, getRaidTierPermutations} from './tools';
+import { modifyItem, getRaidTierPermutations } from './tools';
 import { ITEM_DATA } from '../item_data';
 
 describe('createItem', () => {
@@ -51,10 +51,26 @@ describe('getRaidTierPermutations should', () => {
         expect(getRaidTierPermutations([{}], [], bonusmap, '', 990, 1000)).toHaveLength(2);
     });
 
+    it('should filter by min ilvl given a string ilvl', () => {
+        const bonusmap = { 901: [], 902: [], 903: [], 904: [] };
+        expect(getRaidTierPermutations([{}], [], bonusmap, '', '903', 940)).toHaveLength(2);
+    });
+
     it('should filter by max ilvl', () => {
         const bonusmap = { 920: [], 930: [], 940: [], 950: [] };
-        expect(getRaidTierPermutations([{}], [], bonusmap, '', 900, 940)).toHaveLength(3);
+        expect(getRaidTierPermutations([{}], [], bonusmap, '', 900, 1000)).toHaveLength(4);
     });
+
+    it('should filter by max ilvl when given a string max ilvl', () => {
+        const bonusmap = { 996: [], 997: [], 998: [], 999: [] };
+        expect(getRaidTierPermutations([{}], [], bonusmap, '', 900, '997')).toHaveLength(2);
+    });
+
+    it('should filter by max ilvl when given slot, min and max as strings', () => {
+        const bonusmap = { 945: [], 946: [], 947: [], 948: [] };
+        expect(getRaidTierPermutations([{ equip_location: 'head' }], [], bonusmap, 'head', '946', '947')).toHaveLength(2);
+    });
+
 
     it('should filter by ids', () => {
         const items = [
