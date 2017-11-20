@@ -1,11 +1,10 @@
 import { ITEM_DATA } from '../item_data';
 import { modifyItem } from './tools';
 
-const CRAFTED_IDS = [
-    // 146669, // sentenals eternal refuge --lego-- // need to handle this differently
-    // 151588, // impyrial deep crown
-    // 151577, // fiendish shouldergaurds
-    // 144332, // rugged skullblasters
+//reference: https://github.com/simulationcraft/simc/blob/legion-dev/SpellDataDump/bonus_ids.txt
+
+// 7.0 crafted items
+const obliterumItemIds = [
     127019, // imbued silkweave cover, theres like 4 different tailoring variations, only using one
     128884, // dreadleather jerkin
     128885, // ... footpads 
@@ -18,13 +17,37 @@ const CRAFTED_IDS = [
     132505, // sawed off cranial cannon
 ];
 
-const baseItems = CRAFTED_IDS.map(id => {
+// these items do not have different ilvls, just random props
+const staticIlvlItemIds = [
+    151588, // impyrial deep crown
+    144332, // 880 rugged skullblasters
+];
+
+// special handling for legendaries
+const lego = [
+    146669, // sentenals eternal refuge
+];
+
+// 7.3 crafted items
+const primalItemIds = [
+    151577, // fiendish shouldergaurds
+];
+
+const getStaticItems = slot => filterItems(slot, staticIlvlItemIds)
+    .map(i => modifyItem(i, i.item_level, []));
+
+const getLegos = slot => filterItems(slot, lego);
+
+const checkItems = (itemids) => itemids.map(id => {
     const item = ITEM_DATA.find(item => item.id === id);
     if (item !== undefined) return item;
     //eslint-disable-next-line no-console    
     else console.warn(`Item ${id} defined in LegionCraftedItems could not be found.`);
 });
-const filteredItems = (slot) => baseItems.filter(item => item !== undefined && item.equip_location === slot);
+
+const filterItems = (slot, itemids) => checkItems(itemids)
+    .filter(item => item !== undefined && item.equip_location === slot);
+
 const getObliterumBonus = (ilvl) => {
     switch (ilvl) {
         case 815: return [596];
@@ -48,10 +71,40 @@ const getObliterumBonus = (ilvl) => {
         default: return ilvl < 815 ? [596] : [679];
     }
 };
-const mapItemsToBonuses = (slot, ilvl) => filteredItems(slot).map(item => {
+
+const mapItemsToObliterum = (slot, ilvl, itemids) => filterItems(slot, itemids).map(item => {
     // we only want to include an item equal to the current ilvl or min or max for crafted items
     let ilvlClamp = ilvl < 815 ? 815 : ilvl > 900 ? 900 : ilvl;
     return modifyItem(item, ilvlClamp, getObliterumBonus(ilvlClamp));
 });
 
-export const getLegionCraftedItems = (slot, ilvl) => mapItemsToBonuses(slot, ilvl);
+const getPrimalBonus = (ilvl) => {
+    switch (ilvl) {
+        case 885: return [3598];
+        case 890: return [3599];
+        case 895: return [3600];
+        case 900: return [3601];
+        case 905: return [3602];
+        case 910: return [3603];
+        case 915: return [3604];
+        case 920: return [3605];
+        case 925: return [3606];
+        case 930: return [3607];
+        case 935: return [3608];
+        default: return ilvl < 885 ? [3598] : [679];
+    }
+};
+
+const mapItemsToPrimal = (slot, ilvl, itemids) => filterItems(slot, itemids).map(item => {
+    // we only want to include an item equal to the current ilvl or min or max for crafted items
+    let ilvlClamp = ilvl < 885 ? 885 : ilvl > 935 ? 935 : ilvl;
+    return modifyItem(item, ilvlClamp, getPrimalBonus(ilvlClamp));
+});
+
+export const getLegionCraftedItems = (slot, ilvl) =>
+    [
+        ...mapItemsToObliterum(slot, ilvl, obliterumItemIds),
+        ...mapItemsToPrimal(slot, ilvl, primalItemIds),
+        ...getStaticItems(slot),
+        ...getLegos(slot),
+    ];
