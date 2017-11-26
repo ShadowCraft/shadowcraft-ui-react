@@ -1,27 +1,26 @@
 import { getRaidTierPermutations } from './tools';
 import { ITEM_DATA } from '../item_data';
 
+// Odyn and Guarm items
 export const _items = [
-    146984, 146985, 147009, 147010, 147011, 147012, 147013, 147014, 147015, 147020, 147021, 147027,
-    147028, 147029, 147030, 147031, 147032, 147033, 147035, 147036, 147037, 147039, 147040,
-    147041, 147042, 147169, 147170, 147171, 147172, 147173, 147174, 147193, 147194, 151190
+    142506, 142432, 142417, 142412, 142430, 142540, 142419, 142520, 
 ];
 
 export const _itemBonusMap = {
-    885: [3564, 1467], //rf
-    900: [3561, 1482], //normal
-    915: [3562, 1497], //heroic
-    930: [3563, 1512], //mythic
+    845: [3564, 1467], //rf
+    860: [3561, 1482], //normal
+    875: [3562, 1497], //heroic
+    890: [3563, 1512], //mythic
 };
 
-// kil'jaden items
-export const _bossItems = [147195, 147347, 147034];
+// Helya items
+export const _bossItems = [142541, 142416, 142418, 142428]
 
 export const _bossItemBonuses = {
-    895: [3564, 1477], //rf
-    910: [3561, 1492], //normal
-    925: [3562, 1507], //heroic
-    940: [3563, 1522], //mythic    
+    850: [3564, 1477], //rf
+    865: [3561, 1492], //normal
+    880: [3562, 1507], //heroic
+    895: [3563, 1522], //mythic    
 };
 
 let _isInitialized = false;
@@ -29,12 +28,12 @@ let _isInitialized = false;
 const _checkWhiteList = id => {
     if (ITEM_DATA.find(i => i.id === id) !== undefined) return;
     //eslint-disable-next-line no-console
-    console.warn(`Itemid ${id} has been declared in TOSItems but was not found in ITEM_DATA`);
+    console.warn(`Itemid ${id} has been declared in TrialOfValor but was not found in ITEM_DATA`);
 };
 
 let cache = {};
 
-export const getTOSItems = (slot = 'head', min = 0, max = 1000) => {
+export const getTOVItems = (slot = 'head', min = 0, max = 1000) => {
     // do a check and send a warning log if we have an item defined but not found in item data
     // uses a flag to only check it once
     if (!_isInitialized) {
