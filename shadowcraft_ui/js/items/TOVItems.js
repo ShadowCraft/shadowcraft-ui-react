@@ -7,20 +7,20 @@ export const _items = [
 ];
 
 export const _itemBonusMap = {
-    845: [3564, 1467], //rf
-    860: [3561, 1482], //normal
-    875: [3562, 1497], //heroic
-    890: [3563, 1512], //mythic
+    845: [3564, 1462], //rf
+    860: [3561, 1477], //normal
+    875: [3562, 1492], //heroic
+    890: [3563, 1507], //mythic
 };
 
 // Helya items
 export const _bossItems = [142541, 142416, 142418, 142428]
 
 export const _bossItemBonuses = {
-    850: [3564, 1477], //rf
-    865: [3561, 1492], //normal
-    880: [3562, 1507], //heroic
-    895: [3563, 1522], //mythic    
+    850: [3564, 1467], //rf
+    865: [3561, 1482], //normal
+    880: [3562, 1497], //heroic
+    895: [3563, 1512], //mythic    
 };
 
 let _isInitialized = false;
