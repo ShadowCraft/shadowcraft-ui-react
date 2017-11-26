@@ -72,6 +72,15 @@ class ShadowcraftComputation:
 
         # Seat of the Triumvirate
         151307: 'void_stalkers_contract',
+
+        # Antorus, The Burning Throne
+        154172: 'amanthuls_vision',
+        154174: 'golganneths_vitality',
+        151969: 'terminus_signaling_beacon',
+        151963: 'forgefiends_fabricator',
+        151964: 'seeping_scourgewing',
+        152093: 'gorshalachs_legacy',
+        151968: 'shadowsinged_fang',
     }
 
     otherProcs = {
@@ -185,7 +194,7 @@ class ShadowcraftComputation:
 
     # This is the maximum ilvl + 5, because python range method doesn't include
     # the max value passed in as one of the steps.
-    RANGE_MAX = 960
+    RANGE_MAX = 990
 
     # used for rankings
     trinketGroups = {
@@ -228,7 +237,7 @@ class ShadowcraftComputation:
         'draught_of_souls': range(865, RANGE_MAX, 5),
 
         # Legendary trinkets
-        'kiljaedens_burning_wish': [910, 940, 970],
+        'kiljaedens_burning_wish': [910, 940, 970, 1000],
 
         # 7.2/Tomb of Sargeras
         'splinters_of_agronax': range(845, RANGE_MAX, 5),
@@ -241,6 +250,15 @@ class ShadowcraftComputation:
 
         # Seat of the Triumvirate
         'void_stalkers_contract': range(865, RANGE_MAX, 5),
+
+        # Antorus, The Burning Throne
+        'amanthuls_vision': range(915, RANGE_MAX, 5),
+        'golganneths_vitality': range(915, RANGE_MAX, 5),
+        'terminus_signaling_beacon': range(915, RANGE_MAX, 5),
+        'forgefiends_fabricator': range(915, RANGE_MAX, 5),
+        'seeping_scourgewing': range(915, RANGE_MAX, 5),
+        'gorshalachs_legacy': range(915, RANGE_MAX, 5),
+        'shadowsinged_fang': range(915, RANGE_MAX, 5),
     }
 
     gearBoosts = {
