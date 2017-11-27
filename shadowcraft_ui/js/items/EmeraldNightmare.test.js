@@ -1,5 +1,4 @@
-import { getENItems } from './EmeraldNightmareItems';
-
+import { getENItems } from './EmeraldNightmare';
 
 describe('getENItems should', () => {
 
