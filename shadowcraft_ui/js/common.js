@@ -84,6 +84,10 @@ export const MULTI_ITEM_SETS = {
         ids: [147169, 147170, 147171, 147172, 147173, 147174],
         bonuses: {4: "rogue_t20_4pc", 2: "rogue_t20_2pc"}
     },
+    T21: {
+        ids: [152160, 152161, 152162, 152163, 152164, 152165],
+        bonuses: {4: "rogue_t21_4pc", 2: "rogue_t21_2pc"}
+    },
     ORDERHALL: {
         ids: [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746],
         bonuses: {8: "rogue_orderhall_8pc"}
