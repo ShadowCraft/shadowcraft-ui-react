@@ -63,7 +63,13 @@ let RELIC_ILVL_MAPPING = {
     940: 70,
     945: 71,
     950: 72,
-    955: 74
+    955: 74,
+    960: 75,
+    965: 77,
+    970: 78,
+    975: 80,
+    980: 81,
+    985: 83
 };
 
 export function getArtifactIlvlChange(oldRelic, newRelic)
