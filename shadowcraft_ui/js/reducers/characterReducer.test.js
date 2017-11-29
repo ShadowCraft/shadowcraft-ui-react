@@ -472,7 +472,7 @@ describe('characterReducer', () => {
                     item_level: "noitem_level",
                     name: "noname",
                     quality: "noquality",
-                    socket_count: "nosocket_count",
+                    socket_count: 0,
                     stats: {}
                 })
             })
@@ -486,11 +486,17 @@ describe('characterReducer', () => {
                     id: 'remote_id',
                     icon: 'icon',
                     name: 'name',
-                    socket_count: 'socket_count',
+                    socket_count: 1,
                     quality: 3,
                     item_level: 10,
                     bonuses: [10],
-                    gems: [0],
+                    gems: [{
+                        icon: '',
+                        id: 0,
+                        name: '',
+                        quality: 0,
+                        bonus: ''
+                    }],
                     stats: { agi: 10 }
                 })
             }
@@ -502,7 +508,7 @@ describe('characterReducer', () => {
                     gems: [{
                         icon: '',
                         id: 0,
-                        name: '',
+                        name: 'Empty Gem Socket',
                         quality: 0,
                         bonus: ''
                     }],
@@ -511,7 +517,7 @@ describe('characterReducer', () => {
                     item_level: 10,
                     name: "name",
                     quality: 3,
-                    socket_count: "socket_count",
+                    socket_count: 1,
                     stats: { agi: 10 }
                 })
             })
@@ -1046,7 +1052,6 @@ describe('characterReducer', () => {
             data: 'Z'
         };
         const expected = new Map({ gear: new Map({ mainHand: 'newWeapon' })});
-        console.log(characterReducer(init, action).getIn(['gear','mainHand','name']));
         expect(characterReducer(init, action).getIn(['gear','mainHand','name'])).toEqual('The Dreadblades');
     });
 
