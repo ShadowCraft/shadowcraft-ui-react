@@ -8,7 +8,7 @@ export const _items = [
     //Odyn
     142430, 142540, 142419, 142520,
     //boe
-    142541, 
+    142541,
 ];
 
 export const _itemBonusMap = {
@@ -38,7 +38,7 @@ const _checkWhiteList = id => {
 
 let cache = {};
 // note: need to change the default because not all slots are covered in this set
-export const getTOVItems = (slot = 'chest', min = 0, max = 1000) => {
+export const getTOVItems = (slot, min, max) => {
     // do a check and send a warning log if we have an item defined but not found in item data
     // uses a flag to only check it once
     if (!_isInitialized) {
@@ -51,6 +51,6 @@ export const getTOVItems = (slot = 'chest', min = 0, max = 1000) => {
             ...getRaidTierPermutations(ITEM_DATA, _items, _itemBonusMap, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _bossItems, _bossItemBonuses, slot, min, max),
         ];
-
+        
     return cache[key];
 };
