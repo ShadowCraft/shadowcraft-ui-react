@@ -17,5 +17,15 @@ export function getItems(slot = 'head', min = 0, max = 10000, currentIlvl) {
         ...getENItems(slot, min, max),
         ...getTOVItems(slot, min, max),
         ...getAntorusItems(slot, min, max),
+        { // this is the empty slot icon
+            id: 0,
+            name: "None",
+            icon: "inv_misc_questionmark",
+            quality: 0,
+            item_level: 0,
+            stats: {},
+            socket_count: 0,
+            bonuses: [],
+        }
     ];
 } 

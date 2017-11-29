@@ -1,16 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import deepClone from 'deep-clone';
 import PropTypes from 'prop-types';
-import bs from 'binary-search';
 import Item from '../viewModels/Item';
 
 import store from '../store';
 import { modalTypes } from '../reducers/modalReducer';
 import EquippedGemList from './EquippedGemList';
 import EquippedEnchant from './EquippedEnchant';
-import { ITEM_DATA } from '../item_data';
-import { ITEM_VARIANTS } from '../item_variants';
 import { getItems } from '../items';
 
 class EquippedItem extends React.Component {
@@ -34,97 +30,13 @@ class EquippedItem extends React.Component {
         }
     }
 
-    generateItemVariants(baseItem) {
-        let items = [baseItem];
-        let variant = null;
-
-        for (let idx = 0; idx < ITEM_VARIANTS.length; idx++) {
-            if (bs(ITEM_VARIANTS[idx][0], baseItem['id'], function (a, b) { return a - b; }) > 0) {
-                variant = ITEM_VARIANTS[idx];
-                break;
-            }
-        }
-
-        if (variant) {
-            variant[1].forEach(function (v) {
-                var item = deepClone(baseItem);
-                item.item_level = v;
-                // TODO: modify stats
-                // TODO: modify bonus ID
-                items.push(item);
-            });
-        }
-
-        return items;
-    }
-
     onClick() {
 
-        let itemData = ITEM_DATA.filter(function (item) {
-            return item.equip_location == this.adjustSlotName(this.props.slot);
-        }.bind(this));
+        let ilvl = this.props.equippedItem.item_level;
+        let min_ilvl = this.props.dynamic_ilvl ? ilvl - 50 : this.props.min_ilvl;
+        let max_ilvl = this.props.dynamic_ilvl ? ilvl + 50 : this.props.max_ilvl;
 
-        // Don't pass over any item outside of the item level filtering.
-        let min_ilvl = -1;
-        let max_ilvl = -1;
-        if (this.props.dynamic_ilvl) {
-            min_ilvl = this.props.equippedItem.item_level - 50;
-            max_ilvl = this.props.equippedItem.item_level + 50;
-        }
-        else {
-            min_ilvl = this.props.min_ilvl;
-            max_ilvl = this.props.max_ilvl;
-        }
-
-        // TODO: would a map() be faster here? Can I do this transformation in a
-        // map()?
-        let allItems = [];
-        let numItems = itemData.length;
-        for (let idx = 0; idx < numItems; idx++) {
-            let item = itemData[idx];
-            let variants = this.generateItemVariants(item);
-
-            let foundMatch = false;
-            variants.forEach(function (item) {
-                if (item.id == this.props.equippedItem.id &&
-                    item.ilevel == this.props.equippedItem.item_level) {
-                    foundMatch = true;
-                }
-            }.bind(this));
-
-            allItems = allItems.concat(variants);
-
-            if (!foundMatch && item.id == this.props.equippedItem.id) {
-                let copy = deepClone(item);
-                let equipped = this.props.equippedItem;
-                copy['item_level'] = equipped.item_level;
-                copy['bonuses'] = equipped.bonuses.toJS();
-                copy['stats'] = Object.assign({}, equipped.stats.toJS());
-                copy['quality'] = equipped.quality;
-                allItems.push(copy);
-            }
-        }
-
-        // TODO: remove this before release
-        // WARNING! THIS IS OVERWRITTING EVERYTHING BEFORE
-        // THIS IS A TEMPORARY TEST
-        allItems = getItems(this.adjustSlotName(this.props.slot), min_ilvl, max_ilvl, this.props.equippedItem.item_level);
-        console.log(allItems.length);
-        // WARNING! THIS IS OVERWRITTING EVERYTHING BEFORE
-        // THIS IS A TEMPORARY TEST
-        
-        // Add a "None" item to the end of the array that will always have a zero EP.
-        allItems.push({
-            id: 0,
-            name: "None",
-            icon: "inv_misc_questionmark",
-            quality: 0,
-            item_level: 0,
-            stats: {},
-            socket_count: 0,
-            bonuses: [],
-        });
-
+        let allItems = getItems(this.adjustSlotName(this.props.slot), min_ilvl, max_ilvl, ilvl);
 
         store.dispatch({
             type: "OPEN_MODAL",
