@@ -16,7 +16,7 @@ describe('getTOVItems should', () => {
     });
 
     it('should return more than 0 items when given string min and max', ()=>{
-        expect(getTOVItems('head', '850', '900').length).toBeGreaterThan(0);
+        expect(getTOVItems('chest', '850', '900').length).toBeGreaterThan(0);
     });
 
 });

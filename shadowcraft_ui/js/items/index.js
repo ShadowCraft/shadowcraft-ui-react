@@ -10,12 +10,12 @@ import { getAntorusItems } from './Antorus';
 // we can also impliment any caching or local storage stategies here
 export function getItems(slot = 'head', min = 0, max = 10000, currentIlvl) {
     return [
-        ...getTOSItems(slot, min, max), // important to spread into this array, not just assign
-        ...getNHItems(slot, min, max),
-        ...getLegionCraftedItems(slot, currentIlvl),
-        ...getDungeonItems(slot, currentIlvl),
-        ...getENItems(slot, currentIlvl),
+        // ...getTOSItems(slot, min, max), // important to spread into this array, not just assign
+        // ...getNHItems(slot, min, max),
+        // ...getLegionCraftedItems(slot, currentIlvl),
+        // ...getDungeonItems(slot, currentIlvl),
+        // ...getENItems(slot, currentIlvl),
         ...getTOVItems(slot, currentIlvl),
-        ...getAntorusItems(slot, currentIlvl),
+        // ...getAntorusItems(slot, currentIlvl),
     ];
 } 

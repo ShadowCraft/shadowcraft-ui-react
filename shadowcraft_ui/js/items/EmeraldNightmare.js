@@ -28,14 +28,13 @@ export const getENItems = (slot = 'head', min = 0, max = 1000) => {
     // do a check and send a warning log if we have an item defined but not found in item data
     // uses a flag to only check it once
     if (!_isInitialized) {
-        [..._items, ..._bossItems].forEach(_checkWhiteList);
+        _items.forEach(_checkWhiteList);
         _isInitialized = true;
     }
     let key = slot + min + max;
     if (cache[key] === undefined)
         cache[key] = [
             ...getRaidTierPermutations(ITEM_DATA, _items, _itemBonusMap, slot, min, max),
-            ...getRaidTierPermutations(ITEM_DATA, _bossItems, _bossItemBonuses, slot, min, max),
         ];
 
     return cache[key];
