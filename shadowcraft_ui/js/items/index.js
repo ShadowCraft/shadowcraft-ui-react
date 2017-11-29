@@ -14,8 +14,8 @@ export function getItems(slot = 'head', min = 0, max = 10000, currentIlvl) {
         ...getNHItems(slot, min, max),
         ...getLegionCraftedItems(slot, currentIlvl),
         ...getDungeonItems(slot, currentIlvl),
-        ...getENItems(slot, currentIlvl),
+        ...getENItems(slot, min, max),
         ...getTOVItems(slot, min, max),
-        ...getAntorusItems(slot, currentIlvl),
+        ...getAntorusItems(slot, min, max),
     ];
 } 
