@@ -1,4 +1,4 @@
-import { getTOSItems } from './TOSItems';
+import { getTOSItems } from './TombOfSargeras';
 import { getNHItems } from './Nighthold';
 import { getLegionCraftedItems } from './legionCraftedItems';
 import { getDungeonItems } from './dungeonItems';

@@ -1,4 +1,4 @@
-import { getTOSItems } from './TOSItems';
+import { getTOSItems } from './TombOfSargeras';
 
 
 describe('getTOSItems should', () => {
