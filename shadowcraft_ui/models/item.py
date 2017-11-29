@@ -14,6 +14,10 @@ ARTIFACT_WEAPONS = [128476, 128479, 128870, 128869, 128872, 134552]
 ORDER_HALL_SET = [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746]
 MIN_ILVL = 800
 
+# This is a set of items that don't appear in the queries to wowhead for some strange
+# reason. Add them manually so they exist in the database.
+MISSING_ITEMS = [121128, 121293, 121299, 134152, 134154, 134192, 134194, 134196, 134197, 134199, 134237, 134238, 134239, 134240, 134280, 134286, 134287, 134368, 134369, 134371, 134373, 134374, 139070, 139071, 139105, 139207]
+
 def init_db(dbase):
     """create indexes"""
     dbase.items.create_index(
@@ -54,6 +58,7 @@ def populate_db(dbase):
 
     wowhead_ids.extend(ARTIFACT_WEAPONS)
     wowhead_ids.extend(ORDER_HALL_SET)
+    wowhead_ids.extend(MISSING_ITEMS)
 
     item_ids = set(wowhead_ids)
     print("Have %d items to load" % len(item_ids))
@@ -64,6 +69,7 @@ def populate_db(dbase):
         if pos % 10 == 0:
             print("Loading item %d of %d" % (pos, len(item_ids)))
         import_item(dbase, item_id)
+
 
 def populate_gems(dbase):
     """get gem data to put into mongo"""

@@ -267,6 +267,7 @@ class ArmoryItem(object):
             12: 'trinket',
             16: 'back',
             17: 'mainHand',
+            20: 'chest',
             21: 'mainHand',
             22: 'offHand'
         }
