@@ -16,7 +16,7 @@ describe('getDungeonItems should', () => {
     });
 
     it('should return more than 0 items when given string min and max', ()=>{
-        expect(getDungeonItems('head', '900', '1000').length).toBeGreaterThan(0);
+        expect(getDungeonItems('head', '850', '900').length).toBeGreaterThan(0);
     });
 
 });
