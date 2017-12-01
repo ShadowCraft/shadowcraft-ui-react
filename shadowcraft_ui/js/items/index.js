@@ -6,6 +6,7 @@ import { getENItems } from './EmeraldNightmare';
 import { getTOVItems } from './TrialOfValor';
 import { getAntorusItems } from './Antorus';
 import { getPVPItems } from './pvpItems';
+import { getOrderHallSet } from './OrderHallSet';
 import { ITEM_DATA } from '../item_data';
 
 // we can just register the different definitions here (the multiple TOS entrys are just an example, they would all be different)
@@ -20,7 +21,7 @@ export function getItems(slot = 'head', min = 0, max = 10000, currentIlvl) {
         ...getTOVItems(slot, min, max),
         ...getAntorusItems(slot, min, max),
         ...getPVPItems(slot, min, max),
-        ...
+        ...getOrderHallSet(slot, min, max),
         { // this is the empty slot icon
             id: 0,
             name: "None",
