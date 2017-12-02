@@ -13,6 +13,8 @@ import { ITEM_DATA } from '../item_data';
 // since they're unavailable in game after the season ends and you can't go back to
 // look at previous seasons. These item levels are based on what wowdb says about them
 // and are likely very wrong.
+//
+// TODO TODO: The ilvls are correct for seasons 5 and 6. Everything else is a crapshoot.
 
 let _season1CombatantItems = [
     136031, 136032, 135873, 135874, 135875, 135876, 135877, 135878, 135879, 135880, 135907, 135908, 135910, 135911, 135912, 135913, 135915, 135916, 135917, 135918, 135919, 135920, 135921, 135922, 135925, 135926, 135927, 135928, 135929, 135986, 135987, 135988, 135989, 135990, 135991, 135992, 135993, 136020, 136021, 136023, 136024, 136025, 136026, 136028, 136029, 136030, 136033, 136034, 136035, 136038, 136039, 136040, 136041, 136042, 136868, 136871, 136893, 136894,];
