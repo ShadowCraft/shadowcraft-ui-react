@@ -13,7 +13,13 @@ import { ITEM_DATA } from '../item_data';
 // we can also impliment any caching or local storage stategies here
 export function getItems(slot = 'head', min = 0, max = 10000, currentIlvl, includeMissing = true) {
 
-    let variants = [
+    let variants = getVariants(slot, min, max, currentIlvl);
+    let missing = getMissingItems(ITEM_DATA, variants, slot, min, max);
+    return [...variants, ...missing];
+}
+
+export function getVariants(slot = 'head', min = 0, max = 10000, currentIlvl) {
+    return [
         ...getTOSItems(slot, min, max), // important to spread into this array, not just assign
         ...getNHItems(slot, min, max),
         ...getLegionCraftedItems(slot, currentIlvl),
@@ -34,19 +40,18 @@ export function getItems(slot = 'head', min = 0, max = 10000, currentIlvl, inclu
             bonuses: [],
         }
     ];
+}
 
-    if (includeMissing) {
-        let variantIds = [];
-        for (let itemIdx in variants) {
-            variantIds.push(itemIdx);
-        }
-
-        let uniqueIds = [...new Set(variantIds)];
-        let dbItems = ITEM_DATA.filter(item => uniqueIds.indexOf(item.id) == -1 && item.equip_location == slot);
-        variants = [...variants, ...dbItems];
-    }
-
-    return variants;
+export function getMissingItems(unfiltered, variants, slot, min, max) {
+    const variantIds = variants.map(i => i.id);
+    const uniqueIds = [... new Set(variantIds)];
+    const filter = i =>
+        uniqueIds.indexOf(i.id) === -1
+        && i.equip_location === slot
+        && i.item_level >= min
+        && i.item_level <= max;
+    const filtered = unfiltered.filter(filter);
+    return filtered;
 }
 
 export function findMissingItems() {
@@ -63,12 +68,12 @@ export function findMissingItems() {
     let uniqueIds = [...new Set(ids)];
 
     // Get the items for every item in the ITEM_DATA and sort them.
-    let dbIds = [];
     let missingItems = ITEM_DATA.filter(item => uniqueIds.indexOf(item.id) == -1 && !item.is_gem);
     let missingIds = [];
     for (let idx in missingItems) {
-        missingIds.push({"id": missingItems[idx].id, "name": missingItems[idx].name});
+        missingIds.push({ "id": missingItems[idx].id, "name": missingItems[idx].name });
     }
+    //eslint-disable-next-line no-console
     console.log(missingIds);
     return missingItems;
 }
