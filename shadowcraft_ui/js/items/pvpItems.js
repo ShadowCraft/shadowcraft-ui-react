@@ -87,7 +87,8 @@ let _season5CombatantItems = [
 
 // Base 810
 let _season5CombatantBonusMap = {
-    810: [1472]
+    850: [1512],
+    870: [1532],
 }
 
 let _season5GladiatorItems = [
@@ -95,8 +96,8 @@ let _season5GladiatorItems = [
 
 // Base 810
 let _season5GladiatorBonusMap = {
-    840: [1502],
-    870: [1532]
+    870: [1532],
+    890: [1552],
 }
 
 let _season6CombatantItems = [
@@ -104,7 +105,8 @@ let _season6CombatantItems = [
 
 // Base 810
 let _season6CombatantBonusMap = {
-    810: [1472]
+    880: [1542],
+    900: [1562],
 }
 
 let _season6GladiatorItems = [
@@ -112,8 +114,8 @@ let _season6GladiatorItems = [
 
 // Base 810
 let _season6GladiatorBonusMap = {
-    840: [1502],
-    870: [1532]
+    900: [1562],
+    920: [1582],
 }
 
 let _season7CombatantItems = [
