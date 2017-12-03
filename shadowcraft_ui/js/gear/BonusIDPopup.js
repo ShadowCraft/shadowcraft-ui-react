@@ -10,6 +10,7 @@ import { recalculateStats, getStatValue } from '../common';
 import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL, TRINKET_COMBAT_RATINGS_MULT_BY_ILVL, WEAPON_COMBAT_RATINGS_MULT_BY_ILVL, ARMOR_COMBAT_RATINGS_MULT_BY_ILVL } from '../multipliers';
 import BonusIDCheckBox from './BonusIDCheckBox';
 import { ITEM_DATA, RANDOM_SUFFIX_MAP, RAND_PROP_POINTS } from '../item_data';
+import { getItems } from '../items';
 
 class BonusIDPopup extends React.Component {
 
@@ -19,37 +20,26 @@ class BonusIDPopup extends React.Component {
             active: props.item.bonuses,
             wfBonus: -1,
             suffixBonus: -1,
+            baseIlvlBonus: -1,
             baseItem: {
                 chance_bonus_lists: [],
                 stats: {},
-                item_level: 0
+                item_level: 0,
             }
         };
+
+        this.state = _state;
 
         this.onChange = this.onChange.bind(this);
         this.onWFChange = this.onWFChange.bind(this);
         this.onSuffixChange = this.onSuffixChange.bind(this);
         this.onApply = this.onApply.bind(this);
-
-        props.item.get('bonuses').valueSeq().forEach(function(bonus) {
-            if ((bonus >= 1472 && bonus <= 1672) ||
-                (bonus >= 669 && bonus <= 679)) {
-                _state.wfBonus = bonus;
-            }
-
-            if (bonus in RANDOM_SUFFIX_MAP) {
-                _state.suffixBonus = bonus;
-            }
-        }.bind(_state));
-
-        this.state = _state;
     }
 
     componentWillMount() {
 
-        // We have to find a base item in the list of items so that we can set the selected item
-        // level on that option correctly.
-        let staticItems = ITEM_DATA.filter(function (item) {
+        // Get the items for this slot and find the set of items with the same ID.
+        let staticItems = getItems(this.props.item.get('slot')).filter(function (item) {
             return item.id == this.props.item.get('id');
         }.bind(this));
 
@@ -65,59 +55,79 @@ class BonusIDPopup extends React.Component {
                 is_crafted: false
             };
 
-            let itemlevels = Object.keys(staticItems[0]['ilvls']).sort();
-
             if ('is_crafted' in staticItems[0]) {
                 itemdata['is_crafted'] = staticItems[0]['is_crafted'];
             }
 
-            // Quickly loop through the bonus IDs on the equipped item and see if there's one that's
-            // an item level increase. If there is, see if there's a perfect match for the item's
-            // actual base item level.
-            for (let i = 0; i < this.state.active.length; i++) {
-                let actualBase = 0;
-                let index = -1;
+            // Look to see if there's an item in the static data that matches the item level and
+            // ilvl bonus exactly. If there isn't, find one that most closely matches the item
+            // level.
+            let baseItem = null;
+            let itemlevels = [];
 
-                if (this.state.active[i] >= 1472 && this.state.active[i] <= 1672) {
-                    actualBase = this.props.item.item_level - (this.state.active[i] - 1472);
-                    index = itemlevels.indexOf(actualBase.toString());
-                }
-                else if (this.state.active[i] >= 669 && this.state.active[i] <= 679) {
-                    actualBase = this.props.item.item_level - ((this.state.active[i] - 669) * 5);
-                    index = itemlevels.indexOf(actualBase.toString());
-                }
+            staticItems.forEach(function(item) {
+                itemlevels.push(this.props.item.get('item_level'));
 
-                if (index != -1) {
-                    itemdata['item_level'] = actualBase;
-                    itemdata['stats'] = staticItems[0]['ilvls'][actualBase]['stats'];
-                }
-            }
-
-            // Find the stats for the ilvl at or just below the current item's ilvl.
-            if (itemdata['item_level'] == 0) {
-                for (let i = 0; i < itemlevels.length; i++) {
-                    if (this.props.item.item_level == itemlevels[i]) {
-                        itemdata['item_level'] = itemlevels[i];
-                        itemdata['stats'] = staticItems[0]['ilvls'][itemlevels[i]]['stats'];
-                    } else if (this.props.item.item_level < itemlevels[i]) {
-                        if (i == 0) {
-                            itemdata['item_level'] = itemlevels[0];
-                            itemdata['stats'] = staticItems[0]['ilvls'][itemlevels[0]]['stats'];
-                        } else {
-                            itemdata['item_level'] = itemlevels[i - 1];
-                            itemdata['stats'] = staticItems[0]['ilvls'][itemlevels[i - 1]]['stats'];
+                if (item.item_level == this.props.item.item_level) {
+                    for (let idx in item['bonuses']) {
+                        let bonus = item['bonuses'][idx];
+                        if ((bonus >= 1472 && bonus <= 1672) || (bonus >= 669 && bonus <= 679)) {
+                            baseItem = item;
                         }
                     }
                 }
+            }.bind(this));
 
-                if (itemdata['item_level'] == 0) {
-                    itemdata['item_level'] = itemlevels[itemlevels.length - 1];
-                    itemdata['stats'] = staticItems[0]['ilvls'][itemdata['item_level']]['stats'];
+            // TODO: should this look at something other than just ilvl? Otherwise you run the
+            // risk of a base item at a higher level than expected. For example, a 915 item that's
+            // titanforged up to 940 would return a 930 item here.
+            if (baseItem == null)
+            {
+                if (staticItems.length == 1) {
+                    baseItem = staticItems[0];
+                }
+                else {
+                    for (let i = 0; i < itemlevels.length; i++) {
+                        if (this.props.item.item_level < itemlevels[i]) {
+                            if (i == 0) {
+                                baseItem = staticItems[i];
+                            } else {
+                                baseItem = staticItems[i-1];
+                            }
+                        }
+                    }
                 }
             }
 
-            itemdata['item_level'] = parseInt(itemdata['item_level']);
-            this.setState({ baseItem: itemdata });
+            // Find the base item level bonus on the item so that we can show the right one
+            // as the lowest level.
+            let wfBonus = -1;
+            let suffixBonus = -1;
+            this.props.item.get('bonuses').valueSeq().forEach(function(bonus) {
+                if ((bonus >= 1472 && bonus <= 1672) || (bonus >= 669 && bonus <= 679)) {
+                    wfBonus = bonus;
+                }
+
+                if (bonus in RANDOM_SUFFIX_MAP) {
+                    suffixBonus = bonus;
+                }
+            });
+
+            let baseIlvlBonus = 1472;
+            for (let idx in baseItem['bonuses']) {
+                let bonus = baseItem['bonuses'][idx];
+                if ((bonus >= 1472 && bonus <= 1672) || (bonus >= 669 && bonus <= 679)) {
+                    baseIlvlBonus = bonus;
+                }
+            }
+
+            itemdata['item_level'] = parseInt(baseItem['item_level']);
+            itemdata['stats'] = baseItem['stats'];
+
+            console.log(baseIlvlBonus);
+            console.log(wfBonus);
+
+            this.setState({ baseItem: itemdata, wfBonus: wfBonus, suffixBonus: suffixBonus, baseIlvlBonus: baseIlvlBonus });
         }
     }
 
@@ -176,10 +186,10 @@ class BonusIDPopup extends React.Component {
 
         if (this.state.wfBonus > 0) {
             if (this.state.baseItem.is_crafted) {
-                eventData['ilvl'] += (this.state.wfBonus - 669) * 5;
+                eventData['ilvl'] += (this.state.wfBonus - this.state.baseIlvlBonus) * 5;
             }
             else {
-                eventData['ilvl'] += this.state.wfBonus - 1472;
+                eventData['ilvl'] += this.state.wfBonus - this.state.baseIlvlBonus;
             }
         }
 
@@ -280,7 +290,7 @@ class BonusIDPopup extends React.Component {
                 }
                 else if (!this.state.baseItem.is_crafted) {
                     for (let i = 955; i >= this.state.baseItem.item_level + 5; i -= 5) {
-                        let bonus = i - this.state.baseItem.item_level + 1472;
+                        let bonus = i - this.state.baseItem.item_level + this.state.baseIlvlBonus;
                         if (this.state.active.indexOf(bonus) != -1) {
                             selectedWFBonus = bonus;
                         }
