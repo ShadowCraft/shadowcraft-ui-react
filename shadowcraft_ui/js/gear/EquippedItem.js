@@ -30,7 +30,12 @@ class EquippedItem extends React.Component {
         }
     }
 
-    onClick() {
+    onClick(e) {
+
+        // Let this fall through to the wowhead onClick method.
+        if (e.target.className == "wowhead") {
+            return;
+        }
 
         let ilvl = this.props.equippedItem.item_level;
         let min_ilvl = this.props.dynamic_ilvl ? ilvl - 50 : this.props.min_ilvl;
@@ -83,6 +88,15 @@ class EquippedItem extends React.Component {
         return url;
     }
 
+    openWowhead() {
+        let url = `http://wowhead.com/item=${this.props.equippedItem.get('id')}`;
+        if (this.props.equippedItem.bonuses.size > 0) {
+            url += `&bonus=${this.props.equippedItem.get('bonuses').toJS().join(':')}`;
+        }
+        console.log(url);
+        window.open(url, '_blank');
+    }
+
     render() {
         return (
             <div>
@@ -93,7 +107,7 @@ class EquippedItem extends React.Component {
                     </div>
                     <div className={`name quality-${this.props.equippedItem.quality}`} onClick={this.props.equippedItem.slot !== "mainHand" ? this.onClick.bind(this) : null} >
                         <span data-tooltip-href={this.buildTooltipURL(this.props.equippedItem)}>{this.props.equippedItem.name}</span>
-                        <a className="wowhead" href={`http://legion.wowhead.com/item=${this.props.equippedItem.id}`} target="_blank">Wowhead</a>
+                        <a className="wowhead" onClick={this.openWowhead.bind(this)}>Wowhead</a>
                     </div>
                     {this.props.equippedItem.quality != 6 && <div className="bonuses" onClick={this.onBonusClick} >
                         <img alt="Reforge" src="/static/images/reforge.png" />Modify Bonuses</div>}
