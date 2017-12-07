@@ -179,7 +179,8 @@ class BonusIDPopup extends React.Component {
             ilvl: this.state.baseItem.item_level,
             canHaveBonusSocket: this.state.baseItem.chance_bonus_lists.indexOf(1808) != -1,
             hasBonusSocket: this.state.active.indexOf(1808) != -1,
-            newStats: this.state.baseItem.stats,
+            hasNewStats: false,
+            newStats: this.props.item.get('stats').toJS(),
             name: this.state.baseItem.name,
             suffix: ''
         };
@@ -202,9 +203,10 @@ class BonusIDPopup extends React.Component {
             eventData['suffix'] = RANDOM_SUFFIX_MAP[this.state.suffixBonus].name;
         }
 
-        if (eventData['ilvl'] != this.state.baseItem.item_level) {
+        if (eventData['ilvl'] != this.props.item.item_level) {
+            eventData['hasNewStats'] = true;
             eventData['newStats'] = recalculateStats(
-                Object.assign({}, eventData['newStats']),
+                Object.assign({}, this.state.baseItem.stats),
                 (eventData['ilvl'] - this.state.baseItem.item_level).toFixed(2));
         }
 

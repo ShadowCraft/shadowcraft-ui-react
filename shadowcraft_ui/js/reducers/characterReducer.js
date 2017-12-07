@@ -263,8 +263,11 @@ export const characterReducer = function (state = new Character(), action) {
 
             let item = state.getIn(['gear', action.data.slot]);
             item = item.set('bonuses', new List(action.data.bonuses))
-                .set('item_level', action.data.ilvl)
-                .set('stats', new Map(action.data.newStats));
+                       .set('item_level', action.data.ilvl);
+
+            if (action.data.hasNewStats) {
+                item = item.set('stats', new Map(action.data.newStats));
+            }
 
             // If this item can have a bonus socket but doesn't have one assigned, nuke
             // the equipped gems out of it so they don't show back up when if a socket
