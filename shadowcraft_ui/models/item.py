@@ -18,6 +18,19 @@ MIN_ILVL = 800
 # reason. Add them manually so they exist in the database.
 MISSING_ITEMS = [121128, 121293, 121299, 134152, 134154, 134192, 134194, 134196, 134197, 134199, 134237, 134238, 134239, 134240, 134280, 134286, 134287, 134368, 134369, 134371, 134373, 134374, 139070, 139071, 139105, 139207]
 
+# This is a list of items that wowhead thinks rogues can use but can't actually use.
+# It's mostly trinkets. Remove them from the list after we load the new list from
+# wowhead.
+BLACKLIST = [139321, 139323, 139324, 139326, 139327, 139330, 139333, 139335, 139336, 131735, 140030,
+             140161, 140789, 140791, 140793, 140795, 140797, 140798, 140799, 140800, 140801, 140807,
+             141586, 133641, 133645, 133646, 133647, 133766, 142157, 142158, 142160, 142161, 142165,
+             142166, 142168, 142169, 137349, 142368, 151607, 151957, 151962, 151969, 151970, 151974,
+             151975, 151976, 151977, 151978, 152289, 152645, 136716, 128711, 136978, 153544, 137301,
+             137306, 137315, 137329, 137338, 137344, 137362, 137367, 137369, 137378, 137400, 137430,
+             137433, 137440, 137446, 137538, 137540, 137541, 154173, 154176, 154177, 121806, 121810,
+             138222, 138224, 138225, 147004, 147006, 147007, 147016, 147017, 147018, 147019, 147022,
+             147023, 147024, 147025, 147026]
+
 def init_db(dbase):
     """create indexes"""
     dbase.items.create_index(
@@ -60,7 +73,7 @@ def populate_db(dbase):
     wowhead_ids.extend(ORDER_HALL_SET)
     wowhead_ids.extend(MISSING_ITEMS)
 
-    item_ids = set(wowhead_ids)
+    item_ids = set(wowhead_ids) - set(BLACKLIST)
     print("Have %d items to load" % len(item_ids))
 
     pos = 0

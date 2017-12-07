@@ -15,7 +15,10 @@ import { ITEM_DATA } from '../item_data';
 export function getItems(slot = 'head', min = 0, max = 10000, currentIlvl, includeMissing = true) {
 
     let variants = getVariants(slot, min, max, currentIlvl);
-    let missing = getMissingItems(ITEM_DATA, variants, slot, min, max);
+    let missing = [];
+    if (includeMissing) {
+        missing = getMissingItems(ITEM_DATA, variants, slot, min, max);
+    }
     return [...variants, ...missing];
 }
 
@@ -62,7 +65,7 @@ export function findMissingItems() {
     let ids = [];
     let slots = ['head', 'neck', 'shoulder', 'back', 'chest', 'wrist', 'hands', 'waist', 'legs', 'feet', 'finger', 'trinket', 'mainHand', 'offHand'];
     for (let slotIdx in slots) {
-        let items = getItems(slots[slotIdx], 0, 10000, 0);
+        let items = getItems(slots[slotIdx], 0, 10000, 0, false);
         for (let itemIdx in items) {
             ids.push(items[itemIdx].id);
         }
@@ -73,9 +76,10 @@ export function findMissingItems() {
     let missingItems = ITEM_DATA.filter(item => uniqueIds.indexOf(item.id) == -1 && !item.is_gem);
     let missingIds = [];
     for (let idx in missingItems) {
-        missingIds.push({ "id": missingItems[idx].id, "name": missingItems[idx].name });
+        missingIds.push(missingItems[idx].id);
+//        missingIds.push({ "id": missingItems[idx].id, "name": missingItems[idx].name });
     }
     //eslint-disable-next-line no-console
-    console.log(missingIds);
+    console.log(missingIds.join(","));
     return missingItems;
 }

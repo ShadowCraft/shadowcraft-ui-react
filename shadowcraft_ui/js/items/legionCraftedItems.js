@@ -15,6 +15,8 @@ const obliterumItemIds = [
     128890, // ... belt
     128891, // ... bindings
     132505, // sawed off cranial cannon
+    127842, // infernal alchemist stone
+    128705, // darkmoon deck: dominion
 ];
 
 // these items do not have different ilvls, just random props
