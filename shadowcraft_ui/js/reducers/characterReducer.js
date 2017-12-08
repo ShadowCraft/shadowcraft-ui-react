@@ -107,8 +107,8 @@ export const characterReducer = function (state = new Character(), action) {
         case characterActionTypes.RESET_ARTIFACT: {
             let newRelics = new List([new Relic(), new Relic(), new Relic()]);
             let newNL = new List([new Map({tier2: 0, tier3: 0}),
-                                  new Map({tier2: 0, tier3: 0}),
-                                  new Map({tier2: 0, tier3: 0})]);
+                new Map({tier2: 0, tier3: 0}),
+                new Map({tier2: 0, tier3: 0})]);
 
             let newState = state.setIn(['artifact', 'traits'], Traits(action.data));
             newState = newState.setIn(['artifact', 'relics'], newRelics);
@@ -247,6 +247,7 @@ export const characterReducer = function (state = new Character(), action) {
         case characterActionTypes.CHANGE_ITEM: {
 
             let item = action.data.item;
+            item = item.set('slot', action.data.slot);
             item = item.set('enchant', state.getIn(['gear', action.data.slot, 'enchant'], 0));
 
             // Generate a number of gem entries based on the number of sockets on the item

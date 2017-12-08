@@ -136,7 +136,7 @@ export function recalculateStats(baseStats, ilvlChange, slot) {
 
     // Secondary multipler is different for jewelry than for everything else
     let secondaryMultiplier = 0.0;
-    if (slot == 'neck' || slot == 'finger1' || slot == 'finger2') {
+    if (slot == 'neck' || (slot && slot.includes('finger'))) {
         secondaryMultiplier = Math.pow(0.996754034, ilvlChange);
     }
     else {

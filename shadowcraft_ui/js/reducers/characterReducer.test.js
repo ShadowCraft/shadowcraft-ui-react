@@ -465,6 +465,7 @@ describe('characterReducer', () => {
         const init = new Character({
             gear: new Gear({
                 head: new Item({
+                    slot: 'head',                    
                     bonuses: ['nobonuses'],
                     gems: [],
                     icon: "noicon",
@@ -504,6 +505,7 @@ describe('characterReducer', () => {
         const expected = new Character({
             gear: new Gear({
                 head: new Item({
+                    slot: 'head',
                     bonuses: [10],
                     gems: [{
                         icon: '',

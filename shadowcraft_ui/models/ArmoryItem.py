@@ -80,7 +80,20 @@ class ArmoryItem(object):
                     if stat_index != -1:
                         stat = ArmoryConstants.STAT_LOOKUP[stat_index]
                         value = item_data.get('stat_val_%d' % i)
-                        self.stats[stat] = int(value)
+                        if stat == 'agility' or stat == 'stamina' or self.equip_location == 'trinket':
+                            self.stats[stat] = int(value)
+                        else:
+                            if self.equip_location == 'finger' or self.equip_location == 'neck':
+                                modifier = ArmoryConstants.JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[
+                                    int(item_data['ilevel']) - 1]
+                            elif self.equip_location == 'trinket':
+                                modifier = ArmoryConstants.TRINKET_COMBAT_RATINGS_MULT_BY_ILVL[
+                                    int(item_data['ilevel']) - 1]
+                            else:
+                                modifier = ArmoryConstants.ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[
+                                    int(item_data['ilevel']) - 1]
+                            modified_value = int(value) * modifier
+                            self.stats[stat] = int(modified_value)
 
                 if (int(item_data.get('delay')) > 0):
                     weapon_stats = ArmoryItem.item_damage(self.item_id, int(item_data['ilevel']),
@@ -278,10 +291,10 @@ class ArmoryItem(object):
             return ''
 
 def test_item():
-#    print(ArmoryItem.check_upgradable(142512))
-#    print(ArmoryItem.check_upgradable(124367))
-#    print(ArmoryItem.scan_str("+4 Critical Strike"))
-#    print(ArmoryItem.scan_str("Equip: Mastery by 4"))
+    #    print(ArmoryItem.check_upgradable(142512))
+    #    print(ArmoryItem.check_upgradable(124367))
+    #    print(ArmoryItem.scan_str("+4 Critical Strike"))
+    #    print(ArmoryItem.scan_str("Equip: Mastery by 4"))
     json_data = ArmoryDocument.get('us', '/wow/item/%d' % 128870)
     item = ArmoryItem(json_data)
 #    print(item.name)
