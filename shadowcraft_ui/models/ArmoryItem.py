@@ -80,20 +80,26 @@ class ArmoryItem(object):
                     if stat_index != -1:
                         stat = ArmoryConstants.STAT_LOOKUP[stat_index]
                         value = item_data.get('stat_val_%d' % i)
-                        if stat == 'agility' or stat == 'stamina' or self.equip_location == 'trinket':
+
+                        # override with api data for trinkets because the stat data from the client is being wierd
+                        if self.equip_location == 'trinket':
+                            for obj in json_data['bonusStats']:
+                                if obj['stat'] == stat_index:
+                                    self.stats[stat] = int(obj['amount'])
+                                    break
+                            continue # to be clear, this is breaking out of the rest of this iteration early
+
+                        if stat == 'agility' or stat == 'stamina':
                             self.stats[stat] = int(value)
                         else:
                             if self.equip_location == 'finger' or self.equip_location == 'neck':
-                                modifier = ArmoryConstants.JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[
-                                    int(item_data['ilevel']) - 1]
-                            elif self.equip_location == 'trinket':
-                                modifier = ArmoryConstants.TRINKET_COMBAT_RATINGS_MULT_BY_ILVL[
-                                    int(item_data['ilevel']) - 1]
+                                modifier = ArmoryConstants.JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[int(item_data['ilevel']) - 1]
+                                modified_value = int(value) * modifier
+                                self.stats[stat] = int(modified_value)
                             else:
-                                modifier = ArmoryConstants.ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[
-                                    int(item_data['ilevel']) - 1]
-                            modified_value = int(value) * modifier
-                            self.stats[stat] = int(modified_value)
+                                modifier = ArmoryConstants.ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[int(item_data['ilevel']) - 1]
+                                modified_value = int(value) * modifier
+                                self.stats[stat] = int(modified_value)
 
                 if (int(item_data.get('delay')) > 0):
                     weapon_stats = ArmoryItem.item_damage(self.item_id, int(item_data['ilevel']),

@@ -464,6 +464,100 @@ class ArmoryItemTest(unittest.TestCase):
                 'mastery': 1075,
             }
         )
+    def test_populate_data_with_another_trinket(self):
+        trinket2 = {
+            "id": 140794,
+            "disenchantingSkillRank": 0,
+            "description": "",
+            "name": "Arcanogolem Digit",
+            "icon": "inv_misc_enggizmos_16",
+            "stackable": 1,
+            "itemBind": 1,
+            "bonusStats": [{
+                "stat": 3,
+                "amount": 1356
+            }],
+            "itemSpells": [{
+                "spellId": 225127,
+                "spell": {
+                    "id": 225127,
+                    "name": "Arcane Swipe",
+                    "icon": "inv_misc_enggizmos_16",
+                    "description": "Your melee attacks have a chance to rake all enemies in front of you for ^14.2108 Arcane damage.",
+                    "castTime": "Passive",
+                    "cooldown": "1 sec cooldown"
+                },
+                "nCharges": 0,
+                "consumable": False,
+                "categoryId": 0,
+                "trigger": "ON_EQUIP"
+            }],
+            "buyPrice": 2559636,
+            "itemClass": 4,
+            "itemSubClass": 0,
+            "containerSlots": 0,
+            "inventoryType": 12,
+            "equippable": True,
+            "itemLevel": 855,
+            "maxCount": 0,
+            "maxDurability": 0,
+            "minFactionId": 0,
+            "minReputation": 0,
+            "quality": 4,
+            "sellPrice": 511927,
+            "requiredSkill": 0,
+            "requiredLevel": 110,
+            "requiredSkillRank": 0,
+            "itemSource": {
+                "sourceId": 86291,
+                "sourceType": "VENDOR"
+            },
+            "baseArmor": 0,
+            "hasSockets": False,
+            "isAuctionable": False,
+            "armor": 0,
+            "displayInfoId": 0,
+            "nameDescription": " Raid Finder",
+            "nameDescriptionColor": "00ff00",
+            "upgradable": True,
+            "heroicTooltip": False,
+            "context": "raid-finder",
+            "bonusLists": [3446],
+            "availableContexts": ["raid-finder", "raid-normal", "raid-heroic", "raid-mythic", "world-quest-10"],
+            "bonusSummary": {
+                "defaultBonusLists": [3446],
+                "chanceBonusLists": [1808, 40, 41, 42, 1808],
+                "bonusChances": [{
+                    "chanceType": "STAT",
+                    "stats": [{
+                        "statId": "61",
+                        "delta": 448
+                    }, {
+                        "statId": "62",
+                        "delta": 448
+                    }, {
+                        "statId": "63",
+                        "delta": 448
+                    }],
+                    "sockets": []
+                }, {
+                    "chanceType": "SOCKET",
+                    "stats": [],
+                    "sockets": [{
+                        "socketType": "PRISMATIC"
+                    }, {
+                        "socketType": "PRISMATIC"
+                    }]
+                }]
+            },
+            "artifactId": 0
+        }
+        self.assertEqual(
+            ArmoryItem(trinket2).stats,
+            {
+                'agility': 1634,
+            }
+        )
 
     def test_populate_data_with_chest(self):
         chest = {
