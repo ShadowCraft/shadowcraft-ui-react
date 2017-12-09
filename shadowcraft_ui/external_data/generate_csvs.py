@@ -100,8 +100,9 @@ os.rename('updated.csv','ItemSparse.dbc.csv')
 
 os.chdir(SCRIPT_DIR)
 for f in glob.glob(os.path.join('csv_temp','csvs','*.csv')):
-    if os.path.join(SCRIPT_DIR, os.path.basename(f)).exists():
-        os.remove(os.path.join(SCRIPT_DIR, os.path.basename(f)))
+    path = os.path.join(SCRIPT_DIR, os.path.basename(f)):
+    if os.path.exists(path):
+        os.remove(path)
     shutil.move(f, SCRIPT_DIR)
 
 with open('README.txt', 'w') as readme:
