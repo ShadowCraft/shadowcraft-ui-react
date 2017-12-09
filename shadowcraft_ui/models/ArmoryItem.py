@@ -12,6 +12,7 @@ class ArmoryItem(object):
     upgrade_rulesets = None
     sparse_items = None
     item_damages = None
+    rand_prop_points = None
 
     def __init__(self, json_data):
         self.name = json_data['name']
@@ -23,6 +24,8 @@ class ArmoryItem(object):
         self.quality = json_data['quality']
         self.icon = json_data.get('icon','')
         self.equip_location = self.convertInventoryType(json_data['inventoryType'])
+        self.item_level = int(json_data['itemLevel'])
+        
         if self.icon == '':
             print('##### Item %d/%s has a blank icon' % (self.item_id, json_data['context']))
 
@@ -71,36 +74,9 @@ class ArmoryItem(object):
         # consistent information all the time. If it's not there, log that it's
         # not and begrudgingly use the data from the API.
         if json_data['itemClass'] != 3:
-            self.stats = {}
-            item_data = ArmoryItem.sparse_item(int(json_data['id']))
-            if item_data is not None:
-                self.item_level = int(item_data['ilevel'])
-                for i in range(1, 11):
-                    stat_index = int(item_data.get('stat_type_%d' % i))
-                    if stat_index != -1:
-                        stat = ArmoryConstants.STAT_LOOKUP[stat_index]
-                        value = item_data.get('stat_val_%d' % i)
-
-                        # override with api data for trinkets because the stat data from the client is being wierd
-                        if self.equip_location == 'trinket':
-                            for obj in json_data['bonusStats']:
-                                if obj['stat'] == stat_index:
-                                    self.stats[stat] = int(obj['amount'])
-                                    break
-                            continue # to be clear, this is breaking out of the rest of this iteration early
-
-                        if stat == 'agility' or stat == 'stamina':
-                            self.stats[stat] = int(value)
-                        else:
-                            if self.equip_location == 'finger' or self.equip_location == 'neck':
-                                modifier = ArmoryConstants.JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[int(item_data['ilevel']) - 1]
-                                modified_value = int(value) * modifier
-                                self.stats[stat] = int(modified_value)
-                            else:
-                                modifier = ArmoryConstants.ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[int(item_data['ilevel']) - 1]
-                                modified_value = int(value) * modifier
-                                self.stats[stat] = int(modified_value)
-
+            self.stats = self.get_item_stats(self.item_id, self.item_level, self.equip_location, self.quality)
+            if len(self.stats) != 0:
+                item_data = ArmoryItem.sparse_item(int(json_data['id']))
                 if (int(item_data.get('delay')) > 0):
                     weapon_stats = ArmoryItem.item_damage(self.item_id, int(item_data['ilevel']),
                                                           int(item_data.get('quality')),
@@ -113,7 +89,6 @@ class ArmoryItem(object):
                     self.max_dmg = weapon_stats['max_dmg']
 
             else:
-                self.item_level = int(json_data['itemLevel'])
                 if 'bonusStats' in json_data:
                     print('item %s wasn\'t in the client data, using API stat data' % json_data['id'])
                     for entry in json_data['bonusStats']:
@@ -131,6 +106,63 @@ class ArmoryItem(object):
                     self.min_dmg = float(json_data['weaponInfo']['damage']['exactMin'])
                     self.max_dmg = float(json_data['weaponInfo']['damage']['exactMax'])
 
+    def get_item_stats(self, itemId, ilvl, slot, quality):
+
+        slot_type = -1
+        if slot in ['mainHand', 'offHand']:
+            slot_type = 4
+        elif slot in ['head', 'chest', 'legs']:
+            slot_type = 1
+        elif slot in ['shoulder', 'waist', 'feet', 'hands', 'trinket']:
+            slot_type = 2
+        elif slot in ['neck', 'wrist', 'finger', 'back']:
+            slot_type = 3
+
+        # Get the prop points for the item so that we can get the item budget for it
+        props = ArmoryItem.rand_prop_point(ilvl)
+        if props is None:
+            return {}
+        
+        if quality == 4 or quality == 5:
+            budget = int(props['epic_points_%d' % (slot_type)])
+        elif quality == 3 or quality == 7:
+            budget = int(props['rare_points_%d' % (slot_type)])
+        else:
+            budget = int(props['uncm_points_%d' % (slot_type)])
+
+        item_data = ArmoryItem.sparse_item(itemId)
+        if item_data is None:
+            return {}
+
+        # Using the item budget and the stat allocations from the sparse data, calculate
+        # what the actual stats should be. For secondary stats, apply a combat rating
+        # multiplier as well.
+        stats = {}
+        for i in range(1, 11):
+            stat_type = int(item_data['stat_type_%d' % i])
+            if stat_type in ArmoryConstants.STAT_LOOKUP:
+                stat = ArmoryConstants.STAT_LOOKUP[stat_type]
+                alloc = int(item_data['stat_alloc_%d' % i])
+                value = alloc * budget / 10000.0
+
+                multiplier = 1
+                if stat != 'agility' and stat != 'stamina':
+                    if slot in ['neck', 'finger1', 'finger2']:
+                        multiplier = ArmoryConstants.JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[ilvl]
+                    elif slot in ['trinket1', 'trinket2']:
+                        multiplier = ArmoryConstants.TRINKET_COMBAT_RATINGS_MULT_BY_ILVL[ilvl]
+                    elif slot in ['mainHand', 'offHand']:
+                        multiplier = ArmoryConstants.WEAPON_COMBAT_RATINGS_MULT_BY_ILVL[ilvl]
+                    else:
+                        multiplier = ArmoryConstants.ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[ilvl]
+
+                    value = value * multiplier
+                stats[stat] = round(value)
+            else:
+                print("STAT ID missing: %d" % stat_type)
+            
+        return stats
+                        
     IGNORE_FIELDS = ['item_id', 'item_level', 'context', 'bonus_tree', 'tag']
     IGNORE_FOR_GEMS = ['speed', 'dps', 'subclass', 'armor_class', 'upgradable',
                        'chance_bonus_lists', 'equip_location', 'socket_count',
@@ -267,6 +299,21 @@ class ArmoryItem(object):
             result['min_dmg'] = result['dps'] * result['speed'] * (1.0 - dmg_range / 2.0)
             result['max_dmg'] = result['dps'] * result['speed'] * (1.5 - dmg_range / 2.0)
             return result
+        else:
+            return None
+
+    @staticmethod
+    def rand_prop_point(ilvl):
+        if ArmoryItem.rand_prop_points is None:
+            ArmoryItem.rand_prop_points = {}
+            filepath = os.path.dirname(os.path.abspath(__file__))
+            with open(os.path.join(filepath, '..', 'external_data', 'RandPropPoints.dbc.csv'), mode='r') as infile:
+                reader = csv.DictReader(infile)
+                for row in reader:
+                    ArmoryItem.rand_prop_points[int(row['id'])] = row
+
+        if ilvl in ArmoryItem.rand_prop_points:
+            return ArmoryItem.rand_prop_points[ilvl]
         else:
             return None
 
