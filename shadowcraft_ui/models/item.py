@@ -18,7 +18,8 @@ MIN_ILVL = 800
 # reason. Add them manually so they exist in the database.
 MISSING_ITEMS = [121128, 121293, 121299, 134152, 134154, 134192, 134194, 134196, 134197, 134199,
                  134237, 134238, 134239, 134240, 134280, 134286, 134287, 134368, 134369, 134371,
-                 134373, 134374, 139070, 139071, 139105, 139207, 134921, 134281]
+                 134373, 134374, 139070, 139071, 139105, 139207, 134921, 134281, 134282, 134283,
+                 134284, 134285]
 
 # This is a list of items that wowhead thinks rogues can use but can't actually use.
 # It's mostly trinkets. Remove them from the list after we load the new list from
