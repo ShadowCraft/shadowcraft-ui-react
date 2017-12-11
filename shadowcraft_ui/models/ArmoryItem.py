@@ -89,8 +89,8 @@ class ArmoryItem(object):
                     self.max_dmg = weapon_stats['max_dmg']
 
             else:
+                print('item %s wasn\'t in the client data, using API stat data' % json_data['id'])
                 if 'bonusStats' in json_data:
-                    print('item %s wasn\'t in the client data, using API stat data' % json_data['id'])
                     for entry in json_data['bonusStats']:
                         if entry['stat'] not in ArmoryConstants.STAT_LOOKUP:
                             print("STAT ID missing: %s", entry['stat'])
@@ -106,6 +106,8 @@ class ArmoryItem(object):
                     self.min_dmg = float(json_data['weaponInfo']['damage']['exactMin'])
                     self.max_dmg = float(json_data['weaponInfo']['damage']['exactMax'])
 
+    # Loads item stats the same way that simc does it, by using the item budget and the base
+    # item stats from the client data.
     def get_item_stats(self, itemId, ilvl, slot, quality):
 
         slot_type = -1
@@ -117,6 +119,10 @@ class ArmoryItem(object):
             slot_type = 2
         elif slot in ['neck', 'wrist', 'finger', 'back']:
             slot_type = 3
+
+        if slot_type == -1:
+            print('item %d has an unknown slot type' % itemId)
+            return {}
 
         # Get the prop points for the item so that we can get the item budget for it
         props = ArmoryItem.rand_prop_point(ilvl)
@@ -158,7 +164,7 @@ class ArmoryItem(object):
 
                     value = value * multiplier
                 stats[stat] = round(value)
-            else:
+            elif stat_type != -1:
                 print("STAT ID missing: %d" % stat_type)
             
         return stats
@@ -331,6 +337,7 @@ class ArmoryItem(object):
             10: 'hands',
             11: 'finger',
             12: 'trinket',
+            13: 'mainHand',
             16: 'back',
             17: 'mainHand',
             20: 'chest',
