@@ -1066,8 +1066,8 @@ export const fangs_layout = {
             ring: 'dragon',
             relic: false
         },
-        'fangs_etchedinshadow': {
-            name: 'Etched in Shadow',
+        'fangs_weakpoint': {
+            name: 'Weak Point',
             icon: 'ability_criticalstrike',
             x: 590,
             y: 574,
@@ -1191,11 +1191,11 @@ export const fangs_layout = {
             trait2: 'fangs_flickering'
         },
         {
-            trait1: 'fangs_etchedinshadow',
+            trait1: 'fangs_weakpoint',
             trait2: 'fangs_shadowswhisper'
         },
         {
-            trait1: 'fangs_etchedinshadow',
+            trait1: 'fangs_weakpoint',
             trait2: 'fangs_shadows'
         },
         {
@@ -1286,7 +1286,7 @@ export const fangs_ranking = [
                 id: 214930
             },
             {
-                name: 'Etched in Shadow',
+                name: 'Weak Point',
                 id: 238068
             },
             {

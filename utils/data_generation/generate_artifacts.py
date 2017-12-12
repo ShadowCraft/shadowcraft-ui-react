@@ -258,7 +258,7 @@ def get_fangs_data():
         214930: ["fangs_legionblade", "Legionblade"],
         221856: ["fangs_shadowfangs", "Shadow Fangs"],
         241154: ["fangs_shadows", "Shadows of the Uncrowned"],
-        238068: ["fangs_etchedinshadow", "Etched in Shadow"],
+        238068: ["fangs_weakpoint", "Weak Point"],
         242707: ["fangs_shadowswhisper", "Shadow's Whisper"],
         238140: ["fangs_feedingfrenzy", "Feeding Frenzy"],
         239042: ["fangs_concordance", "Concordance of the Legionfall"]
