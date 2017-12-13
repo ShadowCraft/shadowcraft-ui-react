@@ -56,6 +56,7 @@ class ItemSelectPopup extends React.Component {
     }
 
     getItemValue(item) {
+        if (!item) return 0;
         if (!(item.id in this.itemValueCache && item.item_level in this.itemValueCache[item.id])) {
             let value = getStatValue(item.stats, this.props.weights);
             if (item.id in this.props.trinketMap) {
