@@ -17,7 +17,7 @@ class BonusIDPopup extends React.Component {
     constructor(props) {
         super(props);
         let _state = {
-            active: props.item.bonuses,
+            active: [...props.item.bonuses],
             wfBonus: -1,
             suffixBonus: -1,
             baseIlvlBonus: -1,
