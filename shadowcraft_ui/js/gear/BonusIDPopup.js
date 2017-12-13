@@ -95,6 +95,7 @@ class BonusIDPopup extends React.Component {
                                 baseItem = staticItems[i-1];
                             }
                         }
+                        else baseItem = staticItems[0];
                     }
                 }
             }
@@ -112,7 +113,7 @@ class BonusIDPopup extends React.Component {
                     suffixBonus = bonus;
                 }
             });
-
+            
             let baseIlvlBonus = 1472;
             for (let idx in baseItem['bonuses']) {
                 let bonus = baseItem['bonuses'][idx];
