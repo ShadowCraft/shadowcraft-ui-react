@@ -4,6 +4,7 @@ import copy
 import re
 import requests
 import pymongo
+import sys
 from pymongo import MongoClient
 import ArmoryDocument
 from ArmoryItem import ArmoryItem
@@ -138,6 +139,7 @@ def import_item(dbase, item_id, is_gem=False):
     # Skip items that don't have an equip location because wowhead keeps sticking
     # random shit into the list (like the item that discovers new legendaries)
     if not is_gem and item_props['equip_location'] == '':
+        print("Item %d has no equip_location value, ignoring" % item_id)
         return
 
     db_item.update(item_props)
@@ -207,9 +209,11 @@ def get_ids_from_wowhead(url):
 def test_item():
     """load mongo with test items"""
     mongo = MongoClient()
-#    import_item(mongo.roguesim_python, 147172)
-    populate_db(mongo.roguesim_python)
-    populate_gems(mongo.roguesim_python)
+    if len(sys.argv) > 1:
+        import_item(mongo.roguesim_python, int(sys.argv[1]))
+    else:
+        populate_db(mongo.roguesim_python)
+        populate_gems(mongo.roguesim_python)
 
 if __name__ == '__main__':
     test_item()

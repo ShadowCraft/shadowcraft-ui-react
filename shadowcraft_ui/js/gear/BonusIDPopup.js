@@ -36,10 +36,23 @@ class BonusIDPopup extends React.Component {
         this.onApply = this.onApply.bind(this);
     }
 
+    adjustSlotName(slot) {
+        switch (slot) {
+            case 'trinket1':
+            case 'trinket2':
+                return 'trinket';
+            case 'finger1':
+            case 'finger2':
+                return 'finger';
+            default:
+                return slot;
+        }
+    }
+
     componentWillMount() {
 
         // Get the items for this slot and find the set of items with the same ID.
-        let staticItems = getItems(this.props.item.get('slot')).filter(function (item) {
+        let staticItems = getItems(this.adjustSlotName(this.props.item.get('slot'))).filter(function (item) {
             return item.id == this.props.item.get('id');
         }.bind(this));
 
