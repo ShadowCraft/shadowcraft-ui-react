@@ -25,14 +25,23 @@ export default class RankingSection extends React.Component {
     {
         super(props);
 
+        this.state = {
+            sections: this.rebuildSections(props)
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({sections: this.rebuildSections(nextProps)});
+    }
+
+    rebuildSections(props) {
+
         // loop through the sections and set the values/percentages and build a state tree,
         // sorting as we go
-        this.state = {
-            sections: []
-        };
+        let sections = [];
 
-        for (let s in this.props.layout) {
-            let section_data = this.props.layout[s];
+        for (let s in props.layout) {
+            let section_data = props.layout[s];
             let section_layout = {
                 name: section_data.name,
                 items: []
@@ -42,9 +51,9 @@ export default class RankingSection extends React.Component {
             let max = 0;
             for (let i in section_data.items) {
                 let section_item = section_data.items[i];
-                if (this.props.values && section_item.id in this.props.values) {
-                    if (max < this.props.values[section_item.id]) {
-                        max = this.props.values[section_item.id];
+                if (props.values && section_item.id in props.values) {
+                    if (max < props.values[section_item.id]) {
+                        max = props.values[section_item.id];
                     }
                 }
             }
@@ -59,10 +68,10 @@ export default class RankingSection extends React.Component {
                     pct: "0%"
                 };
 
-                if (this.props.values && section_item.id in this.props.values)
+                if (props.values && section_item.id in props.values)
                 {
-                    let percentage = (this.props.values[section_item.id] / max) * 100.0;
-                    layout_item.label = this.props.values[section_item.id];
+                    let percentage = (props.values[section_item.id] / max) * 100.0;
+                    layout_item.label = props.values[section_item.id];
                     layout_item.pct = ""+percentage+"%";
                 }
 
@@ -73,8 +82,10 @@ export default class RankingSection extends React.Component {
                 return b.label - a.label;
             });
 
-            this.state.sections.push(section_layout);
+            sections.push(section_layout);
         }
+
+        return sections;
     }
 
     render() {
