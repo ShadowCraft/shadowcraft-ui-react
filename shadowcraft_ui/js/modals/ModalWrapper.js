@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import store from '../store';
+import { modalTypes } from '../reducers/modalReducer';
 
 class ModalWrapper extends React.Component {
 
@@ -10,7 +13,9 @@ class ModalWrapper extends React.Component {
     }
 
     hideModal() {
-        store.dispatch({type: 'CLOSE_MODAL'});
+        if (this.props.currentModal != modalTypes.RELOAD_SWIRL) {
+            store.dispatch({type: 'CLOSE_MODAL'});
+        }
     }
 
     render() {
@@ -32,6 +37,7 @@ ModalWrapper.propTypes = {
         PropTypes.element,
         PropTypes.string,
     ]).isRequired,
+    currentModal: PropTypes.string,
 
     // methods
     hideModal: PropTypes.func,
@@ -39,6 +45,13 @@ ModalWrapper.propTypes = {
 
 ModalWrapper.defaultProps = {
     style: {},
+    currentModal: ""
 };
 
-export default ModalWrapper;
+const mapStateToProps = function (store) {
+    return {
+        currentModal: store.modal.current
+    };
+};
+
+export default connect(mapStateToProps)(ModalWrapper);
