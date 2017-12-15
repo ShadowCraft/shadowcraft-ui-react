@@ -55,7 +55,6 @@ class CharacterPane extends React.Component {
         this.refreshCharacter = this.refreshCharacter.bind(this);
         this.clearSavedData = this.clearSavedData.bind(this);
         this.getDebugURL = this.getDebugURL.bind(this);
-        this.onOuterDivClick = this.onOuterDivClick.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
     }
 
@@ -145,30 +144,6 @@ class CharacterPane extends React.Component {
         }
     }
 
-    onOuterDivClick(e) {
-        // TODO: this is stupid, but it works. there has to be a better way.
-        // At least it's only enabled if the modal is open.
-
-        // Search upwards through the tree of DOM elements to see if the base
-        // modal element is somewhere in tree, which means they clicked the
-        // modal and not the background. if they clicked the background, hide
-        // the modal.
-        let found = false;
-        let target = e.target;
-
-        while (!found && target) {
-            if (target.className === "modal ui-dialog") {
-                found = true;
-            } else {
-                target = target.parentElement;
-            }
-        }
-
-        if (!found) {
-            store.dispatch({ type: "CLOSE_MODAL" });
-        }
-    }
-
     onDropdownClick() {
         this.setState({ dropdown: !this.state.dropdown });
     }
@@ -242,8 +217,7 @@ class CharacterPane extends React.Component {
             );
         } else {
             return (
-                <div onClick={this.props.modal.open && this.props.modal.current != modalTypes.RELOAD_SWIRL ? this.onOuterDivClick : null}>
-
+                <div>
                     <ModalConductor />
 
                     <div style={{ display: 'flex', marginBottom: '20px', filter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null, WebkitFilter: this.props.modal.open ? 'grayscale(50%) blur(2px)' : null }}>
