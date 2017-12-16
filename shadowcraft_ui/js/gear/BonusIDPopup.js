@@ -49,6 +49,11 @@ class BonusIDPopup extends React.Component {
         }
     }
 
+    isIlvlIncreaseBonusID(bonus) {
+        let legendaryIDs = [3630, 3570];
+        return (bonus >= 1472 && bonus <= 1672) || (bonus >= 669 && bonus <= 679) || (legendaryIDs.indexOf(bonus) != -1);
+    }
+
     componentWillMount() {
 
         // Get the items for this slot and find the set of items with the same ID.
@@ -79,12 +84,12 @@ class BonusIDPopup extends React.Component {
             let itemlevels = [];
 
             staticItems.forEach(function(item) {
-                itemlevels.push(this.props.item.get('item_level'));
+                itemlevels.push(item['item_level']);
 
                 if (item.item_level == this.props.item.item_level) {
                     for (let idx in item['bonuses']) {
                         let bonus = item['bonuses'][idx];
-                        if ((bonus >= 1472 && bonus <= 1672) || (bonus >= 669 && bonus <= 679)) {
+                        if (this.isIlvlIncreaseBonusID(bonus)) {
                             baseItem = item;
                         }
                     }
@@ -118,19 +123,19 @@ class BonusIDPopup extends React.Component {
             let wfBonus = -1;
             let suffixBonus = -1;
             this.props.item.get('bonuses').valueSeq().forEach(function(bonus) {
-                if ((bonus >= 1472 && bonus <= 1672) || (bonus >= 669 && bonus <= 679)) {
+                if (this.isIlvlIncreaseBonusID(bonus)) {
                     wfBonus = bonus;
                 }
 
                 if (bonus in RANDOM_SUFFIX_MAP) {
                     suffixBonus = bonus;
                 }
-            });
+            }.bind(this));
             
             let baseIlvlBonus = 1472;
             for (let idx in baseItem['bonuses']) {
                 let bonus = baseItem['bonuses'][idx];
-                if ((bonus >= 1472 && bonus <= 1672) || (bonus >= 669 && bonus <= 679)) {
+                if (this.isIlvlIncreaseBonusID(bonus)) {
                     baseIlvlBonus = bonus;
                 }
             }
@@ -294,17 +299,7 @@ class BonusIDPopup extends React.Component {
             let wfOptions = [];
             let selectedWFBonus = 0;
             if (this.state.baseItem.item_level != 0) {
-                if (this.props.item.quality == 5) {
-                    wfOptions.push(<option value="3570" key="3570">Item Level 970 / +60</option>);
-                    wfOptions.push(<option value="3530" key="3530">Item Level 940 / +30</option>);
-                    if (this.state.active.indexOf(3570) != -11) {
-                        selectedWFBonus = 3570;
-                    }
-                    else if (this.state.active.indexOf(3530) != -1) {
-                        selectedWFBonus = 3530;
-                    }
-                }
-                else if (!this.state.baseItem.is_crafted) {
+                if (!this.state.baseItem.is_crafted) {
                     for (let i = 955; i >= this.state.baseItem.item_level + 5; i -= 5) {
                         let bonus = i - this.state.baseItem.item_level + this.state.baseIlvlBonus;
                         if (this.state.active.indexOf(bonus) != -1) {
