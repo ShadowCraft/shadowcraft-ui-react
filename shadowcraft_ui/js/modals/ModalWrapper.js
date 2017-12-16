@@ -12,8 +12,8 @@ class ModalWrapper extends React.Component {
         this.hideModal = this.hideModal.bind(this);
     }
 
-    hideModal() {
-        if (this.props.currentModal != modalTypes.RELOAD_SWIRL) {
+    hideModal(e) {
+        if (this.props.currentModal != modalTypes.RELOAD_SWIRL && e.target == this) {
             store.dispatch({type: 'CLOSE_MODAL'});
         }
     }
