@@ -13,7 +13,7 @@ class ModalWrapper extends React.Component {
     }
 
     hideModal(e) {
-        if (this.props.currentModal != modalTypes.RELOAD_SWIRL && e.target == this) {
+        if (this.props.currentModal != modalTypes.RELOAD_SWIRL && e.target.className == "modaloverlay") {
             store.dispatch({type: 'CLOSE_MODAL'});
         }
     }
@@ -21,9 +21,9 @@ class ModalWrapper extends React.Component {
     render() {
         return (
             <div className="modaloverlay" onClick={this.hideModal}>
-            <div className="modal ui-dialog" id={this.props.modalId} style={this.props.style}>
-            {this.props.children}
-            </div>
+                <div className="modal ui-dialog" id={this.props.modalId} style={this.props.style}>
+                    {this.props.children}
+                </div>
             </div>
         );
     }
