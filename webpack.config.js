@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var GitRevisionPlugin = require('git-revision-webpack-plugin');
+var WebpackShellPlugin = require('webpack-shell-plugin');
 var pkg = require('./package.json');
 
 var gitPlugin = new GitRevisionPlugin();
@@ -16,6 +17,12 @@ var pluginsWebpack = [
     }),
     new webpack.DefinePlugin({
         __COMMIT_HASH__: JSON.stringify(gitPlugin.version())
+    }),
+    new WebpackShellPlugin({
+        // This will rm anything except the last four bundles and CSS builds so that we
+        // don't fill up the disk full of crap.
+        onBuildStart: ['rm -f `ls -1t shadowcraft_ui/static/bundle-*.js | tail -n +5`',
+                       'rm -f `ls -1t shadowcraft_ui/static/css/main-*.css | tail -n +5`']
     })
 ];
 
