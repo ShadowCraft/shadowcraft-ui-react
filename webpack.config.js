@@ -18,21 +18,21 @@ var pluginsWebpack = [
     new webpack.DefinePlugin({
         __COMMIT_HASH__: JSON.stringify(gitPlugin.version())
     }),
+
+    // This will rm anything except the last four bundles and CSS builds so that we
+    // don't fill up the disk full of crap.
+    new WebpackShellPlugin({
+        onBuildStart: ['find shadowcraft_ui/static -name "bundle-*.js" -printf "%Ts\t%p\n" | sort -nr | cut -f2 | tail -n +5 | xargs rm -f',
+                       'find shadowcraft_ui/static/css -name "main-*.css" -printf "%Ts\t%p\n" | sort -nr | cut -f2 | tail -n +5 | xargs rm -f'],
+        safe: true
+    })
 ];
 
 if ('production' === process.env.NODE_ENV) {
     var prodEnv = [
         new webpack.optimize.OccurrenceOrderPlugin(true),
         new webpack.optimize.UglifyJsPlugin(),
-        new webpack.optimize.DedupePlugin(),
-
-        // This will rm anything except the last four bundles and CSS builds so that we
-        // don't fill up the disk full of crap.
-        new WebpackShellPlugin({
-            onBuildStart: ['find shadowcraft_ui/static -name "bundle-*.js" -printf "%Ts\t%p\n" | sort -nr | cut -f2 | tail -n +5 | xargs rm -f',
-                           'find shadowcraft_ui/static/css -name "main-*.css" -printf "%Ts\t%p\n" | sort -nr | cut -f2 | tail -n +5 | xargs rm -f'],
-            safe: true
-        })
+        new webpack.optimize.DedupePlugin()
     ];
 
     pluginsWebpack.concat(pluginsWebpack, prodEnv);
