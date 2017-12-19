@@ -21,8 +21,8 @@ var pluginsWebpack = [
     new WebpackShellPlugin({
         // This will rm anything except the last four bundles and CSS builds so that we
         // don't fill up the disk full of crap.
-        onBuildStart: ['rm -f `ls -1t shadowcraft_ui/static/bundle-*.js | tail -n +5`',
-                       'rm -f `ls -1t shadowcraft_ui/static/css/main-*.css | tail -n +5`']
+        onBuildStart: ['ls -1t shadowcraft_ui/static/bundle-*.js | tail -n +5 | xargs rm -f',
+                       'ls -1t shadowcraft_ui/static/css/main-*.css | tail -n +5 | xargs rm -f']
     })
 ];
 
