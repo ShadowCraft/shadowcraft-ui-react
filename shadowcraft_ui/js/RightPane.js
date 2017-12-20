@@ -157,6 +157,7 @@ class RightPane extends React.Component {
                         </div>
                     </section>
                 </div>
+                <GoogleAd client="ca-pub-0438541591834443" slot="0003037760" format="auto" />
             </div>
         );
     }
