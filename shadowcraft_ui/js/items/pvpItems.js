@@ -142,7 +142,7 @@ let _isInitialized = false;
 const _checkWhiteList = id => {
     if (ITEM_DATA.find(i => i.id === id) !== undefined) return;
     //eslint-disable-next-line no-console
-    console.warn(`Itemid ${id} has been declared in DungeonItems but was not found in ITEM_DATA`);
+    console.warn(`Itemid ${id} has been declared in pvpItems but was not found in ITEM_DATA`);
 };
 
 let cache = {};

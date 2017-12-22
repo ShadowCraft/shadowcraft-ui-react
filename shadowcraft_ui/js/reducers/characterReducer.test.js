@@ -546,7 +546,7 @@ describe('characterReducer', () => {
                 slot: 'head',
                 bonuses: ['test'],
                 ilvl: 1,
-                newStats: { test: 'test' },
+                newStats: { },
                 hasBonusSocket: true,
                 canHaveBonusSocket: false,
                 name: "Awesome Item",
@@ -559,7 +559,7 @@ describe('characterReducer', () => {
                     bonuses: ['test'],
                     gems: [],
                     socket_count: 0,
-                    stats: { test: 'test' },
+                    stats: { },
                     item_level: 1,
                     name: "Awesome Item of Awesomeness"
                 })
@@ -589,7 +589,7 @@ describe('characterReducer', () => {
                 slot: 'head',
                 bonuses: ['test'],
                 ilvl: 1,
-                newStats: { test: 'test' },
+                newStats: { },
                 hasBonusSocket: true,
                 canHaveBonusSocket: false,
                 name: "Awesome Item",
@@ -602,7 +602,7 @@ describe('characterReducer', () => {
                     bonuses: ['test'],
                     gems: [],
                     socket_count: 0,
-                    stats: { test: 'test' },
+                    stats: { },
                     item_level: 1,
                     name: "Awesome Item"
                 })
@@ -632,7 +632,7 @@ describe('characterReducer', () => {
                 slot: 'head',
                 bonuses: ['test'],
                 ilvl: 1,
-                newStats: { test: 'test' },
+                newStats: { },
                 hasBonusSocket: true,
                 canHaveBonusSocket: false,
                 name: "",
@@ -645,7 +645,7 @@ describe('characterReducer', () => {
                     bonuses: ['test'],
                     gems: [],
                     socket_count: 0,
-                    stats: { test: 'test' },
+                    stats: { },
                     item_level: 1,
                     name: ""
                 })
@@ -676,7 +676,7 @@ describe('characterReducer', () => {
                 slot: 'head',
                 bonuses: [],
                 ilvl: 1,
-                newStats: { test: 'test' },
+                newStats: { },
                 hasBonusSocket: false,
                 canHaveBonusSocket: true,
                 name: "",
@@ -689,7 +689,7 @@ describe('characterReducer', () => {
                     bonuses: [],
                     gems: [],
                     socket_count: 0,
-                    stats: { test: 'test' },
+                    stats: { },
                     item_level: 1,
                     name: ""
                 })
@@ -719,7 +719,7 @@ describe('characterReducer', () => {
                 slot: 'head',
                 bonuses: [],
                 ilvl: 1,
-                newStats: { test: 'test' },
+                newStats: { },
                 hasBonusSocket: false,
                 canHaveBonusSocket: false,
                 name: "",
@@ -732,7 +732,7 @@ describe('characterReducer', () => {
                     bonuses: [],
                     gems: [],
                     socket_count: 1,
-                    stats: { test: 'test' },
+                    stats: { },
                     item_level: 1,
                     name: ""
                 })
