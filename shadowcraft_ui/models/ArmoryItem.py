@@ -22,10 +22,10 @@ class ArmoryItem(object):
 
     def populate_data(self, json_data):
         self.quality = json_data['quality']
-        self.icon = json_data.get('icon','')
-        self.equip_location = self.convertInventoryType(json_data['inventoryType'])
+        self.icon = json_data.get('icon', '')
+        self.equip_location = convert_inventory_type(json_data['inventoryType'])
         self.item_level = int(json_data['itemLevel'])
-        
+
         if self.icon == '':
             print('##### Item %d/%s has a blank icon' % (self.item_id, json_data['context']))
 
@@ -77,8 +77,8 @@ class ArmoryItem(object):
             self.stats = self.get_item_stats(self.item_id, self.item_level, self.equip_location, self.quality)
             if len(self.stats) != 0:
                 item_data = ArmoryItem.sparse_item(int(json_data['id']))
-                if (int(item_data.get('delay')) > 0):
-                    weapon_stats = ArmoryItem.item_damage(self.item_id, int(item_data['ilevel']),
+                if int(item_data.get('delay')) > 0:
+                    weapon_stats = ArmoryItem.item_damage(int(item_data['ilevel']),
                                                           int(item_data.get('quality')),
                                                           float(item_data.get('dmg_range')),
                                                           float(item_data.get('delay')) / 1000)
@@ -108,7 +108,7 @@ class ArmoryItem(object):
 
     # Loads item stats the same way that simc does it, by using the item budget and the base
     # item stats from the client data.
-    def get_item_stats(self, itemId, ilvl, slot, quality):
+    def get_item_stats(self, item_id, ilvl, slot, quality):
 
         slot_type = -1
         if slot in ['mainHand', 'offHand']:
@@ -121,14 +121,14 @@ class ArmoryItem(object):
             slot_type = 3
 
         if slot_type == -1:
-            print('item %d has an unknown slot type' % itemId)
+            print('item %d has an unknown slot type' % item_id)
             return {}
 
         # Get the prop points for the item so that we can get the item budget for it
         props = ArmoryItem.rand_prop_point(ilvl)
         if props is None:
             return {}
-        
+
         if quality == 4 or quality == 5:
             budget = int(props['epic_points_%d' % (slot_type)])
         elif quality == 3 or quality == 7:
@@ -136,7 +136,7 @@ class ArmoryItem(object):
         else:
             budget = int(props['uncm_points_%d' % (slot_type)])
 
-        item_data = ArmoryItem.sparse_item(itemId)
+        item_data = ArmoryItem.sparse_item(item_id)
         if item_data is None:
             return {}
 
@@ -148,8 +148,7 @@ class ArmoryItem(object):
             stat_type = int(item_data['stat_type_%d' % i])
             if stat_type in ArmoryConstants.STAT_LOOKUP:
                 stat = ArmoryConstants.STAT_LOOKUP[stat_type]
-                alloc = int(item_data['stat_alloc_%d' % i])
-                value = alloc * budget / 10000.0
+                value = int(item_data['stat_alloc_%d' % i]) * budget / 10000.0
 
                 multiplier = 1
                 if stat != 'agility' and stat != 'stamina':
@@ -166,9 +165,9 @@ class ArmoryItem(object):
                 stats[stat] = round(value)
             elif stat_type != -1:
                 print("STAT ID missing: %d" % stat_type)
-            
+
         return stats
-                        
+
     IGNORE_FIELDS = ['item_id', 'item_level', 'context', 'bonus_tree', 'tag']
     IGNORE_FOR_GEMS = ['speed', 'dps', 'subclass', 'armor_class', 'upgradable',
                        'chance_bonus_lists', 'equip_location', 'socket_count',
@@ -272,8 +271,8 @@ class ArmoryItem(object):
 
         if item_id in ArmoryItem.upgrade_rulesets:
             return item_id
-        else:
-            return None
+
+        return None
 
     @staticmethod
     def sparse_item(item_id):
@@ -287,11 +286,11 @@ class ArmoryItem(object):
 
         if item_id in ArmoryItem.sparse_items:
             return ArmoryItem.sparse_items[item_id]
-        else:
-            return None
+
+        return None
 
     @staticmethod
-    def item_damage(item_id, ilvl, quality, dmg_range, speed):
+    def item_damage(ilvl, quality, dmg_range, speed):
         if ArmoryItem.item_damages is None:
             ArmoryItem.item_damages = {}
             filepath = os.path.dirname(os.path.abspath(__file__))
@@ -305,8 +304,8 @@ class ArmoryItem(object):
             result['min_dmg'] = result['dps'] * result['speed'] * (1.0 - dmg_range / 2.0)
             result['max_dmg'] = result['dps'] * result['speed'] * (1.5 - dmg_range / 2.0)
             return result
-        else:
-            return None
+
+        return None
 
     @staticmethod
     def rand_prop_point(ilvl):
@@ -320,10 +319,10 @@ class ArmoryItem(object):
 
         if ilvl in ArmoryItem.rand_prop_points:
             return ArmoryItem.rand_prop_points[ilvl]
-        else:
-            return None
 
-    def convertInventoryType(self, inventory_type):
+        return None
+
+    def convert_inventory_type(inventory_type):
         mapping = {
             1: 'head',
             2: 'neck',
@@ -347,8 +346,8 @@ class ArmoryItem(object):
 
         if inventory_type in mapping:
             return mapping[inventory_type]
-        else:
-            return ''
+
+        return ''
 
 def test_item():
     #    print(ArmoryItem.check_upgradable(142512))

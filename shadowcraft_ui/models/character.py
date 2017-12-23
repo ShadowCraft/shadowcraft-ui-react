@@ -3,10 +3,9 @@
 import hashlib
 import json
 import os
+import csv
 import traceback
 import jsonschema
-import pymongo
-import hashlib
 
 from . import ArmoryDocument
 from . import ArmoryConstants
@@ -28,7 +27,7 @@ def load(db, region, realm, name, sha=None):
         if results.count() != 0:
             char_data = results[0]['json']
         else:
-            sha_error = "Failed to find SHA value in the database, loaded fresh copy from the Armory"
+            sha_error = "Failed to find SHA value in the database, loaded fremmsh copy from the Armory"
             print(sha_error)
 
         if char_data is not None and ('data_version' not in char_data or char_data['data_version'] != CHARACTER_DATA_VERSION):
@@ -96,7 +95,8 @@ def __artifact_id(trait_id):
     # We're mapping between id_power and id_spell
     if __artifact_ids is None:
         __artifact_ids = {}
-        with open(os.path.join(os.getcwd(),'shadowcraft_ui','external_data','ArtifactPowerRank.dbc.csv'), mode='r') as infile:
+        with open(os.path.join(os.getcwd(), 'shadowcraft_ui', 'external_data',
+                               'ArtifactPowerRank.dbc.csv'), mode='r') as infile:
             reader = csv.DictReader(infile)
             for row in reader:
                 __artifact_ids[int(row['id_power'])] = int(row['id_spell'])
@@ -140,10 +140,10 @@ def __get_from_armory(db, character, realm, region):
 
         # Talents are indexed from 1 in the engine and zero means "not selected". Fix it so
         # that's the case when we load the data here. There's probably a better way to do this.
-        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace("2","3")
-        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace("1","2")
-        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace("0","1")
-        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace(".","0")
+        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace("2", "3")
+        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace("1", "2")
+        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace("0", "1")
+        output['talents'][tree['calcSpec']] = output['talents'][tree['calcSpec']].replace(".", "0")
 
     output['talents']['current'] = output['talents'][output['active']]
 
@@ -187,14 +187,14 @@ def __get_from_armory(db, character, realm, region):
 
         # there can be multiple gems in tooltipParams from the armory
         # so we need to check for them all i.e. gem0, gem1, gem2
-        for gemIndex in range(0, info['socket_count']):
-            gemEntry = 'gem%d' % gemIndex
-            if gemEntry in tooltip:
-                tooltip_item = tooltip[gemEntry]
+        for gem_index in range(0, info['socket_count']):
+            gem_entry = 'gem%d' % gem_index
+            if gem_entry in tooltip:
+                tooltip_item = tooltip[gem_entry]
                 # TODO: this can be a database lookup now
                 gemdata = ArmoryDocument.get(
                     'us', '/wow/item/%d' % tooltip_item)
-                info['gems'][gemIndex] = {
+                info['gems'][gem_index] = {
                     'name': gemdata['name'],
                     'id': gemdata['id'],
                     'icon': gemdata['icon'],
@@ -277,7 +277,7 @@ def __get_from_armory(db, character, realm, region):
         output['artifact']['traits']['209782'] = 1
 
     # add concordance if it is missing
-    if '239042' not in output['artifact']['traits'] :
+    if '239042' not in output['artifact']['traits']:
         output['artifact']['traits']['239042'] = 0
 
     output['artifact']['relics'] = [None] * 3

@@ -1,15 +1,14 @@
 """model for items in mongo"""
 
-import copy
 import re
+import sys
+from time import sleep
 import requests
 import pymongo
-import sys
-from pymongo import MongoClient
+
 import ArmoryDocument
-from ArmoryItem import ArmoryItem
 import ArmoryConstants
-from time import sleep
+from ArmoryItem import ArmoryItem
 
 ARTIFACT_WEAPONS = [128476, 128479, 128870, 128869, 128872, 134552]
 ORDER_HALL_SET = [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746]
@@ -60,13 +59,15 @@ def populate_db(dbase):
     ranges = ((800, 850), (851, 900), (901, 950))
     for item_type in ['weapons', 'leather-armor', 'cloaks', 'rings', 'amulets', 'trinkets']:
         print("Requesting %s from wowhead" % item_type)
-        for r in ranges:
-            print("Rare items, ilevels %d to %d...  " % (r[0], r[1]), end='')
+        for ilvls in ranges:
+            print("Rare items, ilevels %d to %d...  " % (ilvls[0], ilvls[1]), end='')
             wowhead_ids.extend(get_ids_from_wowhead(
-                'http://www.wowhead.com/%s/min-level:%d/max-level:%d/class:4/quality:3' % (item_type, r[0], r[1])))
-            print("Epic items, ilevels %d to %d...  " % (r[0], r[1]), end='')
+                'http://www.wowhead.com/%s/min-level:%d/max-level:%d/class:4/quality:3' %
+                (item_type, ilvls[0], ilvls[1])))
+            print("Epic items, ilevels %d to %d...  " % (ilvls[0], ilvls[1]), end='')
             wowhead_ids.extend(get_ids_from_wowhead(
-                'http://www.wowhead.com/%s/min-level:%d/max-level:%d/class:4/quality:4' % (item_type, r[0], r[1])))
+                'http://www.wowhead.com/%s/min-level:%d/max-level:%d/class:4/quality:4' %
+                (item_type, ilvls[0], ilvls[1])))
         print()
 
     print("Requesting legendaries from wowhead")
@@ -208,7 +209,7 @@ def get_ids_from_wowhead(url):
 
 def test_item():
     """load mongo with test items"""
-    mongo = MongoClient()
+    mongo = pymongo.MongoClient()
     if len(sys.argv) > 1:
         import_item(mongo.roguesim_python, int(sys.argv[1]))
     else:

@@ -16,7 +16,8 @@ class ArmoryCharacter(object):
         # We're mapping between id_power and id_spell
         if ArmoryCharacter.artifact_ids is None:
             ArmoryCharacter.artifact_ids = {}
-            with open(os.path.join(os.getcwd(),'shadowcraft_ui','external_data','ArtifactPowerRank.dbc.csv'), mode='r') as infile:
+            with open(os.path.join(os.getcwd(), 'shadowcraft_ui', 'external_data',
+                                   'ArtifactPowerRank.dbc.csv'), mode='r') as infile:
                 reader = csv.DictReader(infile)
                 for row in reader:
                     ArmoryCharacter.artifact_ids[int(row['id_power'])] = int(row['id_spell'])

@@ -47,11 +47,11 @@ def import_relic(dbase, item_id):
             entry,
             upsert=True
         )
-    except ArmoryDocument.ArmoryError as e:
+    except ArmoryDocument.ArmoryError as err:
         print("import_item failed to fetch %d: %s" % (item_id, err))
         return
 
-    
+
 def test_relic():
     """small script to populate relics for testing"""
     mongo_db = pymongo.MongoClient()
