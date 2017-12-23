@@ -93,7 +93,7 @@ class RightPane extends React.Component {
 
         var realm = this.props.realm.replace("-", " ");
         realm = realm.replace(/\b\w/g, l => l.toUpperCase());
-        graphTestData.datasets[0].data = this.props.history.data.map(d => d.engine.totalDps).toJS();
+        graphTestData.datasets[0].data = this.props.history.data.map(d => Math.round(d.engine.totalDps * 10.0) / 10.0).toJS();
         graphTestData.labels = Array(graphTestData.datasets[0].data.length).fill('');
 
         let dpsChange = 0.0;
@@ -102,8 +102,8 @@ class RightPane extends React.Component {
         if (historyLength > 1) {
             const currentDPS = this.props.history.data.get(historyLength - 1).engine.totalDps;
             const lastDPS = this.props.history.data.get(historyLength - 2).engine.totalDps;
-            dpsChange = Math.round((currentDPS - lastDPS) * 100.0) / 100.0;
-            dpsChangePct = Math.round(((dpsChange / currentDPS) * 100.0) * 100.0) / 100.0;
+            dpsChange = Math.round((currentDPS - lastDPS) * 10.0) / 10.0;
+            dpsChangePct = Math.round(((dpsChange / currentDPS) * 10.0) * 10.0) / 100.0;
         }
 
         let armoryRegion = "";
