@@ -43,6 +43,13 @@ class EquippedItem extends React.Component {
 
         let allItems = getItems(this.adjustSlotName(this.props.slot), min_ilvl, max_ilvl, ilvl);
 
+        // Check to see if the item we have equipped is in the list. If not, add it in.
+        const filtered = allItems.filter(function(item) {
+            return item.id == this.props.equippedItem.id && item.item_level == this.props.equippedItem.item_level}.bind(this));
+        if (filtered.length == 0) {
+            allItems.push(this.props.equippedItem);
+        }
+
         store.dispatch({
             type: "OPEN_MODAL",
             data: {
