@@ -44,7 +44,7 @@ module.exports = {
         path: __dirname + '/shadowcraft_ui/static',
         filename: ('production' === process.env.NODE_ENV) ? 'bundle-[hash:6].js' : 'bundle.js'
     },
-    devtool: 'inline-source-map',
+    devtool: ('production' == process.env.NODE_ENV) ? '' : 'inline-source-map',
     module: {
         loaders: [
             {
