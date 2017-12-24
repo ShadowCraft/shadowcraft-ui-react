@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Gear from './viewModels/Gear';
-import store from './store';
 import { ITEM_DATA } from './item_data';
 
 class Warnings extends React.Component {

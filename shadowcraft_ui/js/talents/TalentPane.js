@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import RankingSection from '../SidebarRanking';
@@ -14,6 +15,13 @@ function TalentSetButton(props) {
         </button>
     );
 }
+
+TalentSetButton.propTypes = {
+    spec: PropTypes.string.isRequired,
+    talents: PropTypes.string.isRequired,
+    handler: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired
+};
 
 class TalentPane extends React.Component {
 
@@ -76,6 +84,12 @@ class TalentPane extends React.Component {
         );
     }
 }
+
+TalentPane.propTypes = {
+    activeSpec: PropTypes.string.isRequired,
+    rankings: PropTypes.object.isRequired,
+    talents: PropTypes.object.isRequired
+};
 
 const mapStateToProps = function (store) {
     return {

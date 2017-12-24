@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import store from '../store';
@@ -39,6 +40,11 @@ class ModalConductor extends React.Component {
         }
     }
 }
+
+ModalConductor.propTypes = {
+    current: PropTypes.string,
+    modalProps: PropTypes.object
+};
 
 const mapStateToProps = function (store) {
     return {

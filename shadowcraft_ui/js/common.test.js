@@ -1,4 +1,4 @@
-import { getArtifactIlvlChange, recalculateStats, getStatValue, ItemType } from './common';
+import { getArtifactIlvlChange, recalculateStats, getStatValue } from './common';
 
 describe('getArtifactIlvlChange', () => {
     it('should return the right value', () => {

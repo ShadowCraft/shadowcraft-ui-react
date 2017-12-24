@@ -45,7 +45,8 @@ class EquippedItem extends React.Component {
 
         // Check to see if the item we have equipped is in the list. If not, add it in.
         const filtered = allItems.filter(function(item) {
-            return item.id == this.props.equippedItem.id && item.item_level == this.props.equippedItem.item_level}.bind(this));
+            return item.id == this.props.equippedItem.id && item.item_level == this.props.equippedItem.item_level;
+        }.bind(this));
         if (filtered.length == 0) {
             allItems.push(this.props.equippedItem);
         }
@@ -100,7 +101,6 @@ class EquippedItem extends React.Component {
         if (this.props.equippedItem.bonuses.size > 0) {
             url += `&bonus=${this.props.equippedItem.get('bonuses').toJS().join(':')}`;
         }
-        console.log(url);
         window.open(url, '_blank');
     }
 

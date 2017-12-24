@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import store from '../store';
 import { updateCharacterState } from '../store';
-import { modalTypes } from '../reducers/modalReducer';
 
 function Talent(props) {
     return (
@@ -11,6 +12,15 @@ function Talent(props) {
         </div>
     );
 }
+
+Talent.propTypes = {
+    col: PropTypes.number.isRequired,
+    row: PropTypes.number.isRequired,
+    active: PropTypes.bool.isRequired,
+    icon: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    handleClick: PropTypes.func.isRequired
+};
 
 class TalentFrame extends React.Component {
     constructor(props)
@@ -30,7 +40,7 @@ class TalentFrame extends React.Component {
         store.dispatch(updateCharacterState('UPDATE_TALENTS', newSetup));
     }
 
-    resetTalents(e)
+    resetTalents()
     {
         store.dispatch(updateCharacterState('UPDATE_TALENTS', '0000000'));
     }
@@ -74,6 +84,22 @@ class TalentFrame extends React.Component {
         );
     }
 }
+
+TalentFrame.propTypes = {
+    currentTalents: PropTypes.string.isRequired,
+    layout: PropTypes.shape({
+        icon: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        talents: PropTypes.arrayOf(
+            PropTypes.shape({
+                col: PropTypes.number.isRequired,
+                row: PropTypes.number.isRequired,
+                icon: PropTypes.string.isRequired,
+                id: PropTypes.number.isRequired,
+            }),
+        ).isRequired
+    }).isRequired,
+};
 
 const mapStateToProps = function(store) {
     return {

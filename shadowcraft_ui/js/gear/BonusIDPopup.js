@@ -9,7 +9,7 @@ import { updateCharacterState } from '../store';
 import { recalculateStats, getStatValue } from '../common';
 import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL, TRINKET_COMBAT_RATINGS_MULT_BY_ILVL, WEAPON_COMBAT_RATINGS_MULT_BY_ILVL, ARMOR_COMBAT_RATINGS_MULT_BY_ILVL } from '../multipliers';
 import BonusIDCheckBox from './BonusIDCheckBox';
-import { ITEM_DATA, RANDOM_SUFFIX_MAP, RAND_PROP_POINTS } from '../item_data';
+import { RANDOM_SUFFIX_MAP, RAND_PROP_POINTS } from '../item_data';
 import { getItems } from '../items';
 
 class BonusIDPopup extends React.Component {
@@ -142,9 +142,6 @@ class BonusIDPopup extends React.Component {
 
             itemdata['item_level'] = parseInt(baseItem['item_level']);
             itemdata['stats'] = baseItem['stats'];
-
-            console.log(baseIlvlBonus);
-            console.log(wfBonus);
 
             this.setState({ baseItem: itemdata, wfBonus: wfBonus, suffixBonus: suffixBonus, baseIlvlBonus: baseIlvlBonus });
         }

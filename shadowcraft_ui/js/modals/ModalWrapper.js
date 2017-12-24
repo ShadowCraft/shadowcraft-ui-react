@@ -27,7 +27,7 @@ class ModalWrapper extends React.Component {
             </div>
         );
     }
-};
+}
 
 ModalWrapper.propTypes = {
     // props
@@ -38,6 +38,7 @@ ModalWrapper.propTypes = {
         PropTypes.string,
     ]).isRequired,
     currentModal: PropTypes.string,
+    modalId: PropTypes.string,
 
     // methods
     hideModal: PropTypes.func,

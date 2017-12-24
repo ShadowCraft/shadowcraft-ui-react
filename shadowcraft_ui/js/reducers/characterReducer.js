@@ -1,4 +1,4 @@
-import { getArtifactIlvlChange, recalculateStats, ItemType } from '../common';
+import { getArtifactIlvlChange, recalculateStats } from '../common';
 import Character from '../viewModels/Character';
 import Relic from '../viewModels/Relic';
 import Traits from '../viewModels/Traits';
@@ -7,7 +7,7 @@ import Stats from '../viewModels/Stats';
 import Talents from '../viewModels/Talents';
 import Gear from '../viewModels/Gear';
 import Item from '../viewModels/Item';
-import { fromJS, Record, Map, List } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 import { ITEM_DATA } from '../item_data';
 
 export const characterActionTypes = {

@@ -1,11 +1,9 @@
 import { characterActionTypes, characterReducer } from './characterReducer';
 import Character from '../viewModels/Character';
 import Artifact from '../viewModels/Artifact';
-import Traits from '../viewModels/Traits';
 import Gear from '../viewModels/Gear';
 import Item from '../viewModels/Item';
-import Relic from '../viewModels/Relic';
-import { Map, List, toJS } from 'immutable';
+import { Map, List } from 'immutable';
 
 describe('characterReducer', () => {
     it('should return initial state', () => {
@@ -1053,7 +1051,6 @@ describe('characterReducer', () => {
             type: characterActionTypes.SWAP_ARTIFACT_WEAPON,
             data: 'Z'
         };
-        const expected = new Map({ gear: new Map({ mainHand: 'newWeapon' })});
         expect(characterReducer(init, action).getIn(['gear','mainHand','name'])).toEqual('The Dreadblades');
     });
 

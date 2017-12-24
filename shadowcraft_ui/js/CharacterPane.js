@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import store from './store';
@@ -265,6 +266,28 @@ class CharacterPane extends React.Component {
         }
     }
 }
+
+CharacterPane.propTypes = {
+    pathinfo: PropTypes.shape({
+        sha: PropTypes.string,
+        region: PropTypes.string.isRequired,
+        realm: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+    }).isRequired,
+    modal: PropTypes.shape({
+        open: PropTypes.bool.isRequired,
+        current: PropTypes.string,
+    }).isRequired,
+    character: PropTypes.shape({
+        region: PropTypes.string.isRequired,
+        realm: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        toJSON: PropTypes.func.isRequired
+    }).isRequired,
+    settings: PropTypes.shape({
+        current: PropTypes.object.isRequired
+    }).isRequired
+};
 
 const mapStateToProps = function (store) {
     return {

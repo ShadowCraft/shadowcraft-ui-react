@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function round1(val) {
     let newVal = Math.round(val * 10.0) / 10.0;
@@ -19,6 +20,13 @@ function Ranking(props) {
         </div>
     );
 }
+
+Ranking.propTypes = {
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.number.isRequired,
+    pct: PropTypes.string.isRequired
+};
 
 export default class RankingSection extends React.Component {
     constructor(props)
@@ -71,7 +79,7 @@ export default class RankingSection extends React.Component {
                 if (props.values && section_item.id in props.values)
                 {
                     let percentage = (props.values[section_item.id] / max) * 100.0;
-                    layout_item.label = props.values[section_item.id];
+                    layout_item.label = parseFloat(props.values[section_item.id]);
                     layout_item.pct = ""+percentage+"%";
                 }
 
@@ -110,3 +118,8 @@ export default class RankingSection extends React.Component {
         );
     }
 }
+
+RankingSection.propTypes = {
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+};
