@@ -1,4 +1,4 @@
-import { Record, Map } from 'immutable';
+import { Record } from 'immutable';
 import Character from './Character';
 import Stats from './Stats';
 import Artifact from './Artifact';

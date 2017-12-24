@@ -90,14 +90,12 @@ TalentFrame.propTypes = {
     layout: PropTypes.shape({
         icon: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        talents: PropTypes.arrayOf(
-            PropTypes.shape({
-                col: PropTypes.number.isRequired,
-                row: PropTypes.number.isRequired,
-                icon: PropTypes.string.isRequired,
-                id: PropTypes.number.isRequired,
-            }),
-        ).isRequired
+        talents: PropTypes.arrayOf(PropTypes.shape({
+            col: PropTypes.number.isRequired,
+            row: PropTypes.number.isRequired,
+            icon: PropTypes.string.isRequired,
+            id: PropTypes.number.isRequired,
+        })).isRequired,
     }).isRequired,
 };
 

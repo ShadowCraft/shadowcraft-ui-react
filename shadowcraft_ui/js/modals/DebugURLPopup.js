@@ -13,7 +13,7 @@ export default class DebugURLPopup extends React.Component
                 <h1>Debug URL</h1>
                 <form id="debugURL">
                     Copy the link below:<br/>
-                    <input type="text" value={url} readOnly style={{width: "100%", marginBottom: "10px"}} readOnly /><br/>
+                    <input type="text" value={url} readOnly style={{width: "100%", marginBottom: "10px"}} /><br/>
                     <input className="ui-button ui-widget ui-state-default ui-corner-all" role="button" value="Close" onClick={this.props.hideModal} />
                 </form>
                 <a className="close-popup ui-dialog-titlebar-close ui-corner-all" role="button" onClick={this.props.hideModal}>
