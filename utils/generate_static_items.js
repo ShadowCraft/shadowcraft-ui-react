@@ -22,8 +22,10 @@ MongoClient.connect(url, function(err, db) {
 
         wstream.write('export const ITEM_DATA=[');
         let len = docs.length;
+        let database_ids = [];
         for (let i = 0; i < len; i++) {
             delete docs[i]['_id'];
+            database_ids.push(parseInt(docs[i]['id']));
             wstream.write(JSON.stringify(docs[i]));
             if (i != len-1) {
                 wstream.write(',');
@@ -95,9 +97,9 @@ MongoClient.connect(url, function(err, db) {
         wstream.write(JSON.stringify(output));
         wstream.write(";\n");
 
-        // Lastly, write out the entirety of the RandPropPoints table since we don't
-        // know what ilvl or slot the item is ahead of time. Take out the header row
-        // since it's useless and sort the data by the first item.
+        // Write out the entirety of the RandPropPoints table since we don't know what
+        // ilvl or slot the item is ahead of time. Take out the header row since it's
+        // useless and sort the data by the first item.
         let randPropData = fs.readFileSync('shadowcraft_ui/external_data/RandPropPoints.dbc.csv');
         let randProps = {};
         parse(randPropData).filter(function(row) {
@@ -108,6 +110,22 @@ MongoClient.connect(url, function(err, db) {
 
         wstream.write("export const RAND_PROP_POINTS=");
         wstream.write(JSON.stringify(randProps));
+        wstream.write(';');
+
+        // Write out the sparse item data to use to calculate item variants in
+        // combination with the props data above. Trim the rows down to just the rows
+        // that we need though so we're not sending a shit load of extra data along
+        // with it.
+        // TODO: trimming
+        let itemSparseData = fs.readFileSync('shadowcraft_ui/external_data/ItemSparse.dbc.csv');
+        let itemSparse = {};
+        parse(itemSparseData).filter(function(row) {
+            return row[0] != 'id' && database_ids.indexOf(parseInt(row[0])) != -1;
+        }.bind(database_ids)).map(function(row) {
+            itemSparse[row[0]] = row;
+        });
+        wstream.write("export const ITEM_SPARSE=");
+        wstream.write(JSON.stringify(itemSparse));
         wstream.write(';');
 
         wstream.end();
