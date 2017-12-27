@@ -155,6 +155,7 @@ describe('characterReducer', () => {
         const init = {
             gear: {
                 mainHand: {
+                    id: 128870,
                     item_level: 879,
                     stats: {
                         agility: 765,
@@ -170,6 +171,7 @@ describe('characterReducer', () => {
                     }
                 },
                 offHand: {
+                    id: 128869,
                     item_level: 879,
                     stats: {
                         agility: 765,
@@ -206,6 +208,7 @@ describe('characterReducer', () => {
         const expected = {
             gear: {
                 mainHand: {
+                    id: 128870,
                     item_level: 882,
                     stats: {
                         agility: 787,
@@ -221,6 +224,7 @@ describe('characterReducer', () => {
                     }
                 },
                 offHand: {
+                    id: 128869,
                     item_level: 882,
                     stats: {
                         agility: 787,
@@ -255,6 +259,7 @@ describe('characterReducer', () => {
         const init = {
             gear: {
                 mainHand: {
+                    id: 128870,
                     item_level: 836,
                     stats: {
                         agility: 512,
@@ -270,6 +275,7 @@ describe('characterReducer', () => {
                     }
                 },
                 offHand: {
+                    id: 128869,
                     item_level: 836,
                     stats: {
                         agility: 512,
@@ -306,6 +312,7 @@ describe('characterReducer', () => {
         const expected = {
             gear: {
                 mainHand: {
+                    id: 128870,
                     item_level: 882,
                     stats: {
                         agility: 786,
@@ -321,6 +328,7 @@ describe('characterReducer', () => {
                     }
                 },
                 offHand: {
+                    id: 128869,
                     item_level: 882,
                     stats: {
                         agility: 786,
@@ -356,11 +364,13 @@ describe('characterReducer', () => {
         const init = {
             gear: {
                 mainHand: {
+                    id: 128870,
                     item_level: 850,
                     stats: { agi: 1 },
                     weaponStats: {}
                 },
                 offHand: {
+                    id: 128869,
                     item_level: 850,
                     stats: { agi: 1 },
                     weaponStats: {}
@@ -387,11 +397,13 @@ describe('characterReducer', () => {
         const expected = {
             gear: {
                 mainHand: {
+                    id: 128870,
                     item_level: 850,
                     stats: { agi: 1 },
                     weaponStats: {}
                 },
                 offHand: {
+                    id: 128869,
                     item_level: 850,
                     stats: { agi: 1 },
                     weaponStats: {}
