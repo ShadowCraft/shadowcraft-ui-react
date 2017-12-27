@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import store from '../store';
 import { changeRelic } from '../store';
+import { MAX_ITEM_LEVEL } from '../common';
 
 // WARNING!!, this function must be called with 'this' bound to ArtifactRelicSelect ( ie .call(this, props))
 function initialize(props) {
 
     let ilvls = [];
-    for (var i = 835; i <= 955; i += 5) {
+    for (var i = 835; i <= MAX_ITEM_LEVEL; i += 5) {
         ilvls.push(<option key={i} value={i}>{i}</option>);
     }
     this.relicIlvlSelectionList = ilvls;

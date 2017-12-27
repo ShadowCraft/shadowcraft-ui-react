@@ -5,6 +5,8 @@ import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL,
          WEAPON_COMBAT_RATINGS_MULT_BY_ILVL,
          ARMOR_COMBAT_RATINGS_MULT_BY_ILVL } from './multipliers';
 
+export const MAX_ITEM_LEVEL = 985;
+
 let RELIC_ILVL_MAPPING = {
     650: 2,
     660: 2,

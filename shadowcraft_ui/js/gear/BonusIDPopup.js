@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import store from '../store';
 import ModalWrapper from '../modals/ModalWrapper';
 import { updateCharacterState } from '../store';
-import { recalculateStats, getStatValue } from '../common';
+import { recalculateStats, getStatValue, MAX_ITEM_LEVEL } from '../common';
 import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL, TRINKET_COMBAT_RATINGS_MULT_BY_ILVL, WEAPON_COMBAT_RATINGS_MULT_BY_ILVL, ARMOR_COMBAT_RATINGS_MULT_BY_ILVL } from '../multipliers';
 import BonusIDCheckBox from './BonusIDCheckBox';
 import { RANDOM_SUFFIX_MAP, RAND_PROP_POINTS } from '../item_data';
@@ -297,7 +297,7 @@ class BonusIDPopup extends React.Component {
             let selectedWFBonus = 0;
             if (this.state.baseItem.item_level != 0) {
                 if (!this.state.baseItem.is_crafted) {
-                    for (let i = 955; i >= this.state.baseItem.item_level + 5; i -= 5) {
+                    for (let i = MAX_ITEM_LEVEL; i >= this.state.baseItem.item_level + 5; i -= 5) {
                         let bonus = i - this.state.baseItem.item_level + this.state.baseIlvlBonus;
                         if (this.state.active.indexOf(bonus) != -1) {
                             selectedWFBonus = bonus;
