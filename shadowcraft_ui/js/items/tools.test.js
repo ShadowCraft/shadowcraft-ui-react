@@ -2,13 +2,15 @@ import { modifyItem, getRaidTierPermutations } from './tools';
 import { ITEM_DATA } from '../item_data';
 
 describe('createItem', () => {
+
+    // Fanged Slayer's Helm
     const initItem = {
-        item_level: 885,
-        stats: {
-            agility: 1886,
-            haste: 982,
-        }
+        id: 147172,
+        quality: 4,
+        item_level: 900,
+        equip_location: 'head',
     };
+    
     it('should create an item with the correct ilvl', () => {
         const item = modifyItem(initItem, 1000);
         expect(item.item_level).toEqual(1000);
@@ -16,7 +18,7 @@ describe('createItem', () => {
 
     it('should have the primary stat', () => {
         const item = modifyItem(initItem, 930);
-        expect(item.stats.agility).toEqual(2868); //really supposed to be 2870
+        expect(item.stats.agility).toEqual(2870);
     });
 
     it('should have the correct secondary stats', () => {

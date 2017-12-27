@@ -10,11 +10,11 @@ describe('getArtifactIlvlChange', () => {
 describe('recalculateStats', () => {
     it('should return the right value', () => {
         // Heroic Fanged Slayer's Helm
-//        expect(recalculateStats(147172, 915, 'head', 4)).toEqual({agility: 2496, stamina: 3744, haste: 1099, versatility: 649});
+        expect(recalculateStats(147172, 915, 'head', 4)).toEqual({agility: 2496, stamina: 3744, haste: 1099, versatility: 650});
         // 910 Mantle
-        expect(recalculateStats(144236, 910, 'shoulder', 5)).toEqual({agility: 1786, stamina: 2680, haste: 367, mastery: 919});
+        expect(recalculateStats(144236, 910, 'shoulder', 5)).toEqual({agility: 1786, stamina: 2680, haste: 368, mastery: 920});
         // 1000 Mantle
-//        expect(recalculateStats(144236, 1000, 'shoulder', 5)).toEqual({agility: 4133, stamina: 6199, haste: 514, mastery: 1287});
+        expect(recalculateStats(144236, 1000, 'shoulder', 5)).toEqual({agility: 4133, stamina: 6199, haste: 515, mastery: 1287});
     });
 });
 
