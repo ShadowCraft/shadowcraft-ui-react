@@ -48,7 +48,7 @@ class EquippedItem extends React.Component {
             return item.id == this.props.equippedItem.id && item.item_level == this.props.equippedItem.item_level;
         }.bind(this));
         if (filtered.length == 0) {
-            allItems.push(this.props.equippedItem);
+            allItems.push(this.props.equippedItem.toJS());
         }
 
         store.dispatch({
