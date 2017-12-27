@@ -131,7 +131,7 @@ class BonusIDPopup extends React.Component {
                     suffixBonus = bonus;
                 }
             }.bind(this));
-            
+
             let baseIlvlBonus = 1472;
             for (let idx in baseItem['bonuses']) {
                 let bonus = baseItem['bonuses'][idx];
@@ -222,8 +222,8 @@ class BonusIDPopup extends React.Component {
         if (eventData['ilvl'] != this.props.item.item_level) {
             eventData['hasNewStats'] = true;
             eventData['newStats'] = recalculateStats(
-                this.state.baseItem.id, eventData['ilvl'], this.state.baseItem.slot,
-                this.state.baseItem.quality);
+                this.props.item.get('id'), eventData['ilvl'], this.props.item.get('slot'),
+                this.props.item.get('quality'));
         }
 
         store.dispatch(updateCharacterState('CHANGE_BONUSES', eventData));
