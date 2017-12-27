@@ -126,6 +126,28 @@ export const characterReducer = function (state = new Character(), action) {
             newState = newState.setIn(['artifact', 'relics'], newRelics);
             newState = newState.setIn(['artifact', 'netherlight'], newNL);
 
+            let mainHand = newState.getIn(['gear', 'mainHand']);
+            if (mainHand) {
+                const stats = recalculateStats(mainHand.get('id'), 750, 'mainHand', 4);
+                const weaponStats = recalculateStats(mainHand.get('id'), 750, 'mainHand', 4, true);
+                mainHand = mainHand.set('item_level', 750)
+                                   .set('stats', stats)
+                                   .set('weaponStats', weaponStats);
+                newState = newState.setIn(['gear', 'mainHand'], mainHand);
+            }
+
+            let offHand = newState.getIn(['gear', 'offHand']);
+            if (offHand) {
+                const stats = recalculateStats(offHand.get('id'), 750, 'offHand', 4);
+                const weaponStats = recalculateStats(offHand.get('id'), 750, 'offHand', 4, true);
+                offHand = offHand.set('item_level', 750)
+                                   .set('stats', stats)
+                                   .set('weaponStats', weaponStats);
+                newState = newState.setIn(['gear', 'offHand'], offHand);
+            }
+
+            newState = newState.set('avg_item_level', calculateAverageIlvl(newState));
+
             return newState;
         }
 
