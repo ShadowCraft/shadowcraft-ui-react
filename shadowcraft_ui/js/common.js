@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import { RAND_PROP_POINTS, ITEM_SPARSE } from './item_data';
+import { RAND_PROP_POINTS, ITEM_SPARSE, ITEM_DAMAGE } from './item_data';
 import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL,
          TRINKET_COMBAT_RATINGS_MULT_BY_ILVL,
          WEAPON_COMBAT_RATINGS_MULT_BY_ILVL,
@@ -175,95 +175,118 @@ const STAT_LOOKUP = {
 
 // Recalculates a stat block based on a change in item level. This function only works above
 // ilvl 800, which honestly should be the only place people ever use it.
-export function recalculateStats(itemId, itemLevel, slot, quality) {
+export function recalculateStats(itemId, itemLevel, slot, quality, weaponStats = false) {
 
-    let slotType = -1;
-    switch (slot) {
-        case 'mainHand':
-        case 'offHand':
-            slotType = 4;
-            break;
-        case 'head':
-        case 'chest':
-        case 'legs':
-            slotType = 1;
-            break;
-        case 'shoulder':
-        case 'waist':
-        case 'feet':
-        case 'hands':
-        case 'trinket':
-            slotType = 2;
-            break;
-        case 'neck':
-        case 'wrist':
-        case 'finger':
-        case 'back':
-            slotType = 3;
-            break;
-        default:
-            slotType = -1;
-            break;
-    }
-    if (slotType == -1) {
-        console.log(`item ${itemId} has an unknown slot type ${slot}`);
-        return {};
-    }
-
-    if (!RAND_PROP_POINTS.hasOwnProperty(itemLevel)) {
-        return {};
-    }
-
-    const props = RAND_PROP_POINTS[itemLevel];
-
-    let budget = 0;
-    if (quality == 4 || quality == 5) {
-        budget = parseInt(props[0 + slotType]);
-    } else if (quality == 3 || quality == 7) {
-        budget = parseInt(props[5 + slotType]);
-    } else {
-        budget = parseInt(props[10 + slotType]);
-    }
-
-    if (!ITEM_SPARSE.hasOwnProperty(itemId)) {
-        return {};
-    }
-
-    const itemData = ITEM_SPARSE[itemId];
     let stats = {};
-    for (let i = 0; i < 10; i++) {
-        const statType = parseInt(itemData[52 + i]);
-        if (STAT_LOOKUP.hasOwnProperty(statType)) {
-            const stat = STAT_LOOKUP[statType];
-            let value = Math.round(parseInt(itemData[5 + i]) * budget / 10000.0);
 
-            let multiplier = 1;
-            if (stat != 'agility' && stat != 'stamina') {
-                switch (slot) {
-                    case 'mainHand':
-                    case 'offHand':
-                        multiplier = WEAPON_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
-                        break;
-                    case 'trinket':
-                        multiplier = TRINKET_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
-                        break;
-                    case 'neck':
-                    case 'finger':
-                        multiplier = JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
-                        break;
-                    default:
-                        multiplier = ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
-                        break;
+    if (!weaponStats) {
+        let slotType = -1;
+        switch (slot) {
+            case 'mainHand':
+            case 'offHand':
+                slotType = 4;
+                break;
+            case 'head':
+            case 'chest':
+            case 'legs':
+                slotType = 1;
+                break;
+            case 'shoulder':
+            case 'waist':
+            case 'feet':
+            case 'hands':
+            case 'trinket':
+                slotType = 2;
+                break;
+            case 'neck':
+            case 'wrist':
+            case 'finger':
+            case 'back':
+                slotType = 3;
+                break;
+            default:
+                slotType = -1;
+                break;
+        }
+
+        if (slotType == -1) {
+            console.log(`item ${itemId} has an unknown slot type ${slot}`);
+            return {};
+        }
+
+        if (!RAND_PROP_POINTS.hasOwnProperty(itemLevel)) {
+            return {};
+        }
+
+        const props = RAND_PROP_POINTS[itemLevel];
+
+        let budget = 0;
+        if (quality == 4 || quality == 5) {
+            budget = parseInt(props['epic'][slotType-1]);
+        } else if (quality == 3 || quality == 7) {
+            budget = parseInt(props['rare'][slotType-1]);
+        } else {
+            budget = parseInt(props['uncommon'][slotType-1]);
+        }
+
+        if (!ITEM_SPARSE.hasOwnProperty(itemId)) {
+            return {};
+        }
+
+        const itemData = ITEM_SPARSE[itemId];
+
+        for (let i = 0; i < 10; i++) {
+            const statType = itemData['stat_type'][i];
+            if (STAT_LOOKUP.hasOwnProperty(statType)) {
+                const stat = STAT_LOOKUP[statType];
+                let value = Math.round(itemData['stat_alloc'][i] * budget / 10000.0);
+
+                let multiplier = 1;
+                if (stat != 'agility' && stat != 'stamina') {
+                    switch (slot) {
+                        case 'mainHand':
+                        case 'offHand':
+                            multiplier = WEAPON_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
+                            break;
+                        case 'trinket':
+                            multiplier = TRINKET_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
+                            break;
+                        case 'neck':
+                        case 'finger':
+                            multiplier = JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
+                            break;
+                        default:
+                            multiplier = ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
+                            break;
+                    }
+
+                    value = value * multiplier;
                 }
 
-                value = value * multiplier;
+                stats[stat] = Math.round(value);
             }
+            else if (statType != -1) {
+                console.log(`STAT type missing: ${statType}`)
+            }
+        }
+    }
+    else {
 
-            stats[stat] = Math.round(value);
+        if (!ITEM_SPARSE.hasOwnProperty(itemId)) {
+            return {};
         }
-        else if (statType != -1) {
-            console.log(`STAT type missing: ${statType}`)
+
+        if (!ITEM_DAMAGE.hasOwnProperty(itemLevel)) {
+            return {};
         }
+
+        const itemData = ITEM_SPARSE[itemId];
+        const itemDamage = ITEM_DAMAGE[itemLevel];
+
+        stats['speed'] = itemData['speed'];
+        stats['dps'] = Math.round(itemDamage[`v_${quality}`] * 100.0) / 100.0;
+        stats['min_dmg'] = Math.round(stats['speed'] * stats['dps'] * (1.0 - itemData['dmg_range'] / 2.0));
+        stats['max_dmg'] = Math.round(stats['speed'] * stats['dps'] * (1.5 - itemData['dmg_range'] / 2.0));
     }
 
     return stats;

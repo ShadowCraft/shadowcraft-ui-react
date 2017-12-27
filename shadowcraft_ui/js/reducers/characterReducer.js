@@ -149,9 +149,7 @@ export const characterReducer = function (state = new Character(), action) {
                 let mainHand = newState.getIn(['gear', 'mainHand']);
                 let newIlvl = mainHand.get('item_level') + ilvlChange;
                 let newStats = recalculateStats(mainHand.get('id'), newIlvl, 'mainHand', 4);
-                // TODO: how are weapon stats calculated?
-                let newWeaponStats = recalculateStats(mainHand.get('weaponStats'), ilvlChange,
-                    'mainHand');
+                let newWeaponStats = recalculateStats(mainHand.get('id'), newIlvl, 'mainHand', 4, true);
 
                 mainHand = mainHand.set('item_level', newIlvl)
                     .set('stats', newStats)
@@ -159,10 +157,9 @@ export const characterReducer = function (state = new Character(), action) {
 
                 let offHand = newState.getIn(['gear', 'offHand']);
                 newIlvl = offHand.get('item_level') + ilvlChange;
+                console.log(offHand);
                 newStats = recalculateStats(offHand.get('id'), newIlvl, 'offHand', 4);
-                // TODO: how are weapon stats calculated?
-                newWeaponStats = recalculateStats(offHand.get('weaponStats'), ilvlChange,
-                    'offHand');
+                newWeaponStats = recalculateStats(offHand.get('id'), newIlvl, 'offHand', 4, true);
 
                 offHand = offHand.set('item_level', newIlvl)
                     .set('stats', newStats)
