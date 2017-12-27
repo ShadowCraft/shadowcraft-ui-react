@@ -74,7 +74,7 @@ class ArmoryItem(object):
         # consistent information all the time. If it's not there, log that it's
         # not and begrudgingly use the data from the API.
         if json_data['itemClass'] != 3:
-            self.stats = self.get_item_stats(self.item_id, self.item_level, self.equip_location, self.quality)
+            self.stats = get_item_stats(self.item_id, self.item_level, self.equip_location, self.quality)
             if len(self.stats) != 0:
                 item_data = ArmoryItem.sparse_item(int(json_data['id']))
                 if int(item_data.get('delay')) > 0:
@@ -108,7 +108,7 @@ class ArmoryItem(object):
 
     # Loads item stats the same way that simc does it, by using the item budget and the base
     # item stats from the client data.
-    def get_item_stats(self, item_id, ilvl, slot, quality):
+    def get_item_stats(item_id, ilvl, slot, quality):
 
         slot_type = -1
         if slot in ['mainHand', 'offHand']:
@@ -354,10 +354,12 @@ def test_item():
     #    print(ArmoryItem.check_upgradable(124367))
     #    print(ArmoryItem.scan_str("+4 Critical Strike"))
     #    print(ArmoryItem.scan_str("Equip: Mastery by 4"))
-    json_data = ArmoryDocument.get('us', '/wow/item/%d' % 128870)
-    item = ArmoryItem(json_data)
+#    json_data = ArmoryDocument.get('us', '/wow/item/%d' % 128870)
+#    item = ArmoryItem(json_data)
 #    print(item.name)
-    print(item.as_json())
+#    print(item.as_json())
+
+    print(ArmoryItem.get_item_stats(147172, 915, 'head', 4))
 
 if __name__ == '__main__':
     test_item()
