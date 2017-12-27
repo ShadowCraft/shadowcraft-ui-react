@@ -129,7 +129,7 @@ export const characterReducer = function (state = new Character(), action) {
             // one from the value for that trait. If the trait didn't change, it'll get set
             // back later.
             if (currentRelicId !== 0) {
-                let value = newState.getIn(['artifact', 'traits', currentRelicId]) - 1;
+                const value = newState.getIn(['artifact', 'traits', currentRelicId]) - 1;
                 newState = newState.setIn(['artifact', 'traits', currentRelicId], value);
             }
 
@@ -148,7 +148,8 @@ export const characterReducer = function (state = new Character(), action) {
 
                 let mainHand = newState.getIn(['gear', 'mainHand']);
                 let newIlvl = mainHand.get('item_level') + ilvlChange;
-                let newStats = recalculateStats(mainHand.get('stats'), ilvlChange, 'mainHand');
+                let newStats = recalculateStats(mainHand.get('id'), newIlvl, 'mainHand', 4);
+                // TODO: how are weapon stats calculated?
                 let newWeaponStats = recalculateStats(mainHand.get('weaponStats'), ilvlChange,
                     'mainHand');
 
@@ -158,7 +159,8 @@ export const characterReducer = function (state = new Character(), action) {
 
                 let offHand = newState.getIn(['gear', 'offHand']);
                 newIlvl = offHand.get('item_level') + ilvlChange;
-                newStats = recalculateStats(offHand.get('stats'), ilvlChange, 'offHand');
+                newStats = recalculateStats(offHand.get('id'), newIlvl, 'offHand', 4);
+                // TODO: how are weapon stats calculated?
                 newWeaponStats = recalculateStats(offHand.get('weaponStats'), ilvlChange,
                     'offHand');
 

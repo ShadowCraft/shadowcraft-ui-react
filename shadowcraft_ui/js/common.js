@@ -1,4 +1,9 @@
 import { Map } from 'immutable';
+import { RAND_PROP_POINTS, ITEM_SPARSE } from './item_data';
+import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL,
+         TRINKET_COMBAT_RATINGS_MULT_BY_ILVL,
+         WEAPON_COMBAT_RATINGS_MULT_BY_ILVL,
+         ARMOR_COMBAT_RATINGS_MULT_BY_ILVL } from './multipliers';
 
 let RELIC_ILVL_MAPPING = {
     650: 2,
@@ -124,66 +129,144 @@ export const MULTI_ITEM_SETS = {
     }
 };
 
+const STAT_LOOKUP = {
+    1: "health",
+    2: "mana",
+    3: "agility",
+    4: "strength",
+    5: "intellect",
+    6: "spirit",
+    7: "stamina",
+    12: "defense",
+    13: "dodge",
+    14: "parry",
+    15: "shield_block",
+    31: "hit",
+    32: "crit",
+    33: "hit_avoidance",
+    34: "critical_strike_avoidance",
+    35: "pvp_resilience",
+    36: "haste",
+    37: "expertise",
+    38: "attack_power",
+    40: "versatility",
+    41: "damage_done",
+    42: "healing_done",
+    43: "mana_every_5_seconds",
+    44: "armor_penetration",
+    45: "power",
+    46: "health_every_5_seconds",
+    47: "penetration",
+    48: "block_value",
+    49: "mastery",
+    50: "bonus_armor",
+    57: "pvp_power",
+    58: "amplify",
+    59: "multistrike",
+    61: "speed",
+    62: "leech",
+    63: "avoidance",
+    64: "indestructible",
+    67: "versatility",
+    71: "agility",
+    72: "agility",
+    73: "agility",
+}
+
 // Recalculates a stat block based on a change in item level. This function only works above
 // ilvl 800, which honestly should be the only place people ever use it.
-export function recalculateStats(baseStats, ilvlChange, slot) {
+export function recalculateStats(itemId, itemLevel, slot, quality) {
 
-    if (ilvlChange == 0) {
-        return baseStats;
+    let slotType = -1;
+    switch (slot) {
+        case 'mainHand':
+        case 'offHand':
+            slotType = 4;
+            break;
+        case 'head':
+        case 'chest':
+        case 'legs':
+            slotType = 1;
+            break;
+        case 'shoulder':
+        case 'waist':
+        case 'feet':
+        case 'hands':
+        case 'trinket':
+            slotType = 2;
+            break;
+        case 'neck':
+        case 'wrist':
+        case 'finger':
+        case 'back':
+            slotType = 3;
+            break;
+        default:
+            slotType = -1;
+            break;
+    }
+    if (slotType == -1) {
+        console.log(`item ${itemId} has an unknown slot type ${slot}`);
+        return {};
     }
 
-    let primaryMultiplier = Math.pow(1.15, (ilvlChange / 15.0));
-
-    // Secondary multipler is different for jewelry than for everything else
-    let secondaryMultiplier = 0.0;
-    if (slot == 'neck' || (slot && slot.includes('finger'))) {
-        secondaryMultiplier = Math.pow(0.996754034, ilvlChange);
-    }
-    else {
-        secondaryMultiplier = Math.pow(0.9944435486, ilvlChange);
+    if (!RAND_PROP_POINTS.hasOwnProperty(itemLevel)) {
+        return {};
     }
 
-    let newStats;
+    const props = RAND_PROP_POINTS[itemLevel];
 
-    if (Map.isMap(baseStats)) {
-        newStats = new Map();
-        baseStats.entrySeq().forEach(function([stat, value]) {
-            // Ignore weapon speed
-            if (stat != 'speed') {
-                // For secondary stats, apply the secondary multipler too
-                let newValue = value;
-                if (stat != 'agility' && stat != 'stamina' && stat != 'dps' && stat != 'min_dmg' && stat != 'max_dmg') {
-                    newValue *= secondaryMultiplier;
+    let budget = 0;
+    if (quality == 4 || quality == 5) {
+        budget = parseInt(props[0 + slotType]);
+    } else if (quality == 3 || quality == 7) {
+        budget = parseInt(props[5 + slotType]);
+    } else {
+        budget = parseInt(props[10 + slotType]);
+    }
+
+    if (!ITEM_SPARSE.hasOwnProperty(itemId)) {
+        return {};
+    }
+
+    const itemData = ITEM_SPARSE[itemId];
+    let stats = {};
+    for (let i = 0; i < 10; i++) {
+        const statType = parseInt(itemData[52 + i]);
+        if (STAT_LOOKUP.hasOwnProperty(statType)) {
+            const stat = STAT_LOOKUP[statType];
+            let value = Math.round(parseInt(itemData[5 + i]) * budget / 10000.0);
+
+            let multiplier = 1;
+            if (stat != 'agility' && stat != 'stamina') {
+                switch (slot) {
+                    case 'mainHand':
+                    case 'offHand':
+                        multiplier = WEAPON_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
+                        break;
+                    case 'trinket':
+                        multiplier = TRINKET_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
+                        break;
+                    case 'neck':
+                    case 'finger':
+                        multiplier = JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
+                        break;
+                    default:
+                        multiplier = ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[itemLevel-1];
+                        break;
                 }
 
-                newValue = Math.round(newValue * primaryMultiplier);
-                newStats = newStats.set(stat, newValue);
-            }
-            else {
-                newStats = newStats.set(stat, value);
-            }
-        });
-    }
-    else {
-        newStats = {};
-        for (let stat in baseStats) {
-            newStats[stat] = baseStats[stat];
-
-            // Ignore weapon speed
-            if (stat == 'speed') {
-                continue;
+                value = value * multiplier;
             }
 
-            // For secondary stats, apply the secondary multipler too
-            if (stat != 'agility' && stat != 'stamina' && stat != 'dps' && stat != 'min_dmg' && stat != 'max_dmg') {
-                newStats[stat] *= secondaryMultiplier;
-            }
-
-            newStats[stat] = Math.round(newStats[stat] * primaryMultiplier);
+            stats[stat] = Math.round(value);
+        }
+        else if (statType != -1) {
+            console.log(`STAT type missing: ${statType}`)
         }
     }
 
-    return newStats;
+    return stats;
 }
 
 export function getStatValue(stats, weights) {

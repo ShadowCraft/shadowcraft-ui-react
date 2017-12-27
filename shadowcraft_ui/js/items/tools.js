@@ -3,7 +3,7 @@ import { recalculateStats } from '../common';
 export const modifyItem = (item, ilvl, bonuses) => Object.assign({}, item,
     {
         item_level: parseInt(ilvl),
-        stats: recalculateStats(item.stats, ilvl - item.item_level, item.equip_location),
+        stats: recalculateStats(item.id, ilvl, item.equip_location, item.quality),
         bonuses,
     });
 

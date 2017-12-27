@@ -77,7 +77,6 @@ export function findMissingItems() {
     let missingIds = [];
     for (let idx in missingItems) {
         missingIds.push(missingItems[idx].id);
-//        missingIds.push({ "id": missingItems[idx].id, "name": missingItems[idx].name });
     }
     //eslint-disable-next-line no-console
     console.log(missingIds.join(","));

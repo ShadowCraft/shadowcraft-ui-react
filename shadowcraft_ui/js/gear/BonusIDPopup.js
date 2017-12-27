@@ -222,8 +222,8 @@ class BonusIDPopup extends React.Component {
         if (eventData['ilvl'] != this.props.item.item_level) {
             eventData['hasNewStats'] = true;
             eventData['newStats'] = recalculateStats(
-                Object.assign({}, this.state.baseItem.stats),
-                (eventData['ilvl'] - this.state.baseItem.item_level).toFixed(2));
+                this.state.baseItem.id, eventData['ilvl'], this.state.baseItem.slot,
+                this.state.baseItem.quality);
         }
 
         store.dispatch(updateCharacterState('CHANGE_BONUSES', eventData));
