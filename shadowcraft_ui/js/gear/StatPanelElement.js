@@ -17,7 +17,7 @@ class StatPanelElement extends React.Component {
 
 StatPanelElement.propTypes = {
     name: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 };
 
 export default StatPanelElement;

@@ -142,7 +142,7 @@ class StatPane extends React.Component {
                 <StatPanelElement
                     key={sortedWeights[idx][0]}
                     name={sortedWeights[idx][0]}
-                    value={round3(sortedWeights[idx][1]).toString()}
+                    value={round3(sortedWeights[idx][1])}
                 />);
         }
 
@@ -151,15 +151,16 @@ class StatPane extends React.Component {
                 <section id="summary">
                     <h3>Summary</h3>
                     <div className="inner">
-                        <StatPanelElement name="Engine" value={this.props.engineTarget.toString()} />
+                        <StatPanelElement name="Engine" value={this.props.engineTarget} />
                         <StatPanelElement name="Spec" value={spec} />
                         <StatPanelElement
                             name="Boss Adds"
                             value={
                                 this.props.num_boss_adds
-                                    ? this.props.num_boss_adds.toString() : '0'
+                                    ? this.props.num_boss_adds : '0'
                             }
                         />
+                        <StatPanelElement name="Item Level" value={this.props.avgIlvl ? this.props.avgIlvl.toString() : '0'} />
                     </div>
                 </section>
                 <section className="clearfix" id="stats">
@@ -236,7 +237,8 @@ const mapStateToProps = function (store) {
         otherEP: store.engine.other_ep,
         engineTarget: store.engine.engine_info.wow_build_target,
         activeSpec: store.character.get('active'),
-        num_boss_adds: store.settings.current.get('num_boss_adds')
+        num_boss_adds: store.settings.current.get('num_boss_adds'),
+        avgIlvl: store.character.get('avg_item_level')
     };
 };
 export default connect(mapStateToProps)(StatPane);

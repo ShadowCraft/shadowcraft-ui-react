@@ -58,10 +58,21 @@ function makeGem(actionGem) {
     }
 }
 
+function calculateAverageIlvl(state) {
+    const gear = state.get('gear');
+
+    let totalIlvl = 0;
+
+    state.get('gear').keySeq().forEach(slot => {
+        totalIlvl += state.getIn(['gear', slot, 'item_level']);
+    });
+
+    return Math.round(totalIlvl / 16.0 * 100.0) / 100.0;
+}
+
 export const characterReducer = function (state = new Character(), action) {
 
     if (!(state instanceof Character)) state = fromJS(state);
-
 
     switch (action.type) {
 
@@ -97,6 +108,7 @@ export const characterReducer = function (state = new Character(), action) {
                 artifact: new Artifact(action.data.artifact),
                 active: action.data.active,
                 data_version: action.data.data_version,
+                avg_item_level: action.data.avg_item_level,
             });
         }
 
@@ -146,28 +158,34 @@ export const characterReducer = function (state = new Character(), action) {
 
                 newState = newState.setIn(['artifact', 'relics', action.data.slot, 'ilvl'], action.data.ilvl);
 
-                let mainHand = newState.getIn(['gear', 'mainHand']);
-                let newIlvl = mainHand.get('item_level') + ilvlChange;
-                let newStats = recalculateStats(mainHand.get('id'), newIlvl, 'mainHand', 4);
-                let newWeaponStats = recalculateStats(mainHand.get('id'), newIlvl, 'mainHand', 4, true);
+                // If the ilvl of the artifacts changed, recalculate all of the stats for those items.
+                if (ilvlChange != 0) {
+                    let mainHand = newState.getIn(['gear', 'mainHand']);
+                    let newIlvl = mainHand.get('item_level') + ilvlChange;
+                    let newStats = recalculateStats(mainHand.get('id'), newIlvl, 'mainHand', 4);
+                    let newWeaponStats = recalculateStats(mainHand.get('id'), newIlvl, 'mainHand', 4, true);
 
-                mainHand = mainHand.set('item_level', newIlvl)
-                    .set('stats', newStats)
-                    .set('weaponStats', newWeaponStats);
+                    mainHand = mainHand.set('item_level', newIlvl)
+                                       .set('stats', newStats)
+                                       .set('weaponStats', newWeaponStats);
 
-                let offHand = newState.getIn(['gear', 'offHand']);
-                newIlvl = offHand.get('item_level') + ilvlChange;
-                newStats = recalculateStats(offHand.get('id'), newIlvl, 'offHand', 4);
-                newWeaponStats = recalculateStats(offHand.get('id'), newIlvl, 'offHand', 4, true);
+                    let offHand = newState.getIn(['gear', 'offHand']);
+                    newIlvl = offHand.get('item_level') + ilvlChange;
+                    newStats = recalculateStats(offHand.get('id'), newIlvl, 'offHand', 4);
+                    newWeaponStats = recalculateStats(offHand.get('id'), newIlvl, 'offHand', 4, true);
 
-                offHand = offHand.set('item_level', newIlvl)
-                    .set('stats', newStats)
-                    .set('weaponStats', newWeaponStats);
+                    offHand = offHand.set('item_level', newIlvl)
+                                     .set('stats', newStats)
+                                     .set('weaponStats', newWeaponStats);
 
-                newState = newState.setIn(['gear', 'mainHand'], mainHand)
-                    .setIn(['gear', 'offHand'], offHand)
-                    .setIn(['artifact', 'relics', action.data.slot, 'ilvl'],
-                    action.data.ilvl);
+                    newState = newState.setIn(['gear', 'mainHand'], mainHand)
+                                       .setIn(['gear', 'offHand'], offHand)
+                                       .setIn(['artifact', 'relics', action.data.slot, 'ilvl'],
+                                              action.data.ilvl);
+
+                    // Recalculate the average item level
+                    newState = newState.set('avg_item_level', calculateAverageIlvl(newState));
+                }
             }
 
             newState = newState.setIn(['artifact', 'relics', action.data.slot, 'id'], action.data.trait);
@@ -231,6 +249,8 @@ export const characterReducer = function (state = new Character(), action) {
                 }
             }
 
+            newState = newState.set('avg_item_level', calculateAverageIlvl(newState));
+
             return newState;
         }
 
@@ -255,7 +275,10 @@ export const characterReducer = function (state = new Character(), action) {
             }
             item = item.set('gems', gems);
 
-            return state.setIn(['gear', action.data.slot], item);
+            state = state.setIn(['gear', action.data.slot], item);
+            state = state.set('avg_item_level', calculateAverageIlvl(state));
+
+            return state;
         }
 
         case characterActionTypes.CHANGE_BONUSES: {
@@ -287,7 +310,10 @@ export const characterReducer = function (state = new Character(), action) {
                 item = item.set('name', action.data.name);
             }
 
-            return state.setIn(['gear', action.data.slot], item);
+            state = state.setIn(['gear', action.data.slot], item);
+            state = state.set('avg_item_level', calculateAverageIlvl(state));
+
+            return state;
         }
 
         case characterActionTypes.CHANGE_GEM: {

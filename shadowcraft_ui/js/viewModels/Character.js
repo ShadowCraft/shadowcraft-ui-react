@@ -19,6 +19,7 @@ const initialCharacter = {
     artifact: new Artifact(),
     active: 'a',
     data_version: CHARACTER_DATA_VERSION,
+    avg_item_level: 0,
 };
 
 export default class Character extends Record(initialCharacter) {
@@ -150,14 +151,13 @@ export default class Character extends Record(initialCharacter) {
             }
 
             if (character.data_version !== undefined) {
-
-                // if (typeof character.data_version === 'string') {
-                    _character = _character.set('data_version', character.data_version);
-                // }
-                // else {
-                //     throw new Error('Character.data_version must be a number.');
-                // }
+                _character = _character.set('data_version', character.data_version);
             }
+
+            if (character.avg_item_level !== undefined) {
+                _character = _character.set('avg_item_level', character.avg_item_level);
+            }
+
         }
 
         super(_character);

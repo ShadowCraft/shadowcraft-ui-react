@@ -151,6 +151,8 @@ def __get_from_armory(db, character, realm, region):
     if 'items' not in json_data or len(json_data['items']) == 0:
         raise ArmoryDocument.ArmoryError('No items found on character')
 
+    totalIlvl = 0
+    totalItems = 0
     for key, slot_item in json_data['items'].items():
         if not isinstance(slot_item, dict):
             continue
@@ -222,6 +224,11 @@ def __get_from_armory(db, character, realm, region):
             info['weaponStats'] = weapon_stats
 
         output['gear'][key] = info
+
+        totalIlvl += info['item_level']
+        totalItems += 1
+
+    output['avg_item_level'] = round(totalIlvl / totalItems, 2)
 
     # Artifact data from the API looks like this:
     #            "artifactTraits": [{
