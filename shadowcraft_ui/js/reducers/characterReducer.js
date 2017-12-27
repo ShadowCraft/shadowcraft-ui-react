@@ -157,7 +157,6 @@ export const characterReducer = function (state = new Character(), action) {
 
                 let offHand = newState.getIn(['gear', 'offHand']);
                 newIlvl = offHand.get('item_level') + ilvlChange;
-                console.log(offHand);
                 newStats = recalculateStats(offHand.get('id'), newIlvl, 'offHand', 4);
                 newWeaponStats = recalculateStats(offHand.get('id'), newIlvl, 'offHand', 4, true);
 

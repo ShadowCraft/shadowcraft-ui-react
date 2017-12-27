@@ -211,32 +211,32 @@ describe('characterReducer', () => {
                     id: 128870,
                     item_level: 882,
                     stats: {
-                        agility: 787,
-                        stamina: 1180,
-                        crit: 336,
+                        agility: 786,
+                        stamina: 1179,
+                        crit: 337,
                         mastery: 323
                     },
                     weaponStats: {
-                        min_dmg: 3294,
+                        min_dmg: 3293,
                         max_dmg: 5489,
                         speed: 1.8,
-                        dps: 2440,
+                        dps: 2439.42,
                     }
                 },
                 offHand: {
                     id: 128869,
                     item_level: 882,
                     stats: {
-                        agility: 787,
-                        stamina: 1180,
-                        crit: 336,
+                        agility: 786,
+                        stamina: 1179,
+                        crit: 337,
                         mastery: 323
                     },
                     weaponStats: {
-                        min_dmg: 3294,
+                        min_dmg: 3293,
                         max_dmg: 5489,
                         speed: 1.8,
-                        dps: 2440,
+                        dps: 2439.42,
                     }
                 }
             },
@@ -317,14 +317,14 @@ describe('characterReducer', () => {
                     stats: {
                         agility: 786,
                         stamina: 1179,
-                        crit: 336,
+                        crit: 337,
                         mastery: 323
                     },
                     weaponStats: {
                         min_dmg: 3293,
-                        max_dmg: 5490,
+                        max_dmg: 5489,
                         speed: 1.8,
-                        dps: 2440,
+                        dps: 2439.42,
                     }
                 },
                 offHand: {
@@ -333,14 +333,14 @@ describe('characterReducer', () => {
                     stats: {
                         agility: 786,
                         stamina: 1179,
-                        crit: 336,
+                        crit: 337,
                         mastery: 323
                     },
                     weaponStats: {
                         min_dmg: 3293,
-                        max_dmg: 5490,
+                        max_dmg: 5489,
                         speed: 1.8,
-                        dps: 2440,
+                        dps: 2439.42,
                     }
                 }
             },
