@@ -9,6 +9,7 @@ import jsonschema
 
 from . import ArmoryDocument
 from . import ArmoryConstants
+from .ArmoryItem import ArmoryItem
 from .ArmoryCharacter import ArmoryCharacter
 
 # re-version data when this file changes. we use file size to keep track of this, which is a
@@ -203,23 +204,22 @@ def __get_from_armory(db, character, realm, region):
                     'gemslot': tooltip_item
                 }
 
-        # Convert the stats from the numeric index to a text one
-        for stat_entry in slot_item['stats']:
-            stat = ArmoryConstants.STAT_LOOKUP[stat_entry['stat']]
-            if stat not in info['stats']:
-                info['stats'][stat] = 0
-            info['stats'][stat] += stat_entry['amount']
+        # Give up on the stats sent by the API and use ones calculated directly from the
+        # client data. This allows us to be internally consistent with the values we use
+        # everywhere else in the code.
+        info['stats'] = ArmoryItem.get_item_stats(info['id'], info['item_level'], key, info['quality'])
+        print(key)
+        print(info['stats'])
 
         # If this is a weapon, add the weapon stats to the stat block as well
         if 'weaponInfo' in slot_item:
-            info['weaponStats'] = {}
-            info['weaponStats']['min_dmg'] = slot_item[
-                'weaponInfo']['damage']['exactMin']
-            info['weaponStats']['max_dmg'] = slot_item[
-                'weaponInfo']['damage']['exactMax']
-            info['weaponStats']['speed'] = slot_item[
-                'weaponInfo']['weaponSpeed']
-            info['weaponStats']['dps'] = slot_item['weaponInfo']['dps']
+
+            item_data = ArmoryItem.sparse_item(info['id'])
+            weapon_stats = ArmoryItem.item_damage(info['item_level'], info['quality'],
+                                                  float(item_data.get('dmg_range')),
+                                                  float(item_data.get('delay')) / 1000)
+
+            info['weaponStats'] = weapon_stats
 
         output['gear'][key] = info
 

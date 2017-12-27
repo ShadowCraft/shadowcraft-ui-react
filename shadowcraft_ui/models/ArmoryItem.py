@@ -2,8 +2,8 @@ import csv
 import re
 import copy
 import os
-import ArmoryConstants
-import ArmoryDocument
+from . import ArmoryConstants
+from . import ArmoryDocument
 
 class ArmoryItem(object):
 
@@ -108,6 +108,7 @@ class ArmoryItem(object):
 
     # Loads item stats the same way that simc does it, by using the item budget and the base
     # item stats from the client data.
+    @staticmethod
     def get_item_stats(item_id, ilvl, slot, quality):
 
         slot_type = -1
@@ -115,9 +116,9 @@ class ArmoryItem(object):
             slot_type = 4
         elif slot in ['head', 'chest', 'legs']:
             slot_type = 1
-        elif slot in ['shoulder', 'waist', 'feet', 'hands', 'trinket']:
+        elif slot in ['shoulder', 'waist', 'feet', 'hands', 'trinket', 'trinket1', 'trinket2']:
             slot_type = 2
-        elif slot in ['neck', 'wrist', 'finger', 'back']:
+        elif slot in ['neck', 'wrist', 'finger', 'back', 'finger1', 'finger2']:
             slot_type = 3
 
         if slot_type == -1:
@@ -153,13 +154,13 @@ class ArmoryItem(object):
                 multiplier = 1
                 if stat != 'agility' and stat != 'stamina':
                     if slot in ['neck', 'finger1', 'finger2']:
-                        multiplier = ArmoryConstants.JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[ilvl]
+                        multiplier = ArmoryConstants.JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL[ilvl-1]
                     elif slot in ['trinket1', 'trinket2']:
-                        multiplier = ArmoryConstants.TRINKET_COMBAT_RATINGS_MULT_BY_ILVL[ilvl]
+                        multiplier = ArmoryConstants.TRINKET_COMBAT_RATINGS_MULT_BY_ILVL[ilvl-1]
                     elif slot in ['mainHand', 'offHand']:
-                        multiplier = ArmoryConstants.WEAPON_COMBAT_RATINGS_MULT_BY_ILVL[ilvl]
+                        multiplier = ArmoryConstants.WEAPON_COMBAT_RATINGS_MULT_BY_ILVL[ilvl-1]
                     else:
-                        multiplier = ArmoryConstants.ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[ilvl]
+                        multiplier = ArmoryConstants.ARMOR_COMBAT_RATINGS_MULT_BY_ILVL[ilvl-1]
 
                     value = value * multiplier
                 stats[stat] = round(value)
