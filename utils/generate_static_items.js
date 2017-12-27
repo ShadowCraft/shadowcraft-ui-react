@@ -17,7 +17,7 @@ MongoClient.connect(url, function(err, db) {
         // get the md5 checksum for models/character.py and store it in the ITEM_DATA block so
         // that we can use it to check on whether the character data version has changed.
         const pyfile = fs.readFileSync('shadowcraft_ui/models/character.py');
-        const md5 = crypto.createHash('md5').update(pyfile).digest("hex");
+        const md5 = crypto.createHash('md5').update(pyfile).digest('hex');
         wstream.write(`export const CHARACTER_DATA_VERSION='${md5}';`);
 
         wstream.write('export const ITEM_DATA=[');
@@ -40,7 +40,7 @@ MongoClient.connect(url, function(err, db) {
         const descData = fs.readFileSync('shadowcraft_ui/external_data/ItemNameDescription.dbc.csv');
         let descriptions = {};
         parse(descData).filter(function(row) {
-            return row[1].startsWith("of the");
+            return row[1].startsWith('of the');
         }).map(function(row) {
             descriptions[row[0]] = row[1];
         });
@@ -93,16 +93,16 @@ MongoClient.connect(url, function(err, db) {
             };
         }
 
-        wstream.write("export const RANDOM_SUFFIX_MAP=");
+        wstream.write('export const RANDOM_SUFFIX_MAP=');
         wstream.write(JSON.stringify(output));
-        wstream.write(";\n");
+        wstream.write(';\n');
 
         // Write out the entirety of the RandPropPoints table since we don't know what
         // ilvl or slot the item is ahead of time. Take out the header row since it's
         // useless and sort the data by the first item.
         const randPropData = fs.readFileSync('shadowcraft_ui/external_data/RandPropPoints.dbc.csv');
         let randProps = {};
-        parse(randPropData, {columns: true}).filter(function(row) {
+        parse(randPropData, {columns: true, auto_parse: true}).filter(function(row) {
             return row['id'] >= 750;
         }).map(function(row) {
             let data = {epic: [], rare: [], uncommon: []};
@@ -114,17 +114,20 @@ MongoClient.connect(url, function(err, db) {
             randProps[row['id']] = data;
         });
 
-        wstream.write("export const RAND_PROP_POINTS=");
+        wstream.write('export const RAND_PROP_POINTS=');
         wstream.write(JSON.stringify(randProps));
-        wstream.write(';');
+        wstream.write(';\n');
 
         const itemDamageData = fs.readFileSync('shadowcraft_ui/external_data/ItemDamageOneHand.dbc.csv');
         let itemDamage = {};
-        parse(itemDamageData, {columns: true}).filter(function(row) {
+        parse(itemDamageData, {columns: true, auto_parse: true}).filter(function(row) {
             return row['ilevel'] >= 750;
         }).map(function(row) {
             itemDamage[row['ilevel']] = row;
         });
+        wstream.write('export const ITEM_DAMAGE=');
+        wstream.write(JSON.stringify(itemDamage));
+        wstream.write(';\n');
 
         // Write out the sparse item data to use to calculate item variants in
         // combination with the props data above. Trim the rows down to just the rows
@@ -132,8 +135,8 @@ MongoClient.connect(url, function(err, db) {
         // with it.
         const itemSparseData = fs.readFileSync('shadowcraft_ui/external_data/ItemSparse.dbc.csv');
         let itemSparse = {};
-        parse(itemSparseData, {columns: true}).filter(function(row) {
-            return row[0] != 'id' && database_ids.indexOf(parseInt(row['id'])) != -1;
+        parse(itemSparseData, {columns: true, auto_parse: true}).filter(function(row) {
+            return row[0] != 'id' && database_ids.indexOf(row['id']) != -1;
         }.bind(database_ids)).map(function(row) {
             let data = {stat_alloc: [], stat_val: [], stat_type: []};
             for (let i = 0; i < 10; i++) {
@@ -144,21 +147,15 @@ MongoClient.connect(url, function(err, db) {
 
             // If this item is a weapon, also include the damage stats.
             if (row['inv_type'] == 21 || row['inv_type'] == 22) {
-                const speed = row['delay'] / 1000;
-                const dps = itemDamage[row['ilevel']][`v_${row['quality']}`];
-                data['weapon'] = {
-                    speed: speed,
-                    dps: dps,
-                    min_dmg: Math.round(dps * speed * (1.0 - row['dmg_range'] / 2.0)),
-                    max_dmg: Math.round(dps * speed * (1.5 - row['dmg_range'] / 2.0))
-                }
+                data['speed'] = row['delay'] / 1000.0;
+                data['dmg_range'] = row['dmg_range'];
             }
 
             itemSparse[row['id']] = data;
         }.bind(itemDamage));
-        wstream.write("export const ITEM_SPARSE=");
+        wstream.write('export const ITEM_SPARSE=');
         wstream.write(JSON.stringify(itemSparse));
-        wstream.write(';');
+        wstream.write(';\n');
 
         wstream.end();
     });
