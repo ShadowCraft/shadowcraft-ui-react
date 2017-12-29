@@ -10,5 +10,9 @@ cp ${SCRIPT_DIR}/shcreact.sudoers /etc/sudoers.d/shcreact.conf
 pushd ${SCRIPT_DIR}/../.. > /dev/null
 if [ ! -d venv ]; then
     virtualenv -p python3 venv
+    source venv/bin/activate
+    pip install --upgrade setuptools
+    chown -R web:web venv
+    deactivate
 fi
 popd > /dev/null
