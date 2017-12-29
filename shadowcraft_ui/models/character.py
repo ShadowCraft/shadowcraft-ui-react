@@ -55,8 +55,6 @@ def load(db, region, realm, name, sha=None):
 
 def get_sha(db, char_data):
 
-    print("get_sha")
-
     # load the schema and validate this data against it
     filepath = os.path.dirname(os.path.abspath(__file__))
     with open(os.path.join(filepath, '..', 'external_data', 'character_data_json.schema'), mode='r') as infile:
@@ -64,8 +62,6 @@ def get_sha(db, char_data):
 
     try:
         jsonschema.validate(char_data, schema)
-        print('getting sha')
-        print(char_data)
     except jsonschema.ValidationError as error:
         print("Character data failed validation: %s" % error)
     except jsonschema.SchemaError as error:
@@ -210,8 +206,6 @@ def __get_from_armory(db, character, realm, region):
         # client data. This allows us to be internally consistent with the values we use
         # everywhere else in the code.
         info['stats'] = ArmoryItem.get_item_stats(info['id'], info['item_level'], key, info['quality'])
-        print(key)
-        print(info['stats'])
 
         # If this is a weapon, add the weapon stats to the stat block as well
         if 'weaponInfo' in slot_item:
