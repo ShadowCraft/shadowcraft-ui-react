@@ -1,0 +1,4 @@
+web ALL = NOPASSWD: /usr/sbin/service shadowcraft-engine-all *, /usr/sbin/service shadowcraft-engine
+ *, /usr/sbin/service nginx restart, /usr/bin/supervisorctl restart shcreact, /usr/bin/supervisorctl
+ status shcreact
+

@@ -1,6 +1,5 @@
 server {
     listen 8080;
-    server_name 192.168.33.10;
 
     location = /favicon.icon { access_log off; log_not_found off; }
     location /static/ {
