@@ -30,6 +30,16 @@ You will also need to register for a [blizzard api key](https://dev.battle.net/)
 
 Store the key in an environment variable named `BLIZZARD_API_KEY`.
 
+## Deploying in a hosted environment
+
+Requires nginx and supervisord, plus the above requirements.
+
+1. `git clone https://github.com/ShadowCraft/shadowcraft-ui-react.git` (clone this repo)
+2. As root, run `shadowcraft-ui-react/utils/deploy/deploy.sh`. This creates all of the necessary configuration files and virtualenv.
+3. Run steps 3-5 in the *nix section above.
+
+Alternatively for step 3, if you have the repo cloned on another machine with the fabric python module installed, you can modify the `fabfile.py` file to point to your host and directory and run `fab deploy`.
+
 ## Running
 
 Always swap to the virtual environment with `source venv/bin/activate` or `./venv/scripts/activate` when you want to develop.
