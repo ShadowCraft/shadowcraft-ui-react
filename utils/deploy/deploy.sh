@@ -7,6 +7,9 @@ ln -sf /etc/nginx/sites-available/shcreact.conf /etc/nginx/sites-enabled/shcreac
 cp ${SCRIPT_DIR}/shcreact.supd /etc/supervisor/conf.d/shcreact.conf
 cp ${SCRIPT_DIR}/shcreact.sudoers /etc/sudoers.d/shcreact.conf
 
+mkdir /run/shcreact
+chown web /run/shcreact
+
 pushd ${SCRIPT_DIR}/../.. > /dev/null
 if [ ! -d venv ]; then
     virtualenv -p python3 venv

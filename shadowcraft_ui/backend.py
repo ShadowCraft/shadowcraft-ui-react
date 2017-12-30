@@ -284,7 +284,8 @@ class ShadowcraftComputation:
     }
 
     # combines gearProcs and gearBoosts
-    trinketMap = {**gearProcs, **gearBoosts}
+    trinketMap = gearProcs.copy()
+    trinketMap.update(gearBoosts)
 
     # Tier + Order Hall sets
     tier19IDs = frozenset([138326, 138329, 138332, 138335, 138338, 138371])
