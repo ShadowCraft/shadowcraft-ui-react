@@ -23,7 +23,7 @@ def deploy():
         run('git pull')
         run('source venv/bin/activate')
         run('npm install')
-        run('venv/bin/pip install -r requirements.txt')
+        run('venv/bin/pip3 install -r requirements.txt')
         run('npm run build-prod')
         run('sudo /usr/bin/supervisorctl restart shcreact', shell=False)
 
