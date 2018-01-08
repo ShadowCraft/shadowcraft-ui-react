@@ -21,6 +21,7 @@ env.user = 'web'
 def deploy():
     with cd('/home/web/shadowcraft-ui-react'):
         run('git pull')
+        run('git checkout numpy-engine')
         run('source venv/bin/activate')
         run('npm install')
         run('venv/bin/pip3 install -r requirements.txt')
