@@ -10,7 +10,7 @@ from fabric.contrib.files import exists
 ### config ###
 ##############
 
-env.hosts = ['beta.shadowcraft.mmo-mumble.com']
+env.hosts = ['shadowcraft.mmo-mumble.com']
 env.user = 'web'
 
 
