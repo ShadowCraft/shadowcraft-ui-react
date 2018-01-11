@@ -4,7 +4,7 @@ from .models import character
 
 def get_character_data(mongo, region, realm, name, sha=None):
     """this will get a character from the db, fetching from bnet if needed"""
-    print("get data: %s %s %s %s" % (region, realm, name, sha))
+    print("get data: %s %s %s %s" % (region.encode('ascii','ignore'), realm.encode('ascii','ignore'), name.encode('ascii','ignore'), sha.encode('ascii','ignore')))
     return character.load(mongo.db, region, realm, name, sha=sha)
 
 
