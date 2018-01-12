@@ -117,10 +117,18 @@ class CharacterPane extends React.Component {
                     } else {
                         store.dispatch(initializeCharacterData(json['character'], json['settings']));
                     }
+                }.bind(this))
+                .catch(function(ex) {
+                    if (ex.message.status == 404) {
+                        window.location = window.origin + '/404.html';
+                    }
+                    else {
+                        ex.message.json().then(function(json) {
+                            console.log(`Failed to load ${window.location}: ${json['reason']}`);
+                            window.location = window.origin + '/500.html';
+                        });
+                    }
                 }.bind(this));
-
-            // TODO: what happens if we can't load character data here, like if the character
-            // doesn't exist? how can we back up the tree and return a 404 via the router?
         }
 
         document.addEventListener("keydown", this.onKeyDown.bind(this));
