@@ -7,6 +7,7 @@ import requests
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'
 
 class ArmoryError(Exception):
+    status_code = 200
     pass
 
 def get(region, path, params=None):
@@ -30,11 +31,15 @@ def get(region, path, params=None):
         try:
             resp = requests.get(url, params=params, timeout=7, headers=headers)
             if resp.status_code >= 400:
-                raise ArmoryError('Armory returned %d requesting %s' % (resp.status_code, url))
+                error = ArmoryError('Armory returned %d requesting %s' % (resp.status_code, url))
+                error.status_code = resp.status_code
+                raise error
 
             json = resp.json()
             if len(json) == 0:
-                raise ArmoryError('Armory returned empty data')
+                error = ArmoryError('Armory returned empty data')
+                error.status_code = 500
+                raise error
             return json
         except requests.RequestException:
             if tries < 3:

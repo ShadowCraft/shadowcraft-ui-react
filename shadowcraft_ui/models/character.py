@@ -111,8 +111,11 @@ def __get_from_armory(db, character, realm, region):
 
     region = region.lower()
     params = {'fields': 'talents, items, stats'}
-    json_data = ArmoryDocument.get(
-        region, '/wow/character/%s/%s' % (realm, character), params)
+    try:
+        json_data = ArmoryDocument.get(
+            region, '/wow/character/%s/%s' % (realm, character), params)
+    except:
+        raise
 
     output = {
         "region": region,

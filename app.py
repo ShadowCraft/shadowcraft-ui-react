@@ -67,7 +67,10 @@ def get_character_data():
     sha = request.args.get('sha')
     data = shadowcraft_ui.get_character_data(mongo, region, realm, name, sha)
 
-    return json_util.dumps(data)
+    if 'http_status' in data:
+        return json_util.dumps(data), data['http_status']
+    else:
+        return json_util.dumps(data)
 
 
 if __name__ == '__main__':
