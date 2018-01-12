@@ -119,14 +119,15 @@ class CharacterPane extends React.Component {
                     }
                 }.bind(this))
                 .catch(function(ex) {
+                    ex.message.json().then(function(json) {
+                        console.log(`Failed to load ${window.location}: ${json['reason']}`);
+                    });
+                    
                     if (ex.message.status == 404) {
                         window.location = window.origin + '/404.html';
                     }
                     else {
-                        ex.message.json().then(function(json) {
-                            console.log(`Failed to load ${window.location}: ${json['reason']}`);
-                            window.location = window.origin + '/500.html';
-                        });
+                        window.location = window.origin + '/500.html';
                     }
                 }.bind(this));
         }
