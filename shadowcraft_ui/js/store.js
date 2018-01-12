@@ -67,7 +67,7 @@ export function changeRelic(relicSlot, traitId, relicIlvl) {
 // the current character and settings state to the history reducer.
 export function updateEngineState(data) {
     return function (dispatch, getState) {
-        dispatch({ type: 'SET_ENGINE_WARNING', data: ''});
+        dispatch({ type: 'SET_ENGINE_WARNING', data: '' });
         dispatch({ type: 'SET_ENGINE_STATE', response: data });
         // the order matters here, getState must come after the engine dispatch
         // otherwise the engine state that will be saved will be the last state, instead of the current       
@@ -122,9 +122,13 @@ export function getEngineData() {
                     dispatch(updateEngineState(r));
                 }
             })
-            /* eslint-disable no-console */
-            .catch(ex => console.log(ex));
-        /* eslint-enable no-console */
+            .catch(ex => {
+                /* eslint-disable no-console */
+                console.log(ex);
+                /* eslint-enable no-console */
+                store.dispatch({ type: "CLOSE_MODAL" });
+                dispatch({ type: 'SET_ENGINE_WARNING', data: 'Error contacting engine.' });
+            });
     };
 }
 
