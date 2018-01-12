@@ -2,5 +2,4 @@
 user = web
 environment = BLIZZARD_API_KEY="wwa5krsuf4m4yzuu7qtrd42natfu2an2"
 directory = /home/web/shadowcraft-ui-react
-command = /home/web/shadowcraft-ui-react/venv/bin/gunicorn -R --access-logfile - --log-file /run/shcreact/shcreact.log --workers 4 --bind unix:/run/shcreact/shcreact.sock app:APP
-
+command = /home/web/shadowcraft-ui-react/venv/bin/gunicorn -R --access-logfile - --log-file /home/web/shadowcraft-ui-react/shcreact.log --workers 4 --bind unix:/tmp/shcreact.sock app:APP
