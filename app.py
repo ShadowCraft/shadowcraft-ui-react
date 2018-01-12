@@ -1,4 +1,5 @@
 """This is the module for the main flask app."""
+import os
 from flask import Flask, render_template, url_for, redirect, json, jsonify, request, abort
 from flask_pymongo import PyMongo
 from werkzeug.routing import BaseConverter
@@ -6,6 +7,8 @@ from bson import json_util
 
 import shadowcraft_ui
 from shadowcraft_ui import backend
+
+os.environ['PYTHONIOENCODING'] = 'utf-8'
 
 APP = Flask('shadowcraft_ui')
 APP.config['SECRET_KEY'] = 'shhhhhhhh!'

@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 """a collection of functions that fetch data from our db"""
 from .models import character
 
 
 def get_character_data(mongo, region, realm, name, sha=None):
     """this will get a character from the db, fetching from bnet if needed"""
-    print("get data: %s %s %s" % (region.encode('ascii','ignore'), realm.encode('ascii','ignore'), name.encode('ascii','ignore')))
+    print("get data: %s %s %s %s" % (region, realm.encode('utf-8','ignore'), name.encode('utf-8','ignore'), sha))
     return character.load(mongo.db, region, realm, name, sha=sha)
 
 

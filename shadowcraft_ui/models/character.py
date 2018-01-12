@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """model for characters in mongo"""
 
 import hashlib
@@ -44,10 +45,15 @@ def load(db, region, realm, name, sha=None):
             char_data['data_version'] = CHARACTER_DATA_VERSION
             if sha_error is not None:
                 char_data['sha_error'] = sha_error
-        except Exception as error:
-            char_data = None
+        except ArmoryDocument.ArmoryError as error:
+            char_data = {'http_status': error.status_code, 'reason': str(error)}
             print("Failed to load character data for %s/%s/%s: %s" %
-                  (region, realm, name, error))
+                  (region, realm.encode('utf-8','ignore'), name.encode('utf-8','ignore'), error))
+            traceback.print_exc()
+        except Exception as error:
+            char_data = {'http_status': 500, 'reason': str(error)}
+            print("Failed to load character data for %s/%s/%s: %s" %
+                  (region, realm.encode('utf-8','ignore'), name.encode('utf-8','ignore'), error))
             traceback.print_exc()
 
     return char_data
