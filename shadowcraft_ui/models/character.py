@@ -197,7 +197,6 @@ def __get_from_armory(db, character, realm, region):
             gem_entry = 'gem%d' % gem_index
             if gem_entry in tooltip:
                 tooltip_item = tooltip[gem_entry]
-                # TODO: this can be a database lookup now
                 gemdata = ArmoryDocument.get(
                     'us', '/wow/item/%d' % tooltip_item)
                 info['gems'][gem_index] = {
@@ -206,6 +205,14 @@ def __get_from_armory(db, character, realm, region):
                     'icon': gemdata['icon'],
                     'quality': gemdata['quality'],
                     'bonus': gemdata['gemInfo']['bonus']['name']
+                }
+            else:
+                info['gems'][gem_index] = {
+                    "name": "Empty Gem Socket",
+                    "id": 0,
+                    "icon": "",
+                    "quality": 0,
+                    "bonus": ""
                 }
 
         # Give up on the stats sent by the API and use ones calculated directly from the
