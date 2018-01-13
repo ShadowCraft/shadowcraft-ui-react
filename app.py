@@ -68,9 +68,9 @@ def get_character_data():
     data = shadowcraft_ui.get_character_data(mongo, region, realm, name, sha)
 
     if 'http_status' in data:
-        return json_util.dumps(data), data['http_status']
+        return json_util.dumps(data), data['http_status'], {'Content-Type': 'application/json'}
     else:
-        return json_util.dumps(data)
+        return json_util.dumps(data), 200, {'Content-Type': 'application/json'}
 
 
 if __name__ == '__main__':

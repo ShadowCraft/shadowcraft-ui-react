@@ -29,7 +29,7 @@ def load(db, region, realm, name, sha=None):
         if results.count() != 0:
             char_data = results[0]['json']
         else:
-            sha_error = "Failed to find SHA value in the database, loaded fremmsh copy from the Armory"
+            sha_error = "Failed to find SHA value in the database, loaded fresh copy from the Armory"
             print(sha_error)
 
         if char_data is not None and ('data_version' not in char_data or char_data['data_version'] != CHARACTER_DATA_VERSION):
@@ -49,12 +49,10 @@ def load(db, region, realm, name, sha=None):
             char_data = {'http_status': error.status_code, 'reason': str(error)}
             print("Failed to load character data for %s/%s/%s: %s" %
                   (region, realm.encode('utf-8','ignore'), name.encode('utf-8','ignore'), error))
-            traceback.print_exc()
         except Exception as error:
             char_data = {'http_status': 500, 'reason': str(error)}
             print("Failed to load character data for %s/%s/%s: %s" %
                   (region, realm.encode('utf-8','ignore'), name.encode('utf-8','ignore'), error))
-            traceback.print_exc()
 
     return char_data
 
