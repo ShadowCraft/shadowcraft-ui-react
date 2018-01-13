@@ -205,8 +205,7 @@ def __get_from_armory(db, character, realm, region):
                     'id': gemdata['id'],
                     'icon': gemdata['icon'],
                     'quality': gemdata['quality'],
-                    'bonus': gemdata['gemInfo']['bonus']['name'],
-                    'gemslot': tooltip_item
+                    'bonus': gemdata['gemInfo']['bonus']['name']
                 }
 
         # Give up on the stats sent by the API and use ones calculated directly from the

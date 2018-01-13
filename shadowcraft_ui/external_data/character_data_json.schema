@@ -867,19 +867,13 @@
                     "minLength": 1,
                     "maxLength": 45
                 },
-                "gemslot": {
-                    "type": "number",
-                    "min": 0,
-                    "max": 999999
-                }
             },
             "required": [
                 "name",
                 "id",
                 "icon",
                 "quality",
-                "bonus",
-                "gemslot"
+                "bonus"
             ],
             "additionalProperties": false
         }
