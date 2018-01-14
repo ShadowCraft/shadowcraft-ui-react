@@ -12,9 +12,9 @@ import { ITEM_DATA } from '../item_data';
 
 // we can just register the different definitions here (the multiple TOS entrys are just an example, they would all be different)
 // we can also impliment any caching or local storage stategies here
-export function getItems(slot = 'head', min = 0, max = 10000, currentIlvl, includeMissing = true) {
+export function getItems(slot = 'head', min = 0, max = 10000, currentIlvl, includeMissing = true, includeLegendaries = true) {
 
-    let variants = getVariants(slot, min, max, currentIlvl);
+    let variants = getVariants(slot, min, max, currentIlvl, includeLegendaries);
     let missing = [];
     if (includeMissing) {
         missing = getMissingItems(ITEM_DATA, variants, slot, min, max);
@@ -22,7 +22,7 @@ export function getItems(slot = 'head', min = 0, max = 10000, currentIlvl, inclu
     return [...variants, ...missing];
 }
 
-export function getVariants(slot = 'head', min = 0, max = 10000, currentIlvl) {
+export function getVariants(slot = 'head', min = 0, max = 10000, currentIlvl, includeLegendaries = true) {
     return [
         ...getTOSItems(slot, min, max), // important to spread into this array, not just assign
         ...getNHItems(slot, min, max),
@@ -33,7 +33,7 @@ export function getVariants(slot = 'head', min = 0, max = 10000, currentIlvl) {
         ...getAntorusItems(slot, min, max),
         ...getPVPItems(slot, min, max),
         ...getOrderHallSet(slot, min, max),
-        ...getLegendarySet(slot, min, max),
+        ...(includeLegendaries ? getLegendarySet(slot, min, max) : []),
         { // this is the empty slot icon
             id: 0,
             name: "None",

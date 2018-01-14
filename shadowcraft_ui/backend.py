@@ -645,6 +645,13 @@ def get_settings():
                 'description': '',
                 'type': 'checkbox',
                 'default': False
+            },
+            {
+                'name': 'show_legendaries',
+                'label': 'Show Legendaries',
+                'description': 'Shows/Hides legendary items from the gear picker popups',
+                'type': 'checkbox',
+                'default': 'True'
             }
         ]
     }

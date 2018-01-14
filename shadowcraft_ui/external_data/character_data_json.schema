@@ -641,6 +641,9 @@
                 },
                 "epic_gems": {
                     "type": "boolean"
+                },
+                "show_legendaries": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -683,7 +686,8 @@
                 "exsang",
                 "finisher_threshold_assassination",
                 "latency",
-                "epic_gems"
+                "epic_gems",
+                "show_legendaries"
             ]
         }
     },

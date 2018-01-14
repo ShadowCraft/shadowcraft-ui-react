@@ -41,7 +41,8 @@ class EquippedItem extends React.Component {
         let min_ilvl = this.props.dynamic_ilvl ? ilvl - 50 : this.props.min_ilvl;
         let max_ilvl = this.props.dynamic_ilvl ? ilvl + 50 : this.props.max_ilvl;
 
-        let allItems = getItems(this.adjustSlotName(this.props.slot), min_ilvl, max_ilvl, ilvl);
+        console.log(this.props.show_legendaries);
+        let allItems = getItems(this.adjustSlotName(this.props.slot), min_ilvl, max_ilvl, ilvl, true, this.props.show_legendaries);
 
         // Check to see if the item we have equipped is in the list. If not, add it in.
         const filtered = allItems.filter(function(item) {
@@ -142,6 +143,7 @@ const mapStateToProps = function (store, ownProps) {
         dynamic_ilvl: store.settings.current.get('dynamic_ilvl'),
         min_ilvl: store.settings.current.get('min_ilvl'),
         max_ilvl: store.settings.current.get('max_ilvl'),
+        show_legendaries: store.settings.current.get('show_legendaries')
     };
 };
 
