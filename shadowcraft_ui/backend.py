@@ -640,13 +640,6 @@ def get_settings():
                 'default': '850'
             },
             {
-                'name': 'show_upgrades',
-                'label': 'Show Upgrades',
-                'description': 'Show all upgraded items in gear lists',
-                'type': 'checkbox',
-                'default': False
-            },
-            {
                 'name': 'epic_gems',
                 'label': 'Recommend Epic Gems',
                 'description': '',

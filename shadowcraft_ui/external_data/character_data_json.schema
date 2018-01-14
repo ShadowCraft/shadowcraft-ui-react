@@ -616,9 +616,6 @@
                     "type": "string",
                     "minLength": 1
                 },
-                "show_upgrades": {
-                    "type": "boolean"
-                },
                 "dynamic_ilvl": {
                     "type": "boolean"
                 },
@@ -680,7 +677,6 @@
                 "is_demon",
                 "short_term_haste_buff",
                 "marked_for_death_resets",
-                "show_upgrades",
                 "dynamic_ilvl",
                 "positional_uptime_percent",
                 "cp_builder_assassination",
