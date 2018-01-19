@@ -28,9 +28,30 @@ const obliterumItemIds = [
     136713, // shadowruby band
 ];
 
+const obliterumBonusIds = {
+    815: [596],
+    820: [597],
+    825: [598],
+    830: [599],
+    835: [666],
+    840: [667],
+    845: [668],
+    850: [669],
+    855: [670],
+    860: [671],
+    865: [672],
+    870: [673],
+    875: [674],
+    880: [675],
+    885: [676],
+    890: [677],
+    895: [678],
+    900: [679],
+};
+
 // these items do not have different ilvls, just random props
 const staticIlvlItemIds = [
-    151588, // impyrial deep crown
+    151588, // empyrial deep crown
     144332, // 880 rugged skullblasters
 ];
 
@@ -44,10 +65,43 @@ const primalItemIds = [
     151577, // fiendish shouldergaurds
 ];
 
-const getStaticItems = slot => filterItems(slot, staticIlvlItemIds)
-    .map(i => modifyItem(i, i.item_level, []));
+const primalBonusIds = {
+    885: [3598],
+    890: [3599],
+    895: [3600],
+    900: [3601],
+    905: [3602],
+    910: [3603],
+    915: [3604],
+    920: [3605],
+    925: [3606],
+    930: [3607],
+    935: [3608],
+};
 
-const getLegos = slot => filterItems(slot, lego);
+const getStaticItems = slot => {
+    const filteredItems = filterItems(slot, staticIlvlItemIds);
+    let finalItems = {};
+    for (let index in filteredItems) {
+        const item = filteredItems[index];
+        finalItems[item['id']] = [modifyItem(item, item.item_level, [])];
+    }
+
+    console.log(finalItems);
+
+    return finalItems;
+};
+
+const getLegos = slot => {
+    const filteredItems = filterItems(slot, lego);
+    let finalItems = {};
+    for (let index in filteredItems) {
+        const item = filteredItems[index];
+        finalItems[item['id']] = [item];
+    }
+
+    return finalItems;
+};
 
 const checkItems = (itemids) => itemids.map(id => {
     const item = ITEM_DATA.find(item => item.id === id);
@@ -59,63 +113,11 @@ const checkItems = (itemids) => itemids.map(id => {
 const filterItems = (slot, itemids) => checkItems(itemids)
     .filter(item => item !== undefined && item.equip_location === slot);
 
-const getObliterumBonus = (ilvl) => {
-    switch (ilvl) {
-        case 815: return [596];
-        case 820: return [597];
-        case 825: return [598];
-        case 830: return [599];
-        case 835: return [666];
-        case 840: return [667];
-        case 845: return [668];
-        case 850: return [669];
-        case 855: return [670];
-        case 860: return [671];
-        case 865: return [672];
-        case 870: return [673];
-        case 875: return [674];
-        case 880: return [675];
-        case 885: return [676];
-        case 890: return [677];
-        case 895: return [678];
-        case 900: return [679];
-        default: return ilvl < 815 ? [596] : [679];
-    }
-};
-
-const mapItemsToObliterum = (slot, ilvl, itemids) => filterItems(slot, itemids).map(item => {
-    // we only want to include an item equal to the current ilvl or min or max for crafted items
-    let ilvlClamp = ilvl < 815 ? 815 : ilvl > 900 ? 900 : ilvl;
-    return modifyItem(item, ilvlClamp, getObliterumBonus(ilvlClamp));
-});
-
-const getPrimalBonus = (ilvl) => {
-    switch (ilvl) {
-        case 885: return [3598];
-        case 890: return [3599];
-        case 895: return [3600];
-        case 900: return [3601];
-        case 905: return [3602];
-        case 910: return [3603];
-        case 915: return [3604];
-        case 920: return [3605];
-        case 925: return [3606];
-        case 930: return [3607];
-        case 935: return [3608];
-        default: return ilvl < 885 ? [3598] : [679];
-    }
-};
-
-const mapItemsToPrimal = (slot, ilvl, itemids) => filterItems(slot, itemids).map(item => {
-    // we only want to include an item equal to the current ilvl or min or max for crafted items
-    let ilvlClamp = ilvl < 885 ? 885 : ilvl > 935 ? 935 : ilvl;
-    return modifyItem(item, ilvlClamp, getPrimalBonus(ilvlClamp));
-});
-
-export const getLegionCraftedItems = (slot, ilvl) =>
-    [
-        ...mapItemsToObliterum(slot, ilvl, obliterumItemIds),
-        ...mapItemsToPrimal(slot, ilvl, primalItemIds),
+export const getLegionCraftedItems = (slot, min = 0, max = 1000) => {
+    return {
+        ...getRaidTierPermutations(ITEM_DATA, obliterumItemIds, obliterumBonusIds, slot, min, max),
+        ...getRaidTierPermutations(ITEM_DATA, primalItemIds, primalBonusIds, slot, min, max),
         ...getStaticItems(slot),
         ...getLegos(slot),
-    ];
+    }
+};

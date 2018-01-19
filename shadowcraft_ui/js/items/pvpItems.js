@@ -171,7 +171,7 @@ export const getPVPItems = (slot = 'head', min = 0, max = 1000) => {
     }
     let key = slot + min + max;
     if (cache[key] === undefined)
-        cache[key] = [
+        cache[key] = {
             ...getRaidTierPermutations(ITEM_DATA, _season1CombatantItems, _season1CombatantBonusMap, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _season1GladiatorItems, _season1GladiatorBonusMap, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _season2CombatantItems, _season2CombatantBonusMap, slot, min, max),
@@ -186,7 +186,7 @@ export const getPVPItems = (slot = 'head', min = 0, max = 1000) => {
             ...getRaidTierPermutations(ITEM_DATA, _season6GladiatorItems, _season6GladiatorBonusMap, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _season7CombatantItems, _season7CombatantBonusMap, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _season7GladiatorItems, _season7GladiatorBonusMap, slot, min, max),
-        ];
+        };
 
     return cache[key];
 };

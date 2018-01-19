@@ -16,16 +16,23 @@ import { ITEM_DATA } from '../item_data';
 // we can also impliment any caching or local storage stategies here
 export function getItems(slot = 'head', min = 0, max = 10000, currentIlvl, includeMissing = true, includeLegendaries = true) {
 
-    let variants = getVariants(slot, min, max, currentIlvl, includeLegendaries);
-    let missing = [];
+    const  variants = getVariants(slot, min, max, currentIlvl, includeLegendaries);
+    let missing = {};
     if (includeMissing) {
         missing = getMissingItems(ITEM_DATA, variants, slot, min, max);
     }
-    return [...variants, ...missing];
+
+    const allItems = {...variants, ...missing};
+    let finalItems = [];
+    for (var key in allItems) {
+        finalItems.push(allItems[key]);
+    }
+    return finalItems;
 }
 
 export function getVariants(slot = 'head', min = 0, max = 10000, currentIlvl, includeLegendaries = true) {
-    return [
+
+    return {
         ...getTOSItems(slot, min, max), // important to spread into this array, not just assign
         ...getNHItems(slot, min, max),
         ...getLegionCraftedItems(slot, currentIlvl),
@@ -38,7 +45,7 @@ export function getVariants(slot = 'head', min = 0, max = 10000, currentIlvl, in
         ...getMiscItems(slot, min, max),
         ...getTWItems(slot, min, max),
         ...(includeLegendaries ? getLegendarySet(slot, min, max) : []),
-        { // this is the empty slot icon
+        ...{0: [{  // this is the empty slot icon
             id: 0,
             name: "None",
             icon: "inv_misc_questionmark",
@@ -47,13 +54,13 @@ export function getVariants(slot = 'head', min = 0, max = 10000, currentIlvl, in
             stats: {},
             socket_count: 0,
             bonuses: [],
-        }
-    ];
+        }]}
+    };
 }
 
 export function getMissingItems(unfiltered, variants, slot, min, max) {
     const variantIds = variants.map(i => i.id);
-    const uniqueIds = [... new Set(variantIds)];
+    const uniqueIds = [...new Set(variantIds)];
     const filter = i =>
         uniqueIds.indexOf(i.id) === -1
         && i.equip_location === slot
@@ -73,10 +80,10 @@ export function findMissingItems() {
     let slots = ['head', 'neck', 'shoulder', 'back', 'chest', 'wrist', 'hands', 'waist', 'legs', 'feet', 'finger', 'trinket', 'mainHand', 'offHand'];
     for (let slotIdx in slots) {
         let items = getItems(slots[slotIdx], 0, 10000, 0, false);
-        for (let itemIdx in items) {
-            ids.push(items[itemIdx].id);
-        }
+        ids = [...ids, ...Object.keys(ids)];
     }
+
+    // This *should* already be unique, but do this just to be sure.
     let uniqueIds = [...new Set(ids)];
 
     // Get the items for every item in the ITEM_DATA and sort them.

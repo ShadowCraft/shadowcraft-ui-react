@@ -117,7 +117,7 @@ export const getDungeonItems = (slot = 'head', min = 0, max = 1000) => {
     }
     let key = slot + min + max;
     if (cache[key] === undefined)
-        cache[key] = [
+        cache[key] = {
             ...getRaidTierPermutations(ITEM_DATA, _70_nhmItems, _70_nhmBonusMap, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _70_suramarItems, _70_suramarBonusMap, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _karaFirstSetItems, _karaFirstSetBonusMap, slot, min, max),
@@ -125,7 +125,7 @@ export const getDungeonItems = (slot = 'head', min = 0, max = 1000) => {
             ...getRaidTierPermutations(ITEM_DATA, _karaThirdSetItems, _karaThirdSetBonusMap, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _72_items, _72_bonusMap, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _73_items, _73_bonusMap, slot, min, max),
-        ];
+        };
 
     return cache[key];
 };

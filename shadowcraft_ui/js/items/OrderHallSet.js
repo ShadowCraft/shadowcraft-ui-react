@@ -51,13 +51,13 @@ export const getOrderHallSet = (slot = 'head', min = 0, max = 1000) => {
     }
     let key = slot + min + max;
     if (cache[key] === undefined)
-        cache[key] = [
+        cache[key] = {
             ...getRaidTierPermutations(ITEM_DATA, _helmWristBelt, _helmWristBeltBonuses, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _glovesLegs, _glovesLegsBonuses, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _chest, _chestBonuses, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _feet, _feetBonuses, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _shoulders, _shouldersBonuses, slot, min, max),
-        ];
+        };
 
     return cache[key];
 };

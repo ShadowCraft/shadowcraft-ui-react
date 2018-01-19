@@ -36,9 +36,9 @@ export const getENItems = (slot = 'head', min = 0, max = 1000) => {
     }
     let key = slot + min + max;
     if (cache[key] === undefined)
-        cache[key] = [
+        cache[key] = {
             ...getRaidTierPermutations(ITEM_DATA, _items, _itemBonusMap, slot, min, max),
-        ];
+        };
 
     return cache[key];
 };

@@ -8,6 +8,7 @@ import { modalTypes } from '../reducers/modalReducer';
 import EquippedGemList from './EquippedGemList';
 import EquippedEnchant from './EquippedEnchant';
 import { getItems } from '../items';
+import { MAX_ITEM_LEVEL } from '../common';
 
 class EquippedItem extends React.Component {
 
@@ -38,18 +39,27 @@ class EquippedItem extends React.Component {
         }
 
         let ilvl = this.props.equippedItem.item_level;
-        let min_ilvl = this.props.dynamic_ilvl ? ilvl - 50 : this.props.min_ilvl;
-        let max_ilvl = this.props.dynamic_ilvl ? ilvl + 50 : this.props.max_ilvl;
-
-        let allItems = getItems(this.adjustSlotName(this.props.slot), min_ilvl, max_ilvl, ilvl, true, this.props.show_legendaries);
+        let allItems = getItems(this.adjustSlotName(this.props.slot), 900, MAX_ITEM_LEVEL, ilvl, false, this.props.show_legendaries);
 
         // Check to see if the item we have equipped is in the list. If not, add it in.
-        const filtered = allItems.filter(function(item) {
-            return item.id == this.props.equippedItem.id && item.item_level == this.props.equippedItem.item_level;
-        }.bind(this));
-        if (filtered.length == 0) {
-            allItems.push(this.props.equippedItem.toJS());
+        let item = allItems.filter(function(arr) {
+            return arr[0].id == this.props.equippedItem.id;
+        }.bind(this))[0];
+
+        if (item.length == 0) {
+            allItems.push([this.props.equippedItem.toJS()]);
         }
+        else {
+            const filtered = item.filter(function(item) {
+                return item.item_level == this.props.equippedItem.item_level;
+            }.bind(this));
+
+            if (filtered.length == 0) {
+                item.push(this.props.equippedItem.toJS());
+            }
+        }
+
+        console.log(allItems);
 
         store.dispatch({
             type: "OPEN_MODAL",

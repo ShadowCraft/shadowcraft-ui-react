@@ -65,11 +65,11 @@ export const getNHItems = (slot = 'head', min = 0, max = 1000) => {
     }
     let key = slot + min + max;
     if (cache[key] === undefined)
-        cache[key] = [
+        cache[key] = {
             ...getRaidTierPermutations(ITEM_DATA, _firstTierItems, _firstTierBonuses, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _secondTierItems, _secondTierBonuses, slot, min, max),
             ...getRaidTierPermutations(ITEM_DATA, _finalBossItems, _finalBossBonuses, slot, min, max),
-        ];
+        };
 
     return cache[key];
 };
