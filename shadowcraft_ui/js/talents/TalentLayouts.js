@@ -17,8 +17,8 @@ export const assassination_layout = {
         {
             row: 0,
             col: 3,
-            icon: 'spell_shadow_lifedrain',
-            id: 16511
+            icon: 'ability_rogue_focusedattacks',
+            id: 111240
         },
         {
             row: 1,
@@ -35,14 +35,14 @@ export const assassination_layout = {
         {
             row: 1,
             col: 3,
-            icon: 'rogue_shadowfocus',
-            id: 108209
+            icon: 'ability_criticalstrike',
+            id: 255989
         },
         {
             row: 2,
             col: 1,
-            icon: 'archaeology_5_0_changkiboard',
-            id: 193531
+            icon: 'ability_rogue_vigor',
+            id: 14983
         },
         {
             row: 2,
@@ -53,8 +53,8 @@ export const assassination_layout = {
         {
             row: 2,
             col: 3,
-            icon: 'ability_rogue_vigor',
-            id: 14983
+            icon: 'archaeology_5_0_changkiboard',
+            id: 193531
         },
         {
             row: 3,
@@ -77,32 +77,32 @@ export const assassination_layout = {
         {
             row: 4,
             col: 1,
-            icon: 'inv_misc_bandana_03',
-            id: 196861
-        },
-        {
-            row: 4,
-            col: 2,
-            icon: 'ability_rogue_preyontheweak',
-            id: 131511
-        },
-        {
-            row: 4,
-            col: 3,
             icon: 'ability_rogue_bloodsplatter',
             id: 154904
         },
         {
+            row: 4,
+            col: 2,
+            icon: 'inv_jewelcrafting_delicatecopperwire',
+            id: 196861
+        },
+        {
+            row: 4,
+            col: 3,
+            icon: 'ability_rogue_preyontheweak',
+            id: 131511
+        },
+        {
             row: 5,
             col: 1,
-            icon: 'inv_weapon_shortblade_62',
-            id: 245388
+            icon: 'rogue_venomzest',
+            id: 152152
         },
         {
             row: 5,
             col: 2,
-            icon: 'ability_paladin_speedoflight',
-            id: 193539
+            icon: 'inv_weapon_shortblade_62',
+            id: 245388
         },
         {
             row: 5,
@@ -113,20 +113,20 @@ export const assassination_layout = {
         {
             row: 6,
             col: 1,
-            icon: 'rogue_venomzest',
-            id: 152152
+            icon: 'rogue_paralytic_poison',
+            id: 255544
         },
         {
             row: 6,
             col: 2,
-            icon: 'achievement_bg_killingblow_berserker',
-            id: 137619
+            icon: 'inv_knife_1h_cataclysm_c_05',
+            id: 121411
         },
         {
             row: 6,
             col: 3,
-            icon: 'spell_rogue_deathfromabove',
-            id: 152150
+            icon: 'achievement_bg_killingblow_berserker',
+            id: 137619
         }
     ]
 };
@@ -144,8 +144,8 @@ export const assassination_ranking = [
                 id: 'elaborate_planning'
             },
             {
-                name: 'Hemorrhage',
-                id: 'hemorrhage'
+                name: 'Dispatch',
+                id: 'dispatch'
             }
         ]
     },
@@ -161,8 +161,8 @@ export const assassination_ranking = [
                 id: 'subterfuge'
             },
             {
-                name: 'Shadow Focus',
-                id: 'shadow_focus'
+                name: 'Master Assassin',
+                id: 'master_assassin'
             }
         ]
     },
@@ -170,16 +170,16 @@ export const assassination_ranking = [
         name: 'Tier 45',
         items: [
             {
-                name: 'Deeper Stratagem',
-                id: 'deeper_stratagem'
+                name: 'Vigor',
+                id: 'vigor'
             },
             {
                 name: 'Anticipation',
                 id: 'anticipation'
             },
             {
-                name: 'Vigor',
-                id: 'vigor'
+                name: 'Deeper Stratagem',
+                id: 'deeper_stratagem'
             }
         ]
     },
@@ -204,16 +204,16 @@ export const assassination_ranking = [
         name: 'Tier 75',
         items: [
             {
-                name: 'Thuggee',
-                id: 'thuggee'
+                name: 'Internal Bleeding',
+                id: 'internal_bleeding'
+            },
+            {
+                name: 'Iron Wire',
+                id: 'iron_wire'
             },
             {
                 name: 'Prey on the Weak',
                 id: 'prey_on_the_weak'
-            },
-            {
-                name: 'Internal Bleeding',
-                id: 'internal_bleeding'
             }
         ]
     },
@@ -221,12 +221,12 @@ export const assassination_ranking = [
         name: 'Tier 90',
         items: [
             {
-                name: 'Toxic Blade',
-                id: 'toxic_blade'
+                name: 'Venom Rush',
+                id: 'venom_rush'
             },
             {
-                name: 'Alacrity',
-                id: 'alacrity'
+                name: 'Toxic Blade',
+                id: 'toxic_blade'
             },
             {
                 name: 'Exsanguinate',
@@ -238,16 +238,16 @@ export const assassination_ranking = [
         name: 'Tier 100',
         items: [
             {
-                name: 'Venom Rush',
-                id: 'venom_rush'
+                name: 'Poison Bomb',
+                id: 'poison_bomb'
+            },
+            {
+                name: 'Crimson Tempest',
+                id: 'crimson_tempest'
             },
             {
                 name: 'Marked for Death',
                 id: 'marked_for_death'
-            },
-            {
-                name: 'Death from Above',
-                id: 'death_from_above'
             }
         ]
     }
@@ -260,32 +260,32 @@ export const outlaw_layout = {
         {
             row: 0,
             col: 1,
-            icon: 'ability_creature_cursed_02',
-            id: 196937
-        },
-        {
-            row: 0,
-            col: 2,
             icon: 'inv_sword_97',
             id: 200733
         },
         {
             row: 0,
-            col: 3,
+            col: 2,
             icon: 'inv_weapon_rifle_40',
             id: 196938
         },
         {
+            row: 0,
+            col: 3,
+            icon: 'ability_creature_cursed_02',
+            id: 196937
+        },
+        {
             row: 1,
             col: 1,
-            icon: 'ability_rogue_grapplinghook',
-            id: 195457
+            icon: 'spell_warrior_wildstrike',
+            id: 196924
         },
         {
             row: 1,
             col: 2,
-            icon: 'spell_warrior_wildstrike',
-            id: 196924
+            icon: 'ability_rogue_grapplinghook',
+            id: 256188
         },
         {
             row: 1,
@@ -296,8 +296,8 @@ export const outlaw_layout = {
         {
             row: 2,
             col: 1,
-            icon: 'archaeology_5_0_changkiboard',
-            id: 193531
+            icon: 'ability_rogue_vigor',
+            id: 14983
         },
         {
             row: 2,
@@ -308,8 +308,8 @@ export const outlaw_layout = {
         {
             row: 2,
             col: 3,
-            icon: 'ability_rogue_vigor',
-            id: 14983
+            icon: 'archaeology_5_0_changkiboard',
+            id: 193531
         },
         {
             row: 3,
@@ -332,32 +332,32 @@ export const outlaw_layout = {
         {
             row: 4,
             col: 1,
-            icon: 'achievement_character_human_male',
-            id: 199743
-        },
-        {
-            row: 4,
-            col: 2,
-            icon: 'ability_rogue_preyontheweak',
-            id: 131511
-        },
-        {
-            row: 4,
-            col: 3,
             icon: 'ability_rogue_dirtydeeds',
             id: 108216
         },
         {
+            row: 4,
+            col: 2,
+            icon: 'inv_misc_ammo_gunpowder_06',
+            id: 256165
+        },
+        {
+            row: 4,
+            col: 3,
+            icon: 'ability_rogue_preyontheweak',
+            id: 131511
+        },
+        {
             row: 5,
             col: 1,
-            icon: 'ability_rogue_cannonballbarrage',
-            id: 185767
+            icon: 'ability_paladin_speedoflight',
+            id: 193539
         },
         {
             row: 5,
             col: 2,
-            icon: 'ability_paladin_speedoflight',
-            id: 193539
+            icon: 'ability_rogue_cannonballbarrage',
+            id: 185767
         },
         {
             row: 5,
@@ -368,20 +368,20 @@ export const outlaw_layout = {
         {
             row: 6,
             col: 1,
+            icon: 'ability_rogue_rollthebones',
+            id: 256170
+        },
+        {
+            row: 6,
+            col: 2,
             icon: 'ability_rogue_slicedice',
             id: 5171
         },
         {
             row: 6,
-            col: 2,
+            col: 3,
             icon: 'achievement_bg_killingblow_berserker',
             id: 137619
-        },
-        {
-            row: 6,
-            col: 3,
-            icon: 'spell_rogue_deathfromabove',
-            id: 152150
         }
     ]
 };
@@ -391,16 +391,16 @@ export const outlaw_ranking = [
         name: 'Tier 15',
         items: [
             {
-                name: 'Ghostly Strike',
-                id: 'ghostly_strike'
-            },
-            {
                 name: 'Swordmaster',
                 id: 'swordmaster'
             },
             {
                 name: 'Quick Draw',
                 id: 'quick_draw'
+            },
+            {
+                name: 'Ghostly Strike',
+                id: 'ghostly_strike'
             }
         ]
     },
@@ -408,12 +408,12 @@ export const outlaw_ranking = [
         name: 'Tier 30',
         items: [
             {
-                name: 'Grappling Hook',
-                id: 'grappling_hook'
-            },
-            {
                 name: 'Acrobatic Strikes',
                 id: 'acrobatic_strikes'
+            },
+            {
+                name: 'Retractable Hook',
+                id: 'retractable_hook'
             },
             {
                 name: 'Hit and Run',
@@ -425,16 +425,16 @@ export const outlaw_ranking = [
         name: 'Tier 45',
         items: [
             {
-                name: 'Deeper Stratagem',
-                id: 'deeper_stratagem'
+                name: 'Vigor',
+                id: 'vigor'
             },
             {
                 name: 'Anticipation',
                 id: 'anticipation'
             },
             {
-                name: 'Vigor',
-                id: 'vigor'
+                name: 'Deeper Stratagem',
+                id: 'deeper_stratagem'
             }
         ]
     },
@@ -459,16 +459,16 @@ export const outlaw_ranking = [
         name: 'Tier 75',
         items: [
             {
-                name: 'Parley',
-                id: 'parley'
+                name: 'Dirty Tricks',
+                id: 'dirty_tricks'
+            },
+            {
+                name: 'Blinding Powder',
+                id: 'blinding_powder'
             },
             {
                 name: 'Prey on the Weak',
                 id: 'prey_on_the_weak'
-            },
-            {
-                name: 'Dirty Tricks',
-                id: 'dirty_tricks'
             }
         ]
     },
@@ -476,12 +476,12 @@ export const outlaw_ranking = [
         name: 'Tier 90',
         items: [
             {
-                name: 'Cannonball Barrage',
-                id: 'cannonball_barrage'
-            },
-            {
                 name: 'Alacrity',
                 id: 'alacrity'
+            },
+            {
+                name: 'Cannonball Barrage',
+                id: 'cannonball_barrage'
             },
             {
                 name: 'Killing Spree',
@@ -493,16 +493,16 @@ export const outlaw_ranking = [
         name: 'Tier 100',
         items: [
             {
+                name: 'Loaded Dice',
+                id: 'loaded_dice'
+            },
+            {
                 name: 'Slice and Dice',
                 id: 'slice_and_dice'
             },
             {
                 name: 'Marked for Death',
                 id: 'marked_for_death'
-            },
-            {
-                name: 'Death from Above',
-                id: 'death_from_above'
             }
         ]
     }
@@ -515,14 +515,14 @@ export const subtlety_layout = {
         {
             row: 0,
             col: 1,
-            icon: 'ability_rogue_masterofsubtlety',
-            id: 31223
+            icon: 'ability_ironmaidens_bladerush',
+            id: 193537
         },
         {
             row: 0,
             col: 2,
-            icon: 'ability_ironmaidens_bladerush',
-            id: 193537
+            icon: 'ability_rogue_findweakness',
+            id: 91023
         },
         {
             row: 0,
@@ -551,8 +551,8 @@ export const subtlety_layout = {
         {
             row: 2,
             col: 1,
-            icon: 'archaeology_5_0_changkiboard',
-            id: 193531
+            icon: 'ability_rogue_vigor',
+            id: 14983
         },
         {
             row: 2,
@@ -563,8 +563,8 @@ export const subtlety_layout = {
         {
             row: 2,
             col: 3,
-            icon: 'ability_rogue_vigor',
-            id: 14983
+            icon: 'archaeology_5_0_changkiboard',
+            id: 193531
         },
         {
             row: 3,
@@ -587,20 +587,20 @@ export const subtlety_layout = {
         {
             row: 4,
             col: 1,
+            icon: 'ability_cheapshot',
+            id: 257505
+        },
+        {
+            row: 4,
+            col: 2,
             icon: 'ability_rogue_unfairadvantage',
             id: 196951
         },
         {
             row: 4,
-            col: 2,
+            col: 3,
             icon: 'ability_rogue_preyontheweak',
             id: 131511
-        },
-        {
-            row: 4,
-            col: 3,
-            icon: 'inv_misc_volatileshadow',
-            id: 200778
         },
         {
             row: 5,
@@ -629,14 +629,14 @@ export const subtlety_layout = {
         {
             row: 6,
             col: 2,
-            icon: 'achievement_bg_killingblow_berserker',
-            id: 137619
+            icon: 'spell_rogue_deathfromabove',
+            id: 152150
         },
         {
             row: 6,
             col: 3,
-            icon: 'spell_rogue_deathfromabove',
-            id: 152150
+            icon: 'achievement_bg_killingblow_berserker',
+            id: 137619
         }
     ]
 };
@@ -646,12 +646,12 @@ export const subtlety_ranking = [
         name: 'Tier 15',
         items: [
             {
-                name: 'Master of Subtlety',
-                id: 'master_of_subtlety'
-            },
-            {
                 name: 'Weaponmaster',
                 id: 'weaponmaster'
+            },
+            {
+                name: 'Find Weakness',
+                id: 'find_weakness'
             },
             {
                 name: 'Gloomblade',
@@ -680,16 +680,16 @@ export const subtlety_ranking = [
         name: 'Tier 45',
         items: [
             {
-                name: 'Deeper Stratagem',
-                id: 'deeper_stratagem'
+                name: 'Vigor',
+                id: 'vigor'
             },
             {
                 name: 'Anticipation',
                 id: 'anticipation'
             },
             {
-                name: 'Vigor',
-                id: 'vigor'
+                name: 'Deeper Stratagem',
+                id: 'deeper_stratagem'
             }
         ]
     },
@@ -714,16 +714,16 @@ export const subtlety_ranking = [
         name: 'Tier 75',
         items: [
             {
+                name: 'Shot in the Dark',
+                id: 'shot_in_the_dark'
+            },
+            {
                 name: 'Strike from the Shadows',
                 id: 'strike_from_the_shadows'
             },
             {
                 name: 'Prey on the Weak',
                 id: 'prey_on_the_weak'
-            },
-            {
-                name: 'Tangled Shadow',
-                id: 'tangled_shadow'
             }
         ]
     },
@@ -752,12 +752,12 @@ export const subtlety_ranking = [
                 id: 'master_of_shadows'
             },
             {
-                name: 'Marked for Death',
-                id: 'marked_for_death'
-            },
-            {
                 name: 'Death from Above',
                 id: 'death_from_above'
+            },
+            {
+                name: 'Marked for Death',
+                id: 'marked_for_death'
             }
         ]
     }
