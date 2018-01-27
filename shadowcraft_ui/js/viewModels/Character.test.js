@@ -1,7 +1,6 @@
 import { Record } from 'immutable';
 import Character from './Character';
 import Stats from './Stats';
-import Artifact from './Artifact';
 import Talents from './Talents';
 import Gear from './Gear';
 import { CHARACTER_DATA_VERSION } from '../item_data';
@@ -265,31 +264,6 @@ describe('Character', () => {
 
     });
 
-    describe('artifact', () => {
-
-        it('should be a string', () => {
-            expect(character.artifact).toBeInstanceOf(Artifact);
-        });
-
-        it('should be a new Artifact by default', () => {
-            expect(character.artifact).toEqual(new Artifact());
-        });
-
-        it('should return the proper value upon construction', () => {
-            expect(new Character({ artifact: new Artifact() }).artifact).toEqual(new Artifact());
-        });
-
-        it('should error when not given a Artifact', () => {
-            expect(() => new Character({ artifact: new Gear() }))
-                .toThrowError('Character.gear must be a Artifact object.');
-        });
-
-        it('should return the proper value when set', () => {
-            expect(character.set('artifact', new Artifact()).artifact).toEqual(new Artifact());
-        });
-
-    });
-
     describe('active', () => {
 
         it('should be a string', () => {
@@ -306,10 +280,6 @@ describe('Character', () => {
 
         it('should error when not given a string', () => {
             expect(() => new Character({ active: 0 })).toThrowError('Character.active must be a string.');
-        });
-
-        it('should return the proper value when set', () => {
-            expect(character.set('active', new Artifact()).active).toEqual(new Artifact());
         });
 
     });

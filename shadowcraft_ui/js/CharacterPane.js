@@ -8,7 +8,6 @@ import { storageAvailable, storageGet, storageClear } from './common';
 
 import GearPane from './gear/GearPane';
 import TalentPane from './talents/TalentPane';
-import ArtifactPane from './artifact/ArtifactPane';
 import AdvancedPane from './advanced/AdvancedPane';
 import DocsPane from './DocsPane';
 import RightPane from './RightPane';
@@ -145,7 +144,6 @@ class CharacterPane extends React.Component {
         switch (tab) {
             case 'gear': return <GearPane />;
             case 'talents': return <TalentPane />;
-            case 'artifact': return <ArtifactPane />;
             case 'advanced': return <AdvancedPane />;
             case 'documentation': return <DocsPane />;
             default: return (<div>unrecognized string passed to CharacterPane.renderTab</div>);
@@ -246,9 +244,6 @@ class CharacterPane extends React.Component {
                                     <li className={`tabs-menu-item ${this.state.currentTab === 'talents' ? 'is-active' : ''}`}
                                         onClick={() => this.setState({ currentTab: 'talents' })}
                                     ><a>Talents</a></li>
-                                    <li className={`tabs-menu-item ${this.state.currentTab === 'artifact' ? 'is-active' : ''}`}
-                                        onClick={() => this.setState({ currentTab: 'artifact' })}
-                                    ><a>Artifact</a></li>
                                     <li className={`tabs-menu-item ${this.state.currentTab === 'advanced' ? 'is-active' : ''}`}
                                         onClick={() => this.setState({ currentTab: 'advanced' })}
                                     ><a>Advanced</a></li>

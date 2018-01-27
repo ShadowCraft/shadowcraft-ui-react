@@ -1,7 +1,6 @@
 import Stats from './Stats';
 import Talents from './Talents';
 import Gear from './Gear';
-import Artifact from './Artifact';
 import { CHARACTER_DATA_VERSION } from '../item_data';
 import { Record } from 'immutable';
 
@@ -16,7 +15,6 @@ const initialCharacter = {
     stats: new Stats(),
     talents: new Talents(),
     gear: new Gear(),
-    artifact: new Artifact(),
     active: 'a',
     data_version: CHARACTER_DATA_VERSION,
     avg_item_level: 0,
@@ -127,16 +125,6 @@ export default class Character extends Record(initialCharacter) {
                 }
                 else {
                     throw new Error('Character.gear must be a Gear object.');
-                }
-            }
-
-            if (character.artifact !== undefined) {
-
-                if (character.artifact instanceof Artifact) {
-                    _character = _character.set('artifact', character.artifact);
-                }
-                else {
-                    throw new Error('Character.gear must be a Artifact object.');
                 }
             }
 

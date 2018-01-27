@@ -11,7 +11,6 @@ import jsonschema
 from . import ArmoryDocument
 from . import ArmoryConstants
 from .ArmoryItem import ArmoryItem
-from .ArmoryCharacter import ArmoryCharacter
 
 # re-version data when this file changes. we use file size to keep track of this, which is a
 # terrible metric usually, but is fast and is good enough to just tell if something has
@@ -83,27 +82,6 @@ def get_sha(db, char_data):
 
     return {}
 
-__artifact_ids = None
-
-# Maps the a trait ID from the artifact data to a spell ID using the DBC data
-# from the Blizzard CDN
-# TODO: this exists in ArmoryCharacter also, and is the only thing in that class.
-# can we just remove it from there?
-
-def __artifact_id(trait_id):
-    # The header on the ArtifactPowerRank data looks like (as of 7.0.3):
-    # id,id_spell,value,id_power,f5,index
-    # We're mapping between id_power and id_spell
-    if __artifact_ids is None:
-        __artifact_ids = {}
-        with open(os.path.join(os.getcwd(), 'shadowcraft_ui', 'external_data',
-                               'ArtifactPowerRank.dbc.csv'), mode='r') as infile:
-            reader = csv.DictReader(infile)
-            for row in reader:
-                __artifact_ids[int(row['id_power'])] = int(row['id_spell'])
-
-    return __artifact_ids[trait_id] if trait_id in __artifact_ids else 0
-
 
 def __get_from_armory(db, character, realm, region):
 
@@ -128,7 +106,6 @@ def __get_from_armory(db, character, realm, region):
         "stats": json_data['stats'],
         "talents": {},
         "gear": {},
-        "artifact": {}
     }
 
     for index, tree in enumerate(json_data['talents']):
@@ -236,100 +213,6 @@ def __get_from_armory(db, character, realm, region):
         totalItems += 1
 
     output['avg_item_level'] = round(totalIlvl / totalItems, 2)
-
-    # Artifact data from the API looks like this:
-    #            "artifactTraits": [{
-    #                "id": 1348,
-    #                "rank": 1
-    #            }, {
-    #                "id": 1061,
-    #                "rank": 4
-    #            }, {
-    #                "id": 1064,
-    #                "rank": 3
-    #            }, {
-    #                "id": 1066,
-    #                "rank": 3
-    #            }, {
-    #                "id": 1060,
-    #                "rank": 3
-    #            }, {
-    #                "id": 1054,
-    #                "rank": 1
-    #            }],
-    #            "relics": [{
-    #                "socket": 0,
-    #                "itemId": 133008,
-    #                "context": 11,
-    #                "bonusLists": [768, 1595, 1809]
-    #            }, {
-    #                "socket": 1,
-    #                "itemId": 133057,
-    #                "context": 11,
-    #                "bonusLists": [1793, 1595, 1809]
-    #            }],
-
-    output['artifact']['spec'] = output['active']
-    output['artifact']['traits'] = {}
-    for trait in json_data['items']['mainHand']['artifactTraits']:
-        # Special case around an error in the artifact power DBC data from the CDN where
-        # trait ID 859 maps to multiple spell IDs.
-        trait_id = ArmoryCharacter.artifact_id(trait['id'])
-        if trait['id'] == 859:
-            trait_id = 197241
-        output['artifact']['traits'][str(trait_id)] = trait['rank']
-
-    # Make sure that the primary trait for every spec is present in the character data. It
-    # doesn't come over in the data from Blizzard. Just set it to one, because honestly who
-    # is going to load a weapon with no traits in it? If they do, they can just deal with it
-    # not showing up right.
-    if output['active'] == 'a':
-        output['artifact']['traits']['192759'] = 1
-    elif output['active'] == 'Z':
-        output['artifact']['traits']['202665'] = 1
-    elif output['active'] == 'b':
-        output['artifact']['traits']['209782'] = 1
-
-    # add concordance if it is missing
-    if '239042' not in output['artifact']['traits']:
-        output['artifact']['traits']['239042'] = 0
-
-    output['artifact']['relics'] = [None] * 3
-    for relic in json_data['items']['mainHand']['relics']:
-
-        # We want to return the trait ID that this relic modifies here instead of the ID of
-        # the relic itself. This means we need to look up this relic in the database and
-        # find the trait for the currently active spec.
-        query = {'remote_id': relic['itemId']}
-        results = db.relics.find(query)
-        if results.count() != 0:
-
-            entry = {'id': results[0]['traits'][output['active']]['spell']}
-
-            # Make another request to blizzard to get the item level for this relic,
-            # since the character data doesn't include enough information.
-            try:
-                params = {'bl': ','.join(map(str, relic['bonusLists']))}
-                relic_json = ArmoryDocument.get(
-                    region, '/wow/item/%d' % relic['itemId'], params)
-                entry['ilvl'] = relic_json['itemLevel']
-                output['artifact']['relics'][relic['socket']] = entry
-            except ArmoryDocument.MissingDocument:
-                print("Failed to retrieve extra relic data")
-        else:
-            print("Failed to find relic %d in the database" % relic['itemId'])
-
-    # Make sure there's something in each of the relic data slots so that the UI doesn't
-    # freak out about it.
-    for relic in output['artifact']['relics']:
-        if relic is None:
-            relic = {'id': 0, 'ilvl': 0}
-
-    # Fill in garbage data for the netherlight crucible since there's ZERO data on it from
-    # the API, which is stupid.
-    output['artifact']['netherlight'] = [{'tier2': 0, 'tier3': 0},
-                                         {'tier2': 0, 'tier3': 0},
-                                         {'tier2': 0, 'tier3': 0}]
 
     return output
 

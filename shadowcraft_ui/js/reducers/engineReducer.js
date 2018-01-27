@@ -40,7 +40,6 @@ const initialEngineState = {
     },
 
     talentRanking: {},
-    traitRanking: {},
     dps_breakdown: [],
     totalDps: 0.0
 };

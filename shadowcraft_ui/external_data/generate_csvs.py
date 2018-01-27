@@ -68,7 +68,7 @@ os.chdir('dbc_extract3')
 environ = os.environ
 environ['PYTHONIOENCODING'] = 'utf-8'
 
-for item in ['ItemUpgrade','RulesetItemUpgrade','ArtifactPowerRank','ItemBonus','ItemNameDescription','RandPropPoints','ItemSparse','ItemDamageOneHand']:
+for item in ['ItemUpgrade','RulesetItemUpgrade','ItemBonus','ItemNameDescription','RandPropPoints','ItemSparse','ItemDamageOneHand']:
    output = open(os.path.join('..','csvs','%s.dbc.csv' % item), 'w')
    print("Generating CSV for %s ..." % item)
    cmd = ['./dbc_extract.py', '-b', BUILD_NUMBER, '-p', CASC_DATA_DIR, '-t', 'csv', '--delim=,', item]

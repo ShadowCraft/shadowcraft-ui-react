@@ -1,8 +1,4 @@
-import { getArtifactIlvlChange, recalculateStats } from '../common';
 import Character from '../viewModels/Character';
-import Relic from '../viewModels/Relic';
-import Traits from '../viewModels/Traits';
-import Artifact from '../viewModels/Artifact';
 import Stats from '../viewModels/Stats';
 import Talents from '../viewModels/Talents';
 import Gear from '../viewModels/Gear';
@@ -12,10 +8,6 @@ import { ITEM_DATA } from '../item_data';
 
 export const characterActionTypes = {
     RESET_CHARACTER_DATA: 'RESET_CHARACTER_DATA',
-    UPDATE_ARTIFACT_TRAITS: 'UPDATE_ARTIFACT_TRAITS',
-    RESET_ARTIFACT: 'RESET_ARTIFACT',
-    UPDATE_ARTIFACT_RELIC: 'UPDATE_ARTIFACT_RELIC',
-    UPDATE_NETHERLIGHT: 'UPDATE_NETHERLIGHT',
     UPDATE_SPEC: 'UPDATE_SPEC',
     UPDATE_TALENTS: 'UPDATE_TALENTS',
     CHANGE_ITEM: 'CHANGE_ITEM',
@@ -23,8 +15,7 @@ export const characterActionTypes = {
     CHANGE_GEM: 'CHANGE_GEM',
     CHANGE_ENCHANT: 'CHANGE_ENCHANT',
     OPTIMIZE_GEMS: 'OPTIMIZE_GEMS',
-    OPTIMIZE_ENCHANTS: 'OPTIMIZE_ENCHANTS',
-    SWAP_ARTIFACT_WEAPON: 'SWAP_ARTIFACT_WEAPON',
+    OPTIMIZE_ENCHANTS: 'OPTIMIZE_ENCHANTS'
 };
 
 function makeGem(actionGem) {
@@ -103,175 +94,10 @@ export const characterReducer = function (state = new Character(), action) {
                     mainHand: new Item(action.data.gear.mainHand),
                     offHand: new Item(action.data.gear.offHand),
                 }),
-                artifact: new Artifact(action.data.artifact),
                 active: action.data.active,
                 data_version: action.data.data_version,
                 avg_item_level: action.data.avg_item_level,
             });
-        }
-
-        case characterActionTypes.UPDATE_ARTIFACT_TRAITS: {
-            return state.setIn(['artifact', 'traits'], action.data);
-        }
-
-        case characterActionTypes.RESET_ARTIFACT: {
-            let newRelics = new List([new Relic(), new Relic(), new Relic()]);
-            let newNL = new List([new Map({tier2: 0, tier3: 0}),
-                new Map({tier2: 0, tier3: 0}),
-                new Map({tier2: 0, tier3: 0})]);
-
-            let newState = state.setIn(['artifact', 'traits'], Traits(action.data));
-            newState = newState.setIn(['artifact', 'relics'], newRelics);
-            newState = newState.setIn(['artifact', 'netherlight'], newNL);
-
-            let mainHand = newState.getIn(['gear', 'mainHand']);
-            if (mainHand) {
-                const stats = recalculateStats(mainHand.get('id'), 750, 'mainHand', 4);
-                const weaponStats = recalculateStats(mainHand.get('id'), 750, 'mainHand', 4, true);
-                mainHand = mainHand.set('item_level', 750)
-                                   .set('stats', stats)
-                                   .set('weaponStats', weaponStats);
-                newState = newState.setIn(['gear', 'mainHand'], mainHand);
-            }
-
-            let offHand = newState.getIn(['gear', 'offHand']);
-            if (offHand) {
-                const stats = recalculateStats(offHand.get('id'), 750, 'offHand', 4);
-                const weaponStats = recalculateStats(offHand.get('id'), 750, 'offHand', 4, true);
-                offHand = offHand.set('item_level', 750)
-                                   .set('stats', stats)
-                                   .set('weaponStats', weaponStats);
-                newState = newState.setIn(['gear', 'offHand'], offHand);
-            }
-
-            newState = newState.set('avg_item_level', calculateAverageIlvl(newState));
-
-            return newState;
-        }
-
-        case characterActionTypes.UPDATE_ARTIFACT_RELIC: {
-
-            const currentRelic = state.getIn(['artifact', 'relics', action.data.slot]);
-            const currentRelicId = currentRelic.get('id');
-            const currentRelicIlvl = currentRelic.get('ilvl');
-
-            let newState = state;
-
-            // If the current relic's ID isn't zero (which means there's one set), subtract
-            // one from the value for that trait. If the trait didn't change, it'll get set
-            // back later.
-            if (currentRelicId !== 0) {
-                const value = newState.getIn(['artifact', 'traits', currentRelicId]) - 1;
-                newState = newState.setIn(['artifact', 'traits', currentRelicId], value);
-            }
-
-            // Determine what the artifact's ilvl should be based on any relic changes
-            if (currentRelicIlvl !== action.data.ilvl) {
-
-                let ilvlChange = 0;
-                if (currentRelicId != 0) {
-                    ilvlChange = getArtifactIlvlChange(currentRelicIlvl, action.data.ilvl);
-                }
-                else {
-                    ilvlChange = getArtifactIlvlChange(0, action.data.ilvl);
-                }
-
-                newState = newState.setIn(['artifact', 'relics', action.data.slot, 'ilvl'], action.data.ilvl);
-
-                // If the ilvl of the artifacts changed, recalculate all of the stats for those items.
-                if (ilvlChange != 0) {
-                    let mainHand = newState.getIn(['gear', 'mainHand']);
-                    let newIlvl = mainHand.get('item_level') + ilvlChange;
-                    let newStats = recalculateStats(mainHand.get('id'), newIlvl, 'mainHand', 4);
-                    let newWeaponStats = recalculateStats(mainHand.get('id'), newIlvl, 'mainHand', 4, true);
-
-                    mainHand = mainHand.set('item_level', newIlvl)
-                                       .set('stats', newStats)
-                                       .set('weaponStats', newWeaponStats);
-
-                    let offHand = newState.getIn(['gear', 'offHand']);
-                    newIlvl = offHand.get('item_level') + ilvlChange;
-                    newStats = recalculateStats(offHand.get('id'), newIlvl, 'offHand', 4);
-                    newWeaponStats = recalculateStats(offHand.get('id'), newIlvl, 'offHand', 4, true);
-
-                    offHand = offHand.set('item_level', newIlvl)
-                                     .set('stats', newStats)
-                                     .set('weaponStats', newWeaponStats);
-
-                    newState = newState.setIn(['gear', 'mainHand'], mainHand)
-                                       .setIn(['gear', 'offHand'], offHand)
-                                       .setIn(['artifact', 'relics', action.data.slot, 'ilvl'],
-                                              action.data.ilvl);
-
-                    // Recalculate the average item level
-                    newState = newState.set('avg_item_level', calculateAverageIlvl(newState));
-                }
-            }
-
-            newState = newState.setIn(['artifact', 'relics', action.data.slot, 'id'], action.data.trait);
-
-            // Update the new trait
-            if (action.data.trait !== 0) {
-                let value = newState.getIn(['artifact', 'traits', action.data.trait]) + 1;
-                newState = newState.setIn(['artifact', 'traits', action.data.trait], value);
-            }
-
-            return newState;
-        }
-
-        case characterActionTypes.UPDATE_NETHERLIGHT: {
-            state = state.setIn(['artifact', 'netherlight', action.data.slot, 'tier2'], action.data.tier2);
-            state = state.setIn(['artifact', 'netherlight', action.data.slot, 'tier3'], action.data.tier3);
-            return state;
-        }
-
-        case characterActionTypes.SWAP_ARTIFACT_WEAPON: {
-
-            let newState = state;
-            let itemIDs = [];
-            switch (action.data) {
-                case 'a': {
-                    itemIDs = [128870, 128869];
-                    break;
-                }
-                case 'Z': {
-                    itemIDs = [128872, 134552];
-                    break;
-                }
-                case 'b': {
-                    itemIDs = [128476, 128479];
-                    break;
-                }
-            }
-
-            if (itemIDs.length > 0) {
-                let artifact = ITEM_DATA.filter(function(item) {
-                    return itemIDs.indexOf(item.id) != -1;
-                }.bind(itemIDs));
-
-                for (let i = 0; i < artifact.length; i++) {
-                    let itemData = artifact[i];
-                    let item = new Item({
-                        id: itemData.id,
-                        slot: itemData.equip_location,
-                        name: itemData.name,
-                        icon: itemData.icon,
-                        item_level: 750,
-                        gems: [],
-                        stats: itemData.stats,
-                        bonuses: itemData.bonuses,
-                        quality: itemData.quality,
-                        socket_count: 0,
-                        enchant: 0,
-                        weaponStats: itemData.weaponStats
-                    });
-                    newState = newState.setIn(['gear', itemData.equip_location], item);
-                }
-            }
-
-            newState = newState.set('avg_item_level', calculateAverageIlvl(newState));
-
-            return newState;
         }
 
         case characterActionTypes.UPDATE_SPEC: {

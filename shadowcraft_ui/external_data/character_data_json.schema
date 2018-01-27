@@ -348,120 +348,6 @@
                         "offHand"
                     ]
                 },
-                "artifact": {
-                    "type": "object",
-                    "properties": {
-                        "traits": {
-                            "type": "object",
-                            "properties": {
-                                "214368": { "type": "number", "min": 0, "max": 4 },
-                                "192657": { "type": "number", "min": 0, "max": 4 },
-                                "192326": { "type": "number", "min": 0, "max": 4 },
-                                "192923": { "type": "number", "min": 0, "max": 4 },
-                                "192323": { "type": "number", "min": 0, "max": 4 },
-                                "192428": { "type": "number", "min": 0, "max": 4 },
-                                "192759": { "type": "number", "min": 0, "max": 4 },
-                                "192329": { "type": "number", "min": 0, "max": 4 },
-                                "192318": { "type": "number", "min": 0, "max": 4 },
-                                "192349": { "type": "number", "min": 0, "max": 4 },
-                                "192376": { "type": "number", "min": 0, "max": 4 },
-                                "192315": { "type": "number", "min": 0, "max": 4 },
-                                "192422": { "type": "number", "min": 0, "max": 4 },
-                                "192345": { "type": "number", "min": 0, "max": 4 },
-                                "192424": { "type": "number", "min": 0, "max": 4 },
-                                "192310": { "type": "number", "min": 0, "max": 4 },
-                                "192384": { "type": "number", "min": 0, "max": 4 },
-                                "214928": { "type": "number", "min": 0, "max": 4 },
-                                "241152": { "type": "number", "min": 0, "max": 4 },
-                                "238066": { "type": "number", "min": 0, "max": 4 },
-                                "238102": { "type": "number", "min": 0, "max": 4 },
-                                "238138": { "type": "number", "min": 0, "max": 4 },
-                                "216230": { "type": "number", "min": 0, "max": 4 },
-                                "202507": { "type": "number", "min": 0, "max": 4 },
-                                "202628": { "type": "number", "min": 0, "max": 4 },
-                                "202897": { "type": "number", "min": 0, "max": 4 },
-                                "202769": { "type": "number", "min": 0, "max": 4 },
-                                "202665": { "type": "number", "min": 0, "max": 4 },
-                                "202463": { "type": "number", "min": 0, "max": 4 },
-                                "202521": { "type": "number", "min": 0, "max": 4 },
-                                "202755": { "type": "number", "min": 0, "max": 4 },
-                                "202524": { "type": "number", "min": 0, "max": 4 },
-                                "202514": { "type": "number", "min": 0, "max": 4 },
-                                "202907": { "type": "number", "min": 0, "max": 4 },
-                                "202530": { "type": "number", "min": 0, "max": 4 },
-                                "202533": { "type": "number", "min": 0, "max": 4 },
-                                "202820": { "type": "number", "min": 0, "max": 4 },
-                                "202522": { "type": "number", "min": 0, "max": 4 },
-                                "202753": { "type": "number", "min": 0, "max": 4 },
-                                "214929": { "type": "number", "min": 0, "max": 4 },
-                                "241153": { "type": "number", "min": 0, "max": 4 },
-                                "238067": { "type": "number", "min": 0, "max": 4 },
-                                "238103": { "type": "number", "min": 0, "max": 4 },
-                                "238139": { "type": "number", "min": 0, "max": 4 },
-                                "209835": { "type": "number", "min": 0, "max": 4 },
-                                "197241": { "type": "number", "min": 0, "max": 4 },
-                                "197233": { "type": "number", "min": 0, "max": 4 },
-                                "197604": { "type": "number", "min": 0, "max": 4 },
-                                "197239": { "type": "number", "min": 0, "max": 4 },
-                                "197256": { "type": "number", "min": 0, "max": 4 },
-                                "197406": { "type": "number", "min": 0, "max": 4 },
-                                "197369": { "type": "number", "min": 0, "max": 4 },
-                                "197244": { "type": "number", "min": 0, "max": 4 },
-                                "209782": { "type": "number", "min": 0, "max": 4 },
-                                "197234": { "type": "number", "min": 0, "max": 4 },
-                                "197235": { "type": "number", "min": 0, "max": 4 },
-                                "197231": { "type": "number", "min": 0, "max": 4 },
-                                "197610": { "type": "number", "min": 0, "max": 4 },
-                                "221856": { "type": "number", "min": 0, "max": 4 },
-                                "209781": { "type": "number", "min": 0, "max": 4 },
-                                "197386": { "type": "number", "min": 0, "max": 4 },
-                                "214930": { "type": "number", "min": 0, "max": 4 },
-                                "241154": { "type": "number", "min": 0, "max": 4 },
-                                "238068": { "type": "number", "min": 0, "max": 4 },
-                                "242707": { "type": "number", "min": 0, "max": 4 },
-                                "238140": { "type": "number", "min": 0, "max": 4 },
-                                "239042": { "type": "number", "min": 0, "max": 60}
-                            },
-                            "additionalProperties": false
-                        },
-                        "relics": {
-                            "type": "array",
-                            "minItems": 1,
-                            "maxItems": 3,
-                            "items": { "$ref": "#/definitions/relic" }
-                        },
-                        "netherlight": {
-                            "type": "array",
-                            "minItems": 1,
-                            "maxItems": 3,
-                            "items": {
-                                "required": [
-                                    "tier2",
-                                    "tier3"
-                                ],
-                                "properties": {
-                                    "tier2": {
-                                        "$ref": "#/definitions/trait"
-                                    },
-                                    "tier3": {
-                                        "$ref": "#/definitions/trait"
-                                    }
-                                }
-                            }
-                        },
-                        "spec": {
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 1
-                        }
-                    },
-                    "required": [
-                        "traits",
-                        "relics",
-                        "netherlight",
-                        "spec"
-                    ]
-                },
                 "active": {
                     "type": "string",
                     "minLength": 1,
@@ -484,7 +370,6 @@
                 "stats",
                 "talents",
                 "gear",
-                "artifact",
                 "active",
                 "data_version"
             ]
@@ -817,27 +702,6 @@
             "type": "number",
             "min": 0,
             "max": 99999
-        },
-        "trait": {
-            "type": "number",
-            "min": 0,
-            "max": 999999
-        },
-        "relic": {
-            "type": "object",
-            "properties" : {
-                "ilvl": {
-                    "type": "number",
-                    "min": 0,
-                    "max": 2000
-                },
-                "id": { "$ref": "#/definitions/trait" }
-            },
-            "required": [
-                "ilvl",
-                "id"
-            ],
-            "additionalProperties": false
         },
         "gem": {
             "type": "object",

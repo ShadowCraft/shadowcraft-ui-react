@@ -10,8 +10,6 @@ from shadowcraft.objects import race
 from shadowcraft.objects import stats
 from shadowcraft.objects import procs
 from shadowcraft.objects import talents
-from shadowcraft.objects import artifact
-from shadowcraft.objects import artifact_data
 from shadowcraft.core import i18n
 from shadowcraft.core import exceptions
 
@@ -85,109 +83,6 @@ class ShadowcraftComputation:
 
     otherProcs = {
     }
-
-    artifactTraits = {
-        # Assassination/Kingslayers
-        'a': {
-            214368: 'assassins_blades',
-            192657: 'bag_of_tricks',
-            192326: 'balanced_blades',
-            192923: 'blood_of_the_assassinated',
-            192323: 'fade_into_shadows',
-            192428: 'from_the_shadows',
-            192759: 'kingsbane',
-            192329: 'gushing_wounds',
-            192318: 'master_alchemist',
-            192349: 'master_assassin',
-            192376: 'poison_knives',
-            192315: 'serrated_edge',
-            192422: 'shadow_swiftness',
-            192345: 'shadow_walker',
-            192424: 'surge_of_toxins',
-            192310: 'toxic_blades',
-            192384: 'urge_to_kill',
-            214928: 'slayers_precision',
-            241152: 'silence_of_the_uncrowned',
-            238066: 'strangler',
-            238102: 'dense_concoction',
-            238138: 'sinister_circulation',
-            239042: 'concordance_of_the_legionfall',
-        },
-
-        # Outlaw/Dreadblades traits
-        'Z': {
-            216230: 'black_powder',
-            202507: 'blade_dancer',
-            202628: 'blademaster',
-            202897: 'blunderbuss',
-            202769: 'blurred_time',
-            202665: 'curse_of_the_dreadblades',
-            202463: 'cursed_edges',
-            202521: 'cursed_leather',
-            202755: 'deception',
-            202524: 'fatebringer',
-            202514: 'fates_thirst',
-            202907: 'fortunes_boon',
-            202530: 'fortune_strikes',
-            202533: 'ghostly_shell',
-            202820: 'greed',
-            202522: 'gunslinger',
-            202753: 'hidden_blade',
-            214929: 'cursed_steel',
-            241153: 'bravado_of_the_uncrowned',
-            238067: 'sabermetrics',
-            238103: 'dreadblades_vigor',
-            238139: 'loaded_dice',
-            239042: 'concordance_of_the_legionfall',
-        },
-
-        # Subtlety/Fangs traits
-        'b': {
-            209835: 'akarris_soul',
-            197241: 'catlike_reflexes',
-            197233: 'demons_kiss',
-            197604: 'embrace_of_darkness',
-            197239: 'energetic_stabbing',
-            197256: 'flickering_shadows',
-            197406: 'finality',
-            197369: 'fortunes_bite',
-            197244: 'ghost_armor',
-            209782: 'goremaws_bite',
-            197234: 'gutripper',
-            197235: 'precision_strike',
-            197231: 'the_quiet_knife',
-            197610: 'second_shuriken',
-            221856: 'shadow_fangs',
-            209781: 'shadow_nova',
-            197386: 'soul_shadows',
-            214930: 'legionblade',
-            241154: 'shadows_of_the_uncrowned',
-            238068: 'weak_point',
-            242707: 'shadows_whisper',
-            238140: 'feeding_frenzy',
-            239042: 'concordance_of_the_legionfall',
-        },
-
-        # Netherlight Crucible traits
-        'netherlight': {
-            252901: 'master_of_shadows',
-            252191: 'murderous_intent',
-            252875: 'shadowbind',
-            252888: 'chaotic_darkness',
-            252906: 'torment_the_weak',
-            252922: 'dark_sorrows',
-            252088: 'light_speed',
-            252207: 'refractive_shell',
-            252799: 'shocklight',
-            253070: 'secure_in_the_light',
-            253093: 'infusion_of_light',
-            253111: 'lights_embrace'
-        }
-    }
-
-    artifactTraitsReverse = {}
-    for k, v in artifactTraits.items():
-        artifactTraitsReverse[k] = {v2: k2 for k2, v2 in v.items()}
 
     gearProcs = trinkets.copy()
     gearProcs.update(otherProcs)
@@ -448,34 +343,9 @@ class ShadowcraftComputation:
         t = input_data['character']['talents']['current']
         _talents = talents.Talents(t, spec, _class, _level)
         _settings = settings.Settings(cycle, **input_data['settings'])
-        _artifact = input_data['character']['artifact']
 
-        tier2_traits = {}
-        tier3_traits = {}
-        for slot in _artifact['netherlight']:
-            if slot['tier2'] in tier2_traits:
-                tier2_traits[slot['tier2']] += 1
-            else:
-                tier2_traits[slot['tier2']] = 1
-            if slot['tier3'] in tier3_traits:
-                tier3_traits[slot['tier3']] += 1
-            else:
-                tier3_traits[slot['tier3']] = 1
-
-        trait_values = {}
-        for k, v in self.artifactTraits[_spec].items():
-            if str(k) in _artifact['traits']:
-                trait_values[v] = _artifact['traits'][str(k)]
-            if k in tier3_traits:
-                trait_values[v] += tier3_traits[k]
-
-        for k, v in self.artifactTraits['netherlight'].items():
-            if k in tier2_traits:
-                trait_values[v] = tier2_traits[k]
-
-        _traits = artifact.Artifact(spec, "rogue", trait_dict=trait_values)
         calculator = AldrianasRogueDamageCalculator(
-            _stats, _talents, _traits, _buffs, _race, spec, _settings, _level)
+            _stats, _talents, _buffs, _race, spec, _settings, _level)
         return calculator
 
     def get_all(self, db, input_data):
@@ -530,8 +400,7 @@ class ShadowcraftComputation:
                                   for entry in out["breakdown"].items())
 
             # Get character stats used for calculation (should equal armory)
-            out["stats"] = calculator.stats.get_character_stats(
-                calculator.race, calculator.traits)
+            out["stats"] = calculator.stats.get_character_stats(calculator.race)
             # Filter interesting stats
             out["stats"]["agility"] = out["stats"]["agi"]
             out['stats'] = {k: out['stats'][k] for k in [
@@ -577,22 +446,6 @@ class ShadowcraftComputation:
                 out['talentRanking'].update(values)
 
             out["engine_info"] = calculator.get_engine_info()
-
-            # Get the artifact ranking and change the IDs from the engine back to
-            # the item IDs using the artifactMap data.
-            artifact_ranks = calculator.get_trait_ranking()
-            out["traitRanking"] = {}
-            for trait, spell_id in self.artifactTraitsReverse[_spec].items():
-                if trait in artifact_ranks:
-                    out['traitRanking'][spell_id] = round(artifact_ranks[trait], 2)
-                else:
-                    out['traitRanking'][spell_id] = 0
-
-            for trait, spell_id in self.artifactTraitsReverse['netherlight'].items():
-                if trait in artifact_ranks:
-                    out['traitRanking'][spell_id] = round(artifact_ranks[trait], 2)
-                else:
-                    out['traitRanking'][spell_id] = 0
 
             return out
         except (InputNotModeledException, exceptions.InvalidInputException) as exc:

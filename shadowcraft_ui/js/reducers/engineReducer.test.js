@@ -33,7 +33,6 @@ describe('engineReducer', () => {
                 wow_build_target: ''
             },
             talentRanking: {},
-            traitRanking: {},
             dps_breakdown: [],
             totalDps: 0.0
         };
