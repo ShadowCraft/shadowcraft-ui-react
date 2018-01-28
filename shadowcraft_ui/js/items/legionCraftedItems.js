@@ -1,11 +1,15 @@
 import { ITEM_DATA } from '../item_data';
-import { modifyItem } from './tools';
+import { modifyItem, getRaidTierPermutations } from './tools';
 
 //reference: https://github.com/simulationcraft/simc/blob/legion-dev/SpellDataDump/bonus_ids.txt
 
 // 7.0 crafted items
 const obliterumItemIds = [
-    127019, // imbued silkweave cover, theres like 4 different tailoring variations, only using one
+    127019, // imbued silkweave cover. There's also drape, shade, flourish. They're all the same
+            // item just with different names.
+    127020,
+    127033,
+    127034,
     128884, // dreadleather jerkin
     128885, // ... footpads 
     128886, // ... gloves
@@ -27,12 +31,22 @@ const staticIlvlItemIds = [
 
 // special handling for legendaries
 const lego = [
-    146669, // sentenals eternal refuge
+    146669, // sentinals eternal refuge
 ];
 
 // 7.3 crafted items
 const primalItemIds = [
     151577, // fiendish shouldergaurds
+];
+
+// Relinquished/unsullied items
+const relinquishedItemIds = [
+    152754, 152755, 152756, 152757, 152758, 152759, 152760, 152761 // Arinor Keeper's set
+];
+
+const relinquishedBonuses = [
+    880: [1472, 3629],
+    915: [1502, 3573]
 ];
 
 const getStaticItems = slot => filterItems(slot, staticIlvlItemIds)

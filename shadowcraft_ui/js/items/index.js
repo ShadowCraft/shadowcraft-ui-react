@@ -8,6 +8,7 @@ import { getAntorusItems } from './Antorus';
 import { getPVPItems } from './pvpItems';
 import { getOrderHallSet } from './OrderHallSet';
 import { getLegendarySet } from './Legendaries';
+import { getMiscItems } from './Misc';
 import { ITEM_DATA } from '../item_data';
 
 // we can just register the different definitions here (the multiple TOS entrys are just an example, they would all be different)
@@ -33,6 +34,7 @@ export function getVariants(slot = 'head', min = 0, max = 10000, currentIlvl, in
         ...getAntorusItems(slot, min, max),
         ...getPVPItems(slot, min, max),
         ...getOrderHallSet(slot, min, max),
+        ...getMiscItems(slot, min, max),
         ...(includeLegendaries ? getLegendarySet(slot, min, max) : []),
         { // this is the empty slot icon
             id: 0,
