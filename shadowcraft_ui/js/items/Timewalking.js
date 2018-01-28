@@ -6,10 +6,10 @@ export const blackTempleItemIds = [
     152365, 152363, 152362, 152361, 152359, 152364, 152360, 152358, 
 ];
 
-export const blackTempleBonusMap = [
+export const blackTempleBonusMap = {
     910: [3573, 1452], // relinquished
     930: [3614, 1472]  // TW
-];
+};
 
 let _isInitialized = false;
 
