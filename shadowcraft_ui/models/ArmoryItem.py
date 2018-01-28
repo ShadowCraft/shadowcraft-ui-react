@@ -23,7 +23,7 @@ class ArmoryItem(object):
     def populate_data(self, json_data):
         self.quality = json_data['quality']
         self.icon = json_data.get('icon', '')
-        self.equip_location = convert_inventory_type(json_data['inventoryType'])
+        self.equip_location = ArmoryItem.convert_inventory_type(json_data['inventoryType'])
         self.item_level = int(json_data['itemLevel'])
 
         if self.icon == '':
@@ -74,7 +74,7 @@ class ArmoryItem(object):
         # consistent information all the time. If it's not there, log that it's
         # not and begrudgingly use the data from the API.
         if json_data['itemClass'] != 3:
-            self.stats = get_item_stats(self.item_id, self.item_level, self.equip_location, self.quality)
+            self.stats = ArmoryItem.get_item_stats(self.item_id, self.item_level, self.equip_location, self.quality)
             if len(self.stats) != 0:
                 item_data = ArmoryItem.sparse_item(int(json_data['id']))
                 if int(item_data.get('delay')) > 0:
