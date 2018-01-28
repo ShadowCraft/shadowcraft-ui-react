@@ -6,12 +6,12 @@ import { ITEM_DATA } from '../item_data';
 //    121241, 121242, 121243, 121244, 121247, 121248,
 
 //boe world drop 810?
-// 141580, 141582, 141583, 141588, 141589, 141590 
+// 141580, 141582, 141583, 141588, 141589, 141590
 
 // Skorpyron, Chronomatic Anomaly and Trilliax , boe
 export const _firstTierItems = [
     140901, 140862, 140860, 140863, 140865, 140794, 140858,
-    144399, 144400, 144401, 144403, 144405 // boe
+    144399, 144400, 144401, 144403, 144405, 141324 // boe
 ];
 
 export const _firstTierBonuses = {
@@ -21,12 +21,12 @@ export const _firstTierBonuses = {
     900: [3445, 1497], //mythic
 };
 
-// Spellblade Aluriel, Tichondrius, Krosus, High Botanist Tel'arn, Star Augur Etraeus, Elisande 
+// Spellblade Aluriel, Tichondrius, Krosus, High Botanist Tel'arn, Star Augur Etraeus, Elisande
 export const _secondTierItems = [
     138326, 138329, 138332, 138335, 138338, 138371, 140796, 140802, 140806,
     140855, 140857, 140859, 140861, 140864, 140866, 140889, 140894, 140895,
     140896, 140897, 140898, 140899, 140900, 140905, 140906, 140908, 140909,
-    140910
+    140910, 141325
 ];
 
 export const _secondTierBonuses = {
@@ -37,13 +37,13 @@ export const _secondTierBonuses = {
 };
 
 // Gul'dan
-export const _finalBossItems = [140808, 140919];
+export const _finalBossItems = [140808, 140919, 141326];
 
 export const _finalBossBonuses = {
     865: [3521, 1462], //rf
     880: [3515, 1477], //normal
     895: [3517, 1492], //heroic
-    910: [3519, 1507], //mythic    
+    910: [3519, 1507], //mythic
 };
 
 let _isInitialized = false;

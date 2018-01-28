@@ -21,6 +21,11 @@ const obliterumItemIds = [
     132505, // sawed off cranial cannon
     127842, // infernal alchemist stone
     128705, // darkmoon deck: dominion
+    130236, // subtle shadowruby pendant
+    130229, // prophetic band
+    130230, // maelstrom band
+    130231, // dawnlight band
+    136713, // shadowruby band
 ];
 
 // these items do not have different ilvls, just random props
@@ -37,16 +42,6 @@ const lego = [
 // 7.3 crafted items
 const primalItemIds = [
     151577, // fiendish shouldergaurds
-];
-
-// Relinquished/unsullied items
-const relinquishedItemIds = [
-    152754, 152755, 152756, 152757, 152758, 152759, 152760, 152761 // Arinor Keeper's set
-];
-
-const relinquishedBonuses = [
-    880: [1472, 3629],
-    915: [1502, 3573]
 ];
 
 const getStaticItems = slot => filterItems(slot, staticIlvlItemIds)

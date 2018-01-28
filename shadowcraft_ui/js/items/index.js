@@ -9,6 +9,7 @@ import { getPVPItems } from './pvpItems';
 import { getOrderHallSet } from './OrderHallSet';
 import { getLegendarySet } from './Legendaries';
 import { getMiscItems } from './Misc';
+import { getTWItems } from './Timewalking';
 import { ITEM_DATA } from '../item_data';
 
 // we can just register the different definitions here (the multiple TOS entrys are just an example, they would all be different)
@@ -35,6 +36,7 @@ export function getVariants(slot = 'head', min = 0, max = 10000, currentIlvl, in
         ...getPVPItems(slot, min, max),
         ...getOrderHallSet(slot, min, max),
         ...getMiscItems(slot, min, max),
+        ...getTWItems(slot, min, max),
         ...(includeLegendaries ? getLegendarySet(slot, min, max) : []),
         { // this is the empty slot icon
             id: 0,
@@ -63,6 +65,9 @@ export function getMissingItems(unfiltered, variants, slot, min, max) {
 
 export function findMissingItems() {
 
+    // Ignore these items (artifact weapons, for example)
+    const ignore = [134552, 128872, 128869, 128870, 128476, 128479];
+    
     // Get the items for every slot and sort them.
     let ids = [];
     let slots = ['head', 'neck', 'shoulder', 'back', 'chest', 'wrist', 'hands', 'waist', 'legs', 'feet', 'finger', 'trinket', 'mainHand', 'offHand'];
@@ -78,9 +83,12 @@ export function findMissingItems() {
     let missingItems = ITEM_DATA.filter(item => uniqueIds.indexOf(item.id) == -1 && !item.is_gem);
     let missingIds = [];
     for (let idx in missingItems) {
-        missingIds.push(missingItems[idx].id);
+        if (ignore.indexOf(missingItems[idx].id) == -1) {
+            console.log(`${missingItems[idx].id}: ${missingItems[idx].name} \n http://wowhead.com/item=${missingItems[idx].id}`);
+            missingIds.push(missingItems[idx].id);
+        }
     }
     //eslint-disable-next-line no-console
-    console.log(missingIds.join(","));
+//    console.log(missingIds.join(","));
     return missingItems;
 }
