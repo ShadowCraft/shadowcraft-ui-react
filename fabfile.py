@@ -27,6 +27,12 @@ def deploy():
         run('npm run build-prod')
         run('sudo /usr/bin/supervisorctl restart shcreact', shell=False)
 
+def deployengine():
+    with cd('/home/web/shadowcraft-ui-react'):
+        run('source venv/bin/activate')
+        run('venv/bin/pip3 install -r requirements.txt')
+        run('sudo /usr/bin/supervisorctl restart shcreact', shell=False)
+
 def status():
     """ Is our app live? """
     run('sudo supervisorctl status shcreact')
