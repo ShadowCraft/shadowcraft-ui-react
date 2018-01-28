@@ -31,7 +31,43 @@ describe('characterReducer', () => {
     });
 
     it('should handle RESET_ARTIFACT when active (spec) is "a" (assassination)', () => {
-        const init = { artifact: { traits: { 0: 0, 1: 1 } } };
+        const init = {
+            artifact: { traits: { 0: 0, 1: 1 } },
+            gear: {
+                mainHand: {
+                    id: 128870,
+                    item_level: 882,
+                    stats: {
+                        agility: 786,
+                        stamina: 1179,
+                        crit: 337,
+                        mastery: 323
+                    },
+                    weaponStats: {
+                        min_dmg: 3293,
+                        max_dmg: 5489,
+                        speed: 1.8,
+                        dps: 2439.42,
+                    }
+                },
+                offHand: {
+                    id: 128869,
+                    item_level: 882,
+                    stats: {
+                        agility: 786,
+                        stamina: 1179,
+                        crit: 337,
+                        mastery: 323
+                    },
+                    weaponStats: {
+                        min_dmg: 3293,
+                        max_dmg: 5489,
+                        speed: 1.8,
+                        dps: 2439.42,
+                    }
+                }
+            }
+        };
         const action = {
             type: characterActionTypes.RESET_ARTIFACT,
             data: 'a'
@@ -65,16 +101,67 @@ describe('characterReducer', () => {
                 },
                 relics: [{ id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }],
                 netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }]
-            }
+            },
+            avg_item_level: 93.75,
+            gear: {
+                mainHand: {
+                    id: 128870,
+                    item_level: 750,
+                    stats: {
+                        agility: 219,
+                        crit: 148,
+                        mastery: 142,
+                        stamina: 328,
+                    },
+                    weaponStats: {
+                        dps: 712.81,
+                        max_dmg: 1604,
+                        min_dmg: 962,
+                        speed: 1.8,
+                    },
+                },
+                offHand: {
+                    id: 128869,
+                    item_level: 750,
+                    stats: {
+                        agility: 219,
+                        crit: 148,
+                        mastery: 142,
+                        stamina: 328,
+                    },
+                    weaponStats: {
+                        dps: 712.81,
+                        max_dmg: 1604,
+                        min_dmg: 962,
+                        speed: 1.8,
+                    },
+                },
+            },
         };
         expect(characterReducer(init, action).toJS()).toEqual(expected);
     });
 
     it('should handle RESET_ARTIFACT when active (spec) is "Z" (outlaw)', () => {
-        const init = { artifact: { traits: { 0: 0, 1: 1 } } };
+        const init = {
+            artifact: { traits: { 0: 0, 1: 1 } },
+            gear: {
+                mainHand: {
+                    id: 134552,
+                    item_level: 850,
+                    stats: {},
+                    weaponStats: {}
+                },
+                offHand: {
+                    id: 128872,
+                    item_level: 850,
+                    stats: {},
+                    weaponStats: {}
+                }
+            }
+        };
         const action = {
             type: characterActionTypes.RESET_ARTIFACT,
-            data: 'Z'
+            data: 'Z',
         };
         const expected = {
             artifact: {
@@ -105,13 +192,64 @@ describe('characterReducer', () => {
                 },
                 relics: [{ id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }],
                 netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }]
+            },
+            avg_item_level: 93.75,
+            gear: {
+                mainHand: {
+                    id: 134552,
+                    item_level: 750,
+                    stats: {
+                        agility: 219,
+                        crit: 148,
+                        mastery: 142,
+                        stamina: 328,
+                    },
+                    weaponStats: {
+                        dps: 712.81,
+                        max_dmg: 2317,
+                        min_dmg: 1390,
+                        speed: 2.6,
+                    },
+                },
+                offHand: {
+                    id: 128872,
+                    item_level: 750,
+                    stats: {
+                        agility: 219,
+                        crit: 148,
+                        mastery: 142,
+                        stamina: 328,
+                    },
+                    weaponStats: {
+                        dps: 712.81,
+                        max_dmg: 2317,
+                        min_dmg: 1390,
+                        speed: 2.6,
+                    },
+                }
             }
         };
         expect(characterReducer(init, action).toJS()).toEqual(expected);
     });
 
     it('should handle RESET_ARTIFACT when active (spec) is "b" (subtlety)', () => {
-        const init = { artifact: { traits: { 0: 0, 1: 1 } } };
+        const init = {
+            artifact: { traits: { 0: 0, 1: 1 } },
+            gear: {
+                mainHand: {
+                    id: 128476,
+                    item_level: 850,
+                    stats: {},
+                    weaponStats: {}
+                },
+                offHand: {
+                    id: 128479,
+                    item_level: 850,
+                    stats: {},
+                    weaponStats: {}
+                }
+            }
+        };
         const action = {
             type: characterActionTypes.RESET_ARTIFACT,
             data: 'b'
@@ -145,6 +283,41 @@ describe('characterReducer', () => {
                 },
                 relics: [{ id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }, { id: 0, ilvl: 835 }],
                 netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }]
+            },
+            avg_item_level: 93.75,
+            gear: {
+                mainHand: {
+                    id: 128476,
+                    item_level: 750,
+                    stats: {
+                        agility: 219,
+                        crit: 148,
+                        mastery: 142,
+                        stamina: 328,
+                    },
+                    weaponStats: {
+                        dps: 712.81,
+                        max_dmg: 1604,
+                        min_dmg: 962,
+                        speed: 1.8,
+                    },
+                },
+                offHand: {
+                    id: 128479,
+                    item_level: 750,
+                    stats: {
+                        agility: 219,
+                        crit: 148,
+                        mastery: 142,
+                        stamina: 328,
+                    },
+                    weaponStats: {
+                        dps: 712.81,
+                        max_dmg: 1604,
+                        min_dmg: 962,
+                        speed: 1.8,
+                    },
+                }
             }
         };
         expect(characterReducer(init, action).toJS()).toEqual(expected);
@@ -249,8 +422,8 @@ describe('characterReducer', () => {
                 traits: { 1: 2, 2: 1 },
                 netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }],
                 spec: 'a'
-            }
-
+            },
+            avg_item_level: 110.25
         };
         expect(characterReducer(init, action).toJS()).toEqual(expected);
     });
@@ -353,8 +526,8 @@ describe('characterReducer', () => {
                 traits: { 1: 3 },
                 netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }],
                 spec: 'a'
-            }
-
+            },
+            avg_item_level: 110.25
         };
         expect(characterReducer(init, action).toJS()).toEqual(expected);
     });
@@ -419,7 +592,6 @@ describe('characterReducer', () => {
                 netherlight: [{ tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }, { tier2: 0, tier3: 0 }],
                 spec: 'a'
             }
-
         };
         expect(characterReducer(init, action).toJS()).toEqual(expected);
     });
@@ -532,7 +704,8 @@ describe('characterReducer', () => {
                     socket_count: 1,
                     stats: { agi: 10 }
                 })
-            })
+            }),
+            avg_item_level: 0.63,
         });
         expect(characterReducer(init, action)).toEqual(expected);
     });
@@ -573,7 +746,8 @@ describe('characterReducer', () => {
                     item_level: 1,
                     name: "Awesome Item of Awesomeness"
                 })
-            })
+            }),
+            avg_item_level: 0.06,
         });
 
         expect(characterReducer(init, action)).toEqual(expected);
@@ -616,7 +790,8 @@ describe('characterReducer', () => {
                     item_level: 1,
                     name: "Awesome Item"
                 })
-            })
+            }),
+            avg_item_level: 0.06,
         });
 
         expect(characterReducer(init, action)).toEqual(expected);
@@ -659,7 +834,8 @@ describe('characterReducer', () => {
                     item_level: 1,
                     name: ""
                 })
-            })
+            }),
+            avg_item_level: 0.06,
         });
 
         expect(characterReducer(init, action)).toEqual(expected);
@@ -703,7 +879,8 @@ describe('characterReducer', () => {
                     item_level: 1,
                     name: ""
                 })
-            })
+            }),
+            avg_item_level: 0.06,
         });
 
         expect(characterReducer(init, action)).toEqual(expected);
@@ -746,7 +923,8 @@ describe('characterReducer', () => {
                     item_level: 1,
                     name: ""
                 })
-            })
+            }),
+            avg_item_level: 0.06,
         });
 
         expect(characterReducer(init, action)).toEqual(expected);

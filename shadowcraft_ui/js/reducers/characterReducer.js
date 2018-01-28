@@ -59,10 +59,8 @@ function makeGem(actionGem) {
 }
 
 function calculateAverageIlvl(state) {
-    const gear = state.get('gear');
 
     let totalIlvl = 0;
-
     state.get('gear').keySeq().forEach(slot => {
         totalIlvl += state.getIn(['gear', slot, 'item_level']);
     });
