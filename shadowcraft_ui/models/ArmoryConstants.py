@@ -17,7 +17,11 @@ RACE_MAP = {
     22: 'Worgen',
     24: 'Pandaren',
     25: 'Pandaren',
-    26: 'Pandaren'
+    26: 'Pandaren',
+    27: 'Nightborne',
+    28: 'Highmountain Tauren',
+    29: 'Void Elf',
+    30: 'Lightforged Draenei'
 }
 
 STAT_LOOKUP = {
