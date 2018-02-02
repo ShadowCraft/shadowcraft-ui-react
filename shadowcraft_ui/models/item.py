@@ -45,7 +45,7 @@ BLACKLIST += [151662, 151666, 151667, 151674, 151678, 151680, 151687, 151691, # 
               153261, 153262, 153263, 153264, 153265, 153267, 153268, 153269, 153295, 153296,
               153297, 153298, 153299, 153300, 153301, 153302, 153303, 153304, 153305, 153306,
               153307, 153308, 153309, 153310, 153311, 153326, 153327, 153328, 153329, 151524,
-              139155, 139157, 139158, 138762, 139163, 153294, 153290
+              139155, 139157, 139158, 138762, 139163, 153294, 153290,
 
               # Chosen dead transmog set
               143361, 143365, 143366, 143367, 143368, 143369, 143336, 143340, 143341,
@@ -90,6 +90,14 @@ def populate_db(dbase):
     print("Requesting legendaries from wowhead")
     wowhead_ids.extend(get_ids_from_wowhead(
         'http://www.wowhead.com/items/armor/min-level:895/class:4/quality:5'))
+
+    print('Requyesting relinquished necks from wowhead')
+    wowhead_ids.extend(get_ids_from_wowhead(
+        'http://www.wowhead.com/item=153213/relinquished-necklace#contains'))
+
+    print('Requyesting relinquished rings from wowhead')
+    wowhead_ids.extend(get_ids_from_wowhead(
+        'http://www.wowhead.com/item=153214/relinquished-ring#contains'))
 
     wowhead_ids.extend(ARTIFACT_WEAPONS)
     wowhead_ids.extend(ORDER_HALL_SET)
@@ -214,8 +222,23 @@ def get_ids_from_wowhead(url):
         timeout=60,
         headers={'user-agent': ArmoryDocument.USER_AGENT}
     )
+
+    # Split the requested URL into parts. If we're requesting the items contained in another item
+    # like relinquished items, we have to filter a bit or we get crap from comments too.
+    baseItem = -1
+    urlParts = url.split('/')
+    for part in urlParts:
+        if part.startswith('item='):
+            baseItem = str(part.split('=')[1])
+
     if resp.status_code == 200:
-        match_iter = re.finditer(r'_\[(\d+)\]=\{.*?\}', resp.text)
+        if baseItem == -1:
+            text = resp.text
+        else:
+            match = re.findall(r'_\['+baseItem+'\]={.*', resp.text)
+            text = match[0]
+
+        match_iter = re.finditer(r'_\[(\d+)\]=\{.*?\}', text)
         for match in match_iter:
             ids.append(int(match.groups(1)[0]))
 
