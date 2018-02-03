@@ -35,10 +35,13 @@ const worldBossBonusMap = {
 };
 
 
-// Various items that drop from lots of places in the world. Some of these items start at 845
-// and some of them start at 845.
+// Various items that drop from lots of places in the world. Most of these items come
+// from relinquished items.
 const _845WorldDropItemIds = [
     134280, 134281, 134282, 134283, 134284, 134285, 134286, 134287, // Swordsinger's
+    150990, 150989, 121288, 121284, 146867, 146858, 139103, 139101, 146776, 146767,
+    139065, 134191, 134245, 134249, 134275, 134279, 134319, 134323, 134367, 134376,
+    139063, 134157, 134161, 136733, 136737, 134187, 139063,
 ];
 
 const _845WorldDropBonusMap = {
