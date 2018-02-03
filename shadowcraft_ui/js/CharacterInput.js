@@ -37,14 +37,14 @@ export default class CharacterInput extends React.Component {
                 <div id='create_character'>
                     <div className='form'>
                         <form action={`/${this.state.region.toLowerCase()}/${this.state.realm.toLowerCase().replace("'", "").replace(" ", "-")}/${this.state.characterName.toLocaleLowerCase()}`} className="new_character" id="new_character" method="GET">
-                            <span>
+                            <span style={{paddingBottom: '5px'}}>
                                 <label htmlFor='character_name'>Character Name</label>
                                 <input id="character_name" value={this.state.characterName} onChange={this.handleCharacterNameOnChange} size="30" type="text" />
-                            </span>
-                            <span>
+                            </span><br/>
+                            <span style={{paddingTop: '5px', paddingBottom: '5px'}}>
                                 <label htmlFor='character_realm'>Realm</label>
                                 <input id="character_realm" value={this.state.realm} onChange={this.handleRealmOnChange} size="30" type="text" />
-                            </span>
+                            </span><br/>
                             <span>
                                 <label htmlFor='character_region'>Region</label>
                                 <div className='regions'>
