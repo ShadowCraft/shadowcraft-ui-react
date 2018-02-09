@@ -25,7 +25,7 @@ if len(sys.argv) > 1:
     shutil.copytree(os.path.join(simc_path, 'dbc_extract3'), 'dbc_extract3')
     shutil.copytree(os.path.join(simc_path, 'casc_extract'), 'casc_extract')
 else:
-    cmd = ['git', 'clone', '-b', 'legion-dev', '--single-branch', 'https://github.com/simulationcraft/simc.git', 'simc']
+    cmd = ['git', 'clone', '-b', 'bfa-dev', '--single-branch', 'https://github.com/simulationcraft/simc.git', 'simc']
     subprocess.call(cmd)
     shutil.move(os.path.join('simc','dbc_extract3'), '.')
     shutil.move(os.path.join('simc','casc_extract'), '.')
@@ -38,7 +38,7 @@ if not os.path.exists('casc_data'):
     os.mkdir('casc_data')
 os.chdir('casc_extract')
 with open(os.path.join('..','casc_data','extract.log'), 'w') as log:
-    cmd = ['./casc_extract.py', '-m', 'batch', '--cdn', '-o', '../casc_data']
+    cmd = ['./casc_extract.py', '-m', 'batch', '--cdn', '--beta', '-o', '../casc_data']
     retval = subprocess.call(cmd, stdout=log)
     if retval != 0:
         print('Failed to retrieve CDN data, so we have to give up here')
@@ -68,7 +68,7 @@ os.chdir('dbc_extract3')
 environ = os.environ
 environ['PYTHONIOENCODING'] = 'utf-8'
 
-for item in ['ItemUpgrade','RulesetItemUpgrade','ItemBonus','ItemNameDescription','RandPropPoints','ItemSparse','ItemDamageOneHand']:
+for item in ['ItemUpgrade','RulesetItemUpgrade','ItemBonus','ItemNameDescription','RandPropPoints','ItemSparse','ItemDamageOneHand','AzeriteItem','AzeriteEmpoweredItem','AzeritePower','AzeritePowerSetMember']:
    output = open(os.path.join('..','csvs','%s.dbc.csv' % item), 'w')
    print("Generating CSV for %s ..." % item)
    cmd = ['./dbc_extract.py', '-b', BUILD_NUMBER, '-p', CASC_DATA_DIR, '-t', 'csv', '--delim=,', item]
@@ -91,7 +91,8 @@ with open('ItemSparse.dbc.csv', 'r', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(output, fieldnames=good_fields)
         writer.writeheader()
         for row in reader:
-            if int(row['ilevel']) >= 650 and int(row['ilevel']) != 65535:
+            ilvl = int(float(row['ilevel']))
+            if ilvl >= 650 and ilvl != 65535:
                 for field in unused_fields:
                     row.pop(field, None)
                 writer.writerow(row)
