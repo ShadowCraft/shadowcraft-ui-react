@@ -92,7 +92,7 @@ class EquippedItem extends React.Component {
             type: "OPEN_MODAL",
             data: {
                 popupType: modalTypes.AZERITE,
-                props: { item: this.props.equippedItem }
+                props: { data: this.props.equippedItem.azerite }
             }
         });
     }

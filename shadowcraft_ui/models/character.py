@@ -207,6 +207,66 @@ def __get_from_armory(db, character, realm, region):
 
             info['weaponStats'] = weapon_stats
 
+        # each azerite entry is an icon, a spell, and a position. the active key is the current
+        # tier that has been picked already. this saves the javascript from having to determine
+        # which background to choose.
+        if key in ['head', 'shoulder', 'chest']:
+            info['azerite'] = {
+                'active': 1,
+                'tier1': [
+                    {
+                        'icon': 'ability_rogue_shadowstrikes',
+                        'spell': 0,
+                        'pos': 45
+                    },
+                    {
+                        'icon': 'ability_rogue_shadowstrikes',
+                        'spell': 0,
+                        'pos': 135
+                    },
+                    {
+                        'icon': 'ability_rogue_shadowstrikes',
+                        'spell': 0,
+                        'pos': 225
+                    },
+                    {
+                        'icon': 'ability_rogue_shadowstrikes',
+                        'spell': 0,
+                        'pos': 315
+                    },
+                ],
+                'tier2': [
+                    {
+                        'icon': 'ability_rogue_shadowstrikes',
+                        'spell': 0,
+                        'pos': 45
+                    },
+                    {
+                        'icon': 'ability_rogue_shadowstrikes',
+                        'spell': 0,
+                        'pos': 180
+                    },
+                    {
+                        'icon': 'ability_rogue_shadowstrikes',
+                        'spell': 0,
+                        'pos': 315
+                    },
+                ],
+                'tier3': [
+                    {
+                        'icon': 'ability_rogue_shadowstrikes',
+                        'spell': 0,
+                        'pos': 90
+                    },
+                    {
+                        'icon': 'ability_rogue_shadowstrikes',
+                        'spell': 0,
+                        'pos': 270
+                    },
+                ]}
+        else:
+            info['azerite'] = {}
+
         output['gear'][key] = info
 
         totalIlvl += info['item_level']

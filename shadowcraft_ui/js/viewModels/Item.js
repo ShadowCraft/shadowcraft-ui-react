@@ -1,4 +1,5 @@
 import { Record, List, Map } from 'immutable';
+import Azerite from './Azerite';
 
 const initItem = {
     id: 0,
@@ -13,6 +14,7 @@ const initItem = {
     socket_count: 0,
     enchant: 0,
     weaponStats: Map({ min_dmg: 0, max_dmg: 0, speed: 1.0, dps: 0 }), //this could probably be a record?
+    azerite: new Azerite()
 };
 
 export default class Item extends Record(initItem) {
@@ -57,6 +59,10 @@ export default class Item extends Record(initItem) {
 
             if (item.weaponStats !== undefined) {
                 _item = _item.set('weaponStats', Map(item.weaponStats));
+            }
+
+            if (item.slot == 'shoulder' || item.slot == 'head' || item.slot == 'chest') {
+                _item = _item.set('azerite', new Azerite(item.azerite));
             }
         }
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import store from '../store';
 import ModalWrapper from '../modals/ModalWrapper';
-import Item from '../viewModels/Item';
+import Azerite from '../viewModels/Azerite';
 
 class AzeritePopup extends React.Component {
 
@@ -13,9 +13,38 @@ class AzeritePopup extends React.Component {
     }
 
     render() {
+        let backgroundImage = 'locked';
+        if (this.props.data.active == 1) {
+            const filtered = this.props.data.tier1.filter(item => item.get('pos') == 0);
+            if (filtered.size == 0) {
+                backgroundImage = 'firstunlocked';
+            }
+            else {
+                backgroundImage = 'firstchosen';
+            }
+        }
+        else if (this.props.data.active == 2) {
+            const filtered = this.props.data.tier2.filter(item => item.get('pos') == 0);
+            if (filtered.size == 0) {
+                backgroundImage = 'secondunlocked';
+            }
+            else {
+                backgroundImage = 'secondchosen';
+            }
+        }
+        else if (this.props.data.active == 3) {
+            const filtered = this.props.data.tier3.filter(item => item.get('pos') == 0);
+            if (filtered.size == 0) {
+                backgroundImage = 'thirdunlocked';
+            }
+            else {
+                backgroundImage = 'thirdchosen';
+            }
+        }
+
         return (
             <ModalWrapper style={{top: "355px", left: "440px" }} modalId="azerite">
-                <div style={{backgroundImage: "url(/static/images/azerite/azeritebackground-locked.png)", height: "469px", width: "476px", display: "block" }}>
+                <div style={{backgroundImage: `url(/static/images/azerite/azeritebackground-${backgroundImage}.png)`, height: "469px", width: "476px", display: "block" }}>
                 </div>
             </ModalWrapper>
         );
@@ -23,7 +52,7 @@ class AzeritePopup extends React.Component {
 }
 
 AzeritePopup.propTypes = {
-    item: PropTypes.instanceOf(Item).isRequired,
+    data: PropTypes.instanceOf(Azerite).isRequired,
 };
 
 const mapStateToProps = function(store) {
