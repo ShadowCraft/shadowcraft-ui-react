@@ -36,6 +36,14 @@ def populate_db(dbase):
 def import_relic(dbase, item_id):
     """helper function for populate_db, does the actual fetching from armory"""
     try:
+        query = {'remote_id': item_id}
+        results = dbase.relics.find(query)
+        if results.count() != 0:
+            print("import_relic: already have relic %d" % item_id)
+            return
+
+        print("importing relic %d" % item_id)
+
         relic = ArmoryRelic.get(item_id)
         entry = {
             'remote_id': item_id,
@@ -48,13 +56,14 @@ def import_relic(dbase, item_id):
             upsert=True
         )
     except ArmoryDocument.ArmoryError as err:
-        print("import_item failed to fetch %d: %s" % (item_id, err))
+        print("import_relic: failed to fetch %d: %s" % (item_id, err))
         return
 
 
 def test_relic():
     """small script to populate relics for testing"""
     mongo_db = pymongo.MongoClient()
+    init_db(mongo_db.roguesim_python)
     populate_db(mongo_db.roguesim_python)
 
 if __name__ == '__main__':
