@@ -23,11 +23,11 @@ describe("Relic", () => {
     expect(new Relic({ id: null })).toEqual(new Relic());
   });
 
-  it("should handle id = undefined", () => {
+  it("should handle ilvl = undefined", () => {
     expect(new Relic({ ilvl: undefined })).toEqual(new Relic());
   });
 
-  it("should handle id = null", () => {
+  it("should handle ilvl = null", () => {
     expect(new Relic({ ilvl: null })).toEqual(new Relic());
   });
 });
