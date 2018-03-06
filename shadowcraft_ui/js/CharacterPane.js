@@ -107,7 +107,7 @@ class CharacterPane extends React.Component {
             fetch(url)
                 .then(checkFetchStatus)
                 .then(r => r.json())
-                .then(function (json) {
+                .then(json => {
                     if (this.props.pathinfo.sha == undefined || 'sha_error' in json) {
                         store.dispatch(initializeCharacterData(json));
 
@@ -117,19 +117,25 @@ class CharacterPane extends React.Component {
                     } else {
                         store.dispatch(initializeCharacterData(json['character'], json['settings']));
                     }
-                }.bind(this))
-                .catch(function(ex) {
-                    ex.message.json().then(function(json) {
-                        console.log(`Failed to load ${window.location}: ${json['reason']}`);
-                    });
+                })
+                .catch(ex => {
+                    if (ex.message.json){
+                        ex.message.json()
+                            // eslint-disable-next-line no-console
+                            .then(json => console.error(`Failed to load ${window.location}: ${json['reason']}`));
+                    }
+                    else {
+                        // eslint-disable-next-line no-console                        
+                        console.error(ex);
+                    }
                     
                     if (ex.message.status == 404) {
                         window.location = window.origin + '/404.html';
                     }
-                    else {
+                    if (ex.message.status >= 500) {
                         window.location = window.origin + '/500.html';
                     }
-                }.bind(this));
+                });
         }
 
         document.addEventListener("keydown", this.onKeyDown.bind(this));
