@@ -6,7 +6,7 @@ import store from './store';
 
 import CharacterPane from './CharacterPane';
 import CharacterInput from './CharacterInput';
-import screen_style from '../css/screen.css.sass';
+import screen_style from '../css/screen.sass';
 
 const FourOhFour = () => (
     <div id='notfound'>
