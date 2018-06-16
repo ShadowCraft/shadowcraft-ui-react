@@ -1,11 +1,8 @@
 import { Record, List, Map } from 'immutable';
-import AzeriteItem from './AzeriteItem';
+import AzeriteRing from './AzeriteRing';
 
 const initData = {
-    tier1: List(),
-    tier2: List(),
-    tier3: List(),
-    active: 0
+    rings: List()
 };
     
 export default class Azerite extends Record(initData) {
@@ -14,18 +11,19 @@ export default class Azerite extends Record(initData) {
         let _data = new Record(initData)();
 
         if (data !== undefined) {
-            let tier1 = new List();
-            let tier2 = new List();
-            let tier3 = new List();
 
-            data.tier1.forEach(function(item) { tier1 = tier1.push(new AzeriteItem(item)) }.bind(tier1));
-            data.tier2.forEach(function(item) { tier2 = tier2.push(new AzeriteItem(item)) }.bind(tier2));
-            data.tier3.forEach(function(item) { tier3 = tier3.push(new AzeriteItem(item)) }.bind(tier3));
+            // TODO: state needs:
+            // - array of rings starting from the center element
+            // - each element in the array is an object containing:
+            // --- a value for the currently selected spell
+            // --- an array of spells that could be selected. these at least need to
+            //     contain a spell ID, an icon, and a name. For future use, they should
+            //     also include the cardinal position in the ring so that they can be
+            //     laid out correctly if we implement a more graphical display.
 
-            _data = _data.set('tier1', tier1);
-            _data = _data.set('tier2', tier2);
-            _data = _data.set('tier3', tier3);
-            _data = _data.set('active', data.active);
+            let rings = new List();
+            data.azerite.forEach(function(ring) { rings = rings.push(new AzeriteRing(ring)) }.bind(rings));
+            _data = _data.set('rings', rings);
         }
 
         super(_data);

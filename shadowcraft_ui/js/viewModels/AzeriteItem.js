@@ -15,6 +15,7 @@ export default class AzeriteItem extends Record(initData) {
             _data = _data.set('icon', data.icon);
             _data = _data.set('spell', data.spell);
             _data = _data.set('pos', data.pos);
+            _data = _data.set('name', data.name);
         }
 
         super(_data);
