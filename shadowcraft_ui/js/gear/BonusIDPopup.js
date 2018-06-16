@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ModalWrapper from '../modals/ModalWrapper';
 import Item from '../viewModels/Item';
+import BonusIDCheckBox from './BonusIDCheckBox';
 
 import { connect } from 'react-redux';
 import store from '../store';
-import ModalWrapper from '../modals/ModalWrapper';
+
 import { updateCharacterState } from '../store';
 import { recalculateStats, getStatValue, MAX_ITEM_LEVEL } from '../common';
 import { JEWELRY_COMBAT_RATINGS_MULT_BY_ILVL, TRINKET_COMBAT_RATINGS_MULT_BY_ILVL, WEAPON_COMBAT_RATINGS_MULT_BY_ILVL, ARMOR_COMBAT_RATINGS_MULT_BY_ILVL } from '../multipliers';
-import BonusIDCheckBox from './BonusIDCheckBox';
 import { RANDOM_SUFFIX_MAP, RAND_PROP_POINTS } from '../item_data';
 import { getItems } from '../items';
 
