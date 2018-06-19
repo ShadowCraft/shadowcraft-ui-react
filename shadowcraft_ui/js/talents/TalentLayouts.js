@@ -47,32 +47,32 @@ export const assassination_layout = {
         {
             row: 2,
             col: 2,
-            icon: 'ability_rogue_slaughterfromtheshadows',
-            id: 114015
+            icon: 'archaeology_5_0_changkiboard',
+            id: 193531
         },
         {
             row: 2,
             col: 3,
-            icon: 'archaeology_5_0_changkiboard',
-            id: 193531
+            icon: 'achievement_bg_killingblow_berserker',
+            id: 137619
         },
         {
             row: 3,
             col: 1,
             icon: 'rogue_leeching_poison',
-            id: 108211
+            id: 280716
         },
         {
             row: 3,
             col: 2,
-            icon: 'ability_rogue_turnthetables',
-            id: 79008
+            icon: 'ability_rogue_cheatdeath',
+            id: 31230
         },
         {
             row: 3,
             col: 3,
-            icon: 'ability_rogue_cheatdeath',
-            id: 31230
+            icon: 'ability_rogue_turnthetables',
+            id: 79008
         },
         {
             row: 4,
@@ -119,14 +119,14 @@ export const assassination_layout = {
         {
             row: 6,
             col: 2,
-            icon: 'inv_knife_1h_cataclysm_c_05',
-            id: 121411
+            icon: 'ability_rogue_fanofknives',
+            id: 270061
         },
         {
             row: 6,
             col: 3,
-            icon: 'achievement_bg_killingblow_berserker',
-            id: 137619
+            icon: 'inv_knife_1h_cataclysm_c_05',
+            id: 121411
         }
     ]
 };
@@ -144,8 +144,8 @@ export const assassination_ranking = [
                 id: 'elaborate_planning'
             },
             {
-                name: 'Dispatch',
-                id: 'dispatch'
+                name: 'Blindside',
+                id: 'blindside'
             }
         ]
     },
@@ -174,12 +174,12 @@ export const assassination_ranking = [
                 id: 'vigor'
             },
             {
-                name: 'Anticipation',
-                id: 'anticipation'
-            },
-            {
                 name: 'Deeper Stratagem',
                 id: 'deeper_stratagem'
+            },
+            {
+                name: 'Marked for Death',
+                id: 'marked_for_death'
             }
         ]
     },
@@ -191,12 +191,12 @@ export const assassination_ranking = [
                 id: 'leeching_poison'
             },
             {
-                name: 'Elusiveness',
-                id: 'elusiveness'
-            },
-            {
                 name: 'Cheat Death',
                 id: 'cheat_death'
+            },
+            {
+                name: 'Elusiveness',
+                id: 'elusiveness'
             }
         ]
     },
@@ -242,12 +242,12 @@ export const assassination_ranking = [
                 id: 'poison_bomb'
             },
             {
-                name: 'Crimson Tempest',
-                id: 'crimson_tempest'
+                name: 'Hidden Blades',
+                id: 'hidden_blades'
             },
             {
-                name: 'Marked for Death',
-                id: 'marked_for_death'
+                name: 'Crimson Tempest',
+                id: 'crimson_tempest'
             }
         ]
     }
@@ -260,7 +260,7 @@ export const outlaw_layout = {
         {
             row: 0,
             col: 1,
-            icon: 'inv_sword_97',
+            icon: 'ability_ironmaidens_bladerush',
             id: 200733
         },
         {
@@ -302,14 +302,14 @@ export const outlaw_layout = {
         {
             row: 2,
             col: 2,
-            icon: 'ability_rogue_slaughterfromtheshadows',
-            id: 114015
+            icon: 'archaeology_5_0_changkiboard',
+            id: 193531
         },
         {
             row: 2,
             col: 3,
-            icon: 'archaeology_5_0_changkiboard',
-            id: 193531
+            icon: 'achievement_bg_killingblow_berserker',
+            id: 137619
         },
         {
             row: 3,
@@ -320,14 +320,14 @@ export const outlaw_layout = {
         {
             row: 3,
             col: 2,
-            icon: 'ability_rogue_turnthetables',
-            id: 79008
+            icon: 'ability_rogue_cheatdeath',
+            id: 31230
         },
         {
             row: 3,
             col: 3,
-            icon: 'ability_rogue_cheatdeath',
-            id: 31230
+            icon: 'ability_rogue_turnthetables',
+            id: 79008
         },
         {
             row: 4,
@@ -350,38 +350,38 @@ export const outlaw_layout = {
         {
             row: 5,
             col: 1,
+            icon: 'ability_rogue_rollthebones',
+            id: 256170
+        },
+        {
+            row: 5,
+            col: 2,
             icon: 'ability_paladin_speedoflight',
             id: 193539
         },
         {
             row: 5,
-            col: 2,
-            icon: 'ability_rogue_cannonballbarrage',
-            id: 185767
-        },
-        {
-            row: 5,
             col: 3,
-            icon: 'ability_rogue_murderspree',
-            id: 51690
-        },
-        {
-            row: 6,
-            col: 1,
-            icon: 'ability_rogue_rollthebones',
-            id: 256170
-        },
-        {
-            row: 6,
-            col: 2,
             icon: 'ability_rogue_slicedice',
             id: 5171
         },
         {
             row: 6,
+            col: 1,
+            icon: 'ability_warrior_punishingblow',
+            id: 272026
+        },
+        {
+            row: 6,
+            col: 2,
+            icon: 'ability_arakkoa_spinning_blade',
+            id: 271877
+        },
+        {
+            row: 6,
             col: 3,
-            icon: 'achievement_bg_killingblow_berserker',
-            id: 137619
+            icon: 'ability_rogue_murderspree',
+            id: 51690
         }
     ]
 };
@@ -391,8 +391,8 @@ export const outlaw_ranking = [
         name: 'Tier 15',
         items: [
             {
-                name: 'Swordmaster',
-                id: 'swordmaster'
+                name: 'Weaponmaster',
+                id: 'weaponmaster'
             },
             {
                 name: 'Quick Draw',
@@ -429,12 +429,12 @@ export const outlaw_ranking = [
                 id: 'vigor'
             },
             {
-                name: 'Anticipation',
-                id: 'anticipation'
-            },
-            {
                 name: 'Deeper Stratagem',
                 id: 'deeper_stratagem'
+            },
+            {
+                name: 'Marked for Death',
+                id: 'marked_for_death'
             }
         ]
     },
@@ -446,12 +446,12 @@ export const outlaw_ranking = [
                 id: 'iron_stomach'
             },
             {
-                name: 'Elusiveness',
-                id: 'elusiveness'
-            },
-            {
                 name: 'Cheat Death',
                 id: 'cheat_death'
+            },
+            {
+                name: 'Elusiveness',
+                id: 'elusiveness'
             }
         ]
     },
@@ -476,16 +476,16 @@ export const outlaw_ranking = [
         name: 'Tier 90',
         items: [
             {
+                name: 'Loaded Dice',
+                id: 'loaded_dice'
+            },
+            {
                 name: 'Alacrity',
                 id: 'alacrity'
             },
             {
-                name: 'Cannonball Barrage',
-                id: 'cannonball_barrage'
-            },
-            {
-                name: 'Killing Spree',
-                id: 'killing_spree'
+                name: 'Slice and Dice',
+                id: 'slice_and_dice'
             }
         ]
     },
@@ -493,16 +493,16 @@ export const outlaw_ranking = [
         name: 'Tier 100',
         items: [
             {
-                name: 'Loaded Dice',
-                id: 'loaded_dice'
+                name: 'Dancing Steel',
+                id: 'dancing_steel'
             },
             {
-                name: 'Slice and Dice',
-                id: 'slice_and_dice'
+                name: 'Blade Rush',
+                id: 'blade_rush'
             },
             {
-                name: 'Marked for Death',
-                id: 'marked_for_death'
+                name: 'Killing Spree',
+                id: 'killing_spree'
             }
         ]
     }
@@ -557,14 +557,14 @@ export const subtlety_layout = {
         {
             row: 2,
             col: 2,
-            icon: 'ability_rogue_slaughterfromtheshadows',
-            id: 114015
+            icon: 'archaeology_5_0_changkiboard',
+            id: 193531
         },
         {
             row: 2,
             col: 3,
-            icon: 'archaeology_5_0_changkiboard',
-            id: 193531
+            icon: 'achievement_bg_killingblow_berserker',
+            id: 137619
         },
         {
             row: 3,
@@ -575,14 +575,14 @@ export const subtlety_layout = {
         {
             row: 3,
             col: 2,
-            icon: 'ability_rogue_turnthetables',
-            id: 79008
+            icon: 'ability_rogue_cheatdeath',
+            id: 31230
         },
         {
             row: 3,
             col: 3,
-            icon: 'ability_rogue_cheatdeath',
-            id: 31230
+            icon: 'ability_rogue_turnthetables',
+            id: 79008
         },
         {
             row: 4,
@@ -593,8 +593,8 @@ export const subtlety_layout = {
         {
             row: 4,
             col: 2,
-            icon: 'ability_rogue_unfairadvantage',
-            id: 196951
+            icon: 'spell_shadow_shadesofdarkness',
+            id: 277953
         },
         {
             row: 4,
@@ -629,14 +629,14 @@ export const subtlety_layout = {
         {
             row: 6,
             col: 2,
-            icon: 'spell_rogue_deathfromabove',
-            id: 152150
+            icon: 'ability_rogue_sinistercalling',
+            id: 280719
         },
         {
             row: 6,
             col: 3,
-            icon: 'achievement_bg_killingblow_berserker',
-            id: 137619
+            icon: 'ability_rogue_throwingspecialization',
+            id: 277925
         }
     ]
 };
@@ -684,12 +684,12 @@ export const subtlety_ranking = [
                 id: 'vigor'
             },
             {
-                name: 'Anticipation',
-                id: 'anticipation'
-            },
-            {
                 name: 'Deeper Stratagem',
                 id: 'deeper_stratagem'
+            },
+            {
+                name: 'Marked for Death',
+                id: 'marked_for_death'
             }
         ]
     },
@@ -701,12 +701,12 @@ export const subtlety_ranking = [
                 id: 'soothing_darkness'
             },
             {
-                name: 'Elusiveness',
-                id: 'elusiveness'
-            },
-            {
                 name: 'Cheat Death',
                 id: 'cheat_death'
+            },
+            {
+                name: 'Elusiveness',
+                id: 'elusiveness'
             }
         ]
     },
@@ -718,8 +718,8 @@ export const subtlety_ranking = [
                 id: 'shot_in_the_dark'
             },
             {
-                name: 'Strike from the Shadows',
-                id: 'strike_from_the_shadows'
+                name: 'Night Terrors',
+                id: 'night_terrors'
             },
             {
                 name: 'Prey on the Weak',
@@ -752,12 +752,12 @@ export const subtlety_ranking = [
                 id: 'master_of_shadows'
             },
             {
-                name: 'Death from Above',
-                id: 'death_from_above'
+                name: 'Secret Technique',
+                id: 'secret_technique'
             },
             {
-                name: 'Marked for Death',
-                id: 'marked_for_death'
+                name: 'Shuriken Tornado',
+                id: 'shuriken_tornado'
             }
         ]
     }
