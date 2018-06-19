@@ -92,7 +92,7 @@ with open('ItemSparse.dbc.csv', 'r', encoding='utf-8') as csvfile:
         writer.writeheader()
         for row in reader:
             ilvl = int(float(row['ilevel']))
-            if ilvl >= 650 and ilvl != 65535:
+            if ilvl >= 165 and ilvl != 65535:
                 for field in unused_fields:
                     row.pop(field, None)
                 writer.writerow(row)
