@@ -12,7 +12,7 @@ from ArmoryItem import ArmoryItem
 
 ARTIFACT_WEAPONS = [128476, 128479, 128870, 128869, 128872, 134552]
 ORDER_HALL_SET = [139739, 139740, 139741, 139742, 139743, 139744, 139745, 139746]
-MIN_ILVL = 800
+MIN_ILVL = 165
 
 # This is a set of items that don't appear in the queries to wowhead for some strange
 # reason. Add them manually so they exist in the database.
@@ -73,31 +73,31 @@ def populate_db(dbase):
 
     # Abuse wowhead to load in a big list of items to import
     wowhead_ids = []
-    ranges = ((800, 850), (851, 900), (901, 950))
+    ranges = ((165, 200), (201, 250), (251, 300))
     for item_type in ['weapons', 'leather-armor', 'cloaks', 'rings', 'amulets', 'trinkets']:
         print("Requesting %s from wowhead" % item_type)
         for ilvls in ranges:
             print("Rare items, ilevels %d to %d...  " % (ilvls[0], ilvls[1]), end='')
             wowhead_ids.extend(get_ids_from_wowhead(
-                'http://www.wowhead.com/%s/min-level:%d/max-level:%d/class:4/quality:3' %
+                'http://bfa.wowhead.com/%s/min-level:%d/max-level:%d/class:4/quality:3' %
                 (item_type, ilvls[0], ilvls[1])))
             print("Epic items, ilevels %d to %d...  " % (ilvls[0], ilvls[1]), end='')
             wowhead_ids.extend(get_ids_from_wowhead(
-                'http://www.wowhead.com/%s/min-level:%d/max-level:%d/class:4/quality:4' %
+                'http://bfa.wowhead.com/%s/min-level:%d/max-level:%d/class:4/quality:4' %
                 (item_type, ilvls[0], ilvls[1])))
         print()
 
     print("Requesting legendaries from wowhead")
     wowhead_ids.extend(get_ids_from_wowhead(
-        'http://www.wowhead.com/items/armor/min-level:895/class:4/quality:5'))
+        'http://bfa.wowhead.com/items/armor/min-level:895/class:4/quality:5'))
 
     print('Requyesting relinquished necks from wowhead')
     wowhead_ids.extend(get_ids_from_wowhead(
-        'http://www.wowhead.com/item=153213/relinquished-necklace#contains'))
+        'http://bfa.wowhead.com/item=153213/relinquished-necklace#contains'))
 
     print('Requyesting relinquished rings from wowhead')
     wowhead_ids.extend(get_ids_from_wowhead(
-        'http://www.wowhead.com/item=153214/relinquished-ring#contains'))
+        'http://bfa.wowhead.com/item=153214/relinquished-ring#contains'))
 
     wowhead_ids.extend(ARTIFACT_WEAPONS)
     wowhead_ids.extend(ORDER_HALL_SET)
@@ -119,7 +119,7 @@ def populate_gems(dbase):
 
     # Load the gems from wowhead that we were added in Legion and don't have intellect or strength on them.
     wowhead_ids = []
-    wowhead_ids.extend(get_ids_from_wowhead("http://www.wowhead.com/items/gems/prismatic?filter=166:23:20;7:3:3;0:0:0"))
+    wowhead_ids.extend(get_ids_from_wowhead("http://bfa.wowhead.com/items/gems/prismatic?filter=166:23:20;7:3:3;0:0:0"))
 
     item_ids = set(wowhead_ids)
     print("Have %d gems to load" % len(item_ids))
@@ -203,14 +203,14 @@ def import_item(dbase, item_id, is_gem=False):
 
 def get_ids_from_wowhead_by_ilvl(quality, min_ilvl, max_ilvl):
     """Loads a list of item IDs from wowhead filtered by item level and quality"""
-    url = 'http://www.wowhead.com/items/min-level:%d/max-level:%d/class:4/quality:%d/live-only:on?filter=21;1;0' % (
+    url = 'http://bfa.wowhead.com/items/min-level:%d/max-level:%d/class:4/quality:%d/live-only:on?filter=21;1;0' % (
         min_ilvl, max_ilvl, quality)
     return get_ids_from_wowhead(url)
 
 
 def get_ids_from_wowhead_by_type(item_type):
     """Loads a list of gem item IDs from wowhead filtered by gem type"""
-    url = 'http://www.wowhead.com/gems/type:%d?filter=166;7;0' % item_type
+    url = 'http://bfa.wowhead.com/gems/type:%d?filter=166;7;0' % item_type
     return get_ids_from_wowhead(url)
 
 
