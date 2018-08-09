@@ -1,3 +1,5 @@
+### With the beginning of Battle For Azeroth, we have officially shut down Shadowcraft due to a number of factors. This code is kept here for historical purposes but is basically deprecated.
+
 # shadowcraft-ui-react
 
 ## Requires
